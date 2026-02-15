@@ -438,10 +438,12 @@
       // directly to Airtable + Slack + email in a single automation.
       // -----------------------------------------------------------
 
-      console.log('Form submission:', data);
-
-      // Simulate send delay then show confirmation
-      await new Promise(r => setTimeout(r, 800));
+      // PASTE YOUR ZAPIER WEBHOOK URL BELOW
+      await fetch('YOUR_ZAPIER_WEBHOOK_URL', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
 
       form.style.display = 'none';
       confirmation.style.display = 'block';
