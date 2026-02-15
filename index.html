@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -24,8 +25,19 @@
          ============================================================ -->
     <nav class="nav" id="nav">
       <div class="nav-inner">
-        <a href="/" class="nav-wordmark">Your Village</a>
-        <ul class="nav-links">
+        <a href="/" class="nav-logo">
+          <svg class="nav-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true" width="28" height="28">
+            <circle cx="32" cy="10" r="5.5" fill="#8FAF8F" opacity="0.85"/>
+            <circle cx="51" cy="21" r="5.5" fill="#8FAF8F" opacity="0.75"/>
+            <circle cx="51" cy="43" r="5.5" fill="#8FAF8F" opacity="0.65"/>
+            <circle cx="32" cy="54" r="5.5" fill="#8FAF8F" opacity="0.80"/>
+            <circle cx="13" cy="43" r="5.5" fill="#8FAF8F" opacity="0.70"/>
+            <circle cx="13" cy="21" r="5.5" fill="#8FAF8F" opacity="0.78"/>
+            <circle cx="32" cy="32" r="7" fill="#EDE8DF"/>
+          </svg>
+          <span class="nav-wordmark">Your Village</span>
+        </a>
+        <ul class="nav-links" id="nav-links">
           <li><a href="#how-it-works">How it works</a></li>
           <li><a href="#trust">Trust</a></li>
           <li><a href="#support">Packages</a></li>
@@ -34,6 +46,17 @@
         <div class="nav-cta">
           <a href="/get-started" class="btn btn-primary btn-sm">Get support<span class="arrow">&thinsp;→</span></a>
         </div>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+      <!-- Mobile menu overlay -->
+      <div class="nav-mobile" id="nav-mobile">
+        <a href="#how-it-works">How it works</a>
+        <a href="#trust">Trust</a>
+        <a href="#support">Packages</a>
+        <a href="#faq">FAQ</a>
+        <a href="/get-started" class="btn btn-primary" style="margin-top: var(--space-sm);">Get support<span class="arrow">&thinsp;→</span></a>
       </div>
     </nav>
 
@@ -372,15 +395,26 @@
     });
 
     // --- Smooth scroll for nav links ---
-    document.querySelectorAll('.nav-links a, .footer-links a[href^="#"]').forEach(link => {
+    document.querySelectorAll('.nav-links a, .footer-links a[href^="#"], .nav-mobile a[href^="#"]').forEach(link => {
       link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');
         if (href.startsWith('#')) {
           e.preventDefault();
           const target = document.querySelector(href);
           if (target) target.scrollIntoView({ behavior: 'smooth' });
+          // Close mobile menu if open
+          document.getElementById('nav-mobile').classList.remove('open');
+          document.getElementById('nav-hamburger').setAttribute('aria-expanded', 'false');
         }
       });
+    });
+
+    // --- Mobile hamburger menu ---
+    const hamburger = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('nav-mobile');
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
   </script>
 </body>

@@ -218,16 +218,28 @@ strong {
   gap: var(--space-sm);
 }
 
+/* Logo — icon + wordmark */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-logo:hover .nav-wordmark { color: var(--sage-glow); }
+
+.nav-icon {
+  flex-shrink: 0;
+}
+
 .nav-wordmark {
   font-family: 'Lora', Georgia, serif;
   font-weight: 600;
   font-size: 20px;
   color: var(--text-primary);
-  text-decoration: none;
-  flex-shrink: 0;
+  transition: color 0.2s ease;
 }
-
-.nav-wordmark:hover { color: var(--sage-glow); }
 
 /* Nav links — hidden on mobile, shown on desktop */
 .nav-links {
@@ -256,6 +268,59 @@ strong {
 
 .nav-cta {
   flex-shrink: 0;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav-cta { display: block; }
+}
+
+/* Hamburger — mobile only */
+.nav-hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 8px;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+@media (min-width: 768px) {
+  .nav-hamburger { display: none; }
+}
+
+/* Mobile menu overlay */
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-top: 1px solid var(--night-border);
+}
+
+.nav-mobile.open {
+  display: flex;
+}
+
+@media (min-width: 768px) {
+  .nav-mobile { display: none !important; }
+}
+
+.nav-mobile a {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: var(--space-xs) 0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-mobile a:hover {
+  color: var(--text-primary);
 }
 
 /* --- Buttons --- */
@@ -269,7 +334,7 @@ strong {
   line-height: 1;
   border: none;
   cursor: pointer;
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   padding: 14px 28px;
   min-height: 48px;
   transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
