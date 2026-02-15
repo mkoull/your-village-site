@@ -13,32 +13,56 @@
   <meta property="og:locale" content="en_AU">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="page-wrapper">
 
     <!-- ============================================================
-         NAVIGATION
+         NAVIGATION — sticky, blurred, with section links
          ============================================================ -->
     <nav class="nav" id="nav">
       <div class="nav-inner">
         <a href="/" class="nav-wordmark">Your Village</a>
-        <a href="/get-started" class="btn btn-primary btn-sm">Start a conversation<span class="arrow">&thinsp;→</span></a>
+        <ul class="nav-links">
+          <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="#trust">Trust</a></li>
+          <li><a href="#support">Packages</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <div class="nav-cta">
+          <a href="/get-started" class="btn btn-primary btn-sm">Get support<span class="arrow">&thinsp;→</span></a>
+        </div>
       </div>
     </nav>
 
     <!-- ============================================================
-         HERO
+         HERO — contained panel with soft gradient
          ============================================================ -->
-    <section class="section bg-cream hero" id="top">
+    <section class="section hero" id="top">
       <div class="section-inner">
-        <div class="content-narrow">
-          <h1>You don't have to figure this out alone.</h1>
-          <p class="hero-subtitle">Your Village coordinates the right support around your family after birth — so you can focus on recovery, your baby, and yourself.</p>
-          <a href="/get-started" class="btn btn-primary">Start a conversation<span class="arrow">&thinsp;→</span></a>
-          <p class="hero-trust">Postpartum support coordination · Inner Melbourne</p>
+        <div class="hero-panel">
+          <!-- Simple comforting SVG illustration -->
+          <svg class="hero-illustration" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Moon -->
+            <circle cx="60" cy="35" r="22" fill="#C4A265" opacity="0.4"/>
+            <circle cx="50" cy="30" r="18" fill="#1E1D1B" opacity="0.9"/>
+            <!-- Stars -->
+            <circle cx="95" cy="20" r="2" fill="#EDE8DF" opacity="0.5"/>
+            <circle cx="25" cy="15" r="1.5" fill="#EDE8DF" opacity="0.4"/>
+            <circle cx="105" cy="45" r="1" fill="#EDE8DF" opacity="0.3"/>
+            <circle cx="15" cy="40" r="1.5" fill="#EDE8DF" opacity="0.35"/>
+            <!-- Soft blanket/hill shape -->
+            <path d="M0 90 Q30 65 60 75 Q90 85 120 70 L120 120 L0 120 Z" fill="#8FAF8F" opacity="0.12"/>
+            <path d="M0 100 Q40 80 70 88 Q100 96 120 85 L120 120 L0 120 Z" fill="#8FAF8F" opacity="0.08"/>
+          </svg>
+          <div class="content-narrow">
+            <h1>You don't have to figure this out alone.</h1>
+            <p class="hero-subtitle">Your Village coordinates the right support around your family after birth — so you can focus on recovery, your baby, and yourself.</p>
+            <a href="/get-started" class="btn btn-primary">Start a conversation<span class="arrow">&thinsp;→</span></a>
+            <p class="hero-trust">Postpartum support coordination · Inner Melbourne</p>
+          </div>
         </div>
       </div>
     </section>
@@ -46,17 +70,23 @@
     <!-- ============================================================
          RECOGNITION & VALUE PROPOSITION
          ============================================================ -->
-    <section class="section bg-warm-white">
+    <section class="section" id="value">
       <div class="section-inner">
-        <div class="content-narrow">
-          <h2>The early weeks are harder than anyone prepared you for.</h2>
-          <p>You're recovering from birth. You're learning to feed a baby who didn't read the manual. You haven't slept properly in days. And the person you most want to call lives hundreds of kilometres away.</p>
-          <p>You know help exists somewhere — but finding it, vetting it, and coordinating it while you're running on empty? That's not something you should have to do alone.</p>
+        <div class="card-section">
+          <div class="content-narrow">
+            <h2>The early weeks are harder than anyone prepared you for.</h2>
+            <p>You're recovering from birth. You're learning to feed a baby who didn't read the manual. You haven't slept properly in days. And the person you most want to call lives hundreds of kilometres away.</p>
+            <p>You know help exists somewhere — but finding it, vetting it, and coordinating it while you're running on empty? That's not something you should have to do alone.</p>
+          </div>
+        </div>
 
-          <h2 class="mt-xl">We do what your mum would do if she lived around the corner.</h2>
-          <p>Your coordinator learns your situation, works out what you need, and puts the right people around you. They handle the scheduling, check in every week to make sure things are working, and adjust when they're not.</p>
-          <p>You never have to explain your situation twice. You never have to chase a booking. You never have to wonder if you've chosen the right person.</p>
-          <p><strong>We handle the coordination. You focus on your baby and yourself.</strong></p>
+        <div class="card-section">
+          <div class="content-narrow">
+            <h2>We do what your mum would do if she lived around the corner.</h2>
+            <p>Your coordinator learns your situation, works out what you need, and puts the right people around you. They handle the scheduling, check in every week to make sure things are working, and adjust when they're not.</p>
+            <p>You never have to explain your situation twice. You never have to chase a booking. You never have to wonder if you've chosen the right person.</p>
+            <p><strong>We handle the coordination. You focus on your baby and yourself.</strong></p>
+          </div>
         </div>
       </div>
     </section>
@@ -66,7 +96,7 @@
     <!-- ============================================================
          HOW IT WORKS
          ============================================================ -->
-    <section class="section bg-linen" id="how-it-works">
+    <section class="section" id="how-it-works">
       <div class="section-inner">
         <h2>Three steps. No overwhelm.</h2>
         <div class="steps-grid">
@@ -95,31 +125,33 @@
     <!-- ============================================================
          TRUST & VETTING
          ============================================================ -->
-    <section class="section bg-cream" id="trust">
+    <section class="section" id="trust">
       <div class="section-inner">
-        <div class="content-narrow">
-          <h2>How we earn your trust.</h2>
-          <p>Inviting someone into your home during the most vulnerable weeks of your life is not a small thing. We take that seriously.</p>
+        <div class="card-section">
+          <div class="content-narrow">
+            <h2>How we earn your trust.</h2>
+            <p>Inviting someone into your home during the most vulnerable weeks of your life is not a small thing. We take that seriously.</p>
 
-          <div class="trust-points">
-            <div class="trust-point">
-              <h3>Every provider is personally vetted.</h3>
-              <p>Qualifications checked. References contacted. A conversation with our team to assess not just competence but warmth, sensitivity, and how they treat families under pressure. We don't accept everyone who applies. Our vetting process was developed in consultation with practising perinatal professionals.</p>
+            <div class="trust-points">
+              <div class="trust-point">
+                <h3>Every provider is personally vetted.</h3>
+                <p>Qualifications checked. References contacted. A conversation with our team to assess not just competence but warmth, sensitivity, and how they treat families under pressure. We don't accept everyone who applies. Our vetting process was developed in consultation with practising perinatal professionals.</p>
+              </div>
+              <div class="trust-point">
+                <h3>Your coordinator knows your story.</h3>
+                <p>You're not a ticket in a system. Your coordinator reads what you've told us, understands your context, and remembers it between conversations. If something isn't right, they fix it before you have to ask.</p>
+              </div>
+              <div class="trust-point">
+                <h3>We follow up. Every time.</h3>
+                <p>After every provider session, we check in. Not with a survey. With a message from someone who genuinely wants to know whether the support is helping.</p>
+              </div>
             </div>
-            <div class="trust-point">
-              <h3>Your coordinator knows your story.</h3>
-              <p>You're not a ticket in a system. Your coordinator reads what you've told us, understands your context, and remembers it between conversations. If something isn't right, they fix it before you have to ask.</p>
-            </div>
-            <div class="trust-point">
-              <h3>We follow up. Every time.</h3>
-              <p>After every provider session, we check in. Not with a survey. With a message from someone who genuinely wants to know whether the support is helping.</p>
-            </div>
+
+            <blockquote class="blockquote">
+              <p>"The families I see through Your Village are better supported than almost any I've worked with in fifteen years of practice. Someone has already listened to them, worked out the priorities, and given them permission to accept help. By the time I walk through the door, half the work is done."</p>
+              <div class="blockquote-attribution">— Postpartum Doula, Inner Melbourne</div>
+            </blockquote>
           </div>
-
-          <blockquote class="blockquote">
-            <p>"The families I see through Your Village are better supported than almost any I've worked with in fifteen years of practice. Someone has already listened to them, worked out the priorities, and given them permission to accept help. By the time I walk through the door, half the work is done."</p>
-            <div class="blockquote-attribution">— Postpartum Doula, Inner Melbourne</div>
-          </blockquote>
         </div>
       </div>
     </section>
@@ -129,14 +161,16 @@
     <!-- ============================================================
          FOUNDER NOTE
          ============================================================ -->
-    <section class="section bg-warm-white">
+    <section class="section" id="founder">
       <div class="section-inner">
-        <div class="content-narrow">
-          <h2>Why this exists.</h2>
-          <p>I watched someone I love go through the first weeks with a newborn — no family nearby, no plan, and no idea where to start finding help. She's one of the most capable people I know, and none of that mattered. She was exhausted, overwhelmed, and trying to do something she'd never done before while recovering from something her body had never done before.</p>
-          <p>The help was out there. But finding it, vetting it, coordinating it — all of that fell on the person with the least capacity to do it.</p>
-          <p>Your Village is the thing I wished had existed for her. Not an app. Not a directory. A real person who already knows the providers, who listens to what you're going through, and who puts the right support in place so you don't have to figure it out alone.</p>
-          <p class="founder-sign-off">— The founder of Your Village</p>
+        <div class="card-section">
+          <div class="content-narrow">
+            <h2>Why this exists.</h2>
+            <p>I watched someone I love go through the first weeks with a newborn — no family nearby, no plan, and no idea where to start finding help. She's one of the most capable people I know, and none of that mattered. She was exhausted, overwhelmed, and trying to do something she'd never done before while recovering from something her body had never done before.</p>
+            <p>The help was out there. But finding it, vetting it, coordinating it — all of that fell on the person with the least capacity to do it.</p>
+            <p>Your Village is the thing I wished had existed for her. Not an app. Not a directory. A real person who already knows the providers, who listens to what you're going through, and who puts the right support in place so you don't have to figure it out alone.</p>
+            <p class="founder-sign-off">— The founder of Your Village</p>
+          </div>
         </div>
       </div>
     </section>
@@ -144,20 +178,22 @@
     <!-- ============================================================
          SUPPORT — SOFT PRICING
          ============================================================ -->
-    <section class="section bg-linen" id="support">
+    <section class="section" id="support">
       <div class="section-inner">
-        <div class="content-narrow">
-          <h2>Support that fits your family.</h2>
-          <p>Every family's situation is different. Some need a few weeks of help getting started. Others need months of hands-on coordination across feeding, sleep, recovery, household support, and emotional wellbeing.</p>
-          <p>Rather than asking you to choose a package from a list, we start with a conversation. Your coordinator listens to where you're at, and together you work out the right level of support — for your situation, your stage, and your budget.</p>
+        <div class="card-section">
+          <div class="content-narrow">
+            <h2>Support that fits your family.</h2>
+            <p>Every family's situation is different. Some need a few weeks of help getting started. Others need months of hands-on coordination across feeding, sleep, recovery, household support, and emotional wellbeing.</p>
+            <p>Rather than asking you to choose a package from a list, we start with a conversation. Your coordinator listens to where you're at, and together you work out the right level of support — for your situation, your stage, and your budget.</p>
 
-          <div class="pricing-soft">
-            <p class="pricing-start">Coordination support starts from <strong>$299</strong></p>
-            <p>This includes a personalised support plan, a dedicated coordinator, provider introductions, scheduling, and regular check-ins. Longer or more intensive support is available — we'll talk through the options together.</p>
+            <div class="pricing-soft">
+              <p class="pricing-start">Coordination support starts from <strong>$299</strong></p>
+              <p>This includes a personalised support plan, a dedicated coordinator, provider introductions, scheduling, and regular check-ins. Longer or more intensive support is available — we'll talk through the options together.</p>
+            </div>
+
+            <p>Provider fees are separate and vary depending on the type of support. Your coordinator will always be upfront about costs before anything is booked.</p>
+            <a href="/get-started" class="btn btn-primary mt-md">Let's work out what you need<span class="arrow">&thinsp;→</span></a>
           </div>
-
-          <p>Provider fees are separate and vary depending on the type of support. Your coordinator will always be upfront about costs before anything is booked.</p>
-          <a href="/get-started" class="btn btn-primary mt-md">Let's work out what you need<span class="arrow">&thinsp;→</span></a>
         </div>
       </div>
     </section>
@@ -167,7 +203,7 @@
     <!-- ============================================================
          REASSURANCE
          ============================================================ -->
-    <section class="section bg-cream">
+    <section class="section" id="reassurance">
       <div class="section-inner">
         <div class="content-narrow">
           <h2>A few things we want you to know.</h2>
@@ -197,7 +233,7 @@
     <!-- ============================================================
          FAQ
          ============================================================ -->
-    <section class="section bg-cream" style="padding-top: 0;">
+    <section class="section" id="faq" style="padding-top: 0;">
       <div class="section-inner">
         <div class="content-narrow">
           <h2>Common questions.</h2>
@@ -271,19 +307,21 @@
     <!-- ============================================================
          FINAL CTA
          ============================================================ -->
-    <section class="final-cta bg-linen">
+    <section class="final-cta">
       <div class="section-inner">
-        <h2>It takes a village.</h2>
-        <h2>Let us help build yours.</h2>
-        <p class="mt-md">Tell us about your family and we'll take it from here.</p>
-        <a href="/get-started" class="btn btn-primary">Start a conversation<span class="arrow">&thinsp;→</span></a>
+        <div class="final-cta-panel">
+          <h2>It takes a village.</h2>
+          <h2>Let us help build yours.</h2>
+          <p class="mt-md">Tell us about your family and we'll take it from here.</p>
+          <a href="/get-started" class="btn btn-primary">Start a conversation<span class="arrow">&thinsp;→</span></a>
+        </div>
       </div>
     </section>
 
     <!-- ============================================================
          FOOTER
          ============================================================ -->
-    <footer class="footer bg-cream">
+    <footer class="footer">
       <div class="footer-inner">
         <div class="footer-wordmark">Your Village</div>
         <div class="footer-tagline">Postpartum support coordination · Inner Melbourne</div>
@@ -295,7 +333,7 @@
           <span class="sep">·</span>
           <a href="/about">About</a>
           <span class="sep">·</span>
-          <a href="#" data-faq>FAQ</a>
+          <a href="#faq">FAQ</a>
         </div>
         <div class="footer-copy">© 2026 Your Village. All rights reserved.</div>
       </div>
@@ -329,6 +367,18 @@
           item.classList.add('open');
           btn.setAttribute('aria-expanded', 'true');
           answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // --- Smooth scroll for nav links ---
+    document.querySelectorAll('.nav-links a, .footer-links a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
         }
       });
     });
