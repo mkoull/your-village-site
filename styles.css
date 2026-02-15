@@ -40,8 +40,8 @@
   --space-md:  24px;
   --space-lg:  40px;
   --space-xl:  64px;
-  --space-2xl: 96px;
-  --space-3xl: 128px;
+  --space-2xl: 72px;
+  --space-3xl: 96px;
 
   /* Layout */
   --content-max: 680px;
@@ -116,7 +116,7 @@ h3 {
 }
 
 @media (min-width: 768px) {
-  h1 { font-size: 44px; }
+  h1 { font-size: 42px; }
   h2 { font-size: 30px; }
   h3 { font-size: 22px; }
 }
@@ -141,11 +141,11 @@ strong {
 }
 
 .section {
-  padding: var(--space-xl) var(--space-md);
+  padding: var(--space-lg) var(--space-md);
 }
 
 @media (min-width: 768px) {
-  .section { padding: var(--space-2xl) var(--space-lg); }
+  .section { padding: var(--space-xl) var(--space-lg); }
 }
 
 .section-inner {
@@ -394,7 +394,10 @@ strong {
 }
 
 .hero-panel {
-  background: linear-gradient(135deg, var(--night-card) 0%, rgba(143, 175, 143, 0.06) 100%);
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(196, 162, 101, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(143, 175, 143, 0.06) 0%, transparent 60%),
+    var(--night-card);
   border: 1px solid var(--night-border);
   border-radius: var(--radius-lg);
   padding: var(--space-lg) var(--space-md);
@@ -405,28 +408,11 @@ strong {
 
 @media (min-width: 768px) {
   .hero {
-    padding-top: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
   }
   .hero-panel {
     padding: var(--space-xl) var(--space-xl);
-  }
-}
-
-/* Comforting SVG illustration - floats top-right */
-.hero-illustration {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .hero-illustration {
-    display: block;
-    position: absolute;
-    top: 32px;
-    right: 40px;
-    width: 120px;
-    height: 120px;
-    opacity: 0.25;
   }
 }
 
@@ -669,6 +655,32 @@ strong {
   font-size: 18px;
 }
 
+.package-description {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+  font-style: italic;
+}
+
+.package-features {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-sm) 0;
+  flex-grow: 1;
+}
+
+.package-features li {
+  padding: 4px 0;
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.package-features li::before {
+  content: "— ";
+  color: var(--text-muted);
+}
+
 /* --- Reassurance --- */
 .reassurance-grid {
   display: grid;
@@ -808,8 +820,8 @@ strong {
 }
 
 @media (min-width: 768px) {
-  .final-cta { padding: var(--space-3xl) var(--space-lg); }
-  .final-cta-panel { padding: var(--space-2xl) var(--space-xl); }
+  .final-cta { padding: var(--space-2xl) var(--space-lg); }
+  .final-cta-panel { padding: var(--space-xl) var(--space-xl); }
 }
 
 .final-cta h2 {
@@ -833,7 +845,7 @@ strong {
 /* --- Footer --- */
 .footer {
   border-top: 1px solid var(--night-border);
-  padding: var(--space-lg) var(--space-md) var(--space-md);
+  padding: var(--space-xl) var(--space-md) var(--space-lg);
   background-color: var(--night-bg);
 }
 
@@ -841,6 +853,20 @@ strong {
   max-width: var(--page-max);
   margin: 0 auto;
 }
+
+.footer-grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr auto;
+    gap: var(--space-xl);
+  }
+}
+
+.footer-brand {}
 
 .footer-wordmark {
   font-family: 'Lora', Georgia, serif;
@@ -851,15 +877,36 @@ strong {
 }
 
 .footer-tagline {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-muted);
   margin-bottom: var(--space-md);
+}
+
+.footer-copy {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.footer-nav a {
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.footer-nav a:hover {
+  color: var(--sage-glow);
 }
 
 .footer-contact {
   font-size: 14px;
   color: var(--text-muted);
-  margin-bottom: var(--space-md);
+  margin-top: var(--space-sm);
 }
 
 .footer-contact a {
@@ -868,32 +915,6 @@ strong {
 
 .footer-contact a:hover {
   color: var(--sage-glow);
-}
-
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-md);
-}
-
-.footer-links a {
-  font-size: 14px;
-  color: var(--text-secondary);
-}
-
-.footer-links a:hover {
-  color: var(--sage-glow);
-}
-
-.footer-links .sep {
-  color: var(--night-border);
-  font-size: 14px;
-}
-
-.footer-copy {
-  font-size: 13px;
-  color: var(--text-muted);
 }
 
 /* --- Intake Form Page --- */
