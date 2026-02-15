@@ -44,6 +44,16 @@
         <div class="nav-cta">
           <a href="/get-started" class="btn btn-primary btn-sm">Get support<span class="arrow">&thinsp;→</span></a>
         </div>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+      <div class="nav-mobile" id="nav-mobile">
+        <a href="/#how-it-works">How it works</a>
+        <a href="/#trust">Trust</a>
+        <a href="/#support">Packages</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/get-started" class="btn btn-primary" style="margin-top: var(--space-sm);">Get support<span class="arrow">&thinsp;→</span></a>
       </div>
     </nav>
 
@@ -94,7 +104,7 @@
           <div class="footer-nav">
             <div class="footer-col-heading">Navigate</div>
             <a href="/">Home</a>
-            <a href="/#how-it-works">How It Works</a>
+            <a href="/#how-it-works">How it works</a>
             <a href="/#support">Packages</a>
             <a href="/#faq">FAQ</a>
           </div>
@@ -108,5 +118,16 @@
     </footer>
 
   </div>
+
+  <script>
+    const hamburger = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('nav-mobile');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', () => {
+        const isOpen = mobileMenu.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    }
+  </script>
 </body>
 </html>
