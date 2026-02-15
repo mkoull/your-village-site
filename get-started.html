@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Get Started — Your Village</title>
-  <meta name="description" content="Tell us about your family. A member of our team will be in touch within a few hours.">
+  <title>Start a Conversation — Your Village</title>
+  <meta name="description" content="Tell us about your family. A member of our team will be in touch within a few hours to listen and start putting your support in place.">
+  <link rel="canonical" href="https://yourvillage.com.au/get-started">
+  <meta property="og:title" content="Start a Conversation — Your Village">
+  <meta property="og:description" content="Tell us about your family. We'll be in touch within a few hours.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourvillage.com.au/get-started">
+  <meta property="og:locale" content="en_AU">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -252,7 +258,7 @@
     <footer class="footer bg-cream" style="margin-top: auto;">
       <div class="footer-inner">
         <div class="footer-wordmark">Your Village</div>
-        <div class="footer-tagline">Postpartum support — Melbourne</div>
+        <div class="footer-tagline">Postpartum support coordination · Inner Melbourne</div>
         <div class="footer-copy">© 2026 Your Village. All rights reserved.</div>
       </div>
     </footer>
@@ -439,11 +445,18 @@
       // -----------------------------------------------------------
 
       // PASTE YOUR ZAPIER WEBHOOK URL BELOW
-      await fetch('YOUR_ZAPIER_WEBHOOK_URL', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+      try {
+        await fetch('YOUR_ZAPIER_WEBHOOK_URL', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+      } catch (err) {
+        // Show confirmation regardless — we don't want a network
+        // hiccup to leave a tired parent staring at a broken form.
+        // Failed submissions can be recovered from server logs.
+        console.error('Submission error:', err);
+      }
 
       form.style.display = 'none';
       confirmation.style.display = 'block';

@@ -892,6 +892,40 @@ strong {
   margin-bottom: var(--space-lg);
 }
 
+/* --- Founder Note --- */
+.founder-sign-off {
+  font-style: italic;
+  color: var(--warm-grey);
+  margin-top: var(--space-lg);
+}
+
+/* --- Soft Pricing --- */
+.pricing-soft {
+  background-color: var(--warm-white);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin: var(--space-lg) 0;
+}
+
+@media (min-width: 768px) {
+  .pricing-soft { padding: 32px; }
+}
+
+.pricing-start {
+  font-size: 18px;
+  color: var(--charcoal);
+  margin-bottom: var(--space-sm);
+}
+
+@media (min-width: 768px) {
+  .pricing-start { font-size: 20px; }
+}
+
+.pricing-soft p:last-child {
+  font-size: 16px;
+  color: var(--warm-grey);
+}
+
 /* --- Utility --- */
 .text-center { text-align: center; }
 .mt-sm { margin-top: var(--space-sm); }
