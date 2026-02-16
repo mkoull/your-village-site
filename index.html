@@ -100,6 +100,44 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         REASSURANCE STATS — data that normalises the struggle
+         ============================================================ -->
+    <section class="section" id="stats">
+      <div class="section-inner">
+        <div class="content-narrow">
+          <h2>You're not failing — this is hard.</h2>
+          <p>Postnatal overwhelm is far more common than most people realise. You're not alone in this — and asking for support is one of the strongest things you can do.</p>
+        </div>
+
+        <div class="stats-grid" id="stats-grid">
+          <div class="stats-card">
+            <div class="stats-number" data-target="100000" data-suffix=" families" aria-label="Up to 100,000 families">0</div>
+            <p class="stats-description">Australian families are affected by postnatal depression or anxiety each year.</p>
+            <a class="stats-source" href="https://www.abc.net.au/news/2024-09-16/postnatal-depression-anxiety-perinatal-mental-health/104350988" target="_blank" rel="noopener noreferrer">Source: ABC News</a>
+          </div>
+
+          <div class="stats-card">
+            <div class="stats-number-pair">
+              <span class="stats-number" data-target="12.7" data-suffix="% anxiety" data-decimals="1" aria-label="12.7 percent report anxiety">0</span>
+              <span class="stats-number" data-target="17.4" data-suffix="% depression" data-decimals="1" aria-label="17.4 percent report depression">0</span>
+            </div>
+            <p class="stats-description">At 6 months postpartum, in a large VIC/SA survey of new mothers.</p>
+            <a class="stats-source" href="https://pubmed.ncbi.nlm.nih.gov/38816951/" target="_blank" rel="noopener noreferrer">Source: PubMed</a>
+          </div>
+
+          <div class="stats-card">
+            <div class="stats-number stats-number--static" aria-label="3 to 11 percent prevalence">3–11%</div>
+            <p class="stats-description">Postnatal depression prevalence reported in Australian policy summaries.</p>
+            <a class="stats-source" href="https://www.accp.org.au/postnatal-depression/" target="_blank" rel="noopener noreferrer">Source: ACCP policy page</a>
+          </div>
+        </div>
+
+        <div class="mt-lg">
+          <a href="/get-started" class="btn btn-primary">Start a conversation<span class="arrow">&thinsp;→</span></a>
+        </div>
+      </div>
+    </section>
 
     <!-- ============================================================
          HOW IT WORKS
@@ -473,6 +511,71 @@
       const isOpen = mobileMenu.classList.toggle('open');
       hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
+
+    // --- Stats: scroll-triggered fade-in + count-up ---
+    (function() {
+      const grid = document.getElementById('stats-grid');
+      if (!grid) return;
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const cards = grid.querySelectorAll('.stats-card');
+      const counters = grid.querySelectorAll('.stats-number[data-target]');
+
+      // If reduced motion, show everything immediately with final values
+      if (prefersReduced) {
+        cards.forEach(c => c.classList.add('visible'));
+        counters.forEach(el => {
+          const target = parseFloat(el.dataset.target);
+          const decimals = parseInt(el.dataset.decimals || '0', 10);
+          const suffix = el.dataset.suffix || '';
+          el.textContent = formatNumber(target, decimals) + suffix;
+        });
+        return;
+      }
+
+      function formatNumber(n, decimals) {
+        if (decimals > 0) return n.toFixed(decimals);
+        return n.toLocaleString('en-AU');
+      }
+
+      function countUp(el) {
+        const target = parseFloat(el.dataset.target);
+        const decimals = parseInt(el.dataset.decimals || '0', 10);
+        const suffix = el.dataset.suffix || '';
+        const duration = 2000;
+        const start = performance.now();
+
+        function tick(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease-out cubic for a gentle deceleration
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = eased * target;
+
+          el.textContent = formatNumber(current, decimals) + suffix;
+
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            el.textContent = formatNumber(target, decimals) + suffix;
+          }
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            cards.forEach(c => c.classList.add('visible'));
+            counters.forEach(el => countUp(el));
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.2 });
+
+      observer.observe(grid);
+    })();
   </script>
 </body>
 </html>

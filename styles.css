@@ -1379,6 +1379,98 @@ strong {
 .mb-md { margin-bottom: var(--space-md); }
 .mb-lg { margin-bottom: var(--space-lg); }
 
+/* --- Stats Panel --- */
+.stats-grid {
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+  }
+}
+
+.stats-card {
+  background-color: var(--night-card);
+  border: 1px solid var(--night-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stats-card:nth-child(2) { transition-delay: 0.15s, 0.15s, 0s, 0s; }
+.stats-card:nth-child(3) { transition-delay: 0.3s, 0.3s, 0s, 0s; }
+
+.stats-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stats-card:hover {
+  border-color: rgba(143, 175, 143, 0.2);
+  box-shadow: var(--shadow-glow);
+}
+
+.stats-number {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 600;
+  font-size: 28px;
+  color: var(--sage-glow);
+  line-height: 1.2;
+  margin-bottom: var(--space-xs);
+}
+
+@media (min-width: 768px) {
+  .stats-number { font-size: 32px; }
+}
+
+.stats-number--static {
+  /* Static range — no count-up */
+}
+
+.stats-number-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--space-xs);
+}
+
+.stats-number-pair .stats-number {
+  font-size: 22px;
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .stats-number-pair .stats-number { font-size: 26px; }
+}
+
+.stats-description {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: none;
+  flex-grow: 1;
+}
+
+.stats-source {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: var(--space-sm);
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.stats-source:hover {
+  color: var(--sage-glow);
+}
+
 /* --- Reduced Motion --- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -1386,6 +1478,12 @@ strong {
     transition-duration: 0.01ms !important;
   }
   .faq-answer { transition: none; }
+
+  /* Show stats cards immediately */
+  .stats-card {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* --- Focus Indicators --- */
