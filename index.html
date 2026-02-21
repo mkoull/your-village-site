@@ -211,6 +211,132 @@
   </section>
 
   <!-- ============================================================
+       6.5. SUPPORT ASSESSMENT
+       ============================================================ -->
+  <section class="section section--bg" id="assessment">
+    <div class="container" style="max-width: 680px;">
+      <div class="text-center reveal">
+        <div class="eyebrow">Support Assessment</div>
+        <h2>Understand what your <em class="italic">village</em> looks like</h2>
+        <p style="margin: 1rem auto 0; max-width: 520px;">A 2-minute assessment to help us understand your situation and recommend the right level of support.</p>
+      </div>
+
+      <div class="assessment-card reveal reveal-delay-1" id="assessment-card">
+        <div class="assessment-progress-track">
+          <div class="assessment-progress-fill" id="assessment-progress"></div>
+        </div>
+        <div class="assessment-step-counter" id="assessment-counter">1 of 6</div>
+
+        <!-- Step 1: Stage -->
+        <div class="assessment-step active" data-step="0">
+          <div class="assessment-question">Where are you in your journey?</div>
+          <div class="assessment-options">
+            <div class="assessment-option" data-key="stage" data-value="expecting" tabindex="0" role="button">Currently expecting</div>
+            <div class="assessment-option" data-key="stage" data-value="first-two-weeks" tabindex="0" role="button">First two weeks postpartum</div>
+            <div class="assessment-option" data-key="stage" data-value="2-8-weeks" tabindex="0" role="button">Two to eight weeks postpartum</div>
+            <div class="assessment-option" data-key="stage" data-value="beyond-8-weeks" tabindex="0" role="button">Beyond eight weeks</div>
+          </div>
+        </div>
+
+        <!-- Step 2: Support Network (scored) -->
+        <div class="assessment-step" data-step="1">
+          <div class="assessment-question">How would you describe your current support?</div>
+          <div class="assessment-options">
+            <div class="assessment-option" data-key="support" data-value="strong" data-score="0" tabindex="0" role="button">Strong — family and friends actively helping</div>
+            <div class="assessment-option" data-key="support" data-value="partial" data-score="1" tabindex="0" role="button">Partial — people want to help but it's uncoordinated</div>
+            <div class="assessment-option" data-key="support" data-value="minimal" data-score="2" tabindex="0" role="button">Minimal — mostly my partner and me</div>
+            <div class="assessment-option" data-key="support" data-value="limited" data-score="3" tabindex="0" role="button">Limited — I'm largely on my own</div>
+          </div>
+        </div>
+
+        <!-- Step 3: Primary Needs (multi-select) -->
+        <div class="assessment-step" data-step="2">
+          <div class="assessment-question">What would make the biggest difference right now?</div>
+          <div class="assessment-subtitle">Select all that apply.</div>
+          <div class="assessment-options-grid">
+            <div class="assessment-option" data-key="needs" data-value="sleep" tabindex="0" role="button">
+              <span class="assessment-option-dot"></span>
+              Sleep and rest
+            </div>
+            <div class="assessment-option" data-key="needs" data-value="meals" tabindex="0" role="button">
+              <span class="assessment-option-dot"></span>
+              Nourishing meals
+            </div>
+            <div class="assessment-option" data-key="needs" data-value="household" tabindex="0" role="button">
+              <span class="assessment-option-dot"></span>
+              Household help
+            </div>
+            <div class="assessment-option" data-key="needs" data-value="feeding" tabindex="0" role="button">
+              <span class="assessment-option-dot"></span>
+              Feeding support
+            </div>
+            <div class="assessment-option" data-key="needs" data-value="emotional" tabindex="0" role="button">
+              <span class="assessment-option-dot"></span>
+              Emotional wellbeing
+            </div>
+            <div class="assessment-option" data-key="needs" data-value="coordination" tabindex="0" role="button">
+              <span class="assessment-option-dot"></span>
+              Someone to coordinate it all
+            </div>
+          </div>
+          <div class="assessment-continue" id="assessment-continue">
+            <button class="btn btn-ghost" id="assessment-continue-btn" type="button">Continue</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Capacity (scored) -->
+        <div class="assessment-step" data-step="3">
+          <div class="assessment-question">How are you managing day to day?</div>
+          <div class="assessment-options">
+            <div class="assessment-option" data-key="capacity" data-value="well" data-score="0" tabindex="0" role="button">Well — I have a good rhythm</div>
+            <div class="assessment-option" data-key="capacity" data-value="mixed" data-score="1" tabindex="0" role="button">Mixed — good days and hard days</div>
+            <div class="assessment-option" data-key="capacity" data-value="stretched" data-score="2" tabindex="0" role="button">Stretched — I'm pushing through but it's hard</div>
+            <div class="assessment-option" data-key="capacity" data-value="empty" data-score="3" tabindex="0" role="button">Running on empty</div>
+          </div>
+        </div>
+
+        <!-- Step 5: Biggest Wish -->
+        <div class="assessment-step" data-step="4">
+          <div class="assessment-question">If support arrived tomorrow, what would change?</div>
+          <div class="assessment-options">
+            <div class="assessment-option" data-key="wish" data-value="rest" tabindex="0" role="button">I'd finally get real rest</div>
+            <div class="assessment-option" data-key="wish" data-value="eat" tabindex="0" role="button">I'd eat properly again</div>
+            <div class="assessment-option" data-key="wish" data-value="connection" tabindex="0" role="button">I'd feel less alone</div>
+            <div class="assessment-option" data-key="wish" data-value="enjoy" tabindex="0" role="button">I'd start enjoying this chapter</div>
+          </div>
+        </div>
+
+        <!-- Step 6: Results + Contact Form -->
+        <div class="assessment-step" data-step="5" id="assessment-results">
+          <div class="assessment-result" id="assessment-result-msg"></div>
+          <div id="assessment-form-wrapper">
+            <div class="assessment-form-fields">
+              <div>
+                <label class="assessment-field-label" for="assessment-name">First Name</label>
+                <input type="text" id="assessment-name" class="assessment-input" placeholder="Your first name" autocomplete="given-name" required>
+              </div>
+              <div>
+                <label class="assessment-field-label" for="assessment-email">Email</label>
+                <input type="email" id="assessment-email" class="assessment-input" placeholder="you@example.com" autocomplete="email" required>
+              </div>
+              <div>
+                <label class="assessment-field-label" for="assessment-phone">Phone (optional)</label>
+                <input type="tel" id="assessment-phone" class="assessment-input" placeholder="04XX XXX XXX" autocomplete="tel">
+              </div>
+            </div>
+            <button class="btn btn-accent" id="assessment-submit" type="button" disabled style="border-radius: var(--radius-pill); width: 100%;">Get My Recommendation</button>
+            <p class="assessment-privacy">No spam. Just a personalised recommendation within 24 hours.</p>
+          </div>
+          <div class="assessment-success" id="assessment-success">
+            <h3>Thank you</h3>
+            <p>Your personalised support recommendation is on its way.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
        7. SERVICE EXPLORER
        ============================================================ -->
   <section class="section section--bg" id="services">
@@ -749,6 +875,197 @@
           }, 200);
         }
       }, interval);
+    })();
+
+    // --- Support Assessment ---
+    (function() {
+      var card = document.getElementById('assessment-card');
+      if (!card) return;
+
+      var steps = card.querySelectorAll('.assessment-step');
+      var progressBar = document.getElementById('assessment-progress');
+      var counter = document.getElementById('assessment-counter');
+      var continueWrapper = document.getElementById('assessment-continue');
+      var continueBtn = document.getElementById('assessment-continue-btn');
+      var resultMsg = document.getElementById('assessment-result-msg');
+      var formWrapper = document.getElementById('assessment-form-wrapper');
+      var successDiv = document.getElementById('assessment-success');
+      var submitBtn = document.getElementById('assessment-submit');
+      var nameInput = document.getElementById('assessment-name');
+      var emailInput = document.getElementById('assessment-email');
+      var phoneInput = document.getElementById('assessment-phone');
+
+      var totalSteps = steps.length;
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var transitioning = false;
+
+      var state = {
+        currentStep: 0,
+        answers: {}
+      };
+
+      var resultMessages = {
+        positive: {
+          title: 'Your foundations are solid',
+          text: 'A little extra coordination could help you thrive, not just manage. We\'ll recommend the right level of support to complement what you already have.'
+        },
+        moderate: {
+          title: 'You\'re carrying more than you should be',
+          text: 'The right support plan could transform your experience. We\'ll put together a personalised recommendation based on where the gaps are.'
+        },
+        urgent: {
+          title: 'You need your village',
+          text: 'And it can start this week. Let us build something around you — meals, overnight help, emotional support, all coordinated so you can focus on healing and bonding.'
+        }
+      };
+
+      function updateProgress() {
+        var pct = ((state.currentStep + 1) / totalSteps) * 100;
+        progressBar.style.width = pct + '%';
+        counter.textContent = (state.currentStep + 1) + ' of ' + totalSteps;
+      }
+
+      function goToStep(nextIndex) {
+        if (nextIndex < 0 || nextIndex >= totalSteps || transitioning) return;
+        var currentEl = steps[state.currentStep];
+        var nextEl = steps[nextIndex];
+
+        if (prefersReduced) {
+          currentEl.classList.remove('active');
+          nextEl.classList.add('active');
+          state.currentStep = nextIndex;
+          updateProgress();
+          if (nextIndex === 5) showResults();
+          return;
+        }
+
+        transitioning = true;
+        currentEl.classList.add('assessment-step-exit');
+        currentEl.addEventListener('animationend', function handler() {
+          currentEl.removeEventListener('animationend', handler);
+          currentEl.classList.remove('active', 'assessment-step-exit');
+          nextEl.classList.add('active', 'assessment-step-enter');
+          nextEl.addEventListener('animationend', function handler2() {
+            nextEl.removeEventListener('animationend', handler2);
+            nextEl.classList.remove('assessment-step-enter');
+            transitioning = false;
+          });
+          state.currentStep = nextIndex;
+          updateProgress();
+          if (nextIndex === 5) showResults();
+        });
+      }
+
+      function calculateScore() {
+        var supportScore = 0;
+        var capacityScore = 0;
+        var supportOption = card.querySelector('.assessment-option[data-key="support"].selected');
+        if (supportOption && supportOption.dataset.score !== undefined) {
+          supportScore = parseInt(supportOption.dataset.score, 10);
+        }
+        var capacityOption = card.querySelector('.assessment-option[data-key="capacity"].selected');
+        if (capacityOption && capacityOption.dataset.score !== undefined) {
+          capacityScore = parseInt(capacityOption.dataset.score, 10);
+        }
+        var total = supportScore + capacityScore;
+        if (total <= 1) return 'positive';
+        if (total <= 3) return 'moderate';
+        return 'urgent';
+      }
+
+      function showResults() {
+        var level = calculateScore();
+        var msg = resultMessages[level];
+        resultMsg.innerHTML = '<h3>' + msg.title + '</h3><p>' + msg.text + '</p>';
+        state.answers.resultLevel = level;
+      }
+
+      // Click handler (event delegation)
+      card.addEventListener('click', function(e) {
+        var option = e.target.closest('.assessment-option');
+        if (!option || transitioning) return;
+        var stepEl = option.closest('.assessment-step');
+        if (!stepEl) return;
+        var stepIndex = parseInt(stepEl.dataset.step, 10);
+
+        // Multi-select step (step 3, index 2)
+        if (stepIndex === 2) {
+          option.classList.toggle('selected');
+          var selected = stepEl.querySelectorAll('.assessment-option.selected');
+          if (selected.length > 0) {
+            continueWrapper.classList.add('visible');
+          } else {
+            continueWrapper.classList.remove('visible');
+          }
+          state.answers.needs = [];
+          selected.forEach(function(opt) {
+            state.answers.needs.push(opt.dataset.value);
+          });
+          return;
+        }
+
+        // Single-select
+        var siblings = stepEl.querySelectorAll('.assessment-option');
+        siblings.forEach(function(s) { s.classList.remove('selected'); });
+        option.classList.add('selected');
+        state.answers[option.dataset.key] = option.dataset.value;
+
+        // Auto-advance after 400ms
+        setTimeout(function() {
+          goToStep(stepIndex + 1);
+        }, 400);
+      });
+
+      // Keyboard handler for accessibility
+      card.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        var option = e.target.closest('.assessment-option');
+        if (!option) return;
+        e.preventDefault();
+        option.click();
+      });
+
+      // Continue button (multi-select step)
+      if (continueBtn) {
+        continueBtn.addEventListener('click', function() {
+          goToStep(3);
+        });
+      }
+
+      // Form validation
+      function validateForm() {
+        var nameVal = nameInput.value.trim();
+        var emailVal = emailInput.value.trim();
+        var emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+        submitBtn.disabled = !(nameVal.length > 0 && emailValid);
+      }
+
+      if (nameInput) nameInput.addEventListener('input', validateForm);
+      if (emailInput) emailInput.addEventListener('input', validateForm);
+
+      // Form submit
+      if (submitBtn) {
+        submitBtn.addEventListener('click', function() {
+          if (submitBtn.disabled) return;
+          var data = {
+            answers: state.answers,
+            name: nameInput.value.trim(),
+            email: emailInput.value.trim(),
+            phone: phoneInput.value.trim(),
+            submitted_at: new Date().toISOString()
+          };
+          console.log('Assessment submission:', data);
+
+          // In production, POST to your webhook:
+          // fetch('YOUR_WEBHOOK_URL', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+
+          formWrapper.style.display = 'none';
+          resultMsg.style.display = 'none';
+          successDiv.classList.add('show');
+        });
+      }
+
+      updateProgress();
     })();
   </script>
 </body>
