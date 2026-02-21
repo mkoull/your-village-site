@@ -1873,3 +1873,97 @@ button:focus-visible,
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+
+/* ============================================================
+   LOADING SCREEN
+   ============================================================ */
+.loader-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  transition: opacity 0.6s var(--ease-out);
+}
+
+.loader-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.loader-logo {
+  color: var(--accent);
+  opacity: 0;
+  transform: scale(0.85);
+  animation: loaderLogoIn 0.5s var(--ease-out) 0.1s forwards;
+}
+
+.loader-logo-center {
+  fill: var(--bg-primary);
+}
+
+.loader-wordmark {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  opacity: 0;
+  transform: translateY(6px);
+  animation: loaderTextIn 0.5s var(--ease-out) 0.25s forwards;
+}
+
+.loader-bar-track {
+  width: 180px;
+  height: 3px;
+  background: var(--border-medium);
+  border-radius: 3px;
+  overflow: hidden;
+  opacity: 0;
+  animation: loaderTextIn 0.4s var(--ease-out) 0.4s forwards;
+}
+
+.loader-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.15s linear;
+}
+
+@keyframes loaderLogoIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes loaderTextIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .loader-logo,
+  .loader-wordmark,
+  .loader-bar-track {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .loader-screen.fade-out {
+    transition-duration: 0.01s;
+  }
+}

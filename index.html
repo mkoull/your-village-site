@@ -23,6 +23,27 @@
 <body>
 
   <!-- ============================================================
+       0. LOADING SCREEN
+       ============================================================ -->
+  <div class="loader-screen" id="loader-screen">
+    <div class="loader-content">
+      <svg class="loader-logo" viewBox="0 0 64 64" fill="none" aria-hidden="true" width="52" height="52">
+        <circle cx="32" cy="10" r="5.5" fill="currentColor" opacity="0.85"/>
+        <circle cx="51" cy="21" r="5.5" fill="currentColor" opacity="0.75"/>
+        <circle cx="51" cy="43" r="5.5" fill="currentColor" opacity="0.65"/>
+        <circle cx="32" cy="54" r="5.5" fill="currentColor" opacity="0.80"/>
+        <circle cx="13" cy="43" r="5.5" fill="currentColor" opacity="0.70"/>
+        <circle cx="13" cy="21" r="5.5" fill="currentColor" opacity="0.78"/>
+        <circle cx="32" cy="32" r="7" class="loader-logo-center"/>
+      </svg>
+      <span class="loader-wordmark">Your Village</span>
+      <div class="loader-bar-track">
+        <div class="loader-bar-fill" id="loader-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
        1. NAVIGATION
        ============================================================ -->
   <nav class="nav" id="nav">
@@ -700,6 +721,34 @@
         form.style.display = 'none';
         success.classList.add('show');
       });
+    })();
+
+    // --- Loading Screen ---
+    (function() {
+      var screen = document.getElementById('loader-screen');
+      var bar = document.getElementById('loader-bar-fill');
+      if (!screen || !bar) return;
+
+      var progress = 0;
+      var duration = 2000; // ms
+      var interval = 20;   // update every 20ms
+      var step = 100 / (duration / interval);
+
+      var timer = setInterval(function() {
+        progress = Math.min(progress + step, 100);
+        bar.style.width = progress + '%';
+        if (progress >= 100) {
+          clearInterval(timer);
+          // Small pause at 100% before fading out
+          setTimeout(function() {
+            screen.classList.add('fade-out');
+            // Remove from DOM after transition
+            setTimeout(function() {
+              screen.remove();
+            }, 650);
+          }, 200);
+        }
+      }, interval);
     })();
   </script>
 </body>
