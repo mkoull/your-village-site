@@ -3,577 +3,703 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Village — Postpartum Support Coordination</title>
-  <meta name="description" content="Your Village coordinates trusted postpartum support around your family — so you can focus on recovery, your baby, and yourself.">
+  <title>Your Village — Modern Postpartum Support</title>
+  <meta name="description" content="Curated postpartum care — from meals and overnight help to emotional support — coordinated seamlessly around your family. Melbourne, Australia.">
   <link rel="canonical" href="https://yourvillage.com.au/">
-  <meta property="og:title" content="Your Village — Postpartum Support Coordination">
-  <meta property="og:description" content="We coordinate trusted postpartum support around your family — so you can focus on recovery, your baby, and yourself.">
+  <meta property="og:title" content="Your Village — Modern Postpartum Support">
+  <meta property="og:description" content="Curated postpartum care — from meals and overnight help to emotional support — coordinated seamlessly around your family.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yourvillage.com.au/">
   <meta property="og:locale" content="en_AU">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+  </script>
 </head>
 <body>
-  <div class="page-wrapper">
 
-    <!-- ============================================================
-         NAVIGATION — sticky, blurred, with section links
-         ============================================================ -->
-    <nav class="nav" id="nav">
-      <div class="nav-inner">
-        <a href="/" class="nav-logo">
-          <svg class="nav-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true" width="28" height="28">
-            <circle cx="32" cy="10" r="5.5" fill="#8FAF8F" opacity="0.85"/>
-            <circle cx="51" cy="21" r="5.5" fill="#8FAF8F" opacity="0.75"/>
-            <circle cx="51" cy="43" r="5.5" fill="#8FAF8F" opacity="0.65"/>
-            <circle cx="32" cy="54" r="5.5" fill="#8FAF8F" opacity="0.80"/>
-            <circle cx="13" cy="43" r="5.5" fill="#8FAF8F" opacity="0.70"/>
-            <circle cx="13" cy="21" r="5.5" fill="#8FAF8F" opacity="0.78"/>
-            <circle cx="32" cy="32" r="7" fill="#EDE8DF"/>
-          </svg>
-          <span class="nav-wordmark">Your Village</span>
-        </a>
-        <ul class="nav-links" id="nav-links">
-          <li><a href="#how-it-works">How it works</a></li>
-          <li><a href="#trust">Trust</a></li>
-          <li><a href="#support">Packages</a></li>
-          <li><a href="#faq">FAQ</a></li>
-        </ul>
-        <div class="nav-cta">
-          <a href="/get-started" class="btn btn-primary btn-sm">Get support<span class="arrow">&thinsp;→</span></a>
-        </div>
-        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+  <!-- ============================================================
+       1. NAVIGATION
+       ============================================================ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" width="26" height="26">
+          <circle cx="32" cy="10" r="5.5" fill="#8B7355" opacity="0.85"/>
+          <circle cx="51" cy="21" r="5.5" fill="#8B7355" opacity="0.75"/>
+          <circle cx="51" cy="43" r="5.5" fill="#8B7355" opacity="0.65"/>
+          <circle cx="32" cy="54" r="5.5" fill="#8B7355" opacity="0.80"/>
+          <circle cx="13" cy="43" r="5.5" fill="#8B7355" opacity="0.70"/>
+          <circle cx="13" cy="21" r="5.5" fill="#8B7355" opacity="0.78"/>
+          <circle cx="32" cy="32" r="7" fill="#FAF8F5"/>
+        </svg>
+        <span class="nav-wordmark">Your Village</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#packages">Packages</a></li>
+        <li><a href="#gift">Gift</a></li>
+        <li><a href="#why-us">Why Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
         </button>
+        <a href="#contact" class="btn btn-solid btn-sm">Get Started<span class="arrow">&thinsp;&#8594;</span></a>
       </div>
-      <!-- Mobile menu overlay -->
-      <div class="nav-mobile" id="nav-mobile">
-        <a href="#how-it-works">How it works</a>
-        <a href="#trust">Trust</a>
-        <a href="#support">Packages</a>
-        <a href="#faq">FAQ</a>
-        <a href="/get-started" class="btn btn-primary" style="margin-top: var(--space-sm);">Get support<span class="arrow">&thinsp;→</span></a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="#how-it-works">How It Works</a>
+      <a href="#services">Services</a>
+      <a href="#packages">Packages</a>
+      <a href="#gift">Gift</a>
+      <a href="#why-us">Why Us</a>
+      <a href="#contact" class="btn btn-solid" style="margin-top:12px;">Get Started<span class="arrow">&thinsp;&#8594;</span></a>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       2. HERO
+       ============================================================ -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">Modern Postpartum Support</div>
+      <h1>
+        <span class="hero-line">The support system</span>
+        <span class="hero-line">every new parent</span>
+        <span class="hero-line"><em class="accent-text">actually</em> deserves.</span>
+      </h1>
+      <p class="hero-subtitle">Curated postpartum care — from meals and overnight help to emotional support — coordinated seamlessly around your family.</p>
+      <div class="hero-ctas">
+        <a href="#services" class="btn btn-solid">Explore Support<span class="arrow">&thinsp;&#8594;</span></a>
+        <a href="#gift" class="btn btn-ghost">Gift Support</a>
       </div>
-    </nav>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
 
-    <!-- ============================================================
-         HERO — contained panel with soft gradient
-         ============================================================ -->
-    <section class="section hero" id="top">
-      <div class="section-inner">
-        <div class="hero-panel">
-          <div class="content-narrow">
-            <h1>You don't have to figure this out alone.</h1>
-            <p class="hero-subtitle">Your Village coordinates the right support around your family in the early weeks with your baby — so you can focus on recovery, bonding, and yourself.</p>
-            <a href="/get-started" class="btn btn-primary">Let's get started<span class="arrow">&thinsp;→</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         RECOGNITION & VALUE PROPOSITION
-         ============================================================ -->
-    <section class="section" id="value">
-      <div class="section-inner">
-        <div class="card-section">
-          <div class="content-narrow">
-            <h2>The early weeks are harder than anyone prepared you for.</h2>
-            <p>You're recovering physically. You're learning to care for a baby who didn't come with a manual. You haven't slept properly in days. And the person you most want to call lives hundreds of kilometres away.</p>
-            <p>You know help exists somewhere — but finding it, vetting it, and coordinating it while you're running on empty? That's not something you should have to do alone.</p>
-          </div>
-        </div>
-
-        <div class="card-section">
-          <div class="content-narrow">
-            <h2>We do what your mum would do if she lived around the corner.</h2>
-            <p>Your coordinator learns your situation, works out what you need, and puts the right people around you. They handle the scheduling, check in every week to make sure things are working, and adjust when they're not.</p>
-            <p>You never have to explain your situation twice. You never have to chase a booking. You never have to wonder if you've chosen the right person.</p>
-            <p><strong>We handle the coordination. You focus on your baby and yourself.</strong></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         REASSURANCE STATS — data that normalises the struggle
-         ============================================================ -->
-    <section class="section" id="stats">
-      <div class="section-inner">
-        <div class="content-narrow">
-          <h2>You're not failing — this is hard.</h2>
-          <p>Postnatal overwhelm is far more common than most people realise. You're not alone in this — and asking for support is one of the strongest things you can do.</p>
-        </div>
-
-        <div class="stats-grid" id="stats-grid">
-          <div class="stats-card">
-            <div class="stats-number" data-target="100000" data-suffix=" families" aria-label="Up to 100,000 families">0</div>
-            <p class="stats-description">Australian families are affected by postnatal depression or anxiety each year.</p>
-            <a class="stats-source" href="https://www.abc.net.au/news/2024-09-16/postnatal-depression-anxiety-perinatal-mental-health/104350988" target="_blank" rel="noopener noreferrer">Source: ABC News</a>
-          </div>
-
-          <div class="stats-card">
-            <div class="stats-number-pair">
-              <span class="stats-number" data-target="12.7" data-suffix="% anxiety" data-decimals="1" aria-label="12.7 percent report anxiety">0</span>
-              <span class="stats-number" data-target="17.4" data-suffix="% depression" data-decimals="1" aria-label="17.4 percent report depression">0</span>
-            </div>
-            <p class="stats-description">At 6 months postpartum, in a large VIC/SA survey of new parents.</p>
-            <a class="stats-source" href="https://pubmed.ncbi.nlm.nih.gov/38816951/" target="_blank" rel="noopener noreferrer">Source: PubMed</a>
-          </div>
-
-          <div class="stats-card">
-            <div class="stats-number stats-number--static" aria-label="3 to 11 percent prevalence">3–11%</div>
-            <p class="stats-description">Postnatal depression prevalence reported in Australian policy summaries.</p>
-            <a class="stats-source" href="https://www.accp.org.au/postnatal-depression/" target="_blank" rel="noopener noreferrer">Source: ACCP policy page</a>
-          </div>
-        </div>
-
-        <div class="mt-lg">
-          <a href="/get-started" class="btn btn-primary">Start a conversation<span class="arrow">&thinsp;→</span></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         HOW IT WORKS
-         ============================================================ -->
-    <section class="section" id="how-it-works">
-      <div class="section-inner">
-        <h2>Three steps. No overwhelm.</h2>
-        <div class="steps-grid">
-          <div class="step">
-            <div class="step-number">Step one</div>
-            <h3>Tell us where you're at</h3>
-            <p>Answer a few short questions about your situation — when your baby arrived, is due, or is expected, where you live, and what feels hardest right now. It takes about three minutes. No account to create. Nothing to commit to.</p>
-          </div>
-          <div class="step">
-            <div class="step-number">Step two</div>
-            <h3>We build your plan</h3>
-            <p>A member of our team gets in touch within a few hours. We listen, ask the right questions, and put together a support plan that fits your family and your budget — whether that's help with feeding, sleep, recovery, household support, or just someone to talk to.</p>
-          </div>
-          <div class="step">
-            <div class="step-number">Step three</div>
-            <h3>Your village begins</h3>
-            <p>We introduce you to providers we trust, coordinate the scheduling, and stay in touch to make sure everything is working. As your needs change, your plan changes with you. We're in your corner for as long as you need us.</p>
-          </div>
-        </div>
-        <div class="mt-lg">
-          <a href="/get-started" class="btn btn-primary">Tell us where you're at<span class="arrow">&thinsp;→</span></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         TRUST & VETTING
-         ============================================================ -->
-    <section class="section" id="trust">
-      <div class="section-inner">
-        <div class="card-section">
-          <div class="content-narrow">
-            <h2>How we earn your trust.</h2>
-            <p>Inviting someone into your home during the most vulnerable weeks of your life is not a small thing. We take that seriously.</p>
-
-            <div class="trust-points">
-              <div class="trust-point">
-                <h3>Every provider is personally vetted.</h3>
-                <p>Qualifications checked. References contacted. A conversation with our team to assess not just competence but warmth, sensitivity, and how they treat families under pressure. We don't accept everyone who applies. Our vetting process was developed in consultation with practising perinatal professionals.</p>
-              </div>
-              <div class="trust-point">
-                <h3>Your coordinator knows your story.</h3>
-                <p>You're not a ticket in a system. Your coordinator reads what you've told us, understands your context, and remembers it between conversations. If something isn't right, they fix it before you have to ask.</p>
-              </div>
-              <div class="trust-point">
-                <h3>We follow up. Every time.</h3>
-                <p>After every provider session, we check in. Not with a survey. With a message from someone who genuinely wants to know whether the support is helping.</p>
-              </div>
-            </div>
-
-            <blockquote class="blockquote">
-              <p>"The families I see through Your Village are better supported than almost any I've worked with in fifteen years of practice. Someone has already listened to them, worked out the priorities, and given them permission to accept help. By the time I walk through the door, half the work is done."</p>
-              <div class="blockquote-attribution">— Postpartum Doula, Inner Melbourne</div>
-            </blockquote>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- ============================================================
-         FOUNDER NOTE
-         ============================================================ -->
-    <section class="section" id="founder">
-      <div class="section-inner">
-        <div class="card-section">
-          <div class="content-narrow">
-            <h2>Why this exists.</h2>
-            <p>I watched someone I love go through the first weeks with a new baby — no family nearby, no plan, and no idea where to start finding help. She's one of the most capable people I know, and none of that mattered. She was exhausted, overwhelmed, and trying to do something she'd never done before while recovering from something her body had never done before.</p>
-            <p>The help was out there. But finding it, vetting it, coordinating it — all of that fell on the person with the least capacity to do it.</p>
-            <p>Your Village is the thing I wished had existed for her. Not an app. Not a directory. A real person who already knows the providers, who listens to what you're going through, and who puts the right support in place so you don't have to figure it out alone.</p>
-            <p class="founder-sign-off">— The founder of Your Village</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         SUPPORT — SOFT PRICING
-         ============================================================ -->
-    <section class="section" id="support">
-      <div class="section-inner">
-        <h2>Support that fits your family.</h2>
-        <p>Every family's situation is different. Your coordinator will help you find the right level — but here's a sense of what's available.</p>
-
-        <div class="packages-grid">
-          <div class="package-card">
-            <h3>Getting Started</h3>
-            <div class="package-who">You know what you need — you just want the right people found and booked.</div>
-            <div class="package-price">From $299</div>
-            <div class="package-price-note">one-off coordination fee</div>
-            <hr class="package-divider">
-            <div class="package-features-heading">What you get</div>
-            <ul class="package-features">
-              <li>A support plan tailored to your family</li>
-              <li>Matched with up to 3 vetted providers</li>
-              <li>All scheduling and introductions handled</li>
-              <li>2 weeks of coordinator check-ins</li>
-            </ul>
-            <div class="package-cta">
-              <a href="/get-started" class="btn btn-secondary btn-sm">Start a conversation<span class="arrow">&thinsp;→</span></a>
-            </div>
-          </div>
-
-          <div class="package-card package-card--featured">
-            <div class="package-badge">Most families choose this</div>
-            <h3>Steady Support</h3>
-            <div class="package-who">You want someone in your corner as things change week to week.</div>
-            <div class="package-price">From $549</div>
-            <div class="package-price-note">covers 6 weeks of coordination</div>
-            <hr class="package-divider">
-            <div class="package-features-heading">What you get</div>
-            <ul class="package-features">
-              <li>Everything in Getting Started</li>
-              <li>6 weeks of active coordination</li>
-              <li>Weekly check-ins and plan adjustments</li>
-              <li>Support that evolves as your needs change</li>
-              <li>One person who knows your whole story</li>
-            </ul>
-            <div class="package-cta">
-              <a href="/get-started" class="btn btn-primary btn-sm">Start a conversation<span class="arrow">&thinsp;→</span></a>
-            </div>
-          </div>
-
-          <div class="package-card">
-            <h3>Complete Care</h3>
-            <div class="package-who">You want comprehensive support from before your baby arrives through the fourth trimester.</div>
-            <div class="package-price">From $899</div>
-            <div class="package-price-note">covers 12 weeks of coordination</div>
-            <hr class="package-divider">
-            <div class="package-features-heading">What you get</div>
-            <ul class="package-features">
-              <li>Everything in Steady Support</li>
-              <li>12 weeks of active coordination</li>
-              <li>Unlimited provider matches</li>
-              <li>Priority scheduling</li>
-              <li>Life-admin support (registrations, waitlists)</li>
-            </ul>
-            <div class="package-cta">
-              <a href="/get-started" class="btn btn-secondary btn-sm">Start a conversation<span class="arrow">&thinsp;→</span></a>
-            </div>
-          </div>
-        </div>
-
-        <div class="package-compare">
-          <h3>Which one is right for me?</h3>
-          <div class="compare-items">
-            <div class="compare-item">
-              <strong>"I know roughly what I need — I just need someone to find the right people."</strong>
-              <p>Getting Started gives you a plan and introductions to the right providers. Good if you're already managing okay but want expert help connecting the dots.</p>
-            </div>
-            <div class="compare-item">
-              <strong>"I'm not sure what I need, and I want someone checking in as things change."</strong>
-              <p>Steady Support is our most popular option. Your coordinator stays with you for six weeks, adjusting the plan as your family settles in. Most families find this is the right fit.</p>
-            </div>
-            <div class="compare-item">
-              <strong>"I want someone in my corner for the full journey — from before my baby arrives through the fourth trimester."</strong>
-              <p>Complete Care is ideal for families who want maximum support, or those navigating complex situations like multiples, NICU, or limited local support networks.</p>
-            </div>
-          </div>
-        </div>
-
-        <p class="mt-md" style="font-size: 15px;">Provider fees are separate and vary depending on the type of support. Your coordinator will always be upfront about costs before anything is booked.</p>
-        <a href="/get-started" class="btn btn-primary mt-md">Let's work out what you need<span class="arrow">&thinsp;→</span></a>
-      </div>
-    </section>
-
-
-    <!-- ============================================================
-         REASSURANCE
-         ============================================================ -->
-    <section class="section" id="reassurance">
-      <div class="section-inner">
-        <div class="content-narrow">
-          <h2>A few things we want you to know.</h2>
-
-          <div class="reassurance-grid">
-            <div class="reassurance-item">
-              <h3>Needing help doesn't mean you're failing.</h3>
-              <p>It means you're going through one of the most physically and emotionally demanding transitions a person can experience. The parents who reach out aren't the ones who can't cope. They're the ones who understand that doing it alone was never the plan.</p>
-            </div>
-            <div class="reassurance-item">
-              <h3>There is no wrong time to ask.</h3>
-              <p>Whether you're still pregnant and planning ahead, or weeks in and barely holding it together — this is the right time. We meet you wherever you are.</p>
-            </div>
-            <div class="reassurance-item">
-              <h3>You don't need to know what you need.</h3>
-              <p>That's literally what we're here for. The most common thing we hear is some version of "I don't even know where to start." We'll figure it out together.</p>
-            </div>
-            <div class="reassurance-item">
-              <h3>All families are welcome here.</h3>
-              <p>All paths to parenthood. All feeding choices. All family structures. No judgement. Only support.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         FAQ
-         ============================================================ -->
-    <section class="section" id="faq">
-      <div class="section-inner">
-        <div class="content-narrow">
-          <h2>Common questions.</h2>
-          <div class="faq-list">
-
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">
-                <span>When should I reach out — before or after the baby arrives?</span>
-                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-              <div class="faq-answer">
-                <div class="faq-answer-inner">Either. Many families contact us before their baby arrives so we can have a plan ready. Others reach out in the thick of it. There's no ideal time. The right time is when you realise you could use support.</div>
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">
-                <span>What if I don't know what kind of help I need?</span>
-                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-              <div class="faq-answer">
-                <div class="faq-answer-inner">That's exactly what your coordinator is for. Most families don't know what they need when they first get in touch. We'll help you work it out based on where you're at and what's feeling hardest.</div>
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">
-                <span>What kind of support can you help coordinate?</span>
-                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-              <div class="faq-answer">
-                <div class="faq-answer-inner">It depends on what you need. Common areas include feeding support (lactation consultants, doulas), sleep help, physical recovery (pelvic floor physio), meal and household support, and emotional wellbeing (perinatal psychologists and counsellors). Your coordinator may also help with life admin like birth registration or childcare waitlists. Every family is different.</div>
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">
-                <span>Is this a medical service?</span>
-                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-              <div class="faq-answer">
-                <div class="faq-answer-inner">We connect you with qualified, independent professionals — doulas, lactation consultants, physiotherapists, psychologists — and coordinate the support around your family. We are not a healthcare provider. If you're experiencing a medical emergency, please contact your GP, midwife, or call 000.</div>
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">
-                <span>What areas do you currently cover?</span>
-                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-              <div class="faq-answer">
-                <div class="faq-answer-inner">We're supporting families across inner Melbourne. If you're nearby but not sure if you're in our area, reach out anyway — we can usually help or point you to trusted support close to you.</div>
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">
-                <span>Can my partner or family arrange this for me?</span>
-                <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-              <div class="faq-answer">
-                <div class="faq-answer-inner">Absolutely. Many families are set up by a partner, parent, or friend. It's one of the most thoughtful things someone can do for a new parent.</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         FINAL CTA
-         ============================================================ -->
-    <section class="final-cta">
-      <div class="section-inner">
-        <div class="final-cta-panel">
-          <h2>It takes a village.</h2>
-          <h2>Let us help build yours.</h2>
-          <p class="mt-md">Tell us about your family and we'll take it from here.</p>
-          <a href="/get-started" class="btn btn-primary">Start a conversation<span class="arrow">&thinsp;→</span></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         FOOTER
-         ============================================================ -->
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <div class="footer-wordmark">Your Village</div>
-            <div class="footer-tagline">Postpartum support coordination for new families.</div>
-            <div class="footer-copy">© 2026 Your Village. All rights reserved.</div>
-          </div>
-          <div class="footer-nav">
-            <div class="footer-col-heading">Navigate</div>
-            <a href="#how-it-works">How it works</a>
-            <a href="#support">Packages</a>
-            <a href="#faq">FAQ</a>
-            <a href="/about">About</a>
-          </div>
-          <div class="footer-contact-col">
-            <div class="footer-col-heading">Get in touch</div>
-            <a href="mailto:hello@yourvillage.com.au">hello@yourvillage.com.au</a>
-            <a href="/get-started">Start a conversation</a>
-            <p>We typically respond within a few hours during business days.</p>
-          </div>
-        </div>
-      </div>
-    </footer>
-
+  <!-- ============================================================
+       3. SOCIAL PROOF MARQUEE
+       ============================================================ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Meal Coordination</span>
+      <span class="marquee-item">Emotional Wellbeing</span>
+      <span class="marquee-item">Sleep Support</span>
+      <span class="marquee-item">Partner Guidance</span>
+      <span class="marquee-item">Community Building</span>
+      <span class="marquee-item">Recovery Planning</span>
+      <span class="marquee-item">Newborn Care</span>
+      <span class="marquee-item">Household Help</span>
+      <span class="marquee-item">Meal Coordination</span>
+      <span class="marquee-item">Emotional Wellbeing</span>
+      <span class="marquee-item">Sleep Support</span>
+      <span class="marquee-item">Partner Guidance</span>
+      <span class="marquee-item">Community Building</span>
+      <span class="marquee-item">Recovery Planning</span>
+      <span class="marquee-item">Newborn Care</span>
+      <span class="marquee-item">Household Help</span>
+    </div>
   </div>
 
+  <!-- ============================================================
+       4. STATS
+       ============================================================ -->
+  <section class="stats" id="stats">
+    <div class="container">
+      <div class="stats-grid" id="stats-grid">
+        <div class="stats-item reveal">
+          <div class="stats-number" data-target="73" data-suffix="%">0%</div>
+          <p class="stats-desc">of new parents report feeling unsupported in the first twelve weeks postpartum</p>
+        </div>
+        <div class="stats-item reveal reveal-delay-1">
+          <div class="stats-number" data-target="1200" data-suffix="km" data-separator=",">0km</div>
+          <p class="stats-desc">average distance from extended family for Melbourne parents</p>
+        </div>
+        <div class="stats-item reveal reveal-delay-2">
+          <div class="stats-number stats-number--static">1 in 5</div>
+          <p class="stats-desc">mothers experience postnatal depression or anxiety — most without adequate support</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       5. ABOUT / PHILOSOPHY
+       ============================================================ -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-visual reveal">
+          <div class="about-visual-title">Village</div>
+          <div class="about-visual-subtitle">It takes one</div>
+        </div>
+        <div class="about-content reveal reveal-delay-1">
+          <div class="eyebrow">Our Philosophy</div>
+          <h2>We don't just send help. We <em class="italic">orchestrate</em> your village.</h2>
+          <p>Most services give you a single doula or a meal plan. We're different. We coordinate your entire support ecosystem — your family, friends, and our vetted professionals — into a seamless safety net that catches you before you fall.</p>
+          <p>No more awkward group texts. No more wondering who's bringing dinner. No more asking for help when you're too exhausted to form the words.</p>
+          <a href="#how-it-works" class="text-link">See How It Works <span class="arrow">&#8594;</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       6. HOW IT WORKS
+       ============================================================ -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="steps-header reveal">
+        <div class="eyebrow">How It Works</div>
+        <h2>Three steps to your <em class="italic">village</em></h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step reveal">
+          <div class="step-number">01</div>
+          <span class="step-icon">&#9678;</span>
+          <h3>Choose your support</h3>
+          <p>Tell us where you are in your journey and what would help most. No judgment, no pressure.</p>
+        </div>
+        <div class="step reveal reveal-delay-1">
+          <div class="step-number">02</div>
+          <span class="step-icon">&#10209;</span>
+          <h3>We curate your plan</h3>
+          <p>We match you with vetted professionals and build a support schedule tailored to your family.</p>
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step-number">03</div>
+          <span class="step-icon">&#10022;</span>
+          <h3>Your village arrives</h3>
+          <p>Meals appear. Help shows up. Check-ins happen. You focus on what matters — healing and bonding.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       7. SERVICE EXPLORER
+       ============================================================ -->
+  <section class="section section--bg" id="services">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="eyebrow">Our Services</div>
+        <h2>Support tailored to your needs</h2>
+      </div>
+      <div class="service-filters reveal">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="practical">Practical</button>
+        <button class="filter-btn" data-filter="specialist">Specialist</button>
+        <button class="filter-btn" data-filter="emotional">Emotional</button>
+      </div>
+      <div class="service-grid">
+        <div class="service-card reveal" data-category="practical">
+          <div class="service-icon">&#9672;</div>
+          <h3>Nourishing Meals</h3>
+          <p>Chef-prepared, nutrition-optimised meals delivered to your door. Designed for postpartum recovery with dietary needs handled.</p>
+          <div class="service-price">From $45/day</div>
+        </div>
+        <div class="service-card reveal reveal-delay-1" data-category="specialist">
+          <div class="service-icon">&#10070;</div>
+          <h3>Overnight Support</h3>
+          <p>Qualified night nannies so you can sleep. Feeding support, settling, and newborn care through the night.</p>
+          <div class="service-price">From $180/night</div>
+        </div>
+        <div class="service-card reveal reveal-delay-2" data-category="practical">
+          <div class="service-icon">&#10043;</div>
+          <h3>Home Care</h3>
+          <p>Vetted cleaners who understand the postpartum home. Light cleaning, laundry, and household reset.</p>
+          <div class="service-price">From $65/visit</div>
+        </div>
+        <div class="service-card reveal reveal-delay-3" data-category="specialist">
+          <div class="service-icon">&#9673;</div>
+          <h3>Lactation Support</h3>
+          <p>IBCLC-certified lactation consultants for in-home visits. Evidence-based guidance, no pressure.</p>
+          <div class="service-price">From $120/session</div>
+        </div>
+        <div class="service-card reveal reveal-delay-4" data-category="practical">
+          <div class="service-icon">&#10023;</div>
+          <h3>Life Admin</h3>
+          <p>Groceries, appointments, visitor coordination, paperwork. We handle the invisible labour.</p>
+          <div class="service-price">From $55/hour</div>
+        </div>
+        <div class="service-card reveal reveal-delay-5" data-category="emotional">
+          <div class="service-icon">&#10047;</div>
+          <h3>Emotional Support</h3>
+          <p>Perinatal psychologists and counsellors. Proactive check-ins and professional mental health pathways.</p>
+          <div class="service-price">From $95/session</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       8. PACKAGES
+       ============================================================ -->
+  <section class="section" id="packages">
+    <div class="container">
+      <div class="packages-header reveal">
+        <div class="eyebrow">Packages</div>
+        <h2>Comprehensive support, simply priced</h2>
+      </div>
+      <div class="packages-grid">
+        <div class="package-card reveal">
+          <h3 class="package-name">Essentials</h3>
+          <div class="package-price">$490<span class="package-price-period">/week</span></div>
+          <div class="package-min">Minimum 2 weeks</div>
+          <p class="package-desc">The foundations — practical help when you need it most.</p>
+          <ul class="package-features">
+            <li>5 prepared meals per week</li>
+            <li>Weekly home clean</li>
+            <li>2 hours life admin</li>
+            <li>Digital check-in support</li>
+          </ul>
+          <a href="#contact" class="btn btn-ghost">Get Started</a>
+        </div>
+        <div class="package-card package-card--featured reveal reveal-delay-1">
+          <div class="package-badge">Most Popular</div>
+          <h3 class="package-name">Recovery+</h3>
+          <div class="package-price">$890<span class="package-price-period">/week</span></div>
+          <div class="package-min">Minimum 2 weeks</div>
+          <p class="package-desc">Comprehensive support for a smoother fourth trimester.</p>
+          <ul class="package-features">
+            <li>7 prepared meals per week</li>
+            <li>2x weekly home care</li>
+            <li>1 overnight support session</li>
+            <li>Lactation consultation</li>
+            <li>4 hours life admin</li>
+            <li>Dedicated support coordinator</li>
+          </ul>
+          <a href="#contact" class="btn btn-solid">Get Started</a>
+        </div>
+        <div class="package-card reveal reveal-delay-2">
+          <h3 class="package-name">Full Village</h3>
+          <div class="package-price">$1,490<span class="package-price-period">/week</span></div>
+          <div class="package-min">Minimum 2 weeks</div>
+          <p class="package-desc">The complete support ecosystem — nothing falls through the cracks.</p>
+          <ul class="package-features">
+            <li>Daily prepared meals</li>
+            <li>3x weekly home care</li>
+            <li>2 overnight sessions</li>
+            <li>Lactation + psych sessions</li>
+            <li>Unlimited life admin</li>
+            <li>24/7 coordinator access</li>
+            <li>Partner support session</li>
+          </ul>
+          <a href="#contact" class="btn btn-ghost">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       9. TESTIMONIALS
+       ============================================================ -->
+  <section class="section section--bg" id="testimonials">
+    <div class="container">
+      <div class="testimonials-wrapper">
+        <div class="testimonial-slide active" data-index="0">
+          <span class="testimonial-quote-mark">&ldquo;</span>
+          <p class="testimonial-text">I didn't know what I needed until it arrived. The meals, the clean house, someone holding the baby at 3am so I could sleep — it changed everything. I went from surviving to actually being present.</p>
+          <div class="testimonial-author">Sarah M.</div>
+          <div class="testimonial-role">First-time mother, Fitzroy</div>
+        </div>
+        <div class="testimonial-slide" data-index="1">
+          <span class="testimonial-quote-mark">&ldquo;</span>
+          <p class="testimonial-text">We gifted this to my sister instead of a baby shower. She called me crying — said it was the only thing that actually helped. The overnight support alone was worth everything.</p>
+          <div class="testimonial-author">James T.</div>
+          <div class="testimonial-role">Uncle &amp; gift giver, South Yarra</div>
+        </div>
+        <div class="testimonial-slide" data-index="2">
+          <span class="testimonial-quote-mark">&ldquo;</span>
+          <p class="testimonial-text">As a single mum with no family nearby, I thought I'd just have to push through alone. Your Village gave me the safety net I didn't think existed. I could finally breathe.</p>
+          <div class="testimonial-author">Priya K.</div>
+          <div class="testimonial-role">Second-time mother, Brunswick</div>
+        </div>
+        <div class="testimonial-dots">
+          <button class="testimonial-dot active" data-index="0" aria-label="Testimonial 1"></button>
+          <button class="testimonial-dot" data-index="1" aria-label="Testimonial 2"></button>
+          <button class="testimonial-dot" data-index="2" aria-label="Testimonial 3"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       10. WHY YOUR VILLAGE / DIFFERENTIATOR
+       ============================================================ -->
+  <section class="section section--dark" id="why-us">
+    <div class="container">
+      <div class="diff-grid">
+        <div class="diff-content reveal">
+          <div class="eyebrow">Why Your Village</div>
+          <h2>Not another doula service. A complete support system.</h2>
+          <p>Most postpartum services offer a single person for a few hours. We orchestrate an entire ecosystem of support around you — proactively, consistently, and without you needing to ask.</p>
+        </div>
+        <div class="diff-features reveal reveal-delay-1">
+          <div class="diff-feature">
+            <h4>Proactive, Not Reactive</h4>
+            <p>Support arrives before you ask</p>
+          </div>
+          <div class="diff-feature">
+            <h4>Full Ecosystem</h4>
+            <p>Not one person — your whole village</p>
+          </div>
+          <div class="diff-feature">
+            <h4>Coordination Layer</h4>
+            <p>We manage friends, family &amp; professionals</p>
+          </div>
+          <div class="diff-feature">
+            <h4>Melbourne First</h4>
+            <p>Local network, local knowledge</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       11. GIFT THE VILLAGE
+       ============================================================ -->
+  <section class="section" id="gift">
+    <div class="container">
+      <div class="gift-grid">
+        <div class="gift-visual reveal">
+          <div class="gift-visual-title">The Modern Gift</div>
+          <div class="gift-visual-subtitle">A better baby shower</div>
+        </div>
+        <div class="gift-content reveal reveal-delay-1">
+          <div class="eyebrow">Gift The Village</div>
+          <h2>The most meaningful gift isn't another <em class="italic">onesie</em>.</h2>
+          <p>Skip the registry. Gift practical, coordinated postpartum support that new parents actually need. Choose a package or create a custom village — delivered as a beautifully designed digital card.</p>
+          <a href="#contact" class="btn btn-solid">Send a Gift<span class="arrow">&thinsp;&#8594;</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       12. CONTACT / LEAD CAPTURE
+       ============================================================ -->
+  <section class="section section--dark" id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <h2>Let's build your <em class="italic">village</em>.</h2>
+          <p>Tell us a little about your situation. We'll follow up within 24 hours with a personalised recommendation — no obligation, no pressure.</p>
+          <div class="contact-detail"><a href="mailto:hello@yourvillage.com.au">hello@yourvillage.com.au</a></div>
+          <div class="contact-detail">Melbourne, Australia</div>
+        </div>
+        <form class="contact-form reveal reveal-delay-1" id="contact-form">
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label" for="first-name">First Name</label>
+              <input type="text" id="first-name" name="first_name" class="form-input" required>
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="last-name">Last Name</label>
+              <input type="text" id="last-name" name="last_name" class="form-input" required>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-input" required>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" class="form-input">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="journey">Where are you in your journey?</label>
+            <select id="journey" name="journey" class="form-select" required>
+              <option value="" disabled selected>Select one</option>
+              <option value="expecting">Currently expecting</option>
+              <option value="first-two-weeks">First two weeks postpartum</option>
+              <option value="2-8-weeks">2–8 weeks postpartum</option>
+              <option value="beyond-8-weeks">Beyond 8 weeks</option>
+              <option value="gifting">Gifting for someone else</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="interest">What support interests you?</label>
+            <select id="interest" name="interest" class="form-select" required>
+              <option value="" disabled selected>Select one</option>
+              <option value="essentials">Essentials package</option>
+              <option value="recovery-plus">Recovery+ package</option>
+              <option value="full-village">Full Village package</option>
+              <option value="individual">Individual services</option>
+              <option value="gift">Gift support</option>
+              <option value="not-sure">Not sure yet — help me decide</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-accent">Send Enquiry<span class="arrow">&thinsp;&#8594;</span></button>
+        </form>
+        <div class="form-success" id="form-success">
+          <h3 style="color:var(--text-inverse);margin-bottom:1rem;">Thank you</h3>
+          <p>We've received your enquiry and will be in touch within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       13. FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Your Village</div>
+          <p class="footer-tagline">Modern postpartum support, beautifully coordinated. Melbourne, Australia.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Support</div>
+          <ul class="footer-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#packages">Packages</a></li>
+            <li><a href="#gift">Gift</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="/about">About</a></li>
+            <li><a href="#">Our Providers</a></li>
+            <li><a href="#">Journal</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Connect</div>
+          <ul class="footer-links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="mailto:hello@yourvillage.com.au">Email</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Your Village. All rights reserved.</span>
+        <span>Melbourne, Australia &middot; ABN XX XXX XXX XXX</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
   <script>
-    // --- Navigation scroll effect ---
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 40);
-    }, { passive: true });
-
-    // --- FAQ Accordion ---
-    document.querySelectorAll('.faq-question').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.parentElement;
-        const answer = item.querySelector('.faq-answer');
-        const isOpen = item.classList.contains('open');
-
-        // Close all
-        document.querySelectorAll('.faq-item.open').forEach(openItem => {
-          openItem.classList.remove('open');
-          openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-          openItem.querySelector('.faq-answer').style.maxHeight = null;
-        });
-
-        // Open clicked if it was closed
-        if (!isOpen) {
-          item.classList.add('open');
-          btn.setAttribute('aria-expanded', 'true');
-          answer.style.maxHeight = answer.scrollHeight + 'px';
-        }
-      });
-    });
-
-    // --- Smooth scroll for nav links ---
-    document.querySelectorAll('.nav-links a, .footer-links a[href^="#"], .nav-mobile a[href^="#"]').forEach(link => {
-      link.addEventListener('click', (e) => {
-        const href = link.getAttribute('href');
-        if (href.startsWith('#')) {
-          e.preventDefault();
-          const target = document.querySelector(href);
-          if (target) target.scrollIntoView({ behavior: 'smooth' });
-          // Close mobile menu if open
-          document.getElementById('nav-mobile').classList.remove('open');
-          document.getElementById('nav-hamburger').setAttribute('aria-expanded', 'false');
-        }
-      });
-    });
-
-    // --- Mobile hamburger menu ---
-    const hamburger = document.getElementById('nav-hamburger');
-    const mobileMenu = document.getElementById('nav-mobile');
-    hamburger.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.toggle('open');
-      hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-
-    // --- Stats: scroll-triggered fade-in + count-up ---
+    // --- Theme Toggle ---
     (function() {
-      const grid = document.getElementById('stats-grid');
-      if (!grid) return;
+      var toggle = document.getElementById('theme-toggle');
+      toggle.addEventListener('click', function() {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+    })();
 
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const cards = grid.querySelectorAll('.stats-card');
-      const counters = grid.querySelectorAll('.stats-number[data-target]');
+    // --- Navigation Scroll Effect ---
+    (function() {
+      var nav = document.getElementById('nav');
+      window.addEventListener('scroll', function() {
+        nav.classList.toggle('scrolled', window.scrollY > 40);
+      }, { passive: true });
+    })();
 
-      // If reduced motion, show everything immediately with final values
-      if (prefersReduced) {
-        cards.forEach(c => c.classList.add('visible'));
-        counters.forEach(el => {
-          const target = parseFloat(el.dataset.target);
-          const decimals = parseInt(el.dataset.decimals || '0', 10);
-          const suffix = el.dataset.suffix || '';
-          el.textContent = formatNumber(target, decimals) + suffix;
+    // --- Mobile Hamburger Menu ---
+    (function() {
+      var hamburger = document.getElementById('nav-hamburger');
+      var mobile = document.getElementById('nav-mobile');
+      hamburger.addEventListener('click', function() {
+        var isOpen = mobile.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    })();
+
+    // --- Smooth Scroll for Anchor Links ---
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var href = link.getAttribute('href');
+        if (href.length > 1) {
+          var target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+            // Close mobile menu
+            document.getElementById('nav-mobile').classList.remove('open');
+            document.getElementById('nav-hamburger').setAttribute('aria-expanded', 'false');
+          }
+        }
+      });
+    });
+
+    // --- Scroll Reveal (IntersectionObserver) ---
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+      if (!reveals.length) return;
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
         });
-        return;
-      }
+      }, { threshold: 0.15 });
+      reveals.forEach(function(el) { observer.observe(el); });
+    })();
 
-      function formatNumber(n, decimals) {
-        if (decimals > 0) return n.toFixed(decimals);
-        return n.toLocaleString('en-AU');
+    // --- Stats Counter Animation ---
+    (function() {
+      var grid = document.getElementById('stats-grid');
+      if (!grid) return;
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var counters = grid.querySelectorAll('.stats-number[data-target]');
+
+      function formatNumber(n, hasSeparator) {
+        if (hasSeparator) return n.toLocaleString('en-AU');
+        return String(n);
       }
 
       function countUp(el) {
-        const target = parseFloat(el.dataset.target);
-        const decimals = parseInt(el.dataset.decimals || '0', 10);
-        const suffix = el.dataset.suffix || '';
-        const duration = 2000;
-        const start = performance.now();
+        var target = parseFloat(el.dataset.target);
+        var suffix = el.dataset.suffix || '';
+        var hasSeparator = el.dataset.separator === ',';
+        var isInt = target === Math.floor(target);
+        var duration = 1600;
+        var start = performance.now();
 
         function tick(now) {
-          const elapsed = now - start;
-          const progress = Math.min(elapsed / duration, 1);
-          // Ease-out cubic for a gentle deceleration
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const current = eased * target;
-
-          el.textContent = formatNumber(current, decimals) + suffix;
-
+          var elapsed = now - start;
+          var progress = Math.min(elapsed / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          var current = eased * target;
+          if (isInt) current = Math.round(current);
+          el.textContent = formatNumber(isInt ? current : Math.round(current), hasSeparator) + suffix;
           if (progress < 1) {
             requestAnimationFrame(tick);
           } else {
-            el.textContent = formatNumber(target, decimals) + suffix;
+            el.textContent = formatNumber(target, hasSeparator) + suffix;
           }
         }
 
-        requestAnimationFrame(tick);
+        if (prefersReduced) {
+          el.textContent = formatNumber(target, hasSeparator) + suffix;
+        } else {
+          requestAnimationFrame(tick);
+        }
       }
 
-      const observer = new IntersectionObserver(function(entries) {
+      var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
-            cards.forEach(c => c.classList.add('visible'));
-            counters.forEach(el => countUp(el));
+            counters.forEach(countUp);
             observer.disconnect();
           }
         });
       }, { threshold: 0.2 });
-
       observer.observe(grid);
+    })();
+
+    // --- Service Filter ---
+    (function() {
+      var btns = document.querySelectorAll('.filter-btn');
+      var cards = document.querySelectorAll('.service-card');
+      btns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          btns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          var filter = btn.dataset.filter;
+          cards.forEach(function(card) {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+    })();
+
+    // --- Testimonial Carousel ---
+    (function() {
+      var slides = document.querySelectorAll('.testimonial-slide');
+      var dots = document.querySelectorAll('.testimonial-dot');
+      if (!slides.length) return;
+      var current = 0;
+      var interval;
+
+      function showSlide(i) {
+        slides.forEach(function(s) { s.classList.remove('active'); });
+        dots.forEach(function(d) { d.classList.remove('active'); });
+        slides[i].classList.add('active');
+        dots[i].classList.add('active');
+        current = i;
+      }
+
+      function advance() {
+        showSlide((current + 1) % slides.length);
+      }
+
+      function startInterval() {
+        interval = setInterval(advance, 5000);
+      }
+
+      dots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+          clearInterval(interval);
+          showSlide(parseInt(dot.dataset.index));
+          startInterval();
+        });
+      });
+
+      // Pause on hover
+      var wrapper = document.querySelector('.testimonials-wrapper');
+      if (wrapper) {
+        wrapper.addEventListener('mouseenter', function() { clearInterval(interval); });
+        wrapper.addEventListener('mouseleave', function() { startInterval(); });
+      }
+
+      startInterval();
+    })();
+
+    // --- Contact Form ---
+    (function() {
+      var form = document.getElementById('contact-form');
+      var success = document.getElementById('form-success');
+      if (!form) return;
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Collect form data
+        var data = {};
+        new FormData(form).forEach(function(value, key) { data[key] = value; });
+        data.submitted_at = new Date().toISOString();
+
+        // In production, POST to your webhook:
+        // fetch('YOUR_WEBHOOK_URL', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+
+        // Show success
+        form.style.display = 'none';
+        success.classList.add('show');
+      });
     })();
   </script>
 </body>

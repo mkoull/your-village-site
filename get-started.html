@@ -13,50 +13,59 @@
   <meta property="og:locale" content="en_AU">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+  </script>
 </head>
 <body>
-  <div class="page-wrapper form-page">
 
-    <!-- Navigation -->
-    <nav class="nav scrolled">
-      <div class="nav-inner">
-        <a href="/" class="nav-logo">
-          <svg class="nav-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true" width="28" height="28">
-            <circle cx="32" cy="10" r="5.5" fill="#8FAF8F" opacity="0.85"/>
-            <circle cx="51" cy="21" r="5.5" fill="#8FAF8F" opacity="0.75"/>
-            <circle cx="51" cy="43" r="5.5" fill="#8FAF8F" opacity="0.65"/>
-            <circle cx="32" cy="54" r="5.5" fill="#8FAF8F" opacity="0.80"/>
-            <circle cx="13" cy="43" r="5.5" fill="#8FAF8F" opacity="0.70"/>
-            <circle cx="13" cy="21" r="5.5" fill="#8FAF8F" opacity="0.78"/>
-            <circle cx="32" cy="32" r="7" fill="#EDE8DF"/>
-          </svg>
-          <span class="nav-wordmark">Your Village</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="/#how-it-works">How it works</a></li>
-          <li><a href="/#trust">Trust</a></li>
-          <li><a href="/#support">Packages</a></li>
-          <li><a href="/#faq">FAQ</a></li>
-        </ul>
-        <div class="nav-cta" style="visibility: hidden;">
-          <span class="btn btn-primary btn-sm">Get support</span>
-        </div>
-        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+  <!-- Navigation -->
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" width="26" height="26">
+          <circle cx="32" cy="10" r="5.5" fill="#8B7355" opacity="0.85"/>
+          <circle cx="51" cy="21" r="5.5" fill="#8B7355" opacity="0.75"/>
+          <circle cx="51" cy="43" r="5.5" fill="#8B7355" opacity="0.65"/>
+          <circle cx="32" cy="54" r="5.5" fill="#8B7355" opacity="0.80"/>
+          <circle cx="13" cy="43" r="5.5" fill="#8B7355" opacity="0.70"/>
+          <circle cx="13" cy="21" r="5.5" fill="#8B7355" opacity="0.78"/>
+          <circle cx="32" cy="32" r="7" fill="#FAF8F5"/>
+        </svg>
+        <span class="nav-wordmark">Your Village</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/#how-it-works">How It Works</a></li>
+        <li><a href="/#services">Services</a></li>
+        <li><a href="/#packages">Packages</a></li>
+        <li><a href="/#gift">Gift</a></li>
+        <li><a href="/#why-us">Why Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
         </button>
+        <span class="btn btn-solid btn-sm" style="visibility:hidden;">Get Started</span>
       </div>
-      <div class="nav-mobile" id="nav-mobile">
-        <a href="/#how-it-works">How it works</a>
-        <a href="/#trust">Trust</a>
-        <a href="/#support">Packages</a>
-        <a href="/#faq">FAQ</a>
-      </div>
-    </nav>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="/#how-it-works">How It Works</a>
+      <a href="/#services">Services</a>
+      <a href="/#packages">Packages</a>
+      <a href="/#gift">Gift</a>
+      <a href="/#why-us">Why Us</a>
+    </div>
+  </nav>
 
-    <!-- Header -->
+  <!-- Header -->
+  <div class="form-page">
     <header class="form-header">
       <h1>Tell us about your family.</h1>
       <p>This takes about three minutes. A member of our team will be in touch within a few hours.</p>
@@ -69,46 +78,46 @@
         <!-- Step 1: Baby Stage -->
         <div class="form-step active" data-step="1">
           <div class="form-progress">1 of 6</div>
-          <label class="form-label" for="baby-date">When did your baby arrive, or when are they due or expected?</label>
+          <label class="intake-label" for="baby-date">When did your baby arrive, or when are they due or expected?</label>
           <p class="form-sublabel">An approximate answer is fine.</p>
           <input
             type="text"
             id="baby-date"
             name="baby_date"
-            class="form-input"
+            class="intake-input"
             placeholder="e.g. Due in April, or about 3 weeks ago"
             required
           >
           <div class="field-error" id="error-baby-date">We'll need this to understand where you're at.</div>
           <div class="form-nav">
             <div></div>
-            <button type="button" class="btn btn-primary" data-next>Continue<span class="arrow">&thinsp;→</span></button>
+            <button type="button" class="btn btn-solid" data-next>Continue<span class="arrow">&thinsp;&#8594;</span></button>
           </div>
         </div>
 
         <!-- Step 2: Suburb -->
         <div class="form-step" data-step="2">
           <div class="form-progress">2 of 6</div>
-          <label class="form-label" for="suburb">What suburb are you in?</label>
+          <label class="intake-label" for="suburb">What suburb are you in?</label>
           <input
             type="text"
             id="suburb"
             name="suburb"
-            class="form-input"
+            class="intake-input"
             placeholder="e.g. Richmond, Collingwood, Hawthorn"
             required
           >
           <div class="field-error" id="error-suburb">We need this to match you with providers nearby.</div>
           <div class="form-nav">
-            <button type="button" class="form-nav-back" data-back><span class="arrow">←</span>&thinsp;Back</button>
-            <button type="button" class="btn btn-primary" data-next>Continue<span class="arrow">&thinsp;→</span></button>
+            <button type="button" class="form-nav-back" data-back><span class="arrow">&#8592;</span>&thinsp;Back</button>
+            <button type="button" class="btn btn-solid" data-next>Continue<span class="arrow">&thinsp;&#8594;</span></button>
           </div>
         </div>
 
         <!-- Step 3: What feels hardest (multi-select) -->
         <div class="form-step" data-step="3">
           <div class="form-progress">3 of 6</div>
-          <label class="form-label">What's feeling hardest right now?</label>
+          <label class="intake-label">What's feeling hardest right now?</label>
           <p class="form-sublabel">Choose as many as feel right.</p>
           <div class="option-group">
             <div class="option-item">
@@ -163,15 +172,15 @@
           </div>
           <div class="field-error" id="error-needs">Please select at least one option so we can understand how to help.</div>
           <div class="form-nav">
-            <button type="button" class="form-nav-back" data-back><span class="arrow">←</span>&thinsp;Back</button>
-            <button type="button" class="btn btn-primary" data-next>Continue<span class="arrow">&thinsp;→</span></button>
+            <button type="button" class="form-nav-back" data-back><span class="arrow">&#8592;</span>&thinsp;Back</button>
+            <button type="button" class="btn btn-solid" data-next>Continue<span class="arrow">&thinsp;&#8594;</span></button>
           </div>
         </div>
 
         <!-- Step 4: Support network (single select) -->
         <div class="form-step" data-step="4">
           <div class="form-progress">4 of 6</div>
-          <label class="form-label">Do you have family or close friends nearby who are helping regularly?</label>
+          <label class="intake-label">Do you have family or close friends nearby who are helping regularly?</label>
           <div class="option-group">
             <div class="option-item">
               <input type="radio" id="support-yes" name="support_network" value="Yes, regular support nearby" required>
@@ -197,15 +206,15 @@
           </div>
           <div class="field-error" id="error-support">Please select one option.</div>
           <div class="form-nav">
-            <button type="button" class="form-nav-back" data-back><span class="arrow">←</span>&thinsp;Back</button>
-            <button type="button" class="btn btn-primary" data-next>Continue<span class="arrow">&thinsp;→</span></button>
+            <button type="button" class="form-nav-back" data-back><span class="arrow">&#8592;</span>&thinsp;Back</button>
+            <button type="button" class="btn btn-solid" data-next>Continue<span class="arrow">&thinsp;&#8594;</span></button>
           </div>
         </div>
 
         <!-- Step 5: Contact preference (single select) -->
         <div class="form-step" data-step="5">
           <div class="form-progress">5 of 6</div>
-          <label class="form-label">How would you prefer we get in touch?</label>
+          <label class="intake-label">How would you prefer we get in touch?</label>
           <div class="option-group">
             <div class="option-item">
               <input type="radio" id="contact-whatsapp" name="contact_preference" value="WhatsApp" required>
@@ -238,35 +247,35 @@
           </div>
           <div class="field-error" id="error-contact">Please let us know how you'd like to hear from us.</div>
           <div class="form-nav">
-            <button type="button" class="form-nav-back" data-back><span class="arrow">←</span>&thinsp;Back</button>
-            <button type="button" class="btn btn-primary" data-next>Continue<span class="arrow">&thinsp;→</span></button>
+            <button type="button" class="form-nav-back" data-back><span class="arrow">&#8592;</span>&thinsp;Back</button>
+            <button type="button" class="btn btn-solid" data-next>Continue<span class="arrow">&thinsp;&#8594;</span></button>
           </div>
         </div>
 
         <!-- Step 6: Contact details -->
         <div class="form-step" data-step="6">
           <div class="form-progress">6 of 6</div>
-          <label class="form-label">Last step. How can we reach you?</label>
+          <label class="intake-label">Last step. How can we reach you?</label>
           <div class="field-group">
             <div>
               <label for="first-name" class="field-label-inline">First name</label>
-              <input type="text" id="first-name" name="first_name" class="form-input" placeholder="Your first name" required>
+              <input type="text" id="first-name" name="first_name" class="intake-input" placeholder="Your first name" required>
               <div class="field-error" id="error-name">We'll need your name so we can introduce ourselves properly.</div>
             </div>
             <div>
               <label for="email" class="field-label-inline">Email</label>
-              <input type="email" id="email" name="email" class="form-input" placeholder="you@email.com" required>
+              <input type="email" id="email" name="email" class="intake-input" placeholder="you@email.com" required>
               <div class="field-error" id="error-email">We'll need your email so we can send you a confirmation.</div>
             </div>
             <div>
               <label for="phone" class="field-label-inline">Phone number</label>
-              <input type="tel" id="phone" name="phone" class="form-input" placeholder="04XX XXX XXX" required>
+              <input type="tel" id="phone" name="phone" class="intake-input" placeholder="04XX XXX XXX" required>
               <div class="field-error" id="error-phone">We'll need a phone number so your coordinator can get in touch.</div>
             </div>
           </div>
           <div class="form-nav">
-            <button type="button" class="form-nav-back" data-back><span class="arrow">←</span>&thinsp;Back</button>
-            <button type="submit" class="btn btn-primary" id="submit-btn">Send<span class="arrow">&thinsp;→</span></button>
+            <button type="button" class="form-nav-back" data-back><span class="arrow">&#8592;</span>&thinsp;Back</button>
+            <button type="submit" class="btn btn-solid" id="submit-btn">Send<span class="arrow">&thinsp;&#8594;</span></button>
           </div>
         </div>
 
@@ -279,245 +288,243 @@
         </div>
         <h2>Thank you.</h2>
         <p>A member of our team will be in touch within a few hours to listen to what you need and start putting your support in place.</p>
-        <p style="color: var(--text-muted); margin-top: var(--space-md);">You don't need to do anything else right now.</p>
-        <a href="/" class="btn btn-secondary mt-lg">Back to home</a>
+        <p style="color: var(--text-secondary); margin-top: 24px;">You don't need to do anything else right now.</p>
+        <a href="/" class="btn btn-ghost" style="margin-top: 32px;">Back to home</a>
       </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer" style="margin-top: auto;">
-      <div class="footer-inner">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <div class="footer-wordmark">Your Village</div>
-            <div class="footer-tagline">Postpartum support coordination for new families.</div>
-            <div class="footer-copy">© 2026 Your Village. All rights reserved.</div>
-          </div>
-          <div class="footer-nav">
-            <div class="footer-col-heading">Navigate</div>
-            <a href="/">Home</a>
-            <a href="/#how-it-works">How it works</a>
-            <a href="/#support">Packages</a>
-            <a href="/#faq">FAQ</a>
-            <a href="/about">About</a>
-          </div>
-          <div class="footer-contact-col">
-            <div class="footer-col-heading">Get in touch</div>
-            <a href="mailto:hello@yourvillage.com.au">hello@yourvillage.com.au</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-
   </div>
 
+  <!-- Footer -->
+  <footer class="footer" style="margin-top: auto;">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Your Village</div>
+          <p class="footer-tagline">Modern postpartum support, beautifully coordinated. Melbourne, Australia.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Support</div>
+          <ul class="footer-links">
+            <li><a href="/#services">Services</a></li>
+            <li><a href="/#packages">Packages</a></li>
+            <li><a href="/#gift">Gift</a></li>
+            <li><a href="/#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="/about">About</a></li>
+            <li><a href="#">Our Providers</a></li>
+            <li><a href="#">Journal</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Connect</div>
+          <ul class="footer-links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="mailto:hello@yourvillage.com.au">Email</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Your Village. All rights reserved.</span>
+        <span>Melbourne, Australia &middot; ABN XX XXX XXX XXX</span>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    const form = document.getElementById('intake-form');
-    const steps = document.querySelectorAll('.form-step');
-    const confirmation = document.getElementById('confirmation');
-    let currentStep = 1;
-    const totalSteps = steps.length;
-
-    // Show a specific step
-    function showStep(n) {
-      steps.forEach(s => s.classList.remove('active'));
-      const target = document.querySelector(`[data-step="${n}"]`);
-      if (target) {
-        target.classList.add('active');
-        currentStep = n;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        // Focus first input
-        const firstInput = target.querySelector('input:not([type="hidden"])');
-        if (firstInput && firstInput.type !== 'checkbox' && firstInput.type !== 'radio') {
-          setTimeout(() => firstInput.focus(), 100);
-        }
-      }
-    }
-
-    // Validate current step
-    function validateStep(stepNum) {
-      // Clear errors
-      document.querySelectorAll('.field-error').forEach(e => e.classList.remove('visible'));
-      document.querySelectorAll('.form-input').forEach(e => e.classList.remove('error'));
-
-      const step = document.querySelector(`[data-step="${stepNum}"]`);
-
-      if (stepNum === 1) {
-        const val = document.getElementById('baby-date').value.trim();
-        if (!val) {
-          document.getElementById('baby-date').classList.add('error');
-          document.getElementById('error-baby-date').classList.add('visible');
-          return false;
-        }
-      }
-
-      if (stepNum === 2) {
-        const val = document.getElementById('suburb').value.trim();
-        if (!val) {
-          document.getElementById('suburb').classList.add('error');
-          document.getElementById('error-suburb').classList.add('visible');
-          return false;
-        }
-      }
-
-      if (stepNum === 3) {
-        const checked = step.querySelectorAll('input[name="needs"]:checked');
-        if (checked.length === 0) {
-          document.getElementById('error-needs').classList.add('visible');
-          return false;
-        }
-      }
-
-      if (stepNum === 4) {
-        const checked = step.querySelector('input[name="support_network"]:checked');
-        if (!checked) {
-          document.getElementById('error-support').classList.add('visible');
-          return false;
-        }
-      }
-
-      if (stepNum === 5) {
-        const checked = step.querySelector('input[name="contact_preference"]:checked');
-        if (!checked) {
-          document.getElementById('error-contact').classList.add('visible');
-          return false;
-        }
-      }
-
-      if (stepNum === 6) {
-        let valid = true;
-        const name = document.getElementById('first-name');
-        const email = document.getElementById('email');
-        const phone = document.getElementById('phone');
-
-        if (!name.value.trim()) {
-          name.classList.add('error');
-          document.getElementById('error-name').classList.add('visible');
-          valid = false;
-        }
-        if (!email.value.trim() || !email.value.includes('@')) {
-          email.classList.add('error');
-          document.getElementById('error-email').classList.add('visible');
-          valid = false;
-        }
-        if (!phone.value.trim()) {
-          phone.classList.add('error');
-          document.getElementById('error-phone').classList.add('visible');
-          valid = false;
-        }
-        return valid;
-      }
-
-      return true;
-    }
-
-    // Next buttons
-    document.querySelectorAll('[data-next]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (validateStep(currentStep)) {
-          showStep(currentStep + 1);
+    // --- Theme Toggle ---
+    (function() {
+      var toggle = document.getElementById('theme-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function() {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
         }
       });
-    });
+    })();
 
-    // Back buttons
-    document.querySelectorAll('[data-back]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        showStep(currentStep - 1);
-      });
-    });
-
-    // Allow Enter key to advance
-    document.querySelectorAll('.form-input').forEach(input => {
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const nextBtn = input.closest('.form-step').querySelector('[data-next]');
-          if (nextBtn) nextBtn.click();
-        }
-      });
-    });
-
-    // Form submission
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      if (!validateStep(6)) return;
-
-      const submitBtn = document.getElementById('submit-btn');
-      submitBtn.textContent = 'Sending...';
-      submitBtn.disabled = true;
-
-      // Collect form data
-      const data = {
-        baby_date: document.getElementById('baby-date').value,
-        suburb: document.getElementById('suburb').value,
-        needs: Array.from(document.querySelectorAll('input[name="needs"]:checked')).map(c => c.value),
-        support_network: document.querySelector('input[name="support_network"]:checked')?.value,
-        contact_preference: document.querySelector('input[name="contact_preference"]:checked')?.value,
-        first_name: document.getElementById('first-name').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        submitted_at: new Date().toISOString()
-      };
-
-      // -----------------------------------------------------------
-      // BACKEND INTEGRATION POINT
-      //
-      // Replace this block with your actual submission handler.
-      // Options:
-      //
-      // 1. Zapier Webhook:
-      //    fetch('https://hooks.zapier.com/hooks/catch/YOUR_ID/', {
-      //      method: 'POST',
-      //      body: JSON.stringify(data)
-      //    });
-      //
-      // 2. Make (Integromat) Webhook:
-      //    fetch('https://hook.us1.make.com/YOUR_ID', {
-      //      method: 'POST',
-      //      headers: { 'Content-Type': 'application/json' },
-      //      body: JSON.stringify(data)
-      //    });
-      //
-      // 3. Netlify Forms (add netlify attribute to <form>):
-      //    Form data auto-captured, accessible in Netlify dashboard.
-      //
-      // 4. Google Sheets via Apps Script:
-      //    Deploy a web app endpoint, POST data to it.
-      //
-      // The Zapier route is recommended for MVP as it connects
-      // directly to Airtable + Slack + email in a single automation.
-      // -----------------------------------------------------------
-
-      // PASTE YOUR ZAPIER WEBHOOK URL BELOW
-      try {
-        await fetch('YOUR_ZAPIER_WEBHOOK_URL', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-      } catch (err) {
-        // Show confirmation regardless — we don't want a network
-        // hiccup to leave a tired parent staring at a broken form.
-        // Failed submissions can be recovered from server logs.
-        console.error('Submission error:', err);
-      }
-
-      form.style.display = 'none';
-      confirmation.style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Mobile hamburger
-    const hamburger = document.getElementById('nav-hamburger');
-    const mobileMenu = document.getElementById('nav-mobile');
-    if (hamburger && mobileMenu) {
-      hamburger.addEventListener('click', () => {
-        const isOpen = mobileMenu.classList.toggle('open');
+    // --- Mobile Hamburger Menu ---
+    (function() {
+      var hamburger = document.getElementById('nav-hamburger');
+      var mobile = document.getElementById('nav-mobile');
+      if (!hamburger || !mobile) return;
+      hamburger.addEventListener('click', function() {
+        var isOpen = mobile.classList.toggle('open');
         hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
-    }
+    })();
+
+    // --- Intake Form Logic ---
+    (function() {
+      var form = document.getElementById('intake-form');
+      var steps = document.querySelectorAll('.form-step');
+      var confirmation = document.getElementById('confirmation');
+      var currentStep = 1;
+
+      function showStep(n) {
+        steps.forEach(function(s) { s.classList.remove('active'); });
+        var target = document.querySelector('[data-step="' + n + '"]');
+        if (target) {
+          target.classList.add('active');
+          currentStep = n;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          var firstInput = target.querySelector('input:not([type="hidden"])');
+          if (firstInput && firstInput.type !== 'checkbox' && firstInput.type !== 'radio') {
+            setTimeout(function() { firstInput.focus(); }, 100);
+          }
+        }
+      }
+
+      function validateStep(stepNum) {
+        document.querySelectorAll('.field-error').forEach(function(e) { e.classList.remove('visible'); });
+        document.querySelectorAll('.intake-input').forEach(function(e) { e.classList.remove('error'); });
+
+        var step = document.querySelector('[data-step="' + stepNum + '"]');
+
+        if (stepNum === 1) {
+          var val = document.getElementById('baby-date').value.trim();
+          if (!val) {
+            document.getElementById('baby-date').classList.add('error');
+            document.getElementById('error-baby-date').classList.add('visible');
+            return false;
+          }
+        }
+
+        if (stepNum === 2) {
+          var val = document.getElementById('suburb').value.trim();
+          if (!val) {
+            document.getElementById('suburb').classList.add('error');
+            document.getElementById('error-suburb').classList.add('visible');
+            return false;
+          }
+        }
+
+        if (stepNum === 3) {
+          var checked = step.querySelectorAll('input[name="needs"]:checked');
+          if (checked.length === 0) {
+            document.getElementById('error-needs').classList.add('visible');
+            return false;
+          }
+        }
+
+        if (stepNum === 4) {
+          var checked = step.querySelector('input[name="support_network"]:checked');
+          if (!checked) {
+            document.getElementById('error-support').classList.add('visible');
+            return false;
+          }
+        }
+
+        if (stepNum === 5) {
+          var checked = step.querySelector('input[name="contact_preference"]:checked');
+          if (!checked) {
+            document.getElementById('error-contact').classList.add('visible');
+            return false;
+          }
+        }
+
+        if (stepNum === 6) {
+          var valid = true;
+          var name = document.getElementById('first-name');
+          var email = document.getElementById('email');
+          var phone = document.getElementById('phone');
+
+          if (!name.value.trim()) {
+            name.classList.add('error');
+            document.getElementById('error-name').classList.add('visible');
+            valid = false;
+          }
+          if (!email.value.trim() || !email.value.includes('@')) {
+            email.classList.add('error');
+            document.getElementById('error-email').classList.add('visible');
+            valid = false;
+          }
+          if (!phone.value.trim()) {
+            phone.classList.add('error');
+            document.getElementById('error-phone').classList.add('visible');
+            valid = false;
+          }
+          return valid;
+        }
+
+        return true;
+      }
+
+      // Next buttons
+      document.querySelectorAll('[data-next]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          if (validateStep(currentStep)) {
+            showStep(currentStep + 1);
+          }
+        });
+      });
+
+      // Back buttons
+      document.querySelectorAll('[data-back]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          showStep(currentStep - 1);
+        });
+      });
+
+      // Allow Enter key to advance
+      document.querySelectorAll('.intake-input').forEach(function(input) {
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            var nextBtn = input.closest('.form-step').querySelector('[data-next]');
+            if (nextBtn) nextBtn.click();
+          }
+        });
+      });
+
+      // Form submission
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        if (!validateStep(6)) return;
+
+        var submitBtn = document.getElementById('submit-btn');
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
+        var data = {
+          baby_date: document.getElementById('baby-date').value,
+          suburb: document.getElementById('suburb').value,
+          needs: Array.from(document.querySelectorAll('input[name="needs"]:checked')).map(function(c) { return c.value; }),
+          support_network: document.querySelector('input[name="support_network"]:checked')?.value,
+          contact_preference: document.querySelector('input[name="contact_preference"]:checked')?.value,
+          first_name: document.getElementById('first-name').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          submitted_at: new Date().toISOString()
+        };
+
+        // PASTE YOUR ZAPIER WEBHOOK URL BELOW
+        try {
+          await fetch('YOUR_ZAPIER_WEBHOOK_URL', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+        } catch (err) {
+          console.error('Submission error:', err);
+        }
+
+        form.style.display = 'none';
+        confirmation.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
   </script>
 </body>
 </html>
