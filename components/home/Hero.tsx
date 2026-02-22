@@ -16,7 +16,7 @@ export default function Hero() {
         <h1 className="hero-reveal hero-reveal-2 text-display font-heading font-normal leading-[1.05] mb-10 tracking-[-0.03em]">
           You don&apos;t have to do
           <br />
-          <em className="text-sage font-light not-italic">this alone.</em>
+          <em className="hero-gradient-text font-light not-italic">this alone.</em>
         </h1>
 
         <p className="hero-reveal hero-reveal-3 text-body-lg text-text-muted max-w-md mx-auto mb-14 leading-[1.8]">

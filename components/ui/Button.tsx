@@ -23,9 +23,9 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-sage text-white hover:bg-sage-dark active:bg-sage-dark shadow-sm hover:shadow-md",
+    "btn-glow bg-sage text-white hover:bg-sage-dark active:bg-sage-dark shadow-sm hover:shadow-lg",
   secondary:
-    "border border-border text-text-body hover:border-sage hover:text-sage bg-transparent",
+    "border border-border text-text-body hover:border-sage hover:text-sage bg-transparent hover:shadow-sm",
   ghost:
     "text-text-body hover:text-sage bg-transparent",
 };
@@ -45,7 +45,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const classes = cn(
-    "inline-flex items-center justify-center gap-2 font-medium rounded-[100px] transition-all duration-200 ease-out hover:-translate-y-[1px] active:translate-y-0 focus-visible:outline-2 focus-visible:outline-sage focus-visible:outline-offset-2 cursor-pointer whitespace-nowrap",
+    "inline-flex items-center justify-center gap-2 font-medium rounded-[100px] transition-all duration-300 ease-out hover:-translate-y-[2px] active:translate-y-0 focus-visible:outline-2 focus-visible:outline-sage focus-visible:outline-offset-2 cursor-pointer whitespace-nowrap",
     variantStyles[variant],
     sizeStyles[size],
     className

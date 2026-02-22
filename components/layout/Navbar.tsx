@@ -7,7 +7,7 @@ import { useScrolled } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 
 const Logo = () => (
-  <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" width="26" height="26">
+  <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" width="26" height="26" className="nav-logo-icon">
     <circle cx="32" cy="10" r="5.5" fill="currentColor" opacity="0.85" />
     <circle cx="51" cy="21" r="5.5" fill="currentColor" opacity="0.75" />
     <circle cx="51" cy="43" r="5.5" fill="currentColor" opacity="0.65" />
@@ -145,7 +145,7 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 className={cn(
-                  "text-[15px] font-medium transition-colors hover:text-sage",
+                  "nav-link-animated text-[15px] font-medium transition-colors hover:text-sage",
                   pathname === link.href ? "text-sage" : "text-text-body"
                 )}
               >
@@ -159,7 +159,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/get-started"
-            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage text-white hover:bg-sage-dark transition-all duration-200 hover:-translate-y-[1px] shadow-sm hover:shadow-md"
+            className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage text-white hover:bg-sage-dark transition-all duration-300 hover:-translate-y-[1px] shadow-sm hover:shadow-md"
           >
             Talk to us
             <span aria-hidden="true">&rarr;</span>

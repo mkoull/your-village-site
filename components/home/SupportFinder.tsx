@@ -110,7 +110,7 @@ export default function SupportFinder() {
                     <button
                       key={option.value}
                       onClick={() => handleSelect(option.value)}
-                      className="p-5 rounded-[var(--radius-md)] border border-border text-left text-text-body hover:border-sage hover:text-sage transition-all duration-300 cursor-pointer font-medium text-[15px] hover:bg-sage/[0.03]"
+                      className="quiz-option p-5 rounded-[var(--radius-md)] border border-border text-left text-text-body cursor-pointer font-medium text-[15px]"
                     >
                       {option.label}
                     </button>

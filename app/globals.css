@@ -717,8 +717,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .constellation-section-center-ring {
   position: absolute;
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   border: 1.5px solid var(--color-sage);
   opacity: 0;
@@ -730,19 +730,19 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes constellationCenterRingIn {
   from { opacity: 0; transform: scale(0.3); }
-  to   { opacity: 0.4; transform: scale(1); }
+  to   { opacity: 0.5; transform: scale(1); }
 }
 
 @keyframes constellationCenterBreathe {
-  0%, 100% { transform: scale(1); opacity: 0.4; }
-  50%      { transform: scale(1.1); opacity: 0.2; }
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50%      { transform: scale(1.12); opacity: 0.25; }
 }
 
 .constellation-section-center-text {
   font-family: var(--font-heading);
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
-  font-weight: 400;
-  color: var(--color-text-primary);
+  font-size: clamp(1.15rem, 3vw, 1.5rem);
+  font-weight: 500;
+  color: var(--color-sage-dark);
   letter-spacing: -0.02em;
   line-height: 1.15;
   text-align: center;
@@ -750,11 +750,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .constellation-section-visual.active .constellation-section-center-text {
-  animation: constellationCenterTextIn 0.8s var(--ease-out) 0.2s forwards;
+  animation: constellationCenterTextIn 1s var(--ease-out) 0.2s forwards;
 }
 
 @keyframes constellationCenterTextIn {
-  from { opacity: 0; transform: scale(0.8); filter: blur(6px); }
+  from { opacity: 0; transform: scale(0.7); filter: blur(8px); }
   to   { opacity: 1; transform: scale(1); filter: blur(0); }
 }
 
@@ -875,9 +875,9 @@ h1, h2, h3, h4, h5, h6 {
 /* Node labels */
 .constellation-section-label {
   font-family: var(--font-body);
-  font-size: 0.6rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-sage);
   white-space: nowrap;
@@ -895,15 +895,15 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes constellationLabelReveal {
   from { opacity: 0; transform: translateY(6px); filter: blur(4px); }
-  to   { opacity: 0.6; transform: translateY(0); filter: blur(0); }
+  to   { opacity: 0.85; transform: translateY(0); filter: blur(0); }
 }
 
 /* Constellation responsive */
 @media (max-width: 768px) {
   .constellation-section-constellation { width: min(300px, 80vw); height: min(300px, 80vw); }
-  .constellation-section-label { font-size: 0.52rem; letter-spacing: 0.08em; }
-  .constellation-section-center-ring { width: 70px; height: 70px; }
-  .constellation-section-center-text { font-size: 0.95rem; }
+  .constellation-section-label { font-size: 0.56rem; letter-spacing: 0.08em; }
+  .constellation-section-center-ring { width: 85px; height: 85px; }
+  .constellation-section-center-text { font-size: 1.05rem; }
   .constellation-section-glow { width: 300px; height: 300px; }
 }
 
@@ -911,8 +911,8 @@ h1, h2, h3, h4, h5, h6 {
   .constellation-section-constellation { width: min(260px, 85vw); height: min(260px, 85vw); }
   .constellation-section-dot { width: 8px; height: 8px; }
   .constellation-section-pulse { width: 8px; height: 8px; margin-top: -4px; margin-left: -4px; }
-  .constellation-section-label { font-size: 0.48rem; }
-  .constellation-section-center-ring { width: 56px; height: 56px; }
+  .constellation-section-label { font-size: 0.5rem; }
+  .constellation-section-center-ring { width: 68px; height: 68px; }
 }
 
 /* ============================================================
@@ -1062,6 +1062,285 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================
+   Visual polish — gradients, glows, hover effects
+   ============================================================ */
+
+/* Hero heading gradient shimmer */
+.hero-gradient-text {
+  background: linear-gradient(
+    135deg,
+    var(--color-text-primary) 0%,
+    var(--color-sage-dark) 40%,
+    var(--color-warm) 60%,
+    var(--color-text-primary) 100%
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: heroGradientShift 8s ease-in-out infinite;
+}
+
+@keyframes heroGradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Button glow on hover */
+.btn-glow {
+  position: relative;
+}
+
+.btn-glow::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--color-sage), var(--color-sage-light));
+  opacity: 0;
+  z-index: -1;
+  filter: blur(16px);
+  transition: opacity 0.5s var(--ease-out);
+}
+
+.btn-glow:hover::after {
+  opacity: 0.4;
+}
+
+/* Floating animation for decorative elements */
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.gentle-float {
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+/* Section heading gradient underline */
+.heading-accent {
+  position: relative;
+  display: inline-block;
+}
+
+.heading-accent::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-sage), transparent);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out), width 0.8s var(--ease-out);
+}
+
+.scroll-reveal.revealed .heading-accent::after {
+  opacity: 1;
+  width: 64px;
+}
+
+/* Card shimmer effect on hover */
+.card-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shimmer::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 40%,
+    rgba(139, 158, 124, 0.04) 50%,
+    transparent 60%
+  );
+  transform: rotate(45deg) translateX(-100%);
+  transition: transform 0.8s var(--ease-out);
+  pointer-events: none;
+}
+
+.card-shimmer:hover::after {
+  transform: rotate(45deg) translateX(100%);
+}
+
+/* Smooth gradient divider between sections */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+  border: none;
+  margin: 0;
+}
+
+/* Navbar logo animation on hover */
+.nav-logo-icon {
+  transition: transform 0.5s var(--ease-out), filter 0.5s var(--ease-out);
+}
+
+.nav-logo-icon:hover {
+  transform: rotate(30deg) scale(1.08);
+  filter: drop-shadow(0 0 8px rgba(139, 158, 124, 0.3));
+}
+
+/* Navbar link hover underline animation */
+.nav-link-animated {
+  position: relative;
+}
+
+.nav-link-animated::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background: var(--color-sage);
+  border-radius: 1px;
+  transition: width 0.3s var(--ease-out), left 0.3s var(--ease-out);
+}
+
+.nav-link-animated:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Ecosystem step number glow on scroll reveal */
+.scroll-reveal.revealed .ecosystem-step-number {
+  box-shadow: 0 0 0 0 rgba(139, 158, 124, 0);
+  animation: stepNumberPulse 2s ease-out 0.5s forwards;
+}
+
+@keyframes stepNumberPulse {
+  0% { box-shadow: 0 0 0 0 rgba(139, 158, 124, 0.3); }
+  70% { box-shadow: 0 0 0 12px rgba(139, 158, 124, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(139, 158, 124, 0); }
+}
+
+/* Trust badge pill hover */
+.trust-pill {
+  transition: all 0.3s var(--ease-out);
+}
+
+.trust-pill:hover {
+  border-color: var(--color-sage);
+  color: var(--color-sage);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 158, 124, 0.1);
+}
+
+/* SupportFinder option button enhanced hover */
+.quiz-option {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s var(--ease-out);
+}
+
+.quiz-option::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(139, 158, 124, 0.06), transparent);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+
+.quiz-option:hover::before {
+  opacity: 1;
+}
+
+.quiz-option:hover {
+  border-color: var(--color-sage);
+  color: var(--color-sage);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(139, 158, 124, 0.08);
+}
+
+/* Waitlist section enhanced glow */
+.waitlist-section::after {
+  content: "";
+  position: absolute;
+  bottom: -40%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 158, 124, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Waitlist input focus glow */
+.waitlist-input:focus {
+  border-color: var(--color-sage);
+  box-shadow: 0 0 0 3px rgba(139, 158, 124, 0.15), 0 0 24px rgba(139, 158, 124, 0.08);
+}
+
+/* Testimonial card gradient border on hover */
+.testimonial-card:hover::before {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 158, 124, 0.3) 0%,
+    transparent 50%,
+    rgba(196, 168, 122, 0.2) 100%
+  );
+}
+
+/* About page story paragraphs — staggered entrance */
+.about-story > p {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: aboutStoryReveal 0.8s var(--ease-out) forwards;
+}
+
+.about-story > p:nth-child(1) { animation-delay: 0.1s; }
+.about-story > p:nth-child(2) { animation-delay: 0.25s; }
+.about-story > p:nth-child(3) { animation-delay: 0.4s; }
+.about-story > p:nth-child(4) { animation-delay: 0.55s; }
+.about-story > p:nth-child(5) { animation-delay: 0.7s; }
+.about-story > p:nth-child(6) { animation-delay: 0.85s; }
+
+@keyframes aboutStoryReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Constellation section: make labels more visible */
+.constellation-section-label {
+  text-shadow: 0 0 16px rgba(139, 158, 124, 0.3);
+}
+
+/* Enhanced constellation connector lines */
+@keyframes constellationConnectorGlow {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.25; }
+}
+
+.constellation-section-visual.active .constellation-section-connector {
+  animation-fill-mode: forwards;
+}
+
+/* Constellation dot enhanced glow */
+.constellation-section-dot {
+  box-shadow: 0 0 12px rgba(139, 158, 124, 0.5), 0 0 28px rgba(139, 158, 124, 0.2);
+}
+
+/* Smooth page-level transitions */
+main {
+  animation: pageIn 0.6s var(--ease-out);
+}
+
+@keyframes pageIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ============================================================
    Reduced motion — all animations
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
@@ -1087,13 +1366,19 @@ h1, h2, h3, h4, h5, h6 {
   .constellation-section-text { opacity: 1; transform: none; transition: none; }
   .constellation-section-glow { animation: none; opacity: 1; transform: translate(-50%, -50%); }
   .constellation-ring { animation: none; opacity: 0.15; transform: none; }
-  .constellation-section-center-ring { animation: none; opacity: 0.4; transform: none; }
+  .constellation-section-center-ring { animation: none; opacity: 0.5; transform: none; }
   .constellation-section-center-text { animation: none; opacity: 1; transform: none; filter: none; }
   .constellation-section-connector { animation: none; stroke-dashoffset: 0; opacity: 0.12; }
   .constellation-section-orbit { animation: none; }
   .constellation-section-node { animation: none; opacity: 1; filter: none; transform: translate(-50%, -50%) scale(1); }
   .constellation-section-pulse { animation: none; display: none; }
-  .constellation-section-label { animation: none; opacity: 0.6; transform: none; filter: none; }
+  .constellation-section-label { animation: none; opacity: 0.85; transform: none; filter: none; }
+
+  /* New polish effects */
+  .hero-gradient-text { animation: none; -webkit-text-fill-color: var(--color-sage); }
+  .about-story > p { animation: none; opacity: 1; transform: none; }
+  main { animation: none; }
+  .gentle-float { animation: none; }
 
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
