@@ -67,7 +67,7 @@ export default function ConstellationSection() {
   }, [isRevealed]);
 
   return (
-    <section ref={sectionRef} className="constellation-section py-24 md:py-32 lg:py-40 overflow-hidden">
+    <section ref={sectionRef} className="constellation-section py-32 md:py-40 lg:py-52 overflow-hidden">
       <Container className="max-w-6xl">
         <div className="constellation-section-layout">
           {/* Text content — left side on desktop */}
