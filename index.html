@@ -24,50 +24,102 @@
 
   <!-- ============================================================
        0. CINEMATIC LOADING — "THE VILLAGE ASSEMBLES"
+       Full-screen immersive intro with orbiting service nodes
        ============================================================ -->
   <div class="loader-screen" id="loader-screen">
+    <!-- Ambient background particles -->
+    <div class="loader-bg-particles" aria-hidden="true">
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+      <span class="loader-particle"></span>
+    </div>
+    <!-- Radial glow behind the village -->
+    <div class="loader-glow" aria-hidden="true"></div>
+
     <div class="loader-content">
-      <div class="loader-village" id="loader-village">
-        <!-- Centre dot — the family (appears first) -->
-        <svg class="loader-logo-main" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-          <circle class="village-center" cx="100" cy="100" r="12" fill="currentColor"/>
-          <!-- Outer circles — each is a service -->
-          <g class="village-node" data-index="0">
-            <circle cx="100" cy="34" r="9" fill="currentColor"/>
-            <line class="village-connector" x1="100" y1="43" x2="100" y2="88" stroke="currentColor"/>
-          </g>
-          <g class="village-node" data-index="1">
-            <circle cx="157" cy="67" r="9" fill="currentColor"/>
-            <line class="village-connector" x1="150" y1="73" x2="110" y2="93" stroke="currentColor"/>
-          </g>
-          <g class="village-node" data-index="2">
-            <circle cx="157" cy="133" r="9" fill="currentColor"/>
-            <line class="village-connector" x1="150" y1="127" x2="110" y2="107" stroke="currentColor"/>
-          </g>
-          <g class="village-node" data-index="3">
-            <circle cx="100" cy="166" r="9" fill="currentColor"/>
-            <line class="village-connector" x1="100" y1="157" x2="100" y2="112" stroke="currentColor"/>
-          </g>
-          <g class="village-node" data-index="4">
-            <circle cx="43" cy="133" r="9" fill="currentColor"/>
-            <line class="village-connector" x1="50" y1="127" x2="90" y2="107" stroke="currentColor"/>
-          </g>
-          <g class="village-node" data-index="5">
-            <circle cx="43" cy="67" r="9" fill="currentColor"/>
-            <line class="village-connector" x1="50" y1="73" x2="90" y2="93" stroke="currentColor"/>
-          </g>
+      <!-- The Village Constellation -->
+      <div class="loader-constellation">
+        <!-- Orbit rings (decorative) -->
+        <svg class="loader-orbit-rings" viewBox="0 0 600 600" fill="none" aria-hidden="true">
+          <circle class="orbit-ring orbit-ring--inner" cx="300" cy="300" r="120" stroke="currentColor"/>
+          <circle class="orbit-ring orbit-ring--outer" cx="300" cy="300" r="200" stroke="currentColor"/>
+          <circle class="orbit-ring orbit-ring--glow" cx="300" cy="300" r="160" stroke="currentColor"/>
         </svg>
-        <!-- Service labels that flash beside each node -->
-        <div class="loader-labels">
-          <span class="loader-label" data-index="0">Sleep</span>
-          <span class="loader-label" data-index="1">Meals</span>
-          <span class="loader-label" data-index="2">Lactation</span>
-          <span class="loader-label" data-index="3">Emotional</span>
-          <span class="loader-label" data-index="4">Home Care</span>
-          <span class="loader-label" data-index="5">Life Admin</span>
+
+        <!-- Centre — YOUR VILLAGE wordmark -->
+        <div class="loader-center">
+          <div class="loader-center-ring" aria-hidden="true"></div>
+          <span class="loader-center-text">Your<br>Village</span>
         </div>
+
+        <!-- Orbiting service nodes — positioned via CSS on a circle -->
+        <div class="loader-orbit">
+          <div class="loader-node" data-index="0">
+            <div class="loader-node-dot"></div>
+            <div class="loader-node-pulse" aria-hidden="true"></div>
+            <span class="loader-node-label">Sleep Support</span>
+          </div>
+          <div class="loader-node" data-index="1">
+            <div class="loader-node-dot"></div>
+            <div class="loader-node-pulse" aria-hidden="true"></div>
+            <span class="loader-node-label">Nourishing Meals</span>
+          </div>
+          <div class="loader-node" data-index="2">
+            <div class="loader-node-dot"></div>
+            <div class="loader-node-pulse" aria-hidden="true"></div>
+            <span class="loader-node-label">Lactation</span>
+          </div>
+          <div class="loader-node" data-index="3">
+            <div class="loader-node-dot"></div>
+            <div class="loader-node-pulse" aria-hidden="true"></div>
+            <span class="loader-node-label">Emotional Care</span>
+          </div>
+          <div class="loader-node" data-index="4">
+            <div class="loader-node-dot"></div>
+            <div class="loader-node-pulse" aria-hidden="true"></div>
+            <span class="loader-node-label">Home Care</span>
+          </div>
+          <div class="loader-node" data-index="5">
+            <div class="loader-node-dot"></div>
+            <div class="loader-node-pulse" aria-hidden="true"></div>
+            <span class="loader-node-label">Life Admin</span>
+          </div>
+          <div class="loader-node" data-index="6">
+            <div class="loader-node-dot"></div>
+            <div class="loader-node-pulse" aria-hidden="true"></div>
+            <span class="loader-node-label">Overnight Help</span>
+          </div>
+          <div class="loader-node" data-index="7">
+            <div class="loader-node-dot"></div>
+            <div class="loader-node-pulse" aria-hidden="true"></div>
+            <span class="loader-node-label">Partner Support</span>
+          </div>
+        </div>
+
+        <!-- SVG connector lines drawn from center to each node -->
+        <svg class="loader-connectors" viewBox="0 0 600 600" fill="none" aria-hidden="true">
+          <line class="loader-connector" data-index="0" x1="300" y1="300" x2="300" y2="120" stroke="currentColor"/>
+          <line class="loader-connector" data-index="1" x1="300" y1="300" x2="427" y2="173" stroke="currentColor"/>
+          <line class="loader-connector" data-index="2" x1="300" y1="300" x2="480" y2="300" stroke="currentColor"/>
+          <line class="loader-connector" data-index="3" x1="300" y1="300" x2="427" y2="427" stroke="currentColor"/>
+          <line class="loader-connector" data-index="4" x1="300" y1="300" x2="300" y2="480" stroke="currentColor"/>
+          <line class="loader-connector" data-index="5" x1="300" y1="300" x2="173" y2="427" stroke="currentColor"/>
+          <line class="loader-connector" data-index="6" x1="300" y1="300" x2="120" y2="300" stroke="currentColor"/>
+          <line class="loader-connector" data-index="7" x1="300" y1="300" x2="173" y2="173" stroke="currentColor"/>
+        </svg>
       </div>
-      <span class="loader-wordmark" id="loader-wordmark">Your Village</span>
+
+      <!-- Tagline that reveals after village assembles -->
+      <p class="loader-tagline">The support system every new parent deserves</p>
     </div>
   </div>
 
@@ -908,14 +960,42 @@
       if (!screen) return;
 
       var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      // Total animation: centre(0.2+0.6) + 6 nodes(0.6-2.1) + wordmark(2.0+0.6) + hold = ~3s
-      var dismissDelay = prefersReduced ? 400 : 3000;
+      // Cinematic timing: center(0.4s) + nodes stagger(1.0-2.45s) + tagline(2.6s) + hold = ~4.2s
+      var dismissDelay = prefersReduced ? 400 : 4200;
+
+      // Counter-rotate node labels so they stay readable during orbit
+      var orbit = screen.querySelector('.loader-orbit');
+      if (orbit && !prefersReduced) {
+        var startTime = null;
+        var orbitStarted = false;
+        function counterRotate(timestamp) {
+          if (!orbit.isConnected) return;
+          if (!orbitStarted) {
+            // Wait for orbit animation to kick in (3.5s delay)
+            if (!startTime) startTime = timestamp;
+            if (timestamp - startTime < 3500) {
+              requestAnimationFrame(counterRotate);
+              return;
+            }
+            orbitStarted = true;
+            startTime = timestamp;
+          }
+          var elapsed = (timestamp - startTime) / 1000;
+          var degrees = (elapsed / 90) * 360; // 90s for full rotation
+          var nodes = orbit.querySelectorAll('.loader-node');
+          nodes.forEach(function(node) {
+            node.style.transform = 'translate(-50%, -50%) rotate(' + (-degrees) + 'deg)';
+          });
+          requestAnimationFrame(counterRotate);
+        }
+        requestAnimationFrame(counterRotate);
+      }
 
       setTimeout(function() {
         screen.classList.add('fade-out');
         setTimeout(function() {
           screen.remove();
-        }, 900);
+        }, 1100);
       }, dismissDelay);
     })();
 
