@@ -2391,23 +2391,7 @@ strong {
     filter: none;
     transition: none;
   }
-  /* Loader */
-  .loader-screen.fade-out {
-    transition-duration: 0.01s;
-    filter: none;
-    transform: none;
-  }
-  .loader-particle { display: none; }
-  .loader-glow { opacity: 1; transform: translate(-50%, -50%); }
-  .orbit-ring { opacity: 0.15; transform: none; }
-  .loader-center-ring { opacity: 0.4; transform: none; }
-  .loader-center-text { opacity: 1; transform: none; filter: none; }
-  .loader-connector { stroke-dashoffset: 0; opacity: 0.12; }
-  .loader-orbit { transform: none; }
-  .loader-node { opacity: 1; filter: none; transform: translate(-50%, -50%) scale(1); }
-  .loader-node-pulse { display: none; }
-  .loader-node-label { opacity: 0.6; transform: none; filter: none; }
-  .loader-tagline { opacity: 0.7; transform: none; filter: none; }
+  /* Loader — see dedicated reduced-motion block at end of file */
   /* Cards and buttons — no transforms on hover */
   .service-card:hover,
   .package-card:hover,
