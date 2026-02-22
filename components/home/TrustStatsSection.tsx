@@ -46,9 +46,9 @@ const trustPoints = [
 ];
 
 const stats = [
-  { value: "500+", label: "Hours of help coordinated" },
-  { value: "40+", label: "Providers in our network" },
-  { value: "150+", label: "Parents supported" },
+  { value: "8+", label: "Services available" },
+  { value: "15+", label: "Vetted providers" },
+  { value: "1", label: "Dedicated coordinator" },
   { value: "<4h", label: "Average response time" },
 ];
 
