@@ -60,10 +60,10 @@ const trustPoints = [
 
 export default function TestimonialsSection() {
   return (
-    <section className="bg-surface py-16 md:py-20 lg:py-24">
+    <section className="bg-surface py-24 md:py-32 lg:py-40">
       <Container>
         <ScrollReveal>
-          <div className="text-center mb-16">
+          <div className="text-center mb-20">
             <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
               From families we&apos;ve supported
             </p>
@@ -73,12 +73,13 @@ export default function TestimonialsSection() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {testimonials.map((testimonial, i) => (
             <ScrollReveal key={i} stagger={i + 1}>
-              <blockquote className="p-8 rounded-[var(--radius-lg)] bg-elevated border border-border-subtle shadow-sm h-full flex flex-col">
-                <p className="text-text-body leading-relaxed flex-1 mb-6 text-[15px]">
-                  &ldquo;{testimonial.quote}&rdquo;
+              <blockquote className="p-8 md:p-10 rounded-[var(--radius-lg)] bg-elevated border border-border-subtle shadow-sm h-full flex flex-col">
+                <span className="text-sage/30 text-5xl font-heading leading-none mb-2 select-none" aria-hidden="true">&ldquo;</span>
+                <p className="text-text-body leading-relaxed flex-1 mb-8 text-[16px]">
+                  {testimonial.quote}
                 </p>
                 <footer className="text-sm text-text-muted font-medium">
                   {testimonial.attribution}
@@ -90,7 +91,7 @@ export default function TestimonialsSection() {
 
         {/* Trust signals — compact row */}
         <ScrollReveal>
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
+          <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
             {trustPoints.map((point) => (
               <div key={point.label} className="flex items-center gap-2.5 text-text-muted">
                 <span className="text-sage">{point.icon}</span>

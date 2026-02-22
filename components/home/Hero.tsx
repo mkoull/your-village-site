@@ -4,7 +4,7 @@ import AuroraCanvas from "@/components/home/AuroraCanvas";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[100dvh] flex items-center pt-20 pb-16 overflow-hidden">
+    <section className="relative min-h-[100dvh] flex items-center justify-center pt-20 pb-24 overflow-hidden">
       {/* Animated aurora canvas background */}
       <AuroraCanvas />
 
@@ -13,13 +13,13 @@ export default function Hero() {
           Postpartum Support, Coordinated
         </p>
 
-        <h1 className="hero-reveal hero-reveal-2 text-display font-heading font-normal leading-[1.1] mb-8">
+        <h1 className="hero-reveal hero-reveal-2 text-display font-heading font-normal leading-[1.08] mb-8 tracking-tight">
           You don&apos;t have to do
           <br />
-          <em className="text-sage">this alone.</em>
+          <em className="text-sage font-light">this alone.</em>
         </h1>
 
-        <p className="hero-reveal hero-reveal-3 text-body-lg text-text-muted max-w-xl mx-auto mb-10 leading-relaxed">
+        <p className="hero-reveal hero-reveal-3 text-body-lg text-text-muted max-w-lg mx-auto mb-12 leading-relaxed">
           One coordinator. Trusted providers. Meals, care, sleep support,
           and more — organised around your family.
         </p>
@@ -38,6 +38,12 @@ export default function Hero() {
           No commitment. Start with a conversation.
         </p>
       </Container>
+
+      {/* Scroll indicator */}
+      <div className="hero-reveal hero-reveal-5 absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+        <span className="text-[0.65rem] uppercase tracking-[0.2em] text-text-muted font-body">Scroll</span>
+        <div className="w-px h-8 bg-text-muted/30 hero-scroll-line" />
+      </div>
     </section>
   );
 }

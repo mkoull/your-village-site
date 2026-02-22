@@ -1,9 +1,7 @@
-import VillageHero from "@/components/home/VillageHero";
-import RestSection from "@/components/home/RestSection";
+import Hero from "@/components/home/Hero";
+import ConstellationSection from "@/components/home/ConstellationSection";
 import EcosystemSection from "@/components/home/EcosystemSection";
-import NotATodoSection from "@/components/home/NotATodoSection";
-import TrustSection from "@/components/home/TrustSection";
-import StatsSection from "@/components/home/StatsSection";
+import TrustStatsSection from "@/components/home/TrustStatsSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import SupportFinder from "@/components/home/SupportFinder";
 import WaitlistCapture from "@/components/home/WaitlistCapture";
@@ -11,12 +9,10 @@ import WaitlistCapture from "@/components/home/WaitlistCapture";
 export default function HomePage() {
   return (
     <>
-      <VillageHero />
-      <RestSection />
+      <Hero />
+      <ConstellationSection />
       <EcosystemSection />
-      <NotATodoSection />
-      <TrustSection />
-      <StatsSection />
+      <TrustStatsSection />
       <TestimonialsSection />
       <SupportFinder />
       <WaitlistCapture />
