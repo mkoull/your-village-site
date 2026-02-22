@@ -44,10 +44,10 @@ const steps = [
 
 export default function EcosystemSection() {
   return (
-    <section className="py-16 md:py-20 lg:py-24">
+    <section className="bg-surface py-24 md:py-32 lg:py-40">
       <Container>
         <ScrollReveal>
-          <div className="text-center mb-16">
+          <div className="text-center mb-20">
             <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
               How it works
             </p>
@@ -64,7 +64,7 @@ export default function EcosystemSection() {
                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-sage/10 text-sage mb-6">
                   {step.icon}
                 </div>
-                <p className="text-xs font-semibold text-sage/60 tracking-widest uppercase mb-2 font-body">{step.number}</p>
+                <p className="text-sm font-semibold text-sage/50 tracking-widest uppercase mb-2 font-body">{step.number}</p>
                 <h3 className="text-h3 font-heading mb-3">{step.title}</h3>
                 <p className="text-text-muted leading-relaxed">
                   {step.description}

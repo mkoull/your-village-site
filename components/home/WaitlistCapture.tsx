@@ -16,14 +16,14 @@ export default function WaitlistCapture() {
   };
 
   return (
-    <section className="bg-dark text-text-inverse py-16 md:py-20 lg:py-24">
+    <section className="bg-dark text-text-inverse py-24 md:py-32 lg:py-40">
       <Container narrow>
         <ScrollReveal>
           <div className="text-center">
-            <h2 className="text-h2 font-heading text-text-inverse mb-4">
+            <h2 className="text-h2 font-heading text-text-inverse mb-6">
               Stay in the loop.
             </h2>
-            <p className="text-text-inverse/60 mb-10 max-w-md mx-auto">
+            <p className="text-text-inverse/60 mb-12 max-w-md mx-auto">
               Be the first to hear about new services and areas as we grow.
             </p>
 

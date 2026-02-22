@@ -72,10 +72,10 @@ export default function SupportFinder() {
     : [];
 
   return (
-    <section className="py-16 md:py-20 lg:py-24">
+    <section className="py-24 md:py-32 lg:py-40">
       <Container narrow>
         <ScrollReveal>
-          <div className="text-center mb-12">
+          <div className="text-center mb-14">
             <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
               Not sure where to start?
             </p>
