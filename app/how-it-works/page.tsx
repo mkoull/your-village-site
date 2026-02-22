@@ -14,7 +14,7 @@ const steps = [
     number: "01",
     title: "Tell us what you need",
     description:
-      "A quick conversation to understand your situation. No forms to fill, no pressure. Just tell us what's hard and we'll listen.",
+      "A quick conversation about your situation. No forms to fill, no pressure. Just tell us what\u2019s hard.",
     cta: { label: "Start here", href: "/get-started" },
   },
   {
@@ -27,7 +27,7 @@ const steps = [
     number: "03",
     title: "Support arrives",
     description:
-      "Meals, care, help — coordinated and ongoing. Your coordinator stays with you, adjusting support as your needs change. You just rest.",
+      "Meals, care, help — coordinated and ongoing. Your coordinator stays with you, adjusting as your needs change.",
   },
 ];
 
@@ -41,10 +41,9 @@ export default function HowItWorksPage() {
             The process
           </p>
           <h1 className="text-h1 font-heading mb-6">
-            How Your Village works.
+            Three steps. Zero stress.
           </h1>
           <p className="text-text-muted max-w-xl mx-auto leading-relaxed">
-            Three simple steps from feeling overwhelmed to feeling supported.
             We handle the complexity so you don&apos;t have to.
           </p>
         </Container>
@@ -81,32 +80,8 @@ export default function HowItWorksPage() {
         </Container>
       </section>
 
-      {/* Ecosystem explanation */}
-      <section className="bg-surface py-16 md:py-20">
-        <Container narrow>
-          <ScrollReveal>
-            <div className="text-center">
-              <h2 className="text-h2 font-heading mb-6">
-                The coordination model.
-              </h2>
-              <p className="text-text-body leading-relaxed mb-6">
-                Your Village isn&apos;t a marketplace or a directory. We&apos;re
-                a coordination layer — a real person who sits between you and the
-                overwhelming world of postpartum support, and makes it simple.
-              </p>
-              <p className="text-text-muted leading-relaxed">
-                Providers plug into our network. Your coordinator knows each one
-                personally. When you need support, we don&apos;t give you a list
-                — we give you the right person, at the right time, without you
-                having to manage anything.
-              </p>
-            </div>
-          </ScrollReveal>
-        </Container>
-      </section>
-
       {/* Coordinator section */}
-      <section className="py-16 md:py-20">
+      <section className="bg-surface py-16 md:py-20">
         <Container narrow>
           <ScrollReveal>
             <div className="text-center">
@@ -116,15 +91,11 @@ export default function HowItWorksPage() {
               <h2 className="text-h2 font-heading mb-6">
                 One person who knows your story.
               </h2>
-              <p className="text-text-body leading-relaxed mb-6">
-                Your coordinator isn&apos;t a call centre. They&apos;re someone
-                who takes the time to understand your family, your situation,
-                and what kind of help would actually make a difference.
-              </p>
-              <p className="text-text-muted leading-relaxed mb-10">
-                They stay with you as long as you need. When things change —
-                when the baby starts solids, when you go back to work, when you
-                just need a different kind of support — they adjust.
+              <p className="text-text-body leading-relaxed mb-10 max-w-2xl mx-auto">
+                Not a call centre. Someone who takes the time to understand your
+                family and what kind of help would actually make a difference.
+                They stay with you as long as you need — and adjust as things
+                change.
               </p>
               <Button href="/get-started" size="lg">
                 Start a conversation

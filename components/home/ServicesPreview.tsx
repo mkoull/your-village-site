@@ -14,10 +14,10 @@ export default function ServicesPreview() {
         <ScrollReveal>
           <div className="text-center mb-16">
             <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
-              What we coordinate
+              Services
             </p>
             <h2 className="text-h2 font-heading">
-              Support that covers what matters.
+              Everything your family needs, coordinated.
             </h2>
           </div>
         </ScrollReveal>

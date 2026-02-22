@@ -80,7 +80,7 @@ export default function SupportFinder() {
               Not sure where to start?
             </p>
             <h2 className="text-h2 font-heading">
-              Let us help you find the right support.
+              Find the right support in 30 seconds.
             </h2>
           </div>
         </ScrollReveal>
