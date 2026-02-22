@@ -1,5 +1,5 @@
 {
-  "framework": "nextjs",
+  "cleanUrls": true,
   "headers": [
     {
       "source": "/(.*)",
