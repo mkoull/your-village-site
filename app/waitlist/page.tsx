@@ -17,7 +17,7 @@ export default function WaitlistPage() {
   };
 
   return (
-    <div className="pt-24 md:pt-32 pb-24 md:pb-32 min-h-[80vh] flex items-center">
+    <div className="pt-24 md:pt-32 pb-16 md:pb-20 min-h-[80vh] flex items-center">
       <Container narrow className="text-center">
         <ScrollReveal>
           {!submitted ? (

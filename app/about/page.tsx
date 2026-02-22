@@ -6,55 +6,64 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Why Your Village exists — the story behind our postpartum support coordination service.",
+    "Our story — how the overwhelming reality of raising twins led to building Your Village, a postpartum support coordination service.",
 };
 
 export default function AboutPage() {
   return (
     <div className="pt-24 md:pt-32">
       {/* Hero */}
-      <section className="pb-16 md:pb-24">
+      <section className="pb-10 md:pb-16">
         <Container narrow className="text-center">
           <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
             Our story
           </p>
           <h1 className="text-h1 font-heading">
-            Why Your Village exists.
+            Our story.
           </h1>
         </Container>
       </section>
 
       {/* Founder story */}
-      <section className="pb-24 md:pb-32">
+      <section className="pb-16 md:pb-20">
         <Container narrow>
           <ScrollReveal>
             <div className="space-y-6 text-text-body leading-relaxed">
               <p>
-                I watched someone I love go through the first weeks with a new
-                baby — no family nearby, no plan, and no idea where to start
-                finding help. She&apos;s one of the most capable people I know —
-                and none of that mattered. She was exhausted, overwhelmed, and
-                trying to do something she&apos;d never done before while
-                recovering from something her body had never done before.
+                When our twins arrived, nothing could have prepared us for what
+                came next. Two babies. No sleep. No routine. No family nearby.
+                Just an overwhelming blur of feeds, nappies, crying, and the
+                constant feeling that we were failing at something we were
+                supposed to instinctively know how to do.
               </p>
 
               <p>
-                The help existed. Doulas, lactation consultants, meal services,
-                sleep specialists — they were all out there, often just a few
-                suburbs away. But finding them, vetting them, working out who was
-                right, booking them, coordinating their schedules — all of that
-                fell on the person who had the least capacity to do it.
+                People told us to &ldquo;ask for help.&rdquo; But ask who? And
+                for what, exactly? We didn&apos;t even know what we needed. A
+                night nanny? A lactation consultant? A meal service? Someone to
+                hold one baby while we fed the other? All of it? We were too
+                exhausted to research a single provider, let alone vet them,
+                compare them, and coordinate schedules — while running on two
+                hours of broken sleep.
               </p>
 
               <p>
-                Your Village is the thing I wished had existed for her. A real
-                person who already knows the providers, who listens to what
-                you&apos;re going through, and who puts the right support in
-                place — so you don&apos;t have to figure it out alone.
+                The help existed. Good people, doing good work, often just a few
+                suburbs away. But the gap between knowing help exists and
+                actually having it arrive at your door felt impossible to cross
+                when you can barely string a sentence together.
+              </p>
+
+              <p>
+                Your Village is what we wished had existed for us. One person who
+                already knows the providers, who listens to what you&apos;re
+                going through, and who puts the right support in place — so you
+                don&apos;t have to figure it out alone, at the hardest moment of
+                your life.
               </p>
 
               <p className="text-text-muted italic text-right mt-8">
-                — The founder of Your Village
+                — The founders of Your Village
               </p>
             </div>
           </ScrollReveal>
@@ -62,7 +71,7 @@ export default function AboutPage() {
       </section>
 
       {/* What we are / aren't */}
-      <section className="bg-surface py-24 md:py-32">
+      <section className="bg-surface py-16 md:py-20">
         <Container narrow>
           <ScrollReveal>
             <h2 className="text-h2 font-heading text-center mb-8">
@@ -88,7 +97,7 @@ export default function AboutPage() {
       </section>
 
       {/* Provider vetting */}
-      <section className="py-24 md:py-32">
+      <section className="py-16 md:py-20">
         <Container narrow>
           <ScrollReveal>
             <h2 className="text-h2 font-heading text-center mb-8">

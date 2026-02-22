@@ -90,7 +90,7 @@ export default function ServicesPage() {
   return (
     <div className="pt-24 md:pt-32">
       {/* Hero */}
-      <section className="pb-16 md:pb-24">
+      <section className="pb-10 md:pb-16">
         <Container narrow className="text-center">
           <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
             Our services
@@ -129,7 +129,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Service cards */}
-      <section className="pb-24 md:pb-32">
+      <section className="pb-16 md:pb-20">
         <Container>
           <div className="space-y-4">
             {filtered.map((service) => (
@@ -142,7 +142,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="bg-surface py-20 md:py-24">
+      <section className="bg-surface py-14 md:py-18">
         <Container narrow className="text-center">
           <ScrollReveal>
             <h2 className="text-h2 font-heading mb-4">

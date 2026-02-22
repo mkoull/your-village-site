@@ -84,7 +84,7 @@ export default function GetStartedPage() {
 
   if (submitted) {
     return (
-      <div className="pt-24 md:pt-32 pb-24 md:pb-32 min-h-[80vh] flex items-center">
+      <div className="pt-24 md:pt-32 pb-16 md:pb-20 min-h-[80vh] flex items-center">
         <Container narrow className="text-center">
           <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-sage/10 flex items-center justify-center">
             <svg className="w-8 h-8 text-sage" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -102,7 +102,7 @@ export default function GetStartedPage() {
   }
 
   return (
-    <div className="pt-24 md:pt-32 pb-24 md:pb-32 min-h-[80vh]">
+    <div className="pt-24 md:pt-32 pb-16 md:pb-20 min-h-[80vh]">
       <Container narrow>
         <ScrollReveal>
           <div className="text-center mb-12">
