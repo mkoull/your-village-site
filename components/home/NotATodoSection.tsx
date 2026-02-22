@@ -5,7 +5,7 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export default function NotATodoSection() {
   return (
-    <section className="bg-surface py-24 md:py-32 lg:py-40">
+    <section className="bg-surface py-16 md:py-20 lg:py-24">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <ScrollReveal>

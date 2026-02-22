@@ -16,7 +16,7 @@ export default function WaitlistCapture() {
   };
 
   return (
-    <section className="bg-dark text-text-inverse py-24 md:py-32 lg:py-40">
+    <section className="bg-dark text-text-inverse py-16 md:py-20 lg:py-24">
       <Container narrow>
         <ScrollReveal>
           <div className="text-center">

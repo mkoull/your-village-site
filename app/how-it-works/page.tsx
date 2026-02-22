@@ -35,7 +35,7 @@ export default function HowItWorksPage() {
   return (
     <div className="pt-24 md:pt-32">
       {/* Hero */}
-      <section className="pb-16 md:pb-24">
+      <section className="pb-10 md:pb-16">
         <Container narrow className="text-center">
           <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
             The process
@@ -51,7 +51,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Steps */}
-      <section className="pb-24 md:pb-32">
+      <section className="pb-16 md:pb-20">
         <Container>
           <div className="max-w-3xl mx-auto space-y-8">
             {steps.map((step, i) => (
@@ -82,7 +82,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Ecosystem explanation */}
-      <section className="bg-surface py-24 md:py-32">
+      <section className="bg-surface py-16 md:py-20">
         <Container narrow>
           <ScrollReveal>
             <div className="text-center">
@@ -106,7 +106,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Coordinator section */}
-      <section className="py-24 md:py-32">
+      <section className="py-16 md:py-20">
         <Container narrow>
           <ScrollReveal>
             <div className="text-center">

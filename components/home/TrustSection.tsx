@@ -47,7 +47,7 @@ const trustCards = [
 
 export default function TrustSection() {
   return (
-    <section className="bg-surface py-24 md:py-32 lg:py-40">
+    <section className="bg-surface py-16 md:py-20 lg:py-24">
       <Container>
         <ScrollReveal>
           <div className="text-center mb-16">

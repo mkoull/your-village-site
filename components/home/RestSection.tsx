@@ -5,7 +5,7 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export default function RestSection() {
   return (
-    <section className="bg-surface py-24 md:py-32 lg:py-40">
+    <section className="bg-surface py-16 md:py-20 lg:py-24">
       <Container narrow>
         <ScrollReveal>
           <h2 className="text-h2 font-heading text-center mb-8">
