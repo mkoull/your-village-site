@@ -190,58 +190,50 @@ h1, h2, h3, h4, h5, h6 {
 .hero-reveal-5 { animation-delay: 1.1s; }
 
 /* ============================================================
-   Village Loader — cinematic constellation intro
+   Village Hero — inline constellation at top of homepage
    ============================================================ */
-.loader-screen {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
+.hero-constellation-section {
+  position: relative;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-background);
-  transition: opacity 1s var(--ease-out), filter 1s var(--ease-out), transform 1s var(--ease-out);
+  padding-top: 5rem;
+  padding-bottom: 3rem;
   overflow: hidden;
 }
 
-.loader-screen.fade-out {
-  opacity: 0;
-  filter: blur(12px);
-  transform: scale(1.05);
-  pointer-events: none;
-}
-
 /* Background floating particles */
-.loader-bg-particles {
+.hero-constellation-particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.loader-particle {
+.hero-constellation-particle {
   position: absolute;
   width: 2px;
   height: 2px;
   border-radius: 50%;
   background: var(--color-warm);
   opacity: 0;
-  animation: loaderParticleFloat 8s ease-in-out infinite;
+  animation: heroParticleFloat 8s ease-in-out infinite;
 }
 
-.loader-particle:nth-child(1)  { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 10s; }
-.loader-particle:nth-child(2)  { left: 25%; top: 70%; animation-delay: 1.2s; animation-duration: 8s; }
-.loader-particle:nth-child(3)  { left: 40%; top: 15%; animation-delay: 0.5s; animation-duration: 12s; }
-.loader-particle:nth-child(4)  { left: 60%; top: 80%; animation-delay: 2s; animation-duration: 9s; }
-.loader-particle:nth-child(5)  { left: 75%; top: 30%; animation-delay: 0.8s; animation-duration: 11s; }
-.loader-particle:nth-child(6)  { left: 85%; top: 60%; animation-delay: 1.5s; animation-duration: 7s; }
-.loader-particle:nth-child(7)  { left: 15%; top: 50%; animation-delay: 3s; animation-duration: 13s; }
-.loader-particle:nth-child(8)  { left: 50%; top: 40%; animation-delay: 0.3s; animation-duration: 10s; }
-.loader-particle:nth-child(9)  { left: 35%; top: 90%; animation-delay: 2.5s; animation-duration: 8s; }
-.loader-particle:nth-child(10) { left: 90%; top: 45%; animation-delay: 1s; animation-duration: 14s; }
-.loader-particle:nth-child(11) { left: 5%;  top: 85%; animation-delay: 3.5s; animation-duration: 9s; }
-.loader-particle:nth-child(12) { left: 70%; top: 10%; animation-delay: 0.7s; animation-duration: 11s; }
+.hero-constellation-particle:nth-child(1)  { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 10s; }
+.hero-constellation-particle:nth-child(2)  { left: 25%; top: 70%; animation-delay: 1.2s; animation-duration: 8s; }
+.hero-constellation-particle:nth-child(3)  { left: 40%; top: 15%; animation-delay: 0.5s; animation-duration: 12s; }
+.hero-constellation-particle:nth-child(4)  { left: 60%; top: 80%; animation-delay: 2s; animation-duration: 9s; }
+.hero-constellation-particle:nth-child(5)  { left: 75%; top: 30%; animation-delay: 0.8s; animation-duration: 11s; }
+.hero-constellation-particle:nth-child(6)  { left: 85%; top: 60%; animation-delay: 1.5s; animation-duration: 7s; }
+.hero-constellation-particle:nth-child(7)  { left: 15%; top: 50%; animation-delay: 3s; animation-duration: 13s; }
+.hero-constellation-particle:nth-child(8)  { left: 50%; top: 40%; animation-delay: 0.3s; animation-duration: 10s; }
+.hero-constellation-particle:nth-child(9)  { left: 35%; top: 90%; animation-delay: 2.5s; animation-duration: 8s; }
+.hero-constellation-particle:nth-child(10) { left: 90%; top: 45%; animation-delay: 1s; animation-duration: 14s; }
+.hero-constellation-particle:nth-child(11) { left: 5%;  top: 85%; animation-delay: 3.5s; animation-duration: 9s; }
+.hero-constellation-particle:nth-child(12) { left: 70%; top: 10%; animation-delay: 0.7s; animation-duration: 11s; }
 
-@keyframes loaderParticleFloat {
+@keyframes heroParticleFloat {
   0%   { opacity: 0; transform: translate(0, 0) scale(0.5); }
   15%  { opacity: 0.4; }
   50%  { opacity: 0.15; transform: translate(30px, -40px) scale(1.5); }
@@ -250,49 +242,54 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Radial glow behind constellation */
-.loader-glow {
+.hero-constellation-glow {
   position: absolute;
   width: 500px;
   height: 500px;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(circle, rgba(139,115,85,0.12) 0%, rgba(139,115,85,0.04) 40%, transparent 70%);
   opacity: 0;
-  animation: loaderGlowIn 1.5s var(--ease-out) 0.3s forwards, loaderGlowPulse 4s ease-in-out 2s infinite;
+  animation: heroGlowIn 1.5s var(--ease-out) 0.3s forwards, heroGlowPulse 4s ease-in-out 2s infinite;
   pointer-events: none;
 }
 
-@keyframes loaderGlowIn {
+@keyframes heroGlowIn {
   from { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
   to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
-@keyframes loaderGlowPulse {
+@keyframes heroGlowPulse {
   0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
   50%      { transform: translate(-50%, -50%) scale(1.08); opacity: 0.7; }
 }
 
-/* Loader content wrapper */
-.loader-content {
+/* Layout: constellation on top, text below */
+.hero-constellation-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
-  position: relative;
-  z-index: 1;
+  gap: 3rem;
+}
+
+/* Constellation wrapper — keeps it centred with breathing room */
+.hero-constellation-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Constellation container */
-.loader-constellation {
+.hero-constellation {
   position: relative;
-  width: min(480px, 85vw);
-  height: min(480px, 85vw);
+  width: min(420px, 75vw);
+  height: min(420px, 75vw);
 }
 
 /* Orbit rings (decorative circles) */
-.loader-orbit-rings {
+.hero-constellation-rings {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -300,7 +297,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-warm);
 }
 
-.orbit-ring {
+.hero-orbit-ring {
   fill: none;
   stroke-width: 0.5;
   opacity: 0;
@@ -308,39 +305,39 @@ h1, h2, h3, h4, h5, h6 {
   transform-origin: center center;
 }
 
-.orbit-ring--inner {
+.hero-orbit-ring--inner {
   stroke-dasharray: 4 8;
-  animation: orbitRingIn 1s var(--ease-out) 0.5s forwards, orbitRingSpin 60s linear 1.5s infinite;
+  animation: heroOrbitRingIn 1s var(--ease-out) 0.5s forwards, heroOrbitRingSpin 60s linear 1.5s infinite;
 }
 
-.orbit-ring--outer {
+.hero-orbit-ring--outer {
   stroke-dasharray: 2 12;
-  animation: orbitRingIn 1s var(--ease-out) 0.8s forwards, orbitRingSpinReverse 80s linear 1.8s infinite;
+  animation: heroOrbitRingIn 1s var(--ease-out) 0.8s forwards, heroOrbitRingSpinReverse 80s linear 1.8s infinite;
 }
 
-.orbit-ring--glow {
+.hero-orbit-ring--glow {
   stroke-width: 1.5;
   filter: blur(3px);
-  animation: orbitRingIn 1.2s var(--ease-out) 0.6s forwards, orbitRingSpin 70s linear 1.6s infinite;
+  animation: heroOrbitRingIn 1.2s var(--ease-out) 0.6s forwards, heroOrbitRingSpin 70s linear 1.6s infinite;
 }
 
-@keyframes orbitRingIn {
+@keyframes heroOrbitRingIn {
   from { opacity: 0; transform: scale(0.7); }
   to   { opacity: 0.15; transform: scale(1); }
 }
 
-@keyframes orbitRingSpin {
+@keyframes heroOrbitRingSpin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
 
-@keyframes orbitRingSpinReverse {
+@keyframes heroOrbitRingSpinReverse {
   from { transform: rotate(0deg); }
   to   { transform: rotate(-360deg); }
 }
 
 /* Centre "Your Village" text */
-.loader-center {
+.hero-constellation-center {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -351,27 +348,27 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 10;
 }
 
-.loader-center-ring {
+.hero-constellation-center-ring {
   position: absolute;
   width: 100px;
   height: 100px;
   border-radius: 50%;
   border: 1.5px solid var(--color-warm);
   opacity: 0;
-  animation: centerRingIn 0.8s var(--ease-out) 0.2s forwards, centerRingBreathe 3s ease-in-out 1.5s infinite;
+  animation: heroCenterRingIn 0.8s var(--ease-out) 0.2s forwards, heroCenterRingBreathe 3s ease-in-out 1.5s infinite;
 }
 
-@keyframes centerRingIn {
+@keyframes heroCenterRingIn {
   from { opacity: 0; transform: scale(0.3); }
   to   { opacity: 0.4; transform: scale(1); }
 }
 
-@keyframes centerRingBreathe {
+@keyframes heroCenterRingBreathe {
   0%, 100% { transform: scale(1); opacity: 0.4; }
   50%      { transform: scale(1.1); opacity: 0.2; }
 }
 
-.loader-center-text {
+.hero-constellation-center-text {
   font-family: var(--font-heading);
   font-size: clamp(1.1rem, 3vw, 1.4rem);
   font-weight: 400;
@@ -381,16 +378,16 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
   opacity: 0;
   transform: scale(0.8);
-  animation: centerTextIn 0.8s var(--ease-out) 0.4s forwards;
+  animation: heroCenterTextIn 0.8s var(--ease-out) 0.4s forwards;
 }
 
-@keyframes centerTextIn {
+@keyframes heroCenterTextIn {
   from { opacity: 0; transform: scale(0.8); filter: blur(6px); }
   to   { opacity: 1; transform: scale(1); filter: blur(0); }
 }
 
 /* Connector lines (SVG) */
-.loader-connectors {
+.hero-constellation-connectors {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -399,39 +396,39 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
 }
 
-.loader-connector {
+.hero-constellation-connector {
   stroke-width: 1;
   opacity: 0;
   stroke-dasharray: 200;
   stroke-dashoffset: 200;
 }
 
-.loader-connector[data-index="0"] { animation: connectorDraw 0.6s var(--ease-out) 1.0s forwards; }
-.loader-connector[data-index="1"] { animation: connectorDraw 0.6s var(--ease-out) 1.15s forwards; }
-.loader-connector[data-index="2"] { animation: connectorDraw 0.6s var(--ease-out) 1.3s forwards; }
-.loader-connector[data-index="3"] { animation: connectorDraw 0.6s var(--ease-out) 1.45s forwards; }
-.loader-connector[data-index="4"] { animation: connectorDraw 0.6s var(--ease-out) 1.6s forwards; }
-.loader-connector[data-index="5"] { animation: connectorDraw 0.6s var(--ease-out) 1.75s forwards; }
-.loader-connector[data-index="6"] { animation: connectorDraw 0.6s var(--ease-out) 1.9s forwards; }
-.loader-connector[data-index="7"] { animation: connectorDraw 0.6s var(--ease-out) 2.05s forwards; }
+.hero-constellation-connector[data-index="0"] { animation: heroConnectorDraw 0.6s var(--ease-out) 1.0s forwards; }
+.hero-constellation-connector[data-index="1"] { animation: heroConnectorDraw 0.6s var(--ease-out) 1.15s forwards; }
+.hero-constellation-connector[data-index="2"] { animation: heroConnectorDraw 0.6s var(--ease-out) 1.3s forwards; }
+.hero-constellation-connector[data-index="3"] { animation: heroConnectorDraw 0.6s var(--ease-out) 1.45s forwards; }
+.hero-constellation-connector[data-index="4"] { animation: heroConnectorDraw 0.6s var(--ease-out) 1.6s forwards; }
+.hero-constellation-connector[data-index="5"] { animation: heroConnectorDraw 0.6s var(--ease-out) 1.75s forwards; }
+.hero-constellation-connector[data-index="6"] { animation: heroConnectorDraw 0.6s var(--ease-out) 1.9s forwards; }
+.hero-constellation-connector[data-index="7"] { animation: heroConnectorDraw 0.6s var(--ease-out) 2.05s forwards; }
 
-@keyframes connectorDraw {
+@keyframes heroConnectorDraw {
   to { stroke-dashoffset: 0; opacity: 0.12; }
 }
 
 /* Orbiting nodes */
-.loader-orbit {
+.hero-constellation-orbit {
   position: absolute;
   inset: 0;
-  animation: orbitRotate 90s linear 3.5s infinite;
+  animation: heroOrbitRotate 90s linear 3.5s infinite;
 }
 
-@keyframes orbitRotate {
+@keyframes heroOrbitRotate {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
 
-.loader-node {
+.hero-constellation-node {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -441,22 +438,22 @@ h1, h2, h3, h4, h5, h6 {
   transform: translate(-50%, -50%) scale(0.3);
 }
 
-.loader-node[data-index="0"] { top: 0%;    left: 50%;   animation: nodeIn 0.6s var(--ease-out) 1.0s forwards; }
-.loader-node[data-index="1"] { top: 14.6%; left: 85.4%; animation: nodeIn 0.6s var(--ease-out) 1.15s forwards; }
-.loader-node[data-index="2"] { top: 50%;   left: 100%;  animation: nodeIn 0.6s var(--ease-out) 1.3s forwards; }
-.loader-node[data-index="3"] { top: 85.4%; left: 85.4%; animation: nodeIn 0.6s var(--ease-out) 1.45s forwards; }
-.loader-node[data-index="4"] { top: 100%;  left: 50%;   animation: nodeIn 0.6s var(--ease-out) 1.6s forwards; }
-.loader-node[data-index="5"] { top: 85.4%; left: 14.6%; animation: nodeIn 0.6s var(--ease-out) 1.75s forwards; }
-.loader-node[data-index="6"] { top: 50%;   left: 0%;    animation: nodeIn 0.6s var(--ease-out) 1.9s forwards; }
-.loader-node[data-index="7"] { top: 14.6%; left: 14.6%; animation: nodeIn 0.6s var(--ease-out) 2.05s forwards; }
+.hero-constellation-node[data-index="0"] { top: 0%;    left: 50%;   animation: heroNodeIn 0.6s var(--ease-out) 1.0s forwards; }
+.hero-constellation-node[data-index="1"] { top: 14.6%; left: 85.4%; animation: heroNodeIn 0.6s var(--ease-out) 1.15s forwards; }
+.hero-constellation-node[data-index="2"] { top: 50%;   left: 100%;  animation: heroNodeIn 0.6s var(--ease-out) 1.3s forwards; }
+.hero-constellation-node[data-index="3"] { top: 85.4%; left: 85.4%; animation: heroNodeIn 0.6s var(--ease-out) 1.45s forwards; }
+.hero-constellation-node[data-index="4"] { top: 100%;  left: 50%;   animation: heroNodeIn 0.6s var(--ease-out) 1.6s forwards; }
+.hero-constellation-node[data-index="5"] { top: 85.4%; left: 14.6%; animation: heroNodeIn 0.6s var(--ease-out) 1.75s forwards; }
+.hero-constellation-node[data-index="6"] { top: 50%;   left: 0%;    animation: heroNodeIn 0.6s var(--ease-out) 1.9s forwards; }
+.hero-constellation-node[data-index="7"] { top: 14.6%; left: 14.6%; animation: heroNodeIn 0.6s var(--ease-out) 2.05s forwards; }
 
-@keyframes nodeIn {
+@keyframes heroNodeIn {
   from { opacity: 0; filter: blur(8px); transform: translate(-50%, -50%) scale(0.3); }
   to   { opacity: 1; filter: blur(0);   transform: translate(-50%, -50%) scale(1); }
 }
 
 /* Node dot */
-.loader-node-dot {
+.hero-constellation-dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -468,7 +465,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Pulsing ring behind each dot */
-.loader-node-pulse {
+.hero-constellation-pulse {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -479,26 +476,26 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 50%;
   border: 1px solid var(--color-warm);
   opacity: 0;
-  animation: nodePulse 2.5s ease-out infinite;
+  animation: heroNodePulse 2.5s ease-out infinite;
   pointer-events: none;
 }
 
-.loader-node[data-index="0"] .loader-node-pulse { animation-delay: 1.5s; }
-.loader-node[data-index="1"] .loader-node-pulse { animation-delay: 1.7s; }
-.loader-node[data-index="2"] .loader-node-pulse { animation-delay: 1.9s; }
-.loader-node[data-index="3"] .loader-node-pulse { animation-delay: 2.1s; }
-.loader-node[data-index="4"] .loader-node-pulse { animation-delay: 2.3s; }
-.loader-node[data-index="5"] .loader-node-pulse { animation-delay: 2.5s; }
-.loader-node[data-index="6"] .loader-node-pulse { animation-delay: 2.7s; }
-.loader-node[data-index="7"] .loader-node-pulse { animation-delay: 2.9s; }
+.hero-constellation-node[data-index="0"] .hero-constellation-pulse { animation-delay: 1.5s; }
+.hero-constellation-node[data-index="1"] .hero-constellation-pulse { animation-delay: 1.7s; }
+.hero-constellation-node[data-index="2"] .hero-constellation-pulse { animation-delay: 1.9s; }
+.hero-constellation-node[data-index="3"] .hero-constellation-pulse { animation-delay: 2.1s; }
+.hero-constellation-node[data-index="4"] .hero-constellation-pulse { animation-delay: 2.3s; }
+.hero-constellation-node[data-index="5"] .hero-constellation-pulse { animation-delay: 2.5s; }
+.hero-constellation-node[data-index="6"] .hero-constellation-pulse { animation-delay: 2.7s; }
+.hero-constellation-node[data-index="7"] .hero-constellation-pulse { animation-delay: 2.9s; }
 
-@keyframes nodePulse {
+@keyframes heroNodePulse {
   0%   { transform: scale(1); opacity: 0.6; }
   100% { transform: scale(4); opacity: 0; }
 }
 
 /* Node labels */
-.loader-node-label {
+.hero-constellation-label {
   font-family: var(--font-body);
   font-size: 0.65rem;
   font-weight: 500;
@@ -507,58 +504,46 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-warm);
   white-space: nowrap;
   opacity: 0;
-  animation: labelReveal 0.6s var(--ease-out) forwards;
+  animation: heroLabelReveal 0.6s var(--ease-out) forwards;
   text-shadow: 0 0 20px rgba(196,168,122,0.3);
 }
 
-.loader-node[data-index="0"] .loader-node-label { animation-delay: 1.4s; }
-.loader-node[data-index="1"] .loader-node-label { animation-delay: 1.55s; }
-.loader-node[data-index="2"] .loader-node-label { animation-delay: 1.7s; }
-.loader-node[data-index="3"] .loader-node-label { animation-delay: 1.85s; }
-.loader-node[data-index="4"] .loader-node-label { animation-delay: 2.0s; }
-.loader-node[data-index="5"] .loader-node-label { animation-delay: 2.15s; }
-.loader-node[data-index="6"] .loader-node-label { animation-delay: 2.3s; }
-.loader-node[data-index="7"] .loader-node-label { animation-delay: 2.45s; }
+.hero-constellation-node[data-index="0"] .hero-constellation-label { animation-delay: 1.4s; }
+.hero-constellation-node[data-index="1"] .hero-constellation-label { animation-delay: 1.55s; }
+.hero-constellation-node[data-index="2"] .hero-constellation-label { animation-delay: 1.7s; }
+.hero-constellation-node[data-index="3"] .hero-constellation-label { animation-delay: 1.85s; }
+.hero-constellation-node[data-index="4"] .hero-constellation-label { animation-delay: 2.0s; }
+.hero-constellation-node[data-index="5"] .hero-constellation-label { animation-delay: 2.15s; }
+.hero-constellation-node[data-index="6"] .hero-constellation-label { animation-delay: 2.3s; }
+.hero-constellation-node[data-index="7"] .hero-constellation-label { animation-delay: 2.45s; }
 
-@keyframes labelReveal {
+@keyframes heroLabelReveal {
   from { opacity: 0; transform: translateY(6px); filter: blur(4px); }
   to   { opacity: 0.6; transform: translateY(0); filter: blur(0); }
 }
 
-/* Tagline below constellation */
-.loader-tagline {
-  font-family: var(--font-heading);
-  font-size: clamp(0.95rem, 2vw, 1.15rem);
-  font-weight: 300;
-  font-style: italic;
-  color: var(--color-text-muted);
-  letter-spacing: -0.01em;
-  opacity: 0;
-  animation: taglineIn 0.8s var(--ease-out) 2.6s forwards;
+/* Text content below constellation */
+.hero-constellation-text {
   text-align: center;
-  max-width: 400px;
+  max-width: 640px;
 }
 
-@keyframes taglineIn {
-  from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
-  to   { opacity: 0.7; transform: translateY(0); filter: blur(0); }
-}
-
-/* Loader responsive */
+/* Hero constellation responsive */
 @media (max-width: 768px) {
-  .loader-constellation { width: min(340px, 90vw); height: min(340px, 90vw); }
-  .loader-node-label { font-size: 0.55rem; letter-spacing: 0.08em; }
-  .loader-center-ring { width: 72px; height: 72px; }
-  .loader-center-text { font-size: 1rem; }
-  .loader-glow { width: 340px; height: 340px; }
+  .hero-constellation { width: min(320px, 85vw); height: min(320px, 85vw); }
+  .hero-constellation-label { font-size: 0.55rem; letter-spacing: 0.08em; }
+  .hero-constellation-center-ring { width: 72px; height: 72px; }
+  .hero-constellation-center-text { font-size: 1rem; }
+  .hero-constellation-glow { width: 340px; height: 340px; }
+  .hero-constellation-layout { gap: 2rem; }
 }
 
 @media (max-width: 480px) {
-  .loader-constellation { width: min(280px, 92vw); height: min(280px, 92vw); }
-  .loader-node-dot { width: 8px; height: 8px; }
-  .loader-node-pulse { width: 8px; height: 8px; margin-top: -4px; margin-left: -4px; }
-  .loader-node-label { font-size: 0.5rem; }
-  .loader-center-ring { width: 60px; height: 60px; }
+  .hero-constellation { width: min(270px, 90vw); height: min(270px, 90vw); }
+  .hero-constellation-dot { width: 8px; height: 8px; }
+  .hero-constellation-pulse { width: 8px; height: 8px; margin-top: -4px; margin-left: -4px; }
+  .hero-constellation-label { font-size: 0.5rem; }
+  .hero-constellation-center-ring { width: 60px; height: 60px; }
 }
 
 /* ============================================================
@@ -587,19 +572,17 @@ h1, h2, h3, h4, h5, h6 {
   .scroll-reveal { opacity: 1; transform: none; transition: none; }
   .hero-reveal { opacity: 1; animation: none; }
 
-  /* Loader */
-  .loader-screen.fade-out { transition-duration: 0.01s; filter: none; transform: none; }
-  .loader-particle { animation: none; display: none; }
-  .loader-glow { animation: none; opacity: 1; transform: translate(-50%, -50%); }
-  .orbit-ring { animation: none; opacity: 0.15; transform: none; }
-  .loader-center-ring { animation: none; opacity: 0.4; transform: none; }
-  .loader-center-text { animation: none; opacity: 1; transform: none; filter: none; }
-  .loader-connector { animation: none; stroke-dashoffset: 0; opacity: 0.12; }
-  .loader-orbit { animation: none; }
-  .loader-node { animation: none; opacity: 1; filter: none; transform: translate(-50%, -50%) scale(1); }
-  .loader-node-pulse { animation: none; display: none; }
-  .loader-node-label { animation: none; opacity: 0.6; transform: none; filter: none; }
-  .loader-tagline { animation: none; opacity: 0.7; transform: none; filter: none; }
+  /* Hero constellation */
+  .hero-constellation-particle { animation: none; display: none; }
+  .hero-constellation-glow { animation: none; opacity: 1; transform: translate(-50%, -50%); }
+  .hero-orbit-ring { animation: none; opacity: 0.15; transform: none; }
+  .hero-constellation-center-ring { animation: none; opacity: 0.4; transform: none; }
+  .hero-constellation-center-text { animation: none; opacity: 1; transform: none; filter: none; }
+  .hero-constellation-connector { animation: none; stroke-dashoffset: 0; opacity: 0.12; }
+  .hero-constellation-orbit { animation: none; }
+  .hero-constellation-node { animation: none; opacity: 1; filter: none; transform: translate(-50%, -50%) scale(1); }
+  .hero-constellation-pulse { animation: none; display: none; }
+  .hero-constellation-label { animation: none; opacity: 0.6; transform: none; filter: none; }
 
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
