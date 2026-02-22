@@ -19,7 +19,7 @@ export default function AboutPage() {
             Our story
           </p>
           <h1 className="text-h1 font-heading">
-            Our story.
+            Built from experience.
           </h1>
         </Container>
       </section>
@@ -29,37 +29,29 @@ export default function AboutPage() {
         <Container narrow>
           <ScrollReveal>
             <div className="space-y-6 text-text-body leading-relaxed">
-              <p>
+              <p className="text-body-lg">
                 When our twins arrived, nothing could have prepared us for what
-                came next. Two babies. No sleep. No routine. No family nearby.
-                Just an overwhelming blur of feeds, nappies, crying, and the
-                constant feeling that we were failing at something we were
-                supposed to instinctively know how to do.
+                came next. No sleep. No routine. No family nearby. Just an
+                overwhelming blur — and the constant feeling we were failing at
+                something we were supposed to instinctively know how to do.
               </p>
 
               <p>
-                People told us to &ldquo;ask for help.&rdquo; But ask who? And
-                for what, exactly? We didn&apos;t even know what we needed. A
-                night nanny? A lactation consultant? A meal service? Someone to
-                hold one baby while we fed the other? All of it? We were too
-                exhausted to research a single provider, let alone vet them,
-                compare them, and coordinate schedules — while running on two
-                hours of broken sleep.
+                People told us to &ldquo;ask for help.&rdquo; But ask who? We
+                were too exhausted to research a single provider, let alone vet
+                them and coordinate schedules on two hours of broken sleep.
               </p>
 
               <p>
-                The help existed. Good people, doing good work, often just a few
-                suburbs away. But the gap between knowing help exists and
-                actually having it arrive at your door felt impossible to cross
-                when you can barely string a sentence together.
+                The help existed — good people, doing good work, often just a
+                few suburbs away. But the gap between knowing help exists and
+                actually having it arrive at your door felt impossible to cross.
               </p>
 
-              <p>
-                Your Village is what we wished had existed for us. One person who
-                already knows the providers, who listens to what you&apos;re
-                going through, and who puts the right support in place — so you
-                don&apos;t have to figure it out alone, at the hardest moment of
-                your life.
+              <p className="text-text-primary font-medium">
+                Your Village is what we wished had existed. One person who
+                already knows the providers, listens to what you&apos;re going
+                through, and puts the right support in place.
               </p>
 
               <p className="text-text-muted italic text-right mt-8">
@@ -75,23 +67,14 @@ export default function AboutPage() {
         <Container narrow>
           <ScrollReveal>
             <h2 className="text-h2 font-heading text-center mb-8">
-              What we are. What we&apos;re not.
+              Not a marketplace. Not a directory.
             </h2>
-            <div className="space-y-6 text-text-body leading-relaxed">
-              <p>
-                We&apos;re not a marketplace. We&apos;re not a directory.
-                We&apos;re not an app that gives you a list and says &ldquo;good
-                luck.&rdquo; We&apos;re a coordination layer — a person who sits
-                between you and the overwhelming world of postpartum support, and
-                makes it simple.
-              </p>
-              <p>
-                Your coordinator knows your story, understands your situation,
-                and handles the logistics. You don&apos;t browse providers. You
-                don&apos;t compare packages. You tell us what&apos;s hard, and
-                we put the right help around you.
-              </p>
-            </div>
+            <p className="text-text-body leading-relaxed text-center max-w-2xl mx-auto">
+              We&apos;re a coordination layer — a person who sits between you
+              and the overwhelming world of postpartum support, and makes it
+              simple. You tell us what&apos;s hard, and we put the right help
+              around you.
+            </p>
           </ScrollReveal>
         </Container>
       </section>
@@ -103,19 +86,15 @@ export default function AboutPage() {
             <h2 className="text-h2 font-heading text-center mb-8">
               How we choose providers.
             </h2>
-            <div className="space-y-6 text-text-body leading-relaxed">
-              <p>
-                Every provider we work with has been personally vetted — not just
-                their qualifications, but how they treat families. We have a
-                conversation with every provider before we refer a single family
-                to them. We&apos;re looking for warmth, competence, and the kind
-                of sensitivity that postpartum families deserve.
-              </p>
-              <p className="text-text-muted">
-                If we wouldn&apos;t recommend them to someone we love,
-                they&apos;re not in our network.
-              </p>
-            </div>
+            <p className="text-text-body leading-relaxed text-center max-w-2xl mx-auto mb-4">
+              Every provider is personally vetted — not just qualifications, but
+              how they treat families. We have a conversation with every single
+              one before we refer anyone to them.
+            </p>
+            <p className="text-text-muted text-center max-w-2xl mx-auto">
+              If we wouldn&apos;t recommend them to someone we love,
+              they&apos;re not in our network.
+            </p>
           </ScrollReveal>
 
           <ScrollReveal>

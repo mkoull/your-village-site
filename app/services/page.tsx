@@ -99,9 +99,8 @@ export default function ServicesPage() {
             Your support, your way.
           </h1>
           <p className="text-text-muted max-w-xl mx-auto leading-relaxed">
-            From meals and overnight care to counselling and community — we
-            coordinate the support that fits your family. Tap any service to
-            learn more.
+            From meals and overnight care to counselling and community.
+            Tap any service to learn more.
           </p>
         </Container>
       </section>
@@ -149,8 +148,8 @@ export default function ServicesPage() {
               Not sure what you need?
             </h2>
             <p className="text-text-muted mb-8">
-              That&apos;s okay. Start with a conversation and your coordinator
-              will help you figure it out.
+              That&apos;s okay. Start with a conversation and we&apos;ll
+              figure it out together.
             </p>
             <Button href="/get-started" size="lg">
               Start a conversation

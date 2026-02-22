@@ -19,10 +19,9 @@ export default function Hero() {
           <em className="text-sage">this alone.</em>
         </h1>
 
-        <p className="hero-reveal hero-reveal-3 text-body-lg text-text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
-          Your Village connects you to trusted postpartum support — food, care,
-          counselling, cleaning, sleep, lactation, and community — coordinated
-          in one place.
+        <p className="hero-reveal hero-reveal-3 text-body-lg text-text-muted max-w-xl mx-auto mb-10 leading-relaxed">
+          One coordinator. Trusted providers. Meals, care, sleep support,
+          and more — organised around your family.
         </p>
 
         <div className="hero-reveal hero-reveal-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
@@ -36,7 +35,7 @@ export default function Hero() {
         </div>
 
         <p className="hero-reveal hero-reveal-5 text-sm text-text-muted">
-          No commitment up front. Start with a conversation.
+          No commitment. Start with a conversation.
         </p>
       </Container>
     </section>
