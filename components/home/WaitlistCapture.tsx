@@ -42,7 +42,7 @@ export default function WaitlistCapture() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Your email address"
                     required
-                    className="flex-1 w-full px-6 py-3.5 rounded-full bg-white/[0.06] border border-white/[0.12] text-text-inverse placeholder:text-white/30 focus:outline-none focus:border-sage/60 text-sm transition-colors duration-300"
+                    className="waitlist-input flex-1 w-full px-6 py-3.5 rounded-full bg-white/[0.06] border border-white/[0.12] text-text-inverse placeholder:text-white/30 focus:outline-none text-sm transition-all duration-300"
                   />
                   <button
                     type="submit"

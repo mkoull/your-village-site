@@ -46,8 +46,8 @@ export default function TestimonialsSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-24">
           {testimonials.map((testimonial, i) => (
             <ScrollReveal key={i} stagger={i + 1}>
-              <blockquote className="testimonial-card">
-                <span className="text-sage/20 text-6xl font-heading leading-none mb-4 select-none" aria-hidden="true">&ldquo;</span>
+              <blockquote className="testimonial-card card-shimmer">
+                <span className="text-sage/25 text-6xl font-heading leading-none mb-4 select-none" aria-hidden="true">&ldquo;</span>
                 <p className="text-text-body leading-[1.85] flex-1 mb-10 text-[15px]">
                   {testimonial.quote}
                 </p>
@@ -65,7 +65,7 @@ export default function TestimonialsSection() {
             {trustPoints.map((point) => (
               <span
                 key={point}
-                className="px-5 py-2.5 rounded-full border border-border text-text-muted text-sm font-medium tracking-wide"
+                className="trust-pill px-5 py-2.5 rounded-full border border-border text-text-muted text-sm font-medium tracking-wide cursor-default"
               >
                 {point}
               </span>
