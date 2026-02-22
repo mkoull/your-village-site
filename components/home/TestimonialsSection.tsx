@@ -22,66 +22,36 @@ const testimonials = [
 ];
 
 const trustPoints = [
-  {
-    label: "Every provider vetted",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      </svg>
-    ),
-  },
-  {
-    label: "One dedicated coordinator",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-        <circle cx="12" cy="7" r="4" />
-      </svg>
-    ),
-  },
-  {
-    label: "Privacy-first approach",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-      </svg>
-    ),
-  },
-  {
-    label: "Ongoing, not one-off",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <polyline points="20 6 9 17 4 12" />
-      </svg>
-    ),
-  },
+  "Every provider personally vetted",
+  "One dedicated coordinator",
+  "Privacy-first approach",
+  "Ongoing, not one-off",
 ];
 
 export default function TestimonialsSection() {
   return (
-    <section className="bg-surface py-24 md:py-32 lg:py-40">
+    <section className="bg-surface py-32 md:py-40 lg:py-52">
       <Container>
         <ScrollReveal>
-          <div className="text-center mb-20">
-            <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
+          <div className="text-center mb-24 md:mb-32">
+            <p className="text-eyebrow uppercase tracking-[0.25em] font-semibold text-sage mb-5 font-body">
               From families we&apos;ve supported
             </p>
-            <h2 className="text-h2 font-heading">
-              Real stories from real parents.
+            <h2 className="text-h2 font-heading max-w-lg mx-auto">
+              Words that keep us going.
             </h2>
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-24">
           {testimonials.map((testimonial, i) => (
             <ScrollReveal key={i} stagger={i + 1}>
-              <blockquote className="p-8 md:p-10 rounded-[var(--radius-lg)] bg-elevated border border-border-subtle shadow-sm h-full flex flex-col">
-                <span className="text-sage/30 text-5xl font-heading leading-none mb-2 select-none" aria-hidden="true">&ldquo;</span>
-                <p className="text-text-body leading-relaxed flex-1 mb-8 text-[16px]">
+              <blockquote className="testimonial-card">
+                <span className="text-sage/20 text-6xl font-heading leading-none mb-4 select-none" aria-hidden="true">&ldquo;</span>
+                <p className="text-text-body leading-[1.85] flex-1 mb-10 text-[15px]">
                   {testimonial.quote}
                 </p>
-                <footer className="text-sm text-text-muted font-medium">
+                <footer className="text-sm text-text-muted font-medium tracking-wide">
                   {testimonial.attribution}
                 </footer>
               </blockquote>
@@ -89,14 +59,16 @@ export default function TestimonialsSection() {
           ))}
         </div>
 
-        {/* Trust signals — compact row */}
+        {/* Trust signals — minimal, elegant */}
         <ScrollReveal>
-          <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
+          <div className="flex flex-wrap justify-center gap-x-3 gap-y-3">
             {trustPoints.map((point) => (
-              <div key={point.label} className="flex items-center gap-2.5 text-text-muted">
-                <span className="text-sage">{point.icon}</span>
-                <span className="text-sm font-medium">{point.label}</span>
-              </div>
+              <span
+                key={point}
+                className="px-5 py-2.5 rounded-full border border-border text-text-muted text-sm font-medium tracking-wide"
+              >
+                {point}
+              </span>
             ))}
           </div>
         </ScrollReveal>
