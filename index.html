@@ -984,7 +984,7 @@
           var degrees = (elapsed / 90) * 360; // 90s for full rotation
           var nodes = orbit.querySelectorAll('.loader-node');
           nodes.forEach(function(node) {
-            node.style.transform = 'translate(-50%, -50%) rotate(' + (-degrees) + 'deg)';
+            node.style.transform = 'translate(-50%, -50%) scale(1) rotate(' + (-degrees) + 'deg)';
           });
           requestAnimationFrame(counterRotate);
         }
