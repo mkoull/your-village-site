@@ -2404,7 +2404,7 @@ strong {
   .loader-center-text { opacity: 1; transform: none; filter: none; }
   .loader-connector { stroke-dashoffset: 0; opacity: 0.12; }
   .loader-orbit { transform: none; }
-  .loader-node { opacity: 1; filter: none; scale: 1; }
+  .loader-node { opacity: 1; filter: none; transform: translate(-50%, -50%) scale(1); }
   .loader-node-pulse { display: none; }
   .loader-node-label { opacity: 0.6; transform: none; filter: none; }
   .loader-tagline { opacity: 0.7; transform: none; filter: none; }
@@ -2555,6 +2555,8 @@ button:focus-visible,
   fill: none;
   stroke-width: 0.5;
   opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center center;
 }
 
 .orbit-ring--inner {
@@ -2574,18 +2576,18 @@ button:focus-visible,
 }
 
 @keyframes orbitRingIn {
-  from { opacity: 0; transform: scale(0.7); transform-origin: center; }
-  to   { opacity: 0.15; transform: scale(1); transform-origin: center; }
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 0.15; transform: scale(1); }
 }
 
 @keyframes orbitRingSpin {
-  from { transform: rotate(0deg); transform-origin: center; }
-  to   { transform: rotate(360deg); transform-origin: center; }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 @keyframes orbitRingSpinReverse {
-  from { transform: rotate(0deg); transform-origin: center; }
-  to   { transform: rotate(-360deg); transform-origin: center; }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
 }
 
 /* --- Centre "Your Village" text --- */
@@ -2681,7 +2683,7 @@ button:focus-visible,
   to   { transform: rotate(360deg); }
 }
 
-/* Each node positioned on a circle (radius ~180px from center of 480px = 37.5%) */
+/* Each node positioned on a circle (8 nodes, 45deg apart) */
 .loader-node {
   position: absolute;
   display: flex;
@@ -2689,31 +2691,29 @@ button:focus-visible,
   align-items: center;
   gap: 8px;
   opacity: 0;
-  /* Counter-rotate so labels stay upright during orbit */
-  animation: nodeIn 0.6s var(--ease-out) forwards;
+  transform: translate(-50%, -50%) scale(0.3);
 }
 
-/* Position each node around the circle (8 nodes, 45deg apart) */
-/* Using top/left percentages based on 480px container, radius ~180px */
-.loader-node[data-index="0"] { top: 0%;    left: 50%;  transform: translate(-50%, -50%); animation-delay: 1.0s; }
-.loader-node[data-index="1"] { top: 14.6%; left: 85.4%; transform: translate(-50%, -50%); animation-delay: 1.15s; }
-.loader-node[data-index="2"] { top: 50%;   left: 100%; transform: translate(-50%, -50%); animation-delay: 1.3s; }
-.loader-node[data-index="3"] { top: 85.4%; left: 85.4%; transform: translate(-50%, -50%); animation-delay: 1.45s; }
-.loader-node[data-index="4"] { top: 100%;  left: 50%;  transform: translate(-50%, -50%); animation-delay: 1.6s; }
-.loader-node[data-index="5"] { top: 85.4%; left: 14.6%; transform: translate(-50%, -50%); animation-delay: 1.75s; }
-.loader-node[data-index="6"] { top: 50%;   left: 0%;   transform: translate(-50%, -50%); animation-delay: 1.9s; }
-.loader-node[data-index="7"] { top: 14.6%; left: 14.6%; transform: translate(-50%, -50%); animation-delay: 2.05s; }
+/* Position + staggered animation */
+.loader-node[data-index="0"] { top: 0%;    left: 50%;  animation: nodeIn 0.6s var(--ease-out) 1.0s forwards; }
+.loader-node[data-index="1"] { top: 14.6%; left: 85.4%; animation: nodeIn 0.6s var(--ease-out) 1.15s forwards; }
+.loader-node[data-index="2"] { top: 50%;   left: 100%; animation: nodeIn 0.6s var(--ease-out) 1.3s forwards; }
+.loader-node[data-index="3"] { top: 85.4%; left: 85.4%; animation: nodeIn 0.6s var(--ease-out) 1.45s forwards; }
+.loader-node[data-index="4"] { top: 100%;  left: 50%;  animation: nodeIn 0.6s var(--ease-out) 1.6s forwards; }
+.loader-node[data-index="5"] { top: 85.4%; left: 14.6%; animation: nodeIn 0.6s var(--ease-out) 1.75s forwards; }
+.loader-node[data-index="6"] { top: 50%;   left: 0%;   animation: nodeIn 0.6s var(--ease-out) 1.9s forwards; }
+.loader-node[data-index="7"] { top: 14.6%; left: 14.6%; animation: nodeIn 0.6s var(--ease-out) 2.05s forwards; }
 
 @keyframes nodeIn {
   from {
     opacity: 0;
     filter: blur(8px);
-    scale: 0.3;
+    transform: translate(-50%, -50%) scale(0.3);
   }
   to {
     opacity: 1;
     filter: blur(0);
-    scale: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -2875,7 +2875,7 @@ button:focus-visible,
   .loader-center-text { animation: none; opacity: 1; transform: none; filter: none; }
   .loader-connector { animation: none; stroke-dashoffset: 0; opacity: 0.12; }
   .loader-orbit { animation: none; }
-  .loader-node { animation: none; opacity: 1; filter: none; scale: 1; }
+  .loader-node { animation: none; opacity: 1; filter: none; transform: translate(-50%, -50%) scale(1); }
   .loader-node-pulse { animation: none; display: none; }
   .loader-node-label { animation: none; opacity: 0.6; transform: none; filter: none; }
   .loader-tagline { animation: none; opacity: 0.7; transform: none; filter: none; }
