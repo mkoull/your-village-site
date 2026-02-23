@@ -73,6 +73,9 @@
 
     <!-- Multi-step Form -->
     <div class="form-container">
+      <div class="form-progress-bar">
+        <div class="form-progress-fill" id="form-progress-fill" style="width: 16.67%;"></div>
+      </div>
       <form id="intake-form" novalidate>
 
         <!-- Step 1: Baby Stage -->
@@ -282,7 +285,7 @@
       </form>
 
       <!-- Confirmation (hidden by default) -->
-      <div class="form-confirmation" id="confirmation" style="display: none;">
+      <div class="form-confirmation" id="confirmation" style="display: none; opacity: 0;">
         <div class="confirmation-check">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
@@ -369,20 +372,56 @@
       var form = document.getElementById('intake-form');
       var steps = document.querySelectorAll('.form-step');
       var confirmation = document.getElementById('confirmation');
+      var progressFill = document.getElementById('form-progress-fill');
       var currentStep = 1;
+      var transitioning = false;
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function updateProgressBar() {
+        if (progressFill) {
+          var pct = (currentStep / 6) * 100;
+          progressFill.style.width = pct + '%';
+        }
+      }
 
       function showStep(n) {
-        steps.forEach(function(s) { s.classList.remove('active'); });
+        if (transitioning) return;
+        var currentEl = document.querySelector('[data-step="' + currentStep + '"]');
         var target = document.querySelector('[data-step="' + n + '"]');
-        if (target) {
+        if (!target) return;
+
+        if (prefersReduced || !currentEl) {
+          steps.forEach(function(s) { s.classList.remove('active', 'step-entering', 'step-exiting'); });
           target.classList.add('active');
           currentStep = n;
+          updateProgressBar();
           window.scrollTo({ top: 0, behavior: 'smooth' });
           var firstInput = target.querySelector('input:not([type="hidden"])');
           if (firstInput && firstInput.type !== 'checkbox' && firstInput.type !== 'radio') {
             setTimeout(function() { firstInput.focus(); }, 100);
           }
+          return;
         }
+
+        transitioning = true;
+        currentEl.classList.add('step-exiting');
+        currentEl.addEventListener('animationend', function handler() {
+          currentEl.removeEventListener('animationend', handler);
+          currentEl.classList.remove('active', 'step-exiting');
+          target.classList.add('active', 'step-entering');
+          currentStep = n;
+          updateProgressBar();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          target.addEventListener('animationend', function handler2() {
+            target.removeEventListener('animationend', handler2);
+            target.classList.remove('step-entering');
+            transitioning = false;
+            var firstInput = target.querySelector('input:not([type="hidden"])');
+            if (firstInput && firstInput.type !== 'checkbox' && firstInput.type !== 'radio') {
+              setTimeout(function() { firstInput.focus(); }, 50);
+            }
+          });
+        });
       }
 
       function validateStep(stepNum) {
@@ -521,7 +560,10 @@
         }
 
         form.style.display = 'none';
+        if (progressFill) progressFill.parentElement.style.display = 'none';
         confirmation.style.display = 'block';
+        confirmation.style.opacity = '';
+        confirmation.classList.add('show');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     })();

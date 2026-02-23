@@ -56,6 +56,11 @@
 
   --error:            #C4564A;
   --success:          #7A8B6F;
+
+  /* Ambient warmth tokens */
+  --warmth-1:         rgba(158,126,86,0.06);
+  --warmth-2:         rgba(196,162,101,0.05);
+  --warmth-3:         rgba(122,139,111,0.04);
 }
 
 /* --- Dark Mode --- */
@@ -81,6 +86,11 @@
 
   --sage:             #9AAB8F;
   --sage-subtle:      rgba(154,171,143,0.08);
+
+  /* Dark mode ambient warmth */
+  --warmth-1:         rgba(201,173,122,0.08);
+  --warmth-2:         rgba(212,184,122,0.06);
+  --warmth-3:         rgba(154,171,143,0.05);
 
   --border:           rgba(237,235,232,0.06);
   --border-medium:    rgba(237,235,232,0.1);
@@ -2403,6 +2413,285 @@ strong {
 }
 
 /* ============================================================
+   AMBIENT LIVING BACKGROUNDS — warm light pools that drift
+   ============================================================ */
+@keyframes ambientWarmth {
+  0%   { background-position: 20% 30%, 80% 70%; }
+  25%  { background-position: 40% 60%, 60% 30%; }
+  50%  { background-position: 70% 40%, 30% 80%; }
+  75%  { background-position: 50% 70%, 70% 20%; }
+  100% { background-position: 20% 30%, 80% 70%; }
+}
+
+@keyframes ambientWarmthAlt {
+  0%   { background-position: 70% 20%, 30% 80%; }
+  33%  { background-position: 30% 50%, 70% 40%; }
+  66%  { background-position: 60% 80%, 40% 20%; }
+  100% { background-position: 70% 20%, 30% 80%; }
+}
+
+.section-ambient::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 600px 400px, var(--warmth-1), transparent),
+    radial-gradient(ellipse 500px 500px, var(--warmth-2), transparent);
+  background-size: 100% 100%;
+  animation: ambientWarmth 35s ease-in-out infinite;
+  opacity: 1;
+}
+
+.section-ambient-alt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 500px 350px, var(--warmth-2), transparent),
+    radial-gradient(ellipse 450px 450px, var(--warmth-3), transparent);
+  background-size: 100% 100%;
+  animation: ambientWarmthAlt 40s ease-in-out infinite;
+  opacity: 1;
+}
+
+/* Ensure section content sits above ambient layer */
+.section-ambient > .container,
+.section-ambient-alt > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   BREATHING RHYTHM — subliminal calming animations
+   ============================================================ */
+@keyframes gentleBreathe {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.03); opacity: 0.85; }
+}
+
+@keyframes warmPulse {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
+.eyebrow::before {
+  animation: warmPulse 6s ease-in-out infinite;
+}
+
+.footer-brand-name {
+  animation: gentleBreathe 8s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* ============================================================
+   SCROLL PROGRESS INDICATOR
+   ============================================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 1001;
+  background: linear-gradient(90deg, var(--accent), var(--gold), var(--sage));
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.1s linear;
+  box-shadow: 0 0 8px var(--accent-glow);
+  pointer-events: none;
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  opacity: 0.4;
+  border-radius: 100px;
+  border: 2px solid var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 0.6;
+}
+
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--bg-secondary);
+}
+
+/* ============================================================
+   ENHANCED TESTIMONIALS — glow & dot pulse
+   ============================================================ */
+@keyframes dotGlow {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50%      { box-shadow: 0 0 8px 2px var(--accent-glow); }
+}
+
+.testimonial-dot.active {
+  animation: dotGlow 3s ease-in-out infinite;
+}
+
+.testimonial-slide.active .testimonial-quote-mark {
+  text-shadow: 0 0 40px var(--accent-glow);
+}
+
+.testimonials-wrapper {
+  transition: box-shadow 0.6s var(--ease-premium);
+}
+
+.testimonials-wrapper:hover {
+  box-shadow: var(--shadow-premium), 0 0 60px var(--accent-subtle);
+}
+
+/* ============================================================
+   FORM STEP TRANSITIONS — gentle slide
+   ============================================================ */
+@keyframes stepSlideIn {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes stepSlideOut {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-30px); }
+}
+
+.form-step.step-entering {
+  display: block;
+  animation: stepSlideIn 0.4s var(--ease-out) forwards;
+}
+
+.form-step.step-exiting {
+  display: block;
+  animation: stepSlideOut 0.3s ease-in forwards;
+}
+
+/* Smooth progress bar */
+.form-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  border-radius: 100px;
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.form-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  border-radius: 100px;
+  transition: width 0.5s var(--ease-premium);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* Selection micro-interaction */
+@keyframes selectBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.option-item input:checked + .option-label {
+  animation: selectBounce 0.25s var(--ease-out);
+}
+
+/* Confirmation entrance */
+@keyframes confirmationIn {
+  from { opacity: 0; transform: scale(0.95); filter: blur(4px); }
+  to   { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes checkDraw {
+  from { stroke-dashoffset: 40; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.form-confirmation.show {
+  display: block;
+  animation: confirmationIn 0.6s var(--ease-premium) forwards;
+}
+
+.form-confirmation.show .confirmation-check svg {
+  stroke-dasharray: 40;
+  animation: checkDraw 0.5s var(--ease-out) 0.3s forwards;
+}
+
+/* ============================================================
+   ENHANCED SCROLL REVEALS — stagger children
+   ============================================================ */
+.reveal-stagger > .reveal:nth-child(1) { transition-delay: 0s; }
+.reveal-stagger > .reveal:nth-child(2) { transition-delay: 0.12s; }
+.reveal-stagger > .reveal:nth-child(3) { transition-delay: 0.24s; }
+.reveal-stagger > .reveal:nth-child(4) { transition-delay: 0.36s; }
+.reveal-stagger > .reveal:nth-child(5) { transition-delay: 0.48s; }
+.reveal-stagger > .reveal:nth-child(6) { transition-delay: 0.60s; }
+
+/* ============================================================
+   FLOWING SECTION TRANSITIONS — deeper warmth as you scroll
+   ============================================================ */
+/* Subtle warmth tinting is handled by the ambient background layers instead
+   of color-mix for broader browser support */
+
+/* Enhanced section bleed heights */
+.section--bg::before,
+.section--dark::before {
+  height: 120px;
+  top: -120px;
+}
+
+.section--bg::after,
+.section--dark::after {
+  height: 120px;
+  bottom: -120px;
+}
+
+/* ============================================================
+   PULL QUOTES — about page
+   ============================================================ */
+.pull-quote {
+  font-family: var(--font-display);
+  font-size: 1.3em;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--text-primary);
+  border-left: 3px solid var(--accent);
+  padding-left: 24px;
+  margin: 40px 0;
+  line-height: 1.6;
+  max-width: 640px;
+}
+
+/* About page ambient background */
+.about-page-content {
+  position: relative;
+}
+
+.about-page-ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 30%, var(--warmth-1), transparent),
+    radial-gradient(ellipse 500px 500px at 80% 70%, var(--warmth-2), transparent);
+  animation: ambientWarmth 35s ease-in-out infinite;
+}
+
+/* ============================================================
    UTILITY
    ============================================================ */
 .text-center { text-align: center; }
@@ -2476,6 +2765,48 @@ strong {
     transform: none;
   }
   /* Grain is fine — it's static */
+
+  /* Ambient backgrounds */
+  .section-ambient::after,
+  .section-ambient-alt::after,
+  .about-page-ambient {
+    animation: none;
+  }
+  /* Breathing elements */
+  .eyebrow::before {
+    animation: none;
+  }
+  .footer-brand-name {
+    animation: none;
+  }
+  /* Testimonial dot glow */
+  .testimonial-dot.active {
+    animation: none;
+  }
+  /* Form step transitions */
+  .form-step.step-entering,
+  .form-step.step-exiting {
+    animation: none;
+  }
+  .form-step.step-entering {
+    opacity: 1;
+    transform: none;
+  }
+  /* Selection bounce */
+  .option-item input:checked + .option-label {
+    animation: none;
+  }
+  /* Confirmation */
+  .form-confirmation.show {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .form-confirmation.show .confirmation-check svg {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }
 
 /* ============================================================

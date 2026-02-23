@@ -22,6 +22,12 @@
 </head>
 <body>
 
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Ambient background -->
+  <div class="about-page-ambient" aria-hidden="true"></div>
+
   <!-- Navigation -->
   <nav class="nav scrolled" id="nav">
     <div class="nav-inner">
@@ -68,33 +74,45 @@
   <!-- About Content -->
   <main>
     <div class="about-page-content">
-        <h1>Why Your Village exists.</h1>
+        <div class="reveal">
+          <h1>Why Your Village exists.</h1>
 
-        <p>We had family nearby. We had people who cared. And it still wasn't enough.</p>
+          <p class="pull-quote">We had family nearby. We had people who cared. And it still wasn't enough.</p>
 
-        <p>When our baby arrived, nothing went the way we expected. The sleep deprivation was relentless. The feeding felt constant — and somehow still not right. We weren't eating properly ourselves. I went from a career I was confident in to a life I had no training for, and the mental adjustment hit harder than I ever imagined. No one really prepares you for it.</p>
+          <p>When our baby arrived, nothing went the way we expected. The sleep deprivation was relentless. The feeding felt constant — and somehow still not right. We weren't eating properly ourselves. I went from a career I was confident in to a life I had no training for, and the mental adjustment hit harder than I ever imagined. No one really prepares you for it.</p>
+        </div>
 
-        <p>You work it out along the way. You do the best you can. But the moments that actually made a difference? They were small and specific. Someone bringing us a meal so we didn't have to think about dinner. A friend asking "are you okay?" and actually waiting for the answer. The overnight nanny who let us sleep for a full stretch for the first time in weeks. Those things changed everything.</p>
+        <div class="reveal">
+          <p class="pull-quote">The moments that actually made a difference? They were small and specific.</p>
 
-        <p>The support existed — doulas, lactation consultants, meal services, sleep specialists — all of them out there, often just a few suburbs away. But finding them, vetting them, working out who was right, booking them, coordinating schedules — all of that fell on the people who had the least capacity to do it. Us.</p>
+          <p>Someone bringing us a meal so we didn't have to think about dinner. A friend asking "are you okay?" and actually waiting for the answer. The overnight nanny who let us sleep for a full stretch for the first time in weeks. Those things changed everything.</p>
 
-        <p>Your Village is the thing I wished had existed when we were in the thick of it. A real person who already knows the providers, who listens to what you're going through, and who puts the right support in place — so you don't have to figure it out alone.</p>
+          <p>The support existed — doulas, lactation consultants, meal services, sleep specialists — all of them out there, often just a few suburbs away. But finding them, vetting them, working out who was right, booking them, coordinating schedules — all of that fell on the people who had the least capacity to do it. Us.</p>
 
-        <h2>What we are. What we're not.</h2>
+          <p>Your Village is the thing I wished had existed when we were in the thick of it. A real person who already knows the providers, who listens to what you're going through, and who puts the right support in place — so you don't have to figure it out alone.</p>
+        </div>
 
-        <p>We're not a marketplace. We're not a directory. We're not an app that gives you a list and says "good luck." We're a coordination layer — a person who sits between you and the overwhelming world of postpartum support, and makes it simple.</p>
+        <div class="reveal">
+          <h2>What we are. What we're not.</h2>
 
-        <p>Your coordinator knows your story, understands your situation, and handles the logistics. You don't browse providers. You don't compare packages. You tell us what's hard, and we put the right help around you.</p>
+          <p class="pull-quote">We're not a marketplace. We're not a directory. We're not an app that gives you a list and says "good luck."</p>
 
-        <h2>How we choose providers.</h2>
+          <p>We're a coordination layer — a person who sits between you and the overwhelming world of postpartum support, and makes it simple.</p>
 
-        <p>Every provider we work with has been personally vetted — not just their qualifications, but how they treat families. We have a conversation with every provider before we refer a single family to them. We're looking for warmth, competence, and the kind of sensitivity that postpartum families deserve.</p>
+          <p>Your coordinator knows your story, understands your situation, and handles the logistics. You don't browse providers. You don't compare packages. You tell us what's hard, and we put the right help around you.</p>
+        </div>
 
-        <p>If we wouldn't recommend them to someone we love, they're not in our network.</p>
+        <div class="reveal">
+          <h2>How we choose providers.</h2>
 
-        <p class="founder-sign-off">— The founder of Your Village</p>
+          <p>Every provider we work with has been personally vetted — not just their qualifications, but how they treat families. We have a conversation with every provider before we refer a single family to them. We're looking for warmth, competence, and the kind of sensitivity that postpartum families deserve.</p>
 
-        <div style="margin-top: 48px;">
+          <p class="pull-quote">If we wouldn't recommend them to someone we love, they're not in our network.</p>
+
+          <p class="founder-sign-off">— The founder of Your Village</p>
+        </div>
+
+        <div class="reveal" style="margin-top: 48px;">
           <a href="/#contact" class="btn btn-solid">Start a conversation<span class="arrow">&thinsp;&#8594;</span></a>
         </div>
     </div>
@@ -168,6 +186,33 @@
         var isOpen = mobile.classList.toggle('open');
         hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
+    })();
+
+    // --- Scroll Reveal ---
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+      if (!reveals.length) return;
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      reveals.forEach(function(el) { observer.observe(el); });
+    })();
+
+    // --- Scroll Progress ---
+    (function() {
+      var progress = document.getElementById('scroll-progress');
+      if (!progress) return;
+      window.addEventListener('scroll', function() {
+        var scrollTop = window.scrollY;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = docHeight > 0 ? scrollTop / docHeight : 0;
+        progress.style.transform = 'scaleX(' + Math.min(pct, 1) + ')';
+      }, { passive: true });
     })();
   </script>
 </body>
