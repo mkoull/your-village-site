@@ -318,23 +318,18 @@
           <div class="footer-col-title">Company</div>
           <ul class="footer-links">
             <li><a href="/about">About</a></li>
-            <li><a href="#">Our Providers</a></li>
-            <li><a href="#">Journal</a></li>
-            <li><a href="#">Careers</a></li>
           </ul>
         </div>
         <div>
           <div class="footer-col-title">Connect</div>
           <ul class="footer-links">
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">LinkedIn</a></li>
             <li><a href="mailto:hello@yourvillage.com.au">Email</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <span>&copy; 2026 Your Village. All rights reserved.</span>
-        <span>Melbourne, Australia &middot; ABN XX XXX XXX XXX</span>
+        <span>Melbourne, Australia</span>
       </div>
     </div>
   </footer>
@@ -361,9 +356,16 @@
       var hamburger = document.getElementById('nav-hamburger');
       var mobile = document.getElementById('nav-mobile');
       if (!hamburger || !mobile) return;
-      hamburger.addEventListener('click', function() {
+      hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
         var isOpen = mobile.classList.toggle('open');
         hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      document.addEventListener('click', function(e) {
+        if (mobile.classList.contains('open') && !mobile.contains(e.target) && !hamburger.contains(e.target)) {
+          mobile.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
       });
     })();
 
