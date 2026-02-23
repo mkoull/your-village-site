@@ -72,7 +72,7 @@ export default function ConstellationSection() {
         <div className="constellation-section-layout">
           {/* Text content — left side on desktop */}
           <div className={cn("constellation-section-text", isRevealed && "revealed")}>
-            <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
+            <p className="text-eyebrow uppercase tracking-[0.25em] font-semibold text-sage mb-4 font-body">
               The model
             </p>
 
