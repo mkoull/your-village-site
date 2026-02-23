@@ -693,64 +693,18 @@
   </section>
 
   <!-- ============================================================
-       12. CONTACT / LEAD CAPTURE
+       12. CONTACT / CTA
        ============================================================ -->
   <section class="section section--dark" id="contact">
-    <div class="container">
-      <div class="contact-grid">
-        <div class="contact-info reveal">
-          <h2>Let's build your <em class="italic">village</em>.</h2>
-          <p>Tell us a little about your situation. We'll follow up within 24 hours with a personalised recommendation — no obligation, no pressure.</p>
-          <div class="contact-detail"><a href="mailto:hello@yourvillage.com.au">hello@yourvillage.com.au</a></div>
+    <div class="container" style="max-width: 680px; text-align: center;">
+      <div class="reveal">
+        <h2>Ready to build your <em class="italic">village</em>?</h2>
+        <p style="margin: 1.5rem auto 2.5rem; max-width: 520px; color: rgba(250,248,245,0.6);">Take our 2-minute assessment and we'll send you a personalised support recommendation within 24 hours. No obligation, no pressure.</p>
+        <a href="#assessment" class="btn btn-accent" style="margin-bottom: 2.5rem;">Take the Assessment<span class="arrow">&thinsp;&#8594;</span></a>
+        <div style="margin-top: 1rem;">
+          <div class="contact-detail">Or reach us directly</div>
+          <div class="contact-detail" style="margin-top: 0.5rem;"><a href="mailto:hello@yourvillage.com.au">hello@yourvillage.com.au</a></div>
           <div class="contact-detail">Melbourne, Australia</div>
-        </div>
-        <form class="contact-form reveal reveal-delay-1" id="contact-form">
-          <div class="form-row">
-            <div class="form-field">
-              <label class="form-label" for="first-name">First Name</label>
-              <input type="text" id="first-name" name="first_name" class="form-input" required>
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="last-name">Last Name</label>
-              <input type="text" id="last-name" name="last_name" class="form-input" required>
-            </div>
-          </div>
-          <div class="form-field">
-            <label class="form-label" for="email">Email</label>
-            <input type="email" id="email" name="email" class="form-input" required>
-          </div>
-          <div class="form-field">
-            <label class="form-label" for="phone">Phone</label>
-            <input type="tel" id="phone" name="phone" class="form-input">
-          </div>
-          <div class="form-field">
-            <label class="form-label" for="journey">Where are you in your journey?</label>
-            <select id="journey" name="journey" class="form-select" required>
-              <option value="" disabled selected>Select one</option>
-              <option value="expecting">Currently expecting</option>
-              <option value="first-two-weeks">First two weeks postpartum</option>
-              <option value="2-8-weeks">2–8 weeks postpartum</option>
-              <option value="beyond-8-weeks">Beyond 8 weeks</option>
-              <option value="gifting">Gifting for someone else</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label class="form-label" for="interest">What support interests you?</label>
-            <select id="interest" name="interest" class="form-select" required>
-              <option value="" disabled selected>Select one</option>
-              <option value="essentials">Essentials package</option>
-              <option value="recovery-plus">Recovery+ package</option>
-              <option value="full-village">Full Village package</option>
-              <option value="individual">Individual services</option>
-              <option value="gift">Gift support</option>
-              <option value="not-sure">Not sure yet — help me decide</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-accent">Send Enquiry<span class="arrow">&thinsp;&#8594;</span></button>
-        </form>
-        <div class="form-success" id="form-success">
-          <h3 style="color:var(--text-inverse);margin-bottom:1rem;">Thank you</h3>
-          <p>We've received your enquiry and will be in touch within 24 hours.</p>
         </div>
       </div>
     </div>
@@ -779,23 +733,18 @@
           <div class="footer-col-title">Company</div>
           <ul class="footer-links">
             <li><a href="/about">About</a></li>
-            <li><a href="#">Our Providers</a></li>
-            <li><a href="#">Journal</a></li>
-            <li><a href="#">Careers</a></li>
           </ul>
         </div>
         <div>
           <div class="footer-col-title">Connect</div>
           <ul class="footer-links">
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">LinkedIn</a></li>
             <li><a href="mailto:hello@yourvillage.com.au">Email</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <span>&copy; 2026 Your Village. All rights reserved.</span>
-        <span>Melbourne, Australia &middot; ABN XX XXX XXX XXX</span>
+        <span>Melbourne, Australia</span>
       </div>
     </div>
   </footer>
@@ -839,9 +788,17 @@
     (function() {
       var hamburger = document.getElementById('nav-hamburger');
       var mobile = document.getElementById('nav-mobile');
-      hamburger.addEventListener('click', function() {
+      hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
         var isOpen = mobile.classList.toggle('open');
         hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      // Close on outside tap
+      document.addEventListener('click', function(e) {
+        if (mobile.classList.contains('open') && !mobile.contains(e.target) && !hamburger.contains(e.target)) {
+          mobile.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
       });
     })();
 
@@ -875,6 +832,153 @@
         });
       }, { threshold: 0.15 });
       reveals.forEach(function(el) { observer.observe(el); });
+    })();
+
+    // --- Back to Top Button ---
+    (function() {
+      var btn = document.getElementById('back-to-top');
+      if (!btn) return;
+      window.addEventListener('scroll', function() {
+        btn.classList.toggle('visible', window.scrollY > 600);
+      }, { passive: true });
+      btn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+
+    // --- Text Highlight on Scroll ---
+    (function() {
+      var highlights = document.querySelectorAll('.text-highlight');
+      if (!highlights.length) return;
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('highlighted');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      highlights.forEach(function(el) { observer.observe(el); });
+    })();
+
+    // --- Steps Connector Animation ---
+    (function() {
+      var connector = document.getElementById('steps-connector');
+      if (!connector) return;
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            connector.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      observer.observe(connector);
+    })();
+
+    // --- Section Nav Scrollspy ---
+    (function() {
+      var nav = document.getElementById('section-nav');
+      var items = nav ? nav.querySelectorAll('.section-nav-item') : [];
+      if (!items.length) return;
+
+      // Show nav after scrolling past hero
+      window.addEventListener('scroll', function() {
+        nav.classList.toggle('visible', window.scrollY > window.innerHeight * 0.5);
+      }, { passive: true });
+
+      // Click to scroll
+      items.forEach(function(item) {
+        item.addEventListener('click', function() {
+          var target = document.getElementById(item.dataset.target);
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // Track active section
+      var sections = [];
+      items.forEach(function(item) {
+        var el = document.getElementById(item.dataset.target);
+        if (el) sections.push({ el: el, item: item });
+      });
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            items.forEach(function(i) { i.classList.remove('active'); });
+            var match = sections.find(function(s) { return s.el === entry.target; });
+            if (match) match.item.classList.add('active');
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '-20% 0px -60% 0px' });
+      sections.forEach(function(s) { observer.observe(s.el); });
+    })();
+
+    // --- Custom Cursor (desktop only) ---
+    (function() {
+      if (window.matchMedia('(hover: none)').matches || window.innerWidth <= 768) return;
+      var glow = document.getElementById('cursor-glow');
+      var dot = document.getElementById('cursor-dot');
+      if (!glow || !dot) return;
+
+      var mx = 0, my = 0, gx = 0, gy = 0;
+      document.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top = my + 'px';
+        if (!dot.classList.contains('active')) {
+          dot.classList.add('active');
+          glow.classList.add('active');
+        }
+      });
+
+      // Smooth lag for glow
+      (function glowLoop() {
+        gx += (mx - gx) * 0.08;
+        gy += (my - gy) * 0.08;
+        glow.style.left = gx + 'px';
+        glow.style.top = gy + 'px';
+        requestAnimationFrame(glowLoop);
+      })();
+
+      // Expand dot on interactive elements
+      document.addEventListener('mouseover', function(e) {
+        if (e.target.closest('a, button, .assessment-option, .filter-btn, .service-card, .testimonial-dot')) {
+          dot.classList.add('hovering');
+        }
+      });
+      document.addEventListener('mouseout', function(e) {
+        if (e.target.closest('a, button, .assessment-option, .filter-btn, .service-card, .testimonial-dot')) {
+          dot.classList.remove('hovering');
+        }
+      });
+    })();
+
+    // --- Testimonial Progress Bar ---
+    (function() {
+      var fill = document.getElementById('testimonial-progress-fill');
+      if (!fill) return;
+      var slides = document.querySelectorAll('.testimonial-slide');
+      var dots = document.querySelectorAll('.testimonial-dot');
+      if (!slides.length) return;
+
+      function resetProgress() {
+        fill.classList.remove('animating');
+        fill.style.width = '0%';
+        // Force reflow
+        fill.offsetWidth;
+        fill.classList.add('animating');
+      }
+
+      // Observe dot changes to sync progress
+      var mo = new MutationObserver(function() {
+        resetProgress();
+      });
+      dots.forEach(function(d) {
+        mo.observe(d, { attributes: true, attributeFilter: ['class'] });
+      });
+
+      resetProgress();
     })();
 
     // --- Stats Counter Animation ---
@@ -993,35 +1097,29 @@
       startInterval();
     })();
 
-    // --- Contact Form ---
-    (function() {
-      var form = document.getElementById('contact-form');
-      var success = document.getElementById('form-success');
-      if (!form) return;
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Collect form data
-        var data = {};
-        new FormData(form).forEach(function(value, key) { data[key] = value; });
-        data.submitted_at = new Date().toISOString();
-
-        // In production, POST to your webhook:
-        // fetch('YOUR_WEBHOOK_URL', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
-
-        // Show success
-        form.style.display = 'none';
-        success.classList.add('show');
-      });
-    })();
-
-    // --- Loading Screen — Village Assembles ---
+    // --- Loading Screen — Village Assembles (once per session) ---
     (function() {
       var screen = document.getElementById('loader-screen');
       if (!screen) return;
 
+      // Only show loader once per session
+      if (sessionStorage.getItem('loaderShown')) {
+        screen.remove();
+        return;
+      }
+      sessionStorage.setItem('loaderShown', '1');
+
       var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      // Cinematic timing: center(0.4s) + nodes stagger(1.0-2.45s) + tagline(2.6s) + hold = ~4.2s
       var dismissDelay = prefersReduced ? 400 : 4200;
+
+      // Skip on click/tap anywhere
+      function skipLoader() {
+        screen.removeEventListener('click', skipLoader);
+        screen.classList.add('fade-out');
+        setTimeout(function() { screen.remove(); }, 1100);
+      }
+      screen.addEventListener('click', skipLoader);
+      screen.style.cursor = 'pointer';
 
       // Counter-rotate node labels so they stay readable during orbit
       var orbit = screen.querySelector('.loader-orbit');
@@ -1031,7 +1129,6 @@
         function counterRotate(timestamp) {
           if (!orbit.isConnected) return;
           if (!orbitStarted) {
-            // Wait for orbit animation to kick in (3.5s delay)
             if (!startTime) startTime = timestamp;
             if (timestamp - startTime < 3500) {
               requestAnimationFrame(counterRotate);
@@ -1041,7 +1138,7 @@
             startTime = timestamp;
           }
           var elapsed = (timestamp - startTime) / 1000;
-          var degrees = (elapsed / 90) * 360; // 90s for full rotation
+          var degrees = (elapsed / 90) * 360;
           var nodes = orbit.querySelectorAll('.loader-node');
           nodes.forEach(function(node) {
             node.style.transform = 'translate(-50%, -50%) scale(1) rotate(' + (-degrees) + 'deg)';
@@ -1052,10 +1149,7 @@
       }
 
       setTimeout(function() {
-        screen.classList.add('fade-out');
-        setTimeout(function() {
-          screen.remove();
-        }, 1100);
+        skipLoader();
       }, dismissDelay);
     })();
 
