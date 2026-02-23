@@ -14,13 +14,13 @@ const steps = [
     number: "2",
     title: "We build your village",
     description:
-      "Your coordinator matches you with vetted providers and handles every detail.",
+      "We match you with vetted providers and handle every detail.",
   },
   {
     number: "3",
     title: "Support arrives",
     description:
-      "Meals, care, rest — flowing to your family, coordinated and ongoing.",
+      "Meals, care, rest — flowing to your family, thoughtfully curated and ongoing.",
   },
 ];
 

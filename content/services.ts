@@ -23,7 +23,7 @@ export const services: Service[] = [
     description:
       "Nutritious, comforting meals delivered to your door — so you can focus on recovery, not what's for dinner.",
     details:
-      "Postpartum-focused meal providers, dietary requirements handled, scheduling managed by your coordinator. No planning, no cooking, no dishes.",
+      "Postpartum-focused meal providers, dietary requirements handled, scheduling managed for you. No planning, no cooking, no dishes.",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><line x1="10" y1="22" x2="14" y2="22"/></svg>`,
     features: [
       "Postpartum-focused meal delivery",
@@ -135,12 +135,12 @@ export const services: Service[] = [
     title: "Life Admin",
     tagline: "The invisible work, handled",
     description:
-      "Appointments, paperwork, calls, and coordination \u2014 taken off your plate.",
+      "Appointments, paperwork, calls, and logistics \u2014 taken off your plate.",
     details:
       "Centrelink forms, medical appointments, birth registration, insurance claims \u2014 handled so you don\u2019t have to do them sleep-deprived and holding a baby.",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/></svg>`,
     features: [
-      "Appointment booking and coordination",
+      "Appointment booking and scheduling",
       "Paperwork and forms assistance",
       "Phone calls on your behalf",
       "Flexible scope \u2014 whatever you need handled",
@@ -156,7 +156,7 @@ export const services: Service[] = [
     description:
       "Connections to local parent groups, playgroups, and community support \u2014 curated to your area.",
     details:
-      "Mothers\u2019 groups, dad meet-ups, playgroups, and peer support networks. Your coordinator knows what\u2019s available locally and matches you to groups where you\u2019ll feel welcome.",
+      "Mothers\u2019 groups, dad meet-ups, playgroups, and peer support networks. We know what\u2019s available locally and match you to groups where you\u2019ll feel welcome.",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
     features: [
       "Local mothers\u2019 and parents\u2019 groups",
@@ -178,7 +178,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "Our coordinator just got it. She listened, didn\u2019t rush us, and within days we had a sleep consultant and a cleaner booked. I finally felt like I could breathe.",
+      "The team just got it. They listened, didn\u2019t rush us, and within days we had a sleep consultant and a cleaner booked. I finally felt like I could breathe.",
     attribution: "First-time parents, Richmond",
   },
   {

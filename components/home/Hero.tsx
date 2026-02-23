@@ -10,7 +10,7 @@ export default function Hero() {
 
       <Container className="relative z-10 text-center max-w-5xl">
         <p className="hero-reveal hero-reveal-1 text-eyebrow uppercase tracking-[0.25em] font-semibold text-sage mb-8 font-body">
-          Postpartum Support, Coordinated
+          Considered Postpartum Support
         </p>
 
         <h1 className="hero-reveal hero-reveal-2 text-display font-heading font-normal leading-[1.05] mb-10 tracking-[-0.03em]">
@@ -20,8 +20,8 @@ export default function Hero() {
         </h1>
 
         <p className="hero-reveal hero-reveal-3 text-body-lg text-text-muted max-w-md mx-auto mb-14 leading-[1.8]">
-          One coordinator. Trusted providers. Meals, care, sleep support,
-          and more — organised around your family.
+          A considered collection of services. Trusted providers. Meals, care,
+          sleep support, and more — designed around your family.
         </p>
 
         <div className="hero-reveal hero-reveal-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">

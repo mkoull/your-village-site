@@ -25,7 +25,7 @@ const trustCards = [
   },
   {
     title: "Privacy-first",
-    description: "Your information stays between you and your coordinator. We don't sell data or share without consent.",
+    description: "Your information stays between you and your team. We don't sell data or share without consent.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -35,7 +35,7 @@ const trustCards = [
   },
   {
     title: "Ongoing support",
-    description: "This isn't a one-off referral. Your coordinator stays with you, adjusting support as your needs change.",
+    description: "This isn't a one-off referral. Your team stays with you, adjusting support as your needs change.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
         <path d="M23 6l-9.5 9.5-5-5L1 18" />

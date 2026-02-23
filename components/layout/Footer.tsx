@@ -25,7 +25,7 @@ export default function Footer() {
               <span className="font-heading text-lg font-medium">Your Village</span>
             </div>
             <p className="text-sm text-text-inverse/60 leading-relaxed max-w-xs">
-              Postpartum support, coordinated.
+              Postpartum support, thoughtfully curated.
               <br />
               Inner Melbourne, Australia.
             </p>

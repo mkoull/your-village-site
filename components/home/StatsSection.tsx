@@ -4,7 +4,7 @@ import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const stats = [
-  { value: "500+", label: "Hours of help coordinated", note: "Launching target" },
+  { value: "500+", label: "Hours of support delivered", note: "Launching target" },
   { value: "40+", label: "Providers in our network", note: "And growing" },
   { value: "150+", label: "Parents supported", note: "Early milestone" },
   { value: "<4h", label: "Average response time", note: "Our commitment" },
