@@ -75,7 +75,7 @@ export default function Navbar() {
           : "bg-transparent"
       )}
     >
-      <div className="mx-auto max-w-6xl px-6 flex items-center justify-between h-16 md:h-18">
+      <div className="mx-auto max-w-6xl px-6 flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
         <Link
           href="/"
@@ -118,7 +118,7 @@ export default function Navbar() {
             </button>
 
             {servicesOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 bg-elevated rounded-[var(--radius-md)] border border-border shadow-lg py-2 animate-fade-in">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 bg-elevated/95 backdrop-blur-xl rounded-[var(--radius-md)] border border-border shadow-lg py-2 animate-fade-in">
                 <Link
                   href="/services"
                   className="block px-4 py-2.5 text-sm font-medium text-sage hover:bg-surface transition-colors"
@@ -159,7 +159,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/get-started"
-            className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage text-white hover:bg-sage-dark transition-all duration-300 hover:-translate-y-[1px] shadow-sm hover:shadow-md"
+            className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage text-white hover:bg-sage-dark transition-all duration-300 hover:-translate-y-[2px] shadow-sm hover:shadow-lg"
           >
             Talk to us
             <span aria-hidden="true">&rarr;</span>
