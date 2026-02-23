@@ -83,9 +83,9 @@ export default function ConstellationSection() {
             <div className="space-y-6 text-text-body leading-relaxed">
               <p className="max-w-lg">
                 You don&apos;t need another app, another account, or another
-                decision to make. Your Village is a coordination layer — we plug
-                trusted providers into your life, managed by someone who already
-                knows your situation.
+                decision to make. Your Village is a considered collection of
+                services — we bring trusted providers into your life, managed by
+                someone who already knows your situation.
               </p>
               <p className="text-text-muted max-w-lg">
                 Think of it as your personal support team, assembled and managed

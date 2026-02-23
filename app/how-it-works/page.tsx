@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = {
   title: "How It Works",
   description:
-    "See how Your Village coordinates postpartum support — from your first conversation to ongoing care.",
+    "See how Your Village brings together postpartum support — from your first conversation to ongoing care.",
 };
 
 const steps = [
@@ -21,13 +21,13 @@ const steps = [
     number: "02",
     title: "We build your village",
     description:
-      "Your coordinator curates the right providers from our vetted network and organises everything — schedules, logistics, introductions.",
+      "We curate the right providers from our vetted network and organise everything — schedules, logistics, introductions.",
   },
   {
     number: "03",
     title: "Support arrives",
     description:
-      "Meals, care, help — coordinated and ongoing. Your coordinator stays with you, adjusting as your needs change.",
+      "Meals, care, help — thoughtfully curated and ongoing. Your team stays with you, adjusting as your needs change.",
   },
 ];
 
@@ -80,19 +80,19 @@ export default function HowItWorksPage() {
         </Container>
       </section>
 
-      {/* Coordinator section */}
+      {/* Your team section */}
       <section className="bg-surface py-16 md:py-20">
         <Container narrow>
           <ScrollReveal>
             <div className="text-center">
               <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
-                Your coordinator
+                Your team
               </p>
               <h2 className="text-h2 font-heading mb-6">
-                One person who knows your story.
+                People who know your story.
               </h2>
               <p className="text-text-body leading-relaxed mb-10 max-w-2xl mx-auto">
-                Not a call centre. Someone who takes the time to understand your
+                Not a call centre. A team who takes the time to understand your
                 family and what kind of help would actually make a difference.
                 They stay with you as long as you need — and adjust as things
                 change.

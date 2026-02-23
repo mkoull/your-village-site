@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Your Village** is a static marketing website for a postpartum support coordination service based in inner Melbourne, Australia. The site connects new families with vetted providers (doulas, lactation consultants, sleep specialists, etc.) through a personal coordinator model.
+**Your Village** is a static marketing website for a considered postpartum support service based in inner Melbourne, Australia. The site connects new families with vetted providers (doulas, lactation consultants, sleep specialists, etc.) through a curated collection of services model.
 
 - **Domain**: yourvillage.com.au
 - **Audience**: New and expecting parents in inner Melbourne
@@ -156,3 +156,4 @@ There is no test suite. Manual verification:
 - Verify FAQ accordion opens/closes correctly
 - Verify form steps advance and validate properly
 - Verify stats count-up animation triggers on scroll
+

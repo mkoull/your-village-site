@@ -22,9 +22,9 @@ export default function NotATodoSection() {
           <div className="space-y-6 text-text-body leading-relaxed text-center max-w-2xl mx-auto">
             <p>
               You don&apos;t need another app, another account, or another
-              decision to make. Your Village is a coordination layer — we plug
-              trusted providers into your life, managed by someone who already
-              knows your situation.
+              decision to make. Your Village is a considered collection of
+              services — we bring trusted providers into your life, managed by
+              someone who already knows your situation.
             </p>
             <p className="text-text-muted">
               Think of it as your personal support team, assembled and managed

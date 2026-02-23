@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Our story — how the overwhelming reality of new parenthood led to building Your Village, a postpartum support coordination service in inner Melbourne.",
+    "Our story — how the overwhelming reality of new parenthood led to building Your Village, a considered postpartum support service in inner Melbourne.",
 };
 
 export default function AboutPage() {
@@ -56,7 +56,7 @@ export default function AboutPage() {
 
               <p className="text-text-body text-[1.1rem]">
                 The help existed. Good people, doing good work, often just a
-                few suburbs away. But finding them, vetting them, coordinating
+                few suburbs away. But finding them, vetting them, organising
                 schedules — on two hours of broken sleep? That gap felt
                 impossible to cross.
               </p>
@@ -88,10 +88,10 @@ export default function AboutPage() {
               Not a marketplace. Not a directory.
             </h2>
             <p className="text-text-body leading-[1.85] text-center max-w-2xl mx-auto text-[1.05rem]">
-              We&apos;re a coordination layer — a person who sits between you
-              and the overwhelming world of postpartum support, and makes it
-              simple. You tell us what&apos;s hard, and we put the right help
-              around you.
+              We&apos;re a considered collection of services — brought together
+              by a person who sits between you and the overwhelming world of
+              postpartum support, and makes it simple. You tell us what&apos;s
+              hard, and we put the right help around you.
             </p>
           </ScrollReveal>
         </Container>

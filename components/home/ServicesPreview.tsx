@@ -17,7 +17,7 @@ export default function ServicesPreview() {
               Services
             </p>
             <h2 className="text-h2 font-heading">
-              Everything your family needs, coordinated.
+              Everything your family needs, thoughtfully curated.
             </h2>
           </div>
         </ScrollReveal>

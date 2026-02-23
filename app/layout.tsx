@@ -5,16 +5,16 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Your Village — Postpartum Support, Coordinated",
+    default: "Your Village — Considered Postpartum Support",
     template: "%s — Your Village",
   },
   description:
-    "Curated postpartum care — from meals and overnight help to emotional support — coordinated seamlessly around your family. Inner Melbourne, Australia.",
+    "A considered collection of postpartum services — from meals and overnight help to emotional support — designed around your family. Inner Melbourne, Australia.",
   metadataBase: new URL("https://yourvillage.com.au"),
   openGraph: {
-    title: "Your Village — Postpartum Support, Coordinated",
+    title: "Your Village — Considered Postpartum Support",
     description:
-      "Curated postpartum care — from meals and overnight help to emotional support — coordinated seamlessly around your family.",
+      "A considered collection of postpartum services — from meals and overnight help to emotional support — designed around your family.",
     type: "website",
     locale: "en_AU",
     url: "https://yourvillage.com.au",

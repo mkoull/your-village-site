@@ -93,7 +93,7 @@ export default function GetStartedPage() {
           </div>
           <h1 className="text-h2 font-heading mb-4">Thank you.</h1>
           <p className="text-text-muted max-w-md mx-auto leading-relaxed">
-            Your coordinator will be in touch within a few hours. In the
+            Our team will be in touch within a few hours. In the
             meantime, take a breath — you&apos;ve taken a really good first step.
           </p>
         </Container>
@@ -231,8 +231,8 @@ export default function GetStartedPage() {
                   What kind of support are you looking for?
                 </h2>
                 <p className="text-text-muted text-sm mb-6">
-                  Select as many as you like — or none. Your coordinator will
-                  help you figure it out.
+                  Select as many as you like — or none. We&apos;ll help you
+                  figure it out.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {services.map((service) => (
@@ -263,8 +263,8 @@ export default function GetStartedPage() {
                   Anything else you&apos;d like us to know?
                 </h2>
                 <p className="text-text-muted text-sm mb-6">
-                  Totally optional. Whatever helps your coordinator understand
-                  your situation.
+                  Totally optional. Whatever helps us understand your
+                  situation.
                 </p>
                 <textarea
                   value={formData.notes}

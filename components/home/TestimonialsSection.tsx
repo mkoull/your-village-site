@@ -11,7 +11,7 @@ const testimonials = [
   },
   {
     quote:
-      "Our coordinator just got it. She listened, didn\u2019t rush us, and within days we had a sleep consultant and a cleaner booked. I finally felt like I could breathe.",
+      "The team just got it. They listened, didn\u2019t rush us, and within days we had a sleep consultant and a cleaner booked. I finally felt like I could breathe.",
     attribution: "First-time parents, Richmond",
   },
   {
@@ -23,7 +23,7 @@ const testimonials = [
 
 const trustPoints = [
   "Every provider personally vetted",
-  "One dedicated coordinator",
+  "One dedicated team",
   "Privacy-first approach",
   "Ongoing, not one-off",
 ];

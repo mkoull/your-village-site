@@ -145,7 +145,7 @@ export default function SupportFinder() {
                   ))}
                 </div>
                 <p className="text-text-muted mb-10 text-sm">
-                  Your coordinator will tailor the support to your exact needs.
+                  We&apos;ll tailor the support to your exact needs.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Button href="/get-started">

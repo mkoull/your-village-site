@@ -19,14 +19,14 @@ export default function RestSection() {
               The early weeks with a new baby are a blur of feeds, nappy changes,
               and broken sleep. The help exists — doulas, meal services, sleep
               consultants, counsellors — but finding them, vetting them, and
-              coordinating it all falls on the person with the least capacity to
+              organising it all falls on the person with the least capacity to
               do it.
             </p>
             <p className="text-text-muted">
-              Your Village is the person who handles all of that for you. One
-              coordinator who listens to what you need, knows the right providers,
-              and puts support in place — so you can focus on recovery, bonding,
-              and rest.
+              Your Village is a considered collection of services, brought
+              together for you. We listen to what you need, know the right
+              providers, and put support in place — so you can focus on recovery,
+              bonding, and rest.
             </p>
           </div>
         </ScrollReveal>
