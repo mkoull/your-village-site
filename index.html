@@ -22,6 +22,9 @@
 </head>
 <body>
 
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
   <!-- ============================================================
        0. CINEMATIC LOADING — "THE VILLAGE ASSEMBLES"
        Full-screen immersive intro with orbiting service nodes
@@ -263,7 +266,7 @@
   <!-- ============================================================
        5. ABOUT / PHILOSOPHY
        ============================================================ -->
-  <section class="section" id="about">
+  <section class="section section-ambient" id="about">
     <div class="container">
       <div class="about-grid">
         <div class="about-visual reveal">
@@ -284,13 +287,13 @@
   <!-- ============================================================
        6. HOW IT WORKS
        ============================================================ -->
-  <section class="section" id="how-it-works">
+  <section class="section section-ambient-alt" id="how-it-works">
     <div class="container">
       <div class="steps-header reveal">
         <div class="eyebrow">How It Works</div>
         <h2>Three steps to your <em class="italic">village</em></h2>
       </div>
-      <div class="steps-grid">
+      <div class="steps-grid reveal-stagger">
         <div class="step reveal">
           <div class="step-number">01</div>
           <span class="step-icon">&#9678;</span>
@@ -454,7 +457,7 @@
         <button class="filter-btn" data-filter="specialist">Specialist</button>
         <button class="filter-btn" data-filter="emotional">Emotional</button>
       </div>
-      <div class="service-grid">
+      <div class="service-grid reveal-stagger">
         <div class="service-card reveal" data-category="practical">
           <div class="service-icon">&#9672;</div>
           <h3>Nourishing Meals</h3>
@@ -498,13 +501,13 @@
   <!-- ============================================================
        8. PACKAGES
        ============================================================ -->
-  <section class="section" id="packages">
+  <section class="section section-ambient" id="packages">
     <div class="container">
       <div class="packages-header reveal">
         <div class="eyebrow">Packages</div>
         <h2>Comprehensive support, simply priced</h2>
       </div>
-      <div class="packages-grid">
+      <div class="packages-grid reveal-stagger">
         <div class="package-card reveal">
           <h3 class="package-name">Essentials</h3>
           <div class="package-price">$490<span class="package-price-period">/week</span></div>
@@ -623,7 +626,7 @@
   <!-- ============================================================
        11. GIFT THE VILLAGE
        ============================================================ -->
-  <section class="section" id="gift">
+  <section class="section section-ambient-alt" id="gift">
     <div class="container">
       <div class="gift-grid">
         <div class="gift-visual reveal">
@@ -767,11 +770,19 @@
       });
     })();
 
-    // --- Navigation Scroll Effect ---
+    // --- Navigation Scroll Effect + Progress Bar ---
     (function() {
       var nav = document.getElementById('nav');
+      var progress = document.getElementById('scroll-progress');
       window.addEventListener('scroll', function() {
         nav.classList.toggle('scrolled', window.scrollY > 40);
+        // Update scroll progress
+        if (progress) {
+          var scrollTop = window.scrollY;
+          var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          var pct = docHeight > 0 ? scrollTop / docHeight : 0;
+          progress.style.transform = 'scaleX(' + Math.min(pct, 1) + ')';
+        }
       }, { passive: true });
     })();
 
