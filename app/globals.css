@@ -107,12 +107,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+:where(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-heading);
   color: var(--color-text-primary);
   line-height: 1.08;
   letter-spacing: -0.03em;
   text-wrap: balance;
+}
+
+/* Headings on dark backgrounds should be light */
+.bg-dark h1, .bg-dark h2, .bg-dark h3, .bg-dark h4,
+.bg-dark h5, .bg-dark h6 {
+  color: var(--color-text-inverse);
 }
 
 ::selection {
