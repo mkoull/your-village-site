@@ -1121,31 +1121,34 @@
       screen.addEventListener('click', skipLoader);
       screen.style.cursor = 'pointer';
 
-      // Counter-rotate node labels so they stay readable during orbit
+      // Counter-rotate labels so they stay upright while the orbit spins
       var orbit = screen.querySelector('.loader-orbit');
       if (orbit && !prefersReduced) {
+        var labels = orbit.querySelectorAll('.loader-node-label');
+        var orbitDelay = 3500; // matches CSS animation-delay
+        var orbitDuration = 90; // seconds for full 360deg
         var startTime = null;
         var orbitStarted = false;
-        function counterRotate(timestamp) {
+
+        function counterRotateLabels(timestamp) {
           if (!orbit.isConnected) return;
           if (!orbitStarted) {
             if (!startTime) startTime = timestamp;
-            if (timestamp - startTime < 3500) {
-              requestAnimationFrame(counterRotate);
+            if (timestamp - startTime < orbitDelay) {
+              requestAnimationFrame(counterRotateLabels);
               return;
             }
             orbitStarted = true;
             startTime = timestamp;
           }
           var elapsed = (timestamp - startTime) / 1000;
-          var degrees = (elapsed / 90) * 360;
-          var nodes = orbit.querySelectorAll('.loader-node');
-          nodes.forEach(function(node) {
-            node.style.transform = 'translate(-50%, -50%) scale(1) rotate(' + (-degrees) + 'deg)';
+          var degrees = (elapsed / orbitDuration) * 360;
+          labels.forEach(function(label) {
+            label.style.transform = 'rotate(' + (-degrees) + 'deg)';
           });
-          requestAnimationFrame(counterRotate);
+          requestAnimationFrame(counterRotateLabels);
         }
-        requestAnimationFrame(counterRotate);
+        requestAnimationFrame(counterRotateLabels);
       }
 
       setTimeout(function() {
