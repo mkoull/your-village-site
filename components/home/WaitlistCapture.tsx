@@ -27,17 +27,36 @@ export default function WaitlistCapture() {
               <br />
               <span className="text-sage">a village.</span>
             </h2>
-            <p className="text-text-inverse/50 mb-14 max-w-sm mx-auto leading-[1.8] text-[15px]">
-              Be the first to hear about new services and areas as we grow.
+            <p className="text-text-inverse/50 mb-12 max-w-md mx-auto leading-[1.8] text-[15px]">
+              One conversation is all it takes to start. Tell us what&apos;s
+              hard &mdash; we&apos;ll take it from there.
             </p>
 
+            {/* The conversation is the conversion — email capture is the fallback */}
+            <div className="mb-14">
+              <Button href="/get-started" size="lg">
+                Start a conversation
+                <span aria-hidden="true">&rarr;</span>
+              </Button>
+              <p className="text-text-inverse/40 text-xs mt-4 tracking-wide">
+                Free first chat. A real person replies.
+              </p>
+            </div>
+
             {!submitted ? (
-              <div className="space-y-6">
+              <div className="max-w-md mx-auto">
+                <p className="text-text-inverse/40 text-sm mb-5">
+                  Not ready yet? Stay in the loop instead.
+                </p>
                 <form
                   onSubmit={handleSubmit}
-                  className="flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto"
+                  className="flex flex-col sm:flex-row items-center gap-3"
                 >
+                  <label htmlFor="capture-email" className="sr-only">
+                    Email address
+                  </label>
                   <input
+                    id="capture-email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -47,23 +66,14 @@ export default function WaitlistCapture() {
                   />
                   <button
                     type="submit"
-                    className="px-7 py-3.5 rounded-full bg-sage text-white font-medium text-sm hover:bg-sage-light transition-all duration-300 cursor-pointer whitespace-nowrap hover:shadow-[0_0_24px_rgba(139,158,124,0.3)]"
+                    className="px-7 py-3.5 rounded-full border border-white/[0.16] text-text-inverse/80 font-medium text-sm hover:border-sage hover:text-sage transition-all duration-300 cursor-pointer whitespace-nowrap"
                   >
                     Keep me posted
                   </button>
                 </form>
-
-                <p className="text-text-inverse/30 text-xs tracking-wide">
-                  or
-                </p>
-
-                <Button href="/get-started" variant="ghost" className="!text-text-inverse/60 hover:!text-sage">
-                  Start a conversation
-                  <span aria-hidden="true">&rarr;</span>
-                </Button>
               </div>
             ) : (
-              <p className="text-sage font-medium text-lg">
+              <p className="text-sage font-medium">
                 You&apos;re on the list. We&apos;ll be in touch.
               </p>
             )}

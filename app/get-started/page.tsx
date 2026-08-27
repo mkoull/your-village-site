@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { cn } from "@/lib/utils";
@@ -178,6 +179,7 @@ export default function GetStartedPage() {
               ))}
             </div>
 
+            <div key={step} className="animate-fade-in">
             {/* Step 0: Stage */}
             {step === 0 && (
               <div>
@@ -311,7 +313,13 @@ export default function GetStartedPage() {
                 <p className="text-text-muted text-sm mb-6">
                   A real person will be in touch — usually within a few hours.
                 </p>
-                <div className="space-y-4">
+                <form
+                  className="space-y-4"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void handleSubmit();
+                  }}
+                >
                   <div>
                     <label htmlFor="gs-name" className="block text-sm font-medium text-text-body mb-1.5 font-body">
                       Your name
@@ -375,9 +383,14 @@ export default function GetStartedPage() {
                       placeholder="Whatever helps us understand your situation."
                     />
                   </div>
-                </div>
+                  <button type="submit" className="sr-only">
+                    Send
+                  </button>
+                </form>
               </div>
             )}
+
+            </div>
 
             {/* Navigation */}
             <div className="flex items-center justify-between mt-8 pt-6 border-t border-border-subtle">
@@ -416,6 +429,16 @@ export default function GetStartedPage() {
         <p className="text-xs text-text-muted text-center mt-6">
           Your answers stay between you and our team. No newsletters, no
           sharing — just the conversation you asked for.
+        </p>
+
+        <p className="text-sm text-text-muted text-center mt-8">
+          Rather skip the questions?{" "}
+          <Link
+            href="/contact"
+            className="text-sage font-medium hover:text-sage-dark transition-colors underline underline-offset-4 decoration-sage/30"
+          >
+            Send us a message instead
+          </Link>
         </p>
       </Container>
     </div>

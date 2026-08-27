@@ -44,15 +44,19 @@ lib/leads.ts              submitLead() — all form submissions go through this
 lib/hooks.ts              useScrollReveal, useScrolled, useCountUp
 ```
 
-### Homepage flow (order matters — each section earns its place)
+### Homepage flow (a persuasion arc — each section has one job)
 
-1. `Hero` — aurora canvas, "It takes a village. We build yours."
-2. `ConstellationSection` — the problem → the model (orbiting services visual)
-3. `ServicesPreview` — all services, compact linked cards
-4. `EcosystemSection` — how it works, 3 steps
-5. `TrustSection` — vetting philosophy, 4 cards (no invented stats)
-6. `TestimonialsSection` — trio drawn from `content/services.ts`
-7. `WaitlistCapture` — dark final CTA, email capture
+1. `Hero` — aurora canvas, "It takes a village. We build yours." + trust chips
+2. `EmpathySection` — the "they get me" moment (3am inner monologue)
+3. `ConstellationSection` — the problem → the model (orbiting services visual)
+4. `ServicesPreview` — all services, compact linked cards
+5. `EcosystemSection` — 3 steps + "what happens when you reach out" strip
+6. `TrustSection` — vetting philosophy, 4 cards (no invented stats)
+7. `FounderSection` — founder note pulled from the About story
+8. `TestimonialsSection` — trio drawn from `content/services.ts`
+9. `FaqSection` — objection handling (cost, vetting, inclusivity, gifting)
+10. `WaitlistCapture` — dark final CTA, conversation-primary, email fallback
++ `StickyMobileCta` — mobile-only floating CTA after the hero
 
 ## Design System
 

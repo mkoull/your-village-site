@@ -49,7 +49,7 @@ const trustPoints = [
 
 export default function TrustSection() {
   return (
-    <section className="py-32 md:py-40 lg:py-52">
+    <section className="bg-surface py-32 md:py-40 lg:py-52">
       <Container>
         <ScrollReveal>
           <div className="text-center mb-20 md:mb-24">
