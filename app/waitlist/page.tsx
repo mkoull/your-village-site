@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { submitLead } from "@/lib/leads";
 
 export default function WaitlistPage() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ export default function WaitlistPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    // Placeholder — hook up to webhook/email service
+    void submitLead("waitlist", { email, suburb });
     setSubmitted(true);
   };
 

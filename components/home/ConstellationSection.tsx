@@ -73,24 +73,24 @@ export default function ConstellationSection() {
           {/* Text content — left side on desktop */}
           <div className={cn("constellation-section-text", isRevealed && "revealed")}>
             <p className="text-eyebrow uppercase tracking-[0.25em] font-semibold text-sage mb-4 font-body">
-              The model
+              Why a village
             </p>
 
             <h2 className="text-h2 font-heading mb-8">
-              An ecosystem, not another to-do list.
+              The village used to come built in.
             </h2>
 
             <div className="space-y-6 text-text-body leading-relaxed">
               <p className="max-w-lg">
-                You don&apos;t need another app, another account, or another
-                decision to make. Your Village is a considered collection of
-                services — we bring trusted providers into your life, managed by
-                someone who already knows your situation.
+                Family down the road. Neighbours at the door. Someone always
+                dropping off a meal. Most of us don&apos;t have that anymore —
+                and it disappears at exactly the moment you need it most.
               </p>
               <p className="text-text-muted max-w-lg">
-                Think of it as your personal support team, assembled and managed
-                for you. Meals, care, counselling, cleaning — flowing to your
-                family as you need them.
+                Your Village rebuilds it. Not another app, another account, or
+                another to-do list — a real network of trusted people, assembled
+                around your family and coordinated by one team, so support
+                simply arrives.
               </p>
             </div>
           </div>

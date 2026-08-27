@@ -3,53 +3,52 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { services, highlightedServices } from "@/content/services";
+import Button from "@/components/ui/Button";
+import { services } from "@/content/services";
 
 export default function ServicesPreview() {
-  const featured = services.filter((s) => highlightedServices.includes(s.slug));
-
   return (
-    <section className="py-16 md:py-20 lg:py-24">
+    <section className="bg-surface py-32 md:py-40 lg:py-52">
       <Container>
         <ScrollReveal>
-          <div className="text-center mb-16">
-            <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
-              Services
+          <div className="text-center mb-20 md:mb-24">
+            <p className="text-eyebrow uppercase tracking-[0.25em] font-semibold text-sage mb-5 font-body">
+              What&apos;s in a village
             </p>
-            <h2 className="text-h2 font-heading">
-              Everything your family needs, thoughtfully curated.
+            <h2 className="text-h2 font-heading max-w-xl mx-auto">
+              Every kind of help, one front door.
             </h2>
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
-          {featured.map((service, i) => (
-            <ScrollReveal key={service.slug} stagger={i + 1}>
-              <div className="p-8 md:p-10 rounded-[var(--radius-lg)] bg-elevated border border-border-subtle shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+          {services.map((service, i) => (
+            <ScrollReveal key={service.slug} stagger={(i % 4) + 1}>
+              <Link
+                href={`/services/${service.slug}`}
+                className="block h-full p-7 rounded-[var(--radius-lg)] bg-elevated border border-border-subtle shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group"
+              >
                 <div
-                  className="w-10 h-10 text-sage mb-5"
+                  className="w-9 h-9 text-sage mb-4"
                   dangerouslySetInnerHTML={{ __html: service.icon }}
                 />
-                <h3 className="text-h3 font-heading mb-2 group-hover:text-sage transition-colors">
+                <h3 className="font-heading text-[1.1rem] mb-1.5 group-hover:text-sage transition-colors">
                   {service.title}
                 </h3>
                 <p className="text-text-muted leading-relaxed text-sm">
                   {service.tagline}
                 </p>
-              </div>
+              </Link>
             </ScrollReveal>
           ))}
         </div>
 
         <ScrollReveal>
           <div className="text-center">
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 text-sage font-medium hover:text-sage-dark transition-colors"
-            >
-              View all services
+            <Button href="/services" variant="secondary">
+              Explore all services
               <span aria-hidden="true">&rarr;</span>
-            </Link>
+            </Button>
           </div>
         </ScrollReveal>
       </Container>

@@ -2,31 +2,10 @@
 
 import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { testimonials } from "@/content/services";
 
-const testimonials = [
-  {
-    quote:
-      "I didn\u2019t realise how much I needed help until someone actually organised it for me. Having meals just arrive \u2014 I cried. It was such a relief.",
-    attribution: "New mum, Fitzroy",
-  },
-  {
-    quote:
-      "The team just got it. They listened, didn\u2019t rush us, and within days we had a sleep consultant and a cleaner booked. I finally felt like I could breathe.",
-    attribution: "First-time parents, Richmond",
-  },
-  {
-    quote:
-      "I was too exhausted to even Google. Having someone say \u2018I\u2019ve got this\u2019 \u2014 that changed everything for us.",
-    attribution: "New mum, Brunswick",
-  },
-];
-
-const trustPoints = [
-  "Every provider personally vetted",
-  "One dedicated team",
-  "Privacy-first approach",
-  "Ongoing, not one-off",
-];
+// A deliberately varied trio — different family shapes, different suburbs.
+const featured = [testimonials[0], testimonials[3], testimonials[1]];
 
 export default function TestimonialsSection() {
   return (
@@ -43,8 +22,8 @@ export default function TestimonialsSection() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-24">
-          {testimonials.map((testimonial, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {featured.map((testimonial, i) => (
             <ScrollReveal key={i} stagger={i + 1}>
               <blockquote className="testimonial-card card-shimmer">
                 <span className="text-sage/25 text-6xl font-heading leading-none mb-4 select-none" aria-hidden="true">&ldquo;</span>
@@ -58,20 +37,6 @@ export default function TestimonialsSection() {
             </ScrollReveal>
           ))}
         </div>
-
-        {/* Trust signals — minimal, elegant */}
-        <ScrollReveal>
-          <div className="flex flex-wrap justify-center gap-x-3 gap-y-3">
-            {trustPoints.map((point) => (
-              <span
-                key={point}
-                className="trust-pill px-5 py-2.5 rounded-full border border-border text-text-muted text-sm font-medium tracking-wide cursor-default"
-              >
-                {point}
-              </span>
-            ))}
-          </div>
-        </ScrollReveal>
       </Container>
     </section>
   );

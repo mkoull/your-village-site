@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useScrolled } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
+import { services } from "@/content/services";
 
 const Logo = () => (
   <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" width="26" height="26" className="nav-logo-icon">
@@ -18,16 +19,10 @@ const Logo = () => (
   </svg>
 );
 
-const serviceLinks = [
-  { label: "Food Support", href: "/services/food" },
-  { label: "Postpartum Carers", href: "/services/postpartum-carers" },
-  { label: "Counselling", href: "/services/counselling" },
-  { label: "Cleaning", href: "/services/cleaning" },
-  { label: "Sleep Consultants", href: "/services/sleep" },
-  { label: "Lactation Consultants", href: "/services/lactation" },
-  { label: "Life Support Services", href: "/services/life-admin" },
-  { label: "Community Groups", href: "/services/community" },
-];
+const serviceLinks = services.map((s) => ({
+  label: s.title,
+  href: `/services/${s.slug}`,
+}));
 
 const mainLinks = [
   { label: "Services", href: "/services" },

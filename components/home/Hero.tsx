@@ -10,23 +10,24 @@ export default function Hero() {
 
       <Container className="relative z-10 text-center max-w-5xl">
         <p className="hero-reveal hero-reveal-1 text-eyebrow uppercase tracking-[0.25em] font-semibold text-sage mb-8 font-body">
-          Considered Postpartum Support
+          Postpartum support &middot; Inner Melbourne
         </p>
 
         <h1 className="hero-reveal hero-reveal-2 text-display font-heading font-normal leading-[1.05] mb-10 tracking-[-0.03em]">
-          You don&apos;t have to do
+          It takes a village.
           <br />
-          <em className="hero-gradient-text font-light not-italic">this alone.</em>
+          <em className="hero-gradient-text font-light not-italic">We build yours.</em>
         </h1>
 
-        <p className="hero-reveal hero-reveal-3 text-body-lg text-text-muted max-w-md mx-auto mb-14 leading-[1.8]">
-          A considered collection of services. Trusted providers. Meals, care,
-          sleep support, and more — designed around your family.
+        <p className="hero-reveal hero-reveal-3 text-body-lg text-text-muted max-w-lg mx-auto mb-14 leading-[1.8]">
+          Meals on the doorstep, overnight care, feeding support, someone to
+          talk to. Trusted providers, chosen for your family and coordinated
+          by one team who knows your story.
         </p>
 
         <div className="hero-reveal hero-reveal-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
           <Button href="/get-started" size="lg">
-            Talk to us
+            Start a conversation
             <span aria-hidden="true">&rarr;</span>
           </Button>
           <Button href="/services" variant="secondary" size="lg">
@@ -35,7 +36,7 @@ export default function Hero() {
         </div>
 
         <p className="hero-reveal hero-reveal-5 text-sm text-text-muted/70">
-          No commitment. Start with a conversation.
+          Free to start. No commitment &mdash; just a conversation.
         </p>
       </Container>
 

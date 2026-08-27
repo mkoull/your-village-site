@@ -9,12 +9,12 @@ export const metadata: Metadata = {
     template: "%s — Your Village",
   },
   description:
-    "A considered collection of postpartum services — from meals and overnight help to emotional support — designed around your family. Inner Melbourne, Australia.",
+    "It takes a village. We build yours — meals, overnight care, feeding and emotional support from vetted providers, coordinated for your family. Inner Melbourne, Australia.",
   metadataBase: new URL("https://yourvillage.com.au"),
   openGraph: {
     title: "Your Village — Considered Postpartum Support",
     description:
-      "A considered collection of postpartum services — from meals and overnight help to emotional support — designed around your family.",
+      "It takes a village. We build yours — meals, overnight care, feeding and emotional support from vetted providers, coordinated for your family.",
     type: "website",
     locale: "en_AU",
     url: "https://yourvillage.com.au",
