@@ -4,6 +4,7 @@ import { useState } from "react";
 import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Button from "@/components/ui/Button";
+import { submitLead } from "@/lib/leads";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -11,7 +12,7 @@ export default function ContactPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // BACKEND INTEGRATION POINT: POST to webhook
+    void submitLead("contact", form);
     setSubmitted(true);
   }
 

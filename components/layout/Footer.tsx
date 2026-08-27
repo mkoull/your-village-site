@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
+import { services } from "@/content/services";
 
 const Logo = () => (
   <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" width="26" height="26">
@@ -37,22 +38,13 @@ export default function Footer() {
               Services
             </h4>
             <ul className="space-y-3">
-              {[
-                { label: "Food Support", href: "/services/food" },
-                { label: "Postpartum Carers", href: "/services/postpartum-carers" },
-                { label: "Sleep Support", href: "/services/sleep" },
-                { label: "Lactation", href: "/services/lactation" },
-                { label: "Counselling", href: "/services/counselling" },
-                { label: "Household Help", href: "/services/cleaning" },
-                { label: "Life Admin", href: "/services/life-admin" },
-                { label: "Community", href: "/services/community" },
-              ].map((link) => (
-                <li key={link.label}>
+              {services.map((service) => (
+                <li key={service.slug}>
                   <Link
-                    href={link.href}
+                    href={`/services/${service.slug}`}
                     className="text-sm text-text-inverse/60 hover:text-text-inverse transition-colors"
                   >
-                    {link.label}
+                    {service.title}
                   </Link>
                 </li>
               ))}

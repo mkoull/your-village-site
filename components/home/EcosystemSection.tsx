@@ -8,19 +8,19 @@ const steps = [
     number: "1",
     title: "Tell us what\u2019s hard",
     description:
-      "A quick conversation — no forms, no pressure. Just tell us what you need right now.",
+      "A few gentle questions, whenever suits you. No pressure, and nothing to decide yet.",
   },
   {
     number: "2",
-    title: "We build your village",
+    title: "We assemble your village",
     description:
-      "We match you with vetted providers and handle every detail.",
+      "We match vetted providers to your family and handle every booking, schedule, and introduction.",
   },
   {
     number: "3",
-    title: "Support arrives",
+    title: "Support simply arrives",
     description:
-      "Meals, care, rest — flowing to your family, thoughtfully curated and ongoing.",
+      "Meals, care, rest — coordinated by one team who knows your story, adjusting as your needs change.",
   },
 ];
 

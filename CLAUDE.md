@@ -2,158 +2,116 @@
 
 ## Project Overview
 
-**Your Village** is a static marketing website for a considered postpartum support service based in inner Melbourne, Australia. The site connects new families with vetted providers (doulas, lactation consultants, sleep specialists, etc.) through a curated collection of services model.
+**Your Village** is the marketing site for a curated postpartum support
+service in inner Melbourne, Australia. The service assembles and
+coordinates vetted providers (meals, overnight carers, sleep and
+lactation specialists, counselling, household help) around a family —
+one conversation, one team, support simply arrives.
 
 - **Domain**: yourvillage.com.au
 - **Audience**: New and expecting parents in inner Melbourne
-- **Tone**: Warm, calm, reassuring — never clinical or corporate
+- **Positioning**: "It takes a village. We build yours."
+- **Tone**: Warm, calm, reassuring — never clinical, salesy, or corporate.
+  Inclusive of all family shapes and paths to parenthood.
 
 ## Architecture
 
-This is a **zero-build static site** — plain HTML, CSS, and vanilla JavaScript. There is no framework, no bundler, no package.json, and no node_modules.
+Next.js 15 (App Router) + React 19 + Tailwind CSS 4 + TypeScript.
+Every route is statically prerendered (`npm run build` → 18 static routes).
+Deployed on Vercel; `vercel.json` adds security headers.
 
 ### File Structure
 
 ```
-index.html          Homepage — hero, value prop, stats, how-it-works, trust,
-                    pricing packages, reassurance, FAQ, final CTA
-about.html          About page — founder story, provider vetting philosophy
-get-started.html    Intake form — 6-step multi-step form with client-side validation
-styles.css          Single shared stylesheet (all pages link to this)
-favicon.svg         SVG favicon — "village nest" circle icon
-vercel.json         Vercel deployment config (clean URLs + security headers)
-README.md           Deployment and integration instructions
+app/layout.tsx            Root layout — fonts (Newsreader + Plus Jakarta Sans),
+                          metadata, Navbar + Footer
+app/page.tsx              Homepage — section order lives here
+app/services/page.tsx     All services (category filter + expandable cards)
+app/services/[slug]/      Per-service pages (SSG via generateStaticParams)
+app/about/                Founder story
+app/how-it-works/         Process page
+app/get-started/          Support assessment (multi-step, contact LAST)
+app/contact/              Simple contact form
+app/waitlist/             Email + suburb capture
+app/globals.css           Design tokens (:root) + bespoke animation CSS
+components/home/          One file per homepage section
+components/layout/        Navbar, Footer
+components/ui/            Button, Container, ScrollReveal
+content/services.ts       SINGLE SOURCE OF TRUTH: services + testimonials.
+                          Navbar, Footer, services pages, assessment all
+                          derive from it — never hardcode service lists.
+lib/leads.ts              submitLead() — all form submissions go through this
+lib/hooks.ts              useScrollReveal, useScrolled, useCountUp
 ```
 
-### Key Architectural Decisions
+### Homepage flow (order matters — each section earns its place)
 
-- **No build step**: Files are served as-is. Deploy by pushing to GitHub and connecting to Vercel or Netlify.
-- **Single CSS file**: All styles live in `styles.css`. There is no CSS preprocessor, no CSS modules, no utility framework.
-- **Inline JavaScript**: Each HTML page has its own `<script>` block at the bottom of `<body>`. There are no external JS files.
-- **No dependencies**: No npm packages, no CDN libraries. Only external resources are Google Fonts (DM Sans + Lora).
+1. `Hero` — aurora canvas, "It takes a village. We build yours."
+2. `ConstellationSection` — the problem → the model (orbiting services visual)
+3. `ServicesPreview` — all services, compact linked cards
+4. `EcosystemSection` — how it works, 3 steps
+5. `TrustSection` — vetting philosophy, 4 cards (no invented stats)
+6. `TestimonialsSection` — trio drawn from `content/services.ts`
+7. `WaitlistCapture` — dark final CTA, email capture
 
 ## Design System
 
-The site uses a **"Bedroom at Night"** design language — dark backgrounds, warm muted tones, low contrast, and soft sage green accents.
+Light, warm, editorial. Tokens are CSS custom properties in
+`app/globals.css` `:root` and exposed to Tailwind (e.g. `bg-sage`,
+`text-text-muted`, `bg-elevated`).
 
-### Color Palette (CSS custom properties in `:root`)
+| Token                  | Value     | Usage                       |
+|------------------------|-----------|-----------------------------|
+| `--color-background`   | `#FAF8F5` | Page background             |
+| `--color-surface`      | `#F3F0EB` | Alternating section bg      |
+| `--color-dark`         | (near-black) | Footer + final CTA       |
+| `--color-sage`         | `#8B9E7C` | Primary accent              |
+| `--color-sage-dark`    | `#6B7E5C` | Hover accent                |
 
-| Token              | Value       | Usage                          |
-|--------------------|-------------|--------------------------------|
-| `--night-bg`       | `#1E1D1B`  | Page background                |
-| `--night-surface`  | `#2A2826`  | Card/component backgrounds     |
-| `--night-card`     | `#332F2C`  | Elevated card backgrounds      |
-| `--night-border`   | `#3E3A36`  | Borders                        |
-| `--sage`           | `#8FAF8F`  | Primary accent (buttons, links)|
-| `--sage-glow`      | `#A3C4A3`  | Hover/active accent            |
-| `--text-primary`   | `#EDE8DF`  | Headings, strong text          |
-| `--text-secondary` | `#B5AFA6`  | Body text                      |
-| `--text-muted`     | `#8A8279`  | Captions, metadata             |
+- **Headings**: Newsreader (serif) via `font-heading`
+- **Body**: Plus Jakarta Sans via `font-body`
+- Buttons are pill-shaped (`Button` component: primary / secondary / ghost)
+- Scroll animations via `ScrollReveal` wrapper or `useScrollReveal`;
+  all motion respects `prefers-reduced-motion`
 
-### Typography
+## Lead Capture
 
-- **Headings**: `Lora` (serif), weight 600
-- **Body**: `DM Sans` (sans-serif), weight 400/500/600
-- Base font size: 17px mobile, 18px desktop (768px+ breakpoint)
-
-### Spacing
-
-8px base scale using CSS custom properties: `--space-xs` (8px) through `--space-3xl` (72px).
-
-### Layout Constraints
-
-- `--page-max`: 1080px (outer content width)
-- `--content-max`: 680px (text/reading width)
-- Single breakpoint at `768px` for mobile/desktop transitions
-
-### Component Patterns
-
-- **`.card-section`**: Rounded cards with dark background, border, and shadow
-- **`.btn-primary`**: Sage green pill button; `.btn-secondary`: outlined variant; `.btn-sm`: compact size
-- **`.steps-grid`**: 3-column grid on desktop, stacked on mobile
-- **`.packages-grid`**: 3-column pricing cards; `.package-card--featured` gets a sage border and badge
-- **`.faq-item`**: Accordion pattern with `aria-expanded` toggling
-
-## Pages
-
-### `index.html` (Homepage)
-
-Sections in order: Nav, Hero, Value proposition, Stats (animated count-up), How it works (3 steps), Trust & vetting, Founder note, Packages/pricing, Reassurance, FAQ, Final CTA, Footer.
-
-**JavaScript features:**
-- Sticky nav scroll effect (adds `.scrolled` class at 40px)
-- FAQ accordion (single-open, `aria-expanded` managed)
-- Smooth-scroll for anchor links
-- Mobile hamburger menu toggle
-- Stats count-up animation (IntersectionObserver-triggered, respects `prefers-reduced-motion`)
-
-### `about.html` (About Page)
-
-Static content page. Nav is permanently in `.scrolled` state. Only JS is hamburger menu toggle.
-
-### `get-started.html` (Intake Form)
-
-6-step multi-step form collecting: baby date, suburb, needs (multi-select), support network, contact preference, contact details (name/email/phone).
-
-**JavaScript features:**
-- Step-by-step navigation with `data-next`/`data-back` button attributes
-- Per-step validation with `.field-error.visible` toggling
-- Enter key advances steps
-- Form submission POSTs JSON to a webhook URL (currently placeholder `YOUR_ZAPIER_WEBHOOK_URL`)
-- Shows `.form-confirmation` on submit, hides form
-
-**Backend integration**: The form submission block at line ~494 of `get-started.html` is a placeholder. See the `BACKEND INTEGRATION POINT` comment for options (Zapier, Make, Netlify Forms, Google Sheets).
-
-## Deployment
-
-### Vercel (primary)
-
-Configured via `vercel.json`:
-- `cleanUrls: true` — serves `.html` files without extension (e.g., `/about` serves `about.html`)
-- Security headers on all routes: `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`
-
-### Netlify (alternative)
-
-The README references Netlify as an option. A `netlify.toml` may have existed previously but is not currently in the repo.
+All four capture points (assessment, contact, waitlist page, homepage
+capture) call `submitLead(type, data)` from `lib/leads.ts`, which POSTs
+JSON to `NEXT_PUBLIC_LEAD_WEBHOOK_URL` (set in Vercel env, inlined at
+build time). Without it, forms show confirmation but deliver nothing and
+warn in the console. Never bypass this helper with a page-local fetch.
 
 ## Conventions for AI Assistants
 
 ### Do
 
-- Maintain the warm, reassuring tone in all copy. This site serves vulnerable families — language should be gentle, never salesy or clinical.
-- Keep the zero-build architecture. Do not introduce npm, webpack, or any build tooling unless explicitly requested.
-- Use the existing CSS custom properties for colors, spacing, and sizing. Do not hardcode values.
-- Follow the existing naming conventions: BEM-like class names (e.g., `.package-card--featured`, `.stats-number--static`).
-- Put all styles in `styles.css`. Do not add `<style>` blocks to HTML files.
-- Keep inline `<script>` blocks at the bottom of `<body>` in each HTML page.
-- Maintain accessibility: `aria-expanded` on toggles, `aria-label` where needed, `:focus-visible` styling, `prefers-reduced-motion` support.
-- Replicate the nav, footer, and font/meta includes exactly when creating new pages. The nav SVG logo, link structure, and mobile menu pattern are consistent across all pages.
-- Use Australian English spelling (e.g., "organisation", "colour" in copy — though CSS property names stay American English).
-- Internal links use clean URLs without `.html` extension (e.g., `/get-started`, `/about`).
+- Keep the warm, reassuring tone. This site serves exhausted, vulnerable
+  families — gentle language, no urgency tactics, no exclamation marks.
+- Use inclusive language: "parents", "families", "your family" — all
+  family shapes and paths to parenthood. Australian English in copy.
+- Derive anything service-related from `content/services.ts`.
+- Use existing design tokens and components (`Button`, `Container`,
+  `ScrollReveal`) rather than ad-hoc styles.
+- Keep `/get-started` contact-details-last — that ordering is deliberate.
+- Maintain accessibility: labels on inputs, `aria-expanded` on toggles,
+  `prefers-reduced-motion` support, `:focus-visible` styling.
+- Keep every route statically renderable (no server-only APIs).
 
 ### Don't
 
-- Don't add JavaScript frameworks or libraries. The site is intentionally vanilla.
-- Don't introduce CSS utility frameworks (Tailwind, etc.). All styling goes through the existing design token system in `styles.css`.
-- Don't change the color palette without explicit approval — it's a carefully curated dark theme.
-- Don't add cookie banners or tracking scripts without being asked. Privacy-friendly analytics (Plausible/Fathom) are recommended if analytics are needed.
-- Don't modify the form webhook URL without being told the replacement value.
-- Don't use emojis in code or copy unless explicitly asked.
-
-### Adding New Pages
-
-1. Copy the `<head>` block from `about.html` (update `<title>`, `<meta>`, and `<link rel="canonical">`)
-2. Copy the nav block (use `/#section` links for homepage sections, same as `about.html`)
-3. Copy the footer block
-4. Add the hamburger JS snippet at the bottom
-5. The nav should have class `scrolled` permanently on sub-pages (not the homepage)
+- Don't add npm dependencies without a strong reason — the site runs on
+  Next/React/Tailwind alone.
+- Don't invent statistics, provider counts, or response-time claims.
+- Don't change the palette or fonts without explicit approval.
+- Don't add tracking scripts or cookie banners unless asked; if
+  analytics are requested, prefer privacy-friendly (Plausible/Fathom).
+- Don't hardcode service names/links in components — import from content.
+- Don't use emojis in code or copy.
 
 ### Testing
 
-There is no test suite. Manual verification:
-- Open each `.html` file in a browser
-- Check mobile responsiveness at 375px and 768px breakpoints
-- Verify FAQ accordion opens/closes correctly
-- Verify form steps advance and validate properly
-- Verify stats count-up animation triggers on scroll
-
+No test suite. Verify with `npm run build` (type + lint gate) and manual
+checks: homepage sections reveal on scroll, assessment advances and
+validates (contact details validate on the final step), mobile nav works
+at 375px, service filter/accordion behave on `/services`.
