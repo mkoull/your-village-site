@@ -5,7 +5,6 @@ import ServicesPreview from "@/components/home/ServicesPreview";
 import EcosystemSection from "@/components/home/EcosystemSection";
 import TrustSection from "@/components/home/TrustSection";
 import FounderSection from "@/components/home/FounderSection";
-import TestimonialsSection from "@/components/home/TestimonialsSection";
 import FaqSection from "@/components/home/FaqSection";
 import WaitlistCapture from "@/components/home/WaitlistCapture";
 import StickyMobileCta from "@/components/home/StickyMobileCta";
@@ -20,7 +19,6 @@ export default function HomePage() {
       <EcosystemSection />
       <TrustSection />
       <FounderSection />
-      <TestimonialsSection />
       <FaqSection />
       <WaitlistCapture />
       <StickyMobileCta />

@@ -27,7 +27,7 @@ export default function ContactPage() {
           </div>
           <h1 className="text-h1 font-heading mb-4">We&apos;ll be in touch.</h1>
           <p className="text-text-muted text-body-lg">
-            Thanks for reaching out. We typically respond within a few hours.
+            Thanks for reaching out. We reply the same day — usually within a few hours.
           </p>
         </Container>
       </section>

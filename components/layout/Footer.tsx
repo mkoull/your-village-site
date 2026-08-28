@@ -34,7 +34,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-text-inverse/40 mb-4 font-body">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
               Services
             </h4>
             <ul className="space-y-3">
@@ -53,7 +53,7 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-text-inverse/40 mb-4 font-body">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
               Company
             </h4>
             <ul className="space-y-3">
@@ -78,7 +78,7 @@ export default function Footer() {
 
           {/* Get started */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-text-inverse/40 mb-4 font-body">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
               Get Started
             </h4>
             <p className="text-sm text-text-inverse/60 leading-relaxed mb-4">

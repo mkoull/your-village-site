@@ -53,7 +53,7 @@ lib/hooks.ts              useScrollReveal, useScrolled, useCountUp
 5. `EcosystemSection` — 3 steps + "what happens when you reach out" strip
 6. `TrustSection` — vetting philosophy, 4 cards (no invented stats)
 7. `FounderSection` — founder note pulled from the About story
-8. `TestimonialsSection` — trio drawn from `content/services.ts`
+8. (empty slot — testimonials removed pre-launch; no fabricated proof)
 9. `FaqSection` — objection handling (cost, vetting, inclusivity, gifting)
 10. `WaitlistCapture` — dark final CTA, conversation-primary, email fallback
 + `StickyMobileCta` — mobile-only floating CTA after the hero
@@ -89,6 +89,10 @@ warn in the console. Never bypass this helper with a page-local fetch.
 ## Conventions for AI Assistants
 
 ### Do
+
+- NEVER invent proof: no testimonials, client counts, statistics, or
+  response-time promises the business cannot meet. The service is
+  pre-launch with zero clients served. Use TODO(mario) placeholders.
 
 - Keep the warm, reassuring tone. This site serves exhausted, vulnerable
   families — gentle language, no urgency tactics, no exclamation marks.

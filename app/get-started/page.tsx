@@ -136,7 +136,7 @@ export default function GetStartedPage() {
             Your plan is on its way, {firstName}.
           </h1>
           <p className="text-text-muted max-w-md mx-auto leading-relaxed mb-10">
-            A real person will reach out within a few hours —{" "}
+            A real person will reach out the same day —{" "}
             {formData.phone.trim()
               ? "we'll give you a call, and follow up by email"
               : "you'll hear from us by email"}
@@ -365,7 +365,7 @@ export default function GetStartedPage() {
                   </h3>
                   <p className="text-text-muted text-sm mb-6">
                     Leave your details and a real person will walk you through
-                    your plan — usually within a few hours.
+                    your plan — the same day, usually within a few hours.
                   </p>
                   <form
                     className="space-y-4"

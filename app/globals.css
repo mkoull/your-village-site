@@ -99,43 +99,49 @@
 
 /* ============================================================
    Base styles
+   In @layer base so Tailwind utilities (which live in the
+   utilities layer) always win. Unlayered rules here previously
+   beat classes like text-white, making headings invisible on
+   dark backgrounds.
    ============================================================ */
-html {
-  scroll-behavior: smooth;
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-body {
-  font-family: var(--font-body);
-  color: var(--color-text-body);
-  background-color: var(--color-background);
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  body {
+    font-family: var(--font-body);
+    color: var(--color-text-body);
+    background-color: var(--color-background);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-:where(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-heading);
-  color: var(--color-text-primary);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  text-wrap: balance;
-}
+  :where(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-heading);
+    color: var(--color-text-primary);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
 
-/* Headings on dark backgrounds should be light */
-.bg-dark h1, .bg-dark h2, .bg-dark h3, .bg-dark h4,
-.bg-dark h5, .bg-dark h6 {
-  color: var(--color-text-inverse);
-}
+  /* Headings on dark backgrounds default to light */
+  .bg-dark :where(h1, h2, h3, h4, h5, h6),
+  .night-sky :where(h1, h2, h3, h4, h5, h6) {
+    color: var(--color-text-inverse);
+  }
 
-::selection {
-  background-color: var(--color-sage-muted);
-  color: var(--color-text-primary);
-}
+  ::selection {
+    background-color: var(--color-sage-muted);
+    color: var(--color-text-primary);
+  }
 
-:focus-visible {
-  outline: 2px solid var(--color-sage);
-  outline-offset: 2px;
-  border-radius: 4px;
+  :focus-visible {
+    outline: 2px solid var(--color-sage);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 }
 
 /* ============================================================
