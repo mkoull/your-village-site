@@ -26,12 +26,14 @@ export default function ServicesPreview() {
             <ScrollReveal key={service.slug} stagger={(i % 4) + 1}>
               <Link
                 href={`/services/${service.slug}`}
-                className="block h-full p-7 rounded-[var(--radius-lg)] bg-elevated border border-border-subtle shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group"
+                className="block h-full p-7 rounded-[var(--radius-lg)] bg-elevated border border-border-subtle shadow-sm hover:shadow-lg hover:border-sage/40 transition-all duration-300 hover:-translate-y-1 group"
               >
-                <div
-                  className="w-9 h-9 text-sage mb-4"
-                  dangerouslySetInnerHTML={{ __html: service.icon }}
-                />
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-sage/10 text-sage mb-4 group-hover:bg-sage group-hover:text-white transition-colors duration-300">
+                  <div
+                    className="w-6 h-6"
+                    dangerouslySetInnerHTML={{ __html: service.icon }}
+                  />
+                </div>
                 <h3 className="font-heading text-[1.1rem] mb-1.5 group-hover:text-sage transition-colors">
                   {service.title}
                 </h3>

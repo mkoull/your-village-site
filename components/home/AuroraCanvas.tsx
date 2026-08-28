@@ -4,11 +4,12 @@ import { useEffect, useRef } from "react";
 
 // Soft colour palette — sage greens + warm gold
 const ORBS = [
-  { cx: 0.15, cy: 0.25, rx: 0.35, ry: 0.35, r: 139, g: 158, b: 124, a: 0.35, speed: 0.0003, phase: 0 },
-  { cx: 0.80, cy: 0.15, rx: 0.30, ry: 0.30, r: 212, g: 190, b: 154, a: 0.30, speed: 0.0004, phase: 2 },
-  { cx: 0.50, cy: 0.60, rx: 0.40, ry: 0.40, r: 139, g: 158, b: 124, a: 0.25, speed: 0.00025, phase: 4 },
-  { cx: 0.35, cy: 0.10, rx: 0.25, ry: 0.25, r: 168, g: 184, b: 156, a: 0.30, speed: 0.00035, phase: 1 },
-  { cx: 0.70, cy: 0.55, rx: 0.28, ry: 0.28, r: 196, g: 178, b: 140, a: 0.20, speed: 0.00045, phase: 3 },
+  { cx: 0.15, cy: 0.25, rx: 0.38, ry: 0.38, r: 139, g: 158, b: 124, a: 0.50, speed: 0.0003, phase: 0 },
+  { cx: 0.80, cy: 0.15, rx: 0.34, ry: 0.34, r: 214, g: 184, b: 138, a: 0.46, speed: 0.0004, phase: 2 },
+  { cx: 0.50, cy: 0.62, rx: 0.44, ry: 0.44, r: 139, g: 158, b: 124, a: 0.38, speed: 0.00025, phase: 4 },
+  { cx: 0.35, cy: 0.08, rx: 0.27, ry: 0.27, r: 168, g: 184, b: 156, a: 0.44, speed: 0.00035, phase: 1 },
+  { cx: 0.70, cy: 0.55, rx: 0.30, ry: 0.30, r: 205, g: 170, b: 125, a: 0.32, speed: 0.00045, phase: 3 },
+  { cx: 0.05, cy: 0.75, rx: 0.26, ry: 0.26, r: 196, g: 178, b: 140, a: 0.28, speed: 0.0005, phase: 5 },
 ];
 
 export default function AuroraCanvas() {
@@ -96,7 +97,7 @@ export default function AuroraCanvas() {
       ref={canvasRef}
       aria-hidden="true"
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.9 }}
+      style={{ opacity: 1 }}
     />
   );
 }

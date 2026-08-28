@@ -4,7 +4,7 @@ import AuroraCanvas from "@/components/home/AuroraCanvas";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[100dvh] flex items-center justify-center pt-24 pb-32 overflow-hidden">
+    <section className="grain relative min-h-[100dvh] flex items-center justify-center pt-24 pb-32 overflow-hidden">
       {/* Animated aurora canvas background */}
       <AuroraCanvas />
 
@@ -35,9 +35,20 @@ export default function Hero() {
           </Button>
         </div>
 
-        <p className="hero-reveal hero-reveal-5 text-sm text-text-muted/70">
-          Free to start. No commitment &mdash; just a conversation.
-        </p>
+        <div className="hero-reveal hero-reveal-5 flex flex-wrap items-center justify-center gap-x-2 gap-y-2 text-sm text-text-muted/80">
+          {["Free first conversation", "Every provider vetted", "One point of contact"].map(
+            (chip, i) => (
+              <span key={chip} className="flex items-center gap-2">
+                {i > 0 && (
+                  <span className="text-sage/50" aria-hidden="true">
+                    &middot;
+                  </span>
+                )}
+                {chip}
+              </span>
+            )
+          )}
+        </div>
       </Container>
 
       {/* Scroll indicator */}
