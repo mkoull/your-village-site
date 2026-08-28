@@ -38,7 +38,7 @@ export default function ContactPage() {
     <section className="pt-32 pb-20">
       <Container narrow>
         <ScrollReveal>
-          <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body text-center">
+          <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-4 font-body text-center">
             Get in touch
           </p>
           <h1 className="text-h1 font-heading text-center mb-4">

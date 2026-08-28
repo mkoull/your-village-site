@@ -25,9 +25,9 @@ export default function StickyMobileCta() {
     >
       <Link
         href="/get-started"
-        className="btn-glow flex items-center justify-center gap-2 w-full px-7 py-4 rounded-full bg-sage text-white font-medium text-[15px] shadow-lg active:scale-[0.98] transition-transform"
+        className="btn-glow flex items-center justify-center gap-2 w-full px-7 py-4 rounded-full bg-sage-deep text-white font-medium text-[15px] shadow-lg active:scale-[0.98] transition-transform"
       >
-        Start a conversation
+        Talk to us
         <span aria-hidden="true">&rarr;</span>
       </Link>
     </div>

@@ -34,9 +34,9 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
+            <p className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
               Services
-            </h4>
+            </p>
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service.slug}>
@@ -53,14 +53,17 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
+            <p className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
               Company
-            </h4>
+            </p>
             <ul className="space-y-3">
               {[
                 { label: "About", href: "/about" },
                 { label: "How It Works", href: "/how-it-works" },
+                { label: "Pricing", href: "/pricing" },
                 { label: "All Services", href: "/services" },
+                { label: "Safety & Vetting", href: "/safety" },
+                { label: "Privacy", href: "/privacy" },
                 { label: "Contact", href: "/contact" },
                 { label: "Join Waitlist", href: "/waitlist" },
               ].map((link) => (
@@ -78,15 +81,15 @@ export default function Footer() {
 
           {/* Get started */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
+            <p className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
               Get Started
-            </h4>
+            </p>
             <p className="text-sm text-text-inverse/60 leading-relaxed mb-4">
               Start with a conversation. No pressure, no commitment.
             </p>
             <Link
               href="/get-started"
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage text-white hover:bg-sage-light transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage-deep text-white hover:bg-sage-dark transition-all"
             >
               Talk to us
               <span aria-hidden="true">&rarr;</span>
@@ -96,10 +99,10 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-text-inverse/40">
+          <p className="text-xs text-text-inverse/60">
             &copy; {new Date().getFullYear()} Your Village. Melbourne, Australia.
           </p>
-          <p className="text-xs text-text-inverse/40">
+          <p className="text-xs text-text-inverse/60">
             Supporting families in inner Melbourne.
           </p>
         </div>

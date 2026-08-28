@@ -18,7 +18,7 @@ export default function WaitlistCapture() {
   };
 
   return (
-    <section className="waitlist-section bg-dark text-text-inverse py-32 md:py-40 lg:py-52">
+    <section className="waitlist-section bg-dark text-text-inverse py-20 md:py-24 lg:py-28">
       <Container narrow>
         <ScrollReveal>
           <div className="text-center">
@@ -27,7 +27,7 @@ export default function WaitlistCapture() {
               <br />
               <span className="text-sage">a village.</span>
             </h2>
-            <p className="text-text-inverse/50 mb-12 max-w-md mx-auto leading-[1.8] text-[15px]">
+            <p className="text-text-inverse/75 mb-12 max-w-md mx-auto leading-[1.8] text-[15px]">
               One conversation is all it takes to start. Tell us what&apos;s
               hard &mdash; we&apos;ll take it from there.
             </p>
@@ -38,14 +38,14 @@ export default function WaitlistCapture() {
                 Start a conversation
                 <span aria-hidden="true">&rarr;</span>
               </Button>
-              <p className="text-text-inverse/40 text-xs mt-4 tracking-wide">
+              <p className="text-text-inverse/60 text-xs mt-4 tracking-wide">
                 Free first chat. A real person replies.
               </p>
             </div>
 
             {!submitted ? (
               <div className="max-w-md mx-auto">
-                <p className="text-text-inverse/40 text-sm mb-5">
+                <p className="text-text-inverse/60 text-sm mb-5">
                   Not ready yet? Stay in the loop instead.
                 </p>
                 <form
@@ -73,7 +73,7 @@ export default function WaitlistCapture() {
                 </form>
               </div>
             ) : (
-              <p className="text-sage font-medium">
+              <p className="text-text-sage font-medium">
                 You&apos;re on the list. We&apos;ll be in touch.
               </p>
             )}
