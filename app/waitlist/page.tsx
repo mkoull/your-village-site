@@ -23,7 +23,7 @@ export default function WaitlistPage() {
         <ScrollReveal>
           {!submitted ? (
             <>
-              <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
+              <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-4 font-body">
                 Waitlist
               </p>
               <h1 className="text-h1 font-heading mb-4">
@@ -55,7 +55,7 @@ export default function WaitlistPage() {
                 />
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 rounded-full bg-sage text-white font-medium text-[15px] hover:bg-sage-dark transition-colors cursor-pointer"
+                  className="w-full px-6 py-3 rounded-full bg-sage-deep text-white font-medium text-[15px] hover:bg-sage-dark transition-colors cursor-pointer"
                 >
                   Keep me posted
                 </button>

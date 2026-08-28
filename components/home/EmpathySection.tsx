@@ -14,7 +14,7 @@ const thoughts = [
 
 export default function EmpathySection() {
   return (
-    <section className="night-sky relative overflow-hidden py-32 md:py-40 lg:py-48">
+    <section className="night-sky relative overflow-hidden py-20 md:py-24 lg:py-28">
       {/* Star field + moon glow, pure CSS */}
       <div className="night-stars" aria-hidden="true" />
       <div className="night-moon" aria-hidden="true" />
@@ -33,7 +33,7 @@ export default function EmpathySection() {
           {thoughts.map((line, i) => (
             <ScrollReveal key={line} stagger={i + 1}>
               <p
-                className={`font-heading italic text-[1.35rem] md:text-[1.55rem] leading-snug text-white/55 ${
+                className={`font-heading italic text-[1.35rem] md:text-[1.55rem] leading-snug text-white/70 ${
                   i % 2 === 0 ? "text-left" : "text-right"
                 }`}
               >

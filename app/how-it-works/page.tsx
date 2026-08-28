@@ -12,22 +12,22 @@ export const metadata: Metadata = {
 const steps = [
   {
     number: "01",
-    title: "Tell us what you need",
+    title: "Tell us what\u2019s hard",
     description:
-      "A quick conversation about your situation. No forms to fill, no pressure. Just tell us what\u2019s hard.",
+      "Four questions, or just send a message. A real person reads it and replies the same day, usually within a few hours.",
     cta: { label: "Start here", href: "/get-started" },
   },
   {
     number: "02",
-    title: "We build your village",
+    title: "We come back with a specific plan",
     description:
-      "We curate the right providers from our vetted network and organise everything — schedules, logistics, introductions.",
+      "A 20-minute call or messages — then a plan with real details: this many meals, these nights covered, this consultant, this cost. You approve every line before anything is booked.",
   },
   {
     number: "03",
-    title: "Support arrives",
+    title: "We book it and keep it running",
     description:
-      "Meals, care, help — thoughtfully curated and ongoing. Your team stays with you, adjusting as your needs change.",
+      "We brief every provider so you never re-explain yourself, send you one schedule, and check in weekly. Anything can change, pause or stop, any time.",
   },
 ];
 
@@ -37,7 +37,7 @@ export default function HowItWorksPage() {
       {/* Hero */}
       <section className="pb-10 md:pb-16">
         <Container narrow className="text-center">
-          <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
+          <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-4 font-body">
             The process
           </p>
           <h1 className="text-h1 font-heading mb-6">
@@ -85,7 +85,7 @@ export default function HowItWorksPage() {
         <Container narrow>
           <ScrollReveal>
             <div className="text-center">
-              <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
+              <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-4 font-body">
                 Your team
               </p>
               <h2 className="text-h2 font-heading mb-6">

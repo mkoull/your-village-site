@@ -46,17 +46,25 @@ lib/hooks.ts              useScrollReveal, useScrolled, useCountUp
 
 ### Homepage flow (a persuasion arc — each section has one job)
 
-1. `Hero` — aurora canvas, "It takes a village. We build yours." + trust chips
-2. `EmpathySection` — the "they get me" moment (3am inner monologue)
-3. `ConstellationSection` — the problem → the model (orbiting services visual)
-4. `ServicesPreview` — all services, compact linked cards
-5. `EcosystemSection` — 3 steps + "what happens when you reach out" strip
-6. `TrustSection` — vetting philosophy, 4 cards (no invented stats)
-7. `FounderSection` — founder note pulled from the About story
-8. `TestimonialsSection` — trio drawn from `content/services.ts`
-9. `FaqSection` — objection handling (cost, vetting, inclusivity, gifting)
-10. `WaitlistCapture` — dark final CTA, conversation-primary, email fallback
-+ `StickyMobileCta` — mobile-only floating CTA after the hero
+1. `Hero` — aurora canvas, headline, mechanism+money paragraph,
+   quiz question 1 embedded (routes to /get-started?stage=…)
+2. `EmpathySection` — the 3am night scene (dark, stars, whispers)
+3. `WhatHappensSection` — Today/Tomorrow/This week/Ongoing timeline,
+   concrete nouns only (never "support simply arrives")
+4. `ServicesPreview` — all services + honest pricing line → /pricing
+5. `TrustSection` — six-item vetting checklist → /safety
+6. `FounderSection` — founder note + photo ImageSlot
+7. `FoundingFamiliesSection` — honest pre-launch proof device
+8. `CoverageSection` — explicit suburbs from lib/site.ts
+9. `FaqSection` — ten real objections, analytics on open
+10. `WaitlistCapture` — dark final CTA, conversation-primary
++ `StickyMobileCta` — mobile-only "Talk to us" bar after the hero
+
+Other routes: /pricing (structure, no invented numbers), /safety
+(vetting substantiated), /privacy (plain-language policy).
+Fonts load via next/font (no render-blocking link tags).
+Quiz answers beacon to the webhook on EVERY step (type "quiz_step",
+anonymous id from lib/anon.ts) — keep that when editing the flow.
 
 ## Design System
 
@@ -89,6 +97,10 @@ warn in the console. Never bypass this helper with a page-local fetch.
 ## Conventions for AI Assistants
 
 ### Do
+
+- NEVER invent proof: no testimonials, client counts, statistics, or
+  response-time promises the business cannot meet. The service is
+  pre-launch with zero clients served. Use TODO(mario) placeholders.
 
 - Keep the warm, reassuring tone. This site serves exhausted, vulnerable
   families — gentle language, no urgency tactics, no exclamation marks.

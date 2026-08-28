@@ -10,7 +10,7 @@
  * changing the value, redeploy for it to take effect.
  */
 
-export type LeadType = "assessment" | "contact" | "waitlist";
+export type LeadType = "assessment" | "quiz_step" | "contact" | "waitlist";
 
 export interface LeadResult {
   delivered: boolean;

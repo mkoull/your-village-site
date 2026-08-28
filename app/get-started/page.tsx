@@ -1,20 +1,25 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { cn } from "@/lib/utils";
 import { services, type Service } from "@/content/services";
 import { submitLead } from "@/lib/leads";
+import { trackEvent } from "@/lib/analytics";
+import { getAnonId } from "@/lib/anon";
 
 /**
  * Support assessment — a value-first funnel.
- * Four gentle questions build a personalised "starting village" plan.
- * The plan is shown generously (no gating, no dark patterns), and the
- * contact ask sits right underneath it, framed as "make it real" —
- * with the phone number positioned as the easiest channel for
- * hands-full parents. Contact details remain the LAST thing we ask.
+ * Four questions build a personalised "starting village" plan, shown
+ * generously before the contact ask. Contact details stay LAST.
+ *
+ * Every answer is beaconed to the lead webhook immediately (type
+ * "quiz_step", keyed to an anonymous id), so families who drop out
+ * before the final screen are still visible. Question 1 can arrive
+ * pre-filled from the hero via ?stage=.
  */
 
 const stageOptions = [
@@ -47,6 +52,7 @@ const timingLines: Record<string, string> = {
 
 const NOT_SURE = "not-sure";
 const DEFAULT_PLAN_SLUGS = ["postpartum-carers", "food", "counselling"];
+const VALID_STAGES = new Set(stageOptions.map((o) => o.value));
 
 function buildPlan(needs: string[]): { plan: Service[]; isDefault: boolean } {
   const chosen = services.filter((s) => needs.includes(s.slug));
@@ -59,12 +65,17 @@ function buildPlan(needs: string[]): { plan: Service[]; isDefault: boolean } {
 
 const TOTAL_STEPS = 5;
 
-export default function GetStartedPage() {
-  const [step, setStep] = useState(0);
+function GetStartedFlow() {
+  const searchParams = useSearchParams();
+  const prefilledStage = searchParams.get("stage");
+  const founding = searchParams.get("ref") === "founding";
+  const validPrefill = prefilledStage && VALID_STAGES.has(prefilledStage);
+
+  const [step, setStep] = useState(validPrefill ? 1 : 0);
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [formData, setFormData] = useState({
-    stage: "",
+    stage: validPrefill ? prefilledStage : "",
     needs: [] as string[],
     aroundYou: "",
     timing: "",
@@ -75,6 +86,43 @@ export default function GetStartedPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const started = useRef(Boolean(validPrefill));
+  const stepRef = useRef(step);
+  stepRef.current = step;
+  const submittedRef = useRef(false);
+  submittedRef.current = submitted;
+
+  // Abandonment: if the tab hides after starting and before submitting,
+  // record how far they got.
+  useEffect(() => {
+    let reported = false;
+    const onHide = () => {
+      if (document.visibilityState === "hidden" && started.current && !submittedRef.current && !reported) {
+        reported = true;
+        trackEvent("quiz_abandoned", { step: stepRef.current });
+      }
+    };
+    document.addEventListener("visibilitychange", onHide);
+    return () => document.removeEventListener("visibilitychange", onHide);
+  }, []);
+
+  const beacon = (field: string, value: string | string[], stepNo: number) => {
+    started.current = true;
+    void submitLead("quiz_step", {
+      anonId: getAnonId(),
+      step: stepNo,
+      field,
+      value,
+      answersSoFar: {
+        stage: formData.stage,
+        needs: formData.needs,
+        aroundYou: formData.aroundYou,
+        timing: formData.timing,
+      },
+      founding,
+    });
+    trackEvent("quiz_step_completed", { step: stepNo, field });
+  };
 
   const goTo = (next: number) => {
     setErrors({});
@@ -84,6 +132,7 @@ export default function GetStartedPage() {
   // Single-choice steps advance on their own — one less thing to do.
   const selectAndAdvance = (field: "stage" | "aroundYou" | "timing", value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    beacon(field, value, step);
     if (advanceTimer.current) clearTimeout(advanceTimer.current);
     advanceTimer.current = setTimeout(() => goTo(step + 1), 260);
   };
@@ -103,6 +152,11 @@ export default function GetStartedPage() {
     });
   };
 
+  const continueFromNeeds = () => {
+    beacon("needs", formData.needs, 1);
+    goTo(2);
+  };
+
   const { plan, isDefault } = buildPlan(formData.needs);
 
   const handleSubmit = async () => {
@@ -116,9 +170,12 @@ export default function GetStartedPage() {
 
     setSending(true);
     await submitLead("assessment", {
+      anonId: getAnonId(),
       ...formData,
+      founding,
       plan: plan.map((s) => s.title),
     });
+    trackEvent("lead_submitted", { type: "assessment", founding });
     setSubmitted(true);
   };
 
@@ -136,7 +193,7 @@ export default function GetStartedPage() {
             Your plan is on its way, {firstName}.
           </h1>
           <p className="text-text-muted max-w-md mx-auto leading-relaxed mb-10">
-            A real person will reach out within a few hours —{" "}
+            A real person will reach out the same day &mdash;{" "}
             {formData.phone.trim()
               ? "we'll give you a call, and follow up by email"
               : "you'll hear from us by email"}
@@ -147,7 +204,7 @@ export default function GetStartedPage() {
             {plan.map((service) => (
               <span
                 key={service.slug}
-                className="px-5 py-2.5 rounded-full bg-sage/10 text-sage text-sm font-medium"
+                className="px-5 py-2.5 rounded-full bg-sage/10 text-text-sage text-sm font-medium"
               >
                 {service.title}
               </span>
@@ -162,24 +219,25 @@ export default function GetStartedPage() {
     <div className="pt-24 md:pt-32 pb-16 md:pb-20 min-h-[80vh]">
       <Container narrow>
         <ScrollReveal>
-          <div className="text-center mb-12">
-            <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-4 font-body">
-              Get started
+          <div className="text-center mb-10">
+            <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-4 font-body">
+              {founding ? "Founding families" : "Get started"}
             </p>
             <h1 className="text-h1 font-heading mb-4">
               Let&apos;s sketch your village.
             </h1>
             <p className="text-text-muted max-w-md mx-auto">
-              Four quick questions, then we&apos;ll show you where we&apos;d
-              begin for your family. Takes about a minute.
+              {validPrefill
+                ? "Three more questions, then we'll show you where we'd begin for your family."
+                : "Four quick questions, then we'll show you where we'd begin for your family. Takes about a minute."}
             </p>
           </div>
         </ScrollReveal>
 
         <ScrollReveal>
-          <div className="p-8 md:p-12 rounded-[var(--radius-xl)] bg-elevated border border-border-subtle shadow-md">
+          <div className="p-6 md:p-12 rounded-[var(--radius-xl)] bg-elevated border border-border-subtle shadow-md">
             {/* Progress */}
-            <div className="flex items-center gap-2 mb-10" aria-hidden="true">
+            <div className="flex items-center gap-2 mb-8" aria-hidden="true">
               {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
                 <div
                   key={i}
@@ -319,7 +377,7 @@ export default function GetStartedPage() {
             {/* Step 4: The plan — value first, then the ask */}
             {step === 4 && (
               <div>
-                <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-3 font-body">
+                <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-3 font-body">
                   Your starting village
                 </p>
                 <h2 className="text-h3 font-heading mb-2">
@@ -354,7 +412,7 @@ export default function GetStartedPage() {
                 </div>
 
                 {formData.timing && (
-                  <p className="text-sm text-text-sage font-medium mb-8">
+                  <p className="text-sm text-text-text-sage font-medium mb-8">
                     {timingLines[formData.timing]}
                   </p>
                 )}
@@ -365,7 +423,7 @@ export default function GetStartedPage() {
                   </h3>
                   <p className="text-text-muted text-sm mb-6">
                     Leave your details and a real person will walk you through
-                    your plan — usually within a few hours.
+                    your plan &mdash; the same day, usually within a few hours.
                   </p>
                   <form
                     className="space-y-4"
@@ -423,7 +481,7 @@ export default function GetStartedPage() {
                         placeholder="04xx xxx xxx"
                       />
                       <p className="text-xs text-text-muted mt-1.5">
-                        Often easier than typing when your hands are full — if
+                        Often easier than typing when your hands are full &mdash; if
                         you leave a number, we&apos;ll call.
                       </p>
                     </div>
@@ -465,8 +523,8 @@ export default function GetStartedPage() {
 
               {step === 1 && (
                 <button
-                  onClick={() => goTo(2)}
-                  className="px-6 py-2.5 rounded-full bg-sage text-white text-sm font-medium hover:bg-sage-dark transition-colors cursor-pointer"
+                  onClick={continueFromNeeds}
+                  className="px-6 py-2.5 rounded-full bg-sage-deep text-white text-sm font-medium hover:bg-sage-dark transition-colors cursor-pointer"
                 >
                   Continue &rarr;
                 </button>
@@ -475,7 +533,7 @@ export default function GetStartedPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={sending}
-                  className="px-6 py-2.5 rounded-full bg-sage text-white text-sm font-medium hover:bg-sage-dark transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-default"
+                  className="px-6 py-2.5 rounded-full bg-sage-deep text-white text-sm font-medium hover:bg-sage-dark transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-default"
                 >
                   {sending ? "Sending…" : "Send me my plan →"}
                 </button>
@@ -486,19 +544,31 @@ export default function GetStartedPage() {
 
         <p className="text-xs text-text-muted text-center mt-6">
           Your answers stay between you and our team. No newsletters, no
-          sharing — just the conversation you asked for.
+          sharing &mdash; see our{" "}
+          <Link href="/privacy" className="underline underline-offset-2 hover:text-text-body">
+            privacy page
+          </Link>
+          .
         </p>
 
-        <p className="text-sm text-text-muted text-center mt-8">
+        <p className="text-sm text-text-muted text-center mt-6">
           Rather skip the questions?{" "}
           <Link
             href="/contact"
-            className="text-sage font-medium hover:text-sage-dark transition-colors underline underline-offset-4 decoration-sage/30"
+            className="text-text-sage font-medium hover:text-sage-dark transition-colors underline underline-offset-4 decoration-sage/30"
           >
             Send us a message instead
           </Link>
         </p>
       </Container>
     </div>
+  );
+}
+
+export default function GetStartedPage() {
+  return (
+    <Suspense fallback={null}>
+      <GetStartedFlow />
+    </Suspense>
   );
 }

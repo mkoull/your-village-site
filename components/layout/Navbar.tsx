@@ -27,6 +27,7 @@ const serviceLinks = services.map((s) => ({
 const mainLinks = [
   { label: "Services", href: "/services" },
   { label: "How It Works", href: "/how-it-works" },
+  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
 ];
 
@@ -154,7 +155,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/get-started"
-            className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage text-white hover:bg-sage-dark transition-all duration-300 hover:-translate-y-[2px] shadow-sm hover:shadow-lg"
+            className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage-deep text-white hover:bg-sage-dark transition-all duration-300 hover:-translate-y-[2px] shadow-sm hover:shadow-lg"
           >
             Talk to us
             <span aria-hidden="true">&rarr;</span>
@@ -232,7 +233,7 @@ export default function Navbar() {
             <Link
               href="/get-started"
               onClick={() => setMobileOpen(false)}
-              className="mt-4 inline-flex items-center justify-center gap-2 px-7 py-3 text-base font-medium rounded-full bg-sage text-white hover:bg-sage-dark transition-all"
+              className="mt-4 inline-flex items-center justify-center gap-2 px-7 py-3 text-base font-medium rounded-full bg-sage-deep text-white hover:bg-sage-dark transition-all"
             >
               Talk to us
               <span aria-hidden="true">&rarr;</span>

@@ -10,11 +10,6 @@ export interface Service {
   category: "practical" | "specialist" | "emotional" | "community";
 }
 
-export interface Testimonial {
-  quote: string;
-  attribution: string;
-}
-
 export const services: Service[] = [
   {
     slug: "food",
@@ -170,32 +165,5 @@ export const services: Service[] = [
   },
 ];
 
-export const testimonials: Testimonial[] = [
-  {
-    quote:
-      "I didn\u2019t realise how much I needed help until someone actually organised it for me. Having meals just arrive \u2014 I cried. It was such a relief.",
-    attribution: "New mum, Fitzroy",
-  },
-  {
-    quote:
-      "The team just got it. They listened, didn\u2019t rush us, and within days we had a sleep consultant and a cleaner booked. I finally felt like I could breathe.",
-    attribution: "First-time parents, Richmond",
-  },
-  {
-    quote:
-      "I was too exhausted to even Google. Having someone say \u2018I\u2019ve got this\u2019 \u2014 that changed everything for us.",
-    attribution: "New mum, Brunswick",
-  },
-  {
-    quote:
-      "As a dad, I felt like I was supposed to just hold it together. The Village helped me see that getting support isn\u2019t weakness \u2014 it\u2019s what our family needed.",
-    attribution: "New dad, Carlton",
-  },
-  {
-    quote:
-      "We just needed someone to build our village. Now it feels like the most obvious truth.",
-    attribution: "Parents of twins, South Yarra",
-  },
-];
 
 export const highlightedServices = ["food", "postpartum-carers", "sleep", "counselling"];

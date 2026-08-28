@@ -56,7 +56,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             </div>
 
             <h1 className="text-h1 font-heading mb-3">{service.title}</h1>
-            <p className="text-body-lg text-sage font-medium mb-8 italic font-heading">
+            <p className="text-body-lg text-text-sage font-medium mb-8 italic font-heading">
               {service.tagline}
             </p>
 

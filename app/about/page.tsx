@@ -16,7 +16,7 @@ export default function AboutPage() {
       <section className="pb-10 md:pb-16">
         <Container narrow className="text-center">
           <ScrollReveal>
-            <p className="text-eyebrow uppercase tracking-[0.25em] font-semibold text-sage mb-6 font-body">
+            <p className="text-eyebrow uppercase tracking-[0.25em] font-semibold text-text-sage mb-6 font-body">
               Our story
             </p>
             <h1 className="text-h1 font-heading">
