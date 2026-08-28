@@ -30,9 +30,9 @@
   --font-body: "Plus Jakarta Sans", "Helvetica Neue", sans-serif;
 
   /* Typography — responsive sizes (Apple-scale) */
-  --text-display: clamp(3.25rem, 7vw, 5.5rem);
+  --text-display: clamp(3.5rem, 7.5vw, 6.5rem);
   --text-h1: clamp(2.5rem, 5vw, 4rem);
-  --text-h2: clamp(2rem, 3.5vw, 3rem);
+  --text-h2: clamp(2.1rem, 4vw, 3.3rem);
   --text-h3: clamp(1.25rem, 2vw, 1.5rem);
   --text-body-lg: 1.2rem;
   --text-body: 1rem;
@@ -958,9 +958,10 @@ body {
   font-family: var(--font-heading);
   font-size: 1.25rem;
   font-weight: 400;
-  color: var(--color-sage);
-  border: 1.5px solid var(--color-sage);
-  background: var(--color-background);
+  color: #ffffff;
+  border: none;
+  background: var(--color-sage);
+  box-shadow: var(--shadow-glow-sage);
   position: relative;
   z-index: 2;
   opacity: 0.8;
@@ -1070,9 +1071,9 @@ body {
 .hero-gradient-text {
   background: linear-gradient(
     135deg,
-    var(--color-text-primary) 0%,
-    var(--color-sage-dark) 40%,
-    var(--color-warm) 60%,
+    var(--color-sage-dark) 0%,
+    var(--color-sage) 35%,
+    var(--color-sage-dark) 70%,
     var(--color-text-primary) 100%
   );
   background-size: 300% 300%;
@@ -1362,4 +1363,118 @@ main {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ============================================================
+   Night sky — the 3am empathy section
+   ============================================================ */
+.night-sky {
+  background:
+    radial-gradient(ellipse 55% 45% at 78% 12%, rgba(139, 158, 124, 0.14), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 15% 85%, rgba(196, 178, 140, 0.07), transparent 65%),
+    linear-gradient(180deg, #211f1d 0%, #1a1918 50%, #211f1d 100%);
+}
+
+.night-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.night-stars::before,
+.night-stars::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+/* Two deterministic star layers, offset shadows = scattered specks */
+.night-stars::before {
+  box-shadow:
+    8vw 12vh 0 0 rgba(255,255,255,0.5),
+    22vw 32vh 0 0 rgba(255,255,255,0.28),
+    31vw 8vh 0 0 rgba(255,255,255,0.42),
+    44vw 22vh 0 0 rgba(255,255,255,0.22),
+    58vw 6vh 0 0 rgba(255,255,255,0.5),
+    67vw 30vh 0 0 rgba(255,255,255,0.3),
+    79vw 18vh 0 0 rgba(255,255,255,0.45),
+    88vw 38vh 0 0 rgba(255,255,255,0.24),
+    14vw 55vh 0 0 rgba(255,255,255,0.32),
+    38vw 62vh 0 0 rgba(255,255,255,0.22),
+    52vw 48vh 0 0 rgba(255,255,255,0.38),
+    72vw 58vh 0 0 rgba(255,255,255,0.26),
+    91vw 66vh 0 0 rgba(255,255,255,0.35),
+    5vw 78vh 0 0 rgba(255,255,255,0.3),
+    27vw 84vh 0 0 rgba(255,255,255,0.42),
+    47vw 90vh 0 0 rgba(255,255,255,0.2),
+    63vw 80vh 0 0 rgba(255,255,255,0.34),
+    83vw 88vh 0 0 rgba(255,255,255,0.28);
+}
+
+.night-stars::after {
+  width: 1px;
+  height: 1px;
+  box-shadow:
+    12vw 20vh 0 0 rgba(255,255,255,0.35),
+    18vw 44vh 0 0 rgba(255,255,255,0.2),
+    26vw 16vh 0 0 rgba(255,255,255,0.3),
+    35vw 40vh 0 0 rgba(255,255,255,0.18),
+    49vw 12vh 0 0 rgba(255,255,255,0.32),
+    56vw 34vh 0 0 rgba(255,255,255,0.2),
+    64vw 20vh 0 0 rgba(255,255,255,0.28),
+    75vw 44vh 0 0 rgba(255,255,255,0.18),
+    85vw 10vh 0 0 rgba(255,255,255,0.3),
+    94vw 28vh 0 0 rgba(255,255,255,0.2),
+    9vw 64vh 0 0 rgba(255,255,255,0.24),
+    33vw 74vh 0 0 rgba(255,255,255,0.18),
+    59vw 68vh 0 0 rgba(255,255,255,0.26),
+    77vw 76vh 0 0 rgba(255,255,255,0.18),
+    95vw 82vh 0 0 rgba(255,255,255,0.24);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .night-stars::before {
+    animation: nightTwinkle 5.5s ease-in-out infinite alternate;
+  }
+  .night-stars::after {
+    animation: nightTwinkle 7s ease-in-out 1.5s infinite alternate;
+  }
+}
+
+@keyframes nightTwinkle {
+  from { opacity: 0.55; }
+  to { opacity: 1; }
+}
+
+/* Soft moonlight in the top corner */
+.night-moon {
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(250, 248, 245, 0.14) 0%,
+    rgba(250, 248, 245, 0.05) 35%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ============================================================
+   Hero grain — filmic texture so the aurora doesn't read flat
+   ============================================================ */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
 }

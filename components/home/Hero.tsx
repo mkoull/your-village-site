@@ -4,7 +4,7 @@ import AuroraCanvas from "@/components/home/AuroraCanvas";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[100dvh] flex items-center justify-center pt-24 pb-32 overflow-hidden">
+    <section className="grain relative min-h-[100dvh] flex items-center justify-center pt-24 pb-32 overflow-hidden">
       {/* Animated aurora canvas background */}
       <AuroraCanvas />
 

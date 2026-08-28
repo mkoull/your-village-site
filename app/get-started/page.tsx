@@ -5,15 +5,16 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { cn } from "@/lib/utils";
-import { services } from "@/content/services";
+import { services, type Service } from "@/content/services";
 import { submitLead } from "@/lib/leads";
 
 /**
- * Support assessment — a calm, intake-style flow.
- * Contact details are deliberately the LAST step: people share more
- * openly when they haven't been asked for their email yet, and the
- * questions themselves should feel like the start of a conversation,
- * not a form gate.
+ * Support assessment — a value-first funnel.
+ * Four gentle questions build a personalised "starting village" plan.
+ * The plan is shown generously (no gating, no dark patterns), and the
+ * contact ask sits right underneath it, framed as "make it real" —
+ * with the phone number positioned as the easiest channel for
+ * hands-full parents. Contact details remain the LAST thing we ask.
  */
 
 const stageOptions = [
@@ -37,16 +38,23 @@ const timingOptions = [
   { label: "Just exploring for now", value: "exploring" },
 ];
 
-const NOT_SURE = "not-sure";
+const timingLines: Record<string, string> = {
+  asap: "You said as soon as possible — we'll treat it that way.",
+  soon: "You're thinking the next few weeks — that gives us time to get it right.",
+  planning: "Planning ahead is the calmest way to do this. Everything can be ready before you need it.",
+  exploring: "No rush at all — this plan will keep. We're here whenever you're ready.",
+};
 
-// Quiet mapping from selected needs to service titles — surfaced only
-// as a considered suggestion on the confirmation screen.
-function suggestFor(needs: string[]): string[] {
-  const chosen = services
-    .filter((s) => needs.includes(s.slug))
-    .map((s) => s.title);
-  if (chosen.length > 0) return chosen.slice(0, 3);
-  return ["Postpartum Carers", "Food Support"];
+const NOT_SURE = "not-sure";
+const DEFAULT_PLAN_SLUGS = ["postpartum-carers", "food", "counselling"];
+
+function buildPlan(needs: string[]): { plan: Service[]; isDefault: boolean } {
+  const chosen = services.filter((s) => needs.includes(s.slug));
+  if (chosen.length > 0) return { plan: chosen.slice(0, 3), isDefault: false };
+  return {
+    plan: services.filter((s) => DEFAULT_PLAN_SLUGS.includes(s.slug)),
+    isDefault: true,
+  };
 }
 
 const TOTAL_STEPS = 5;
@@ -95,6 +103,8 @@ export default function GetStartedPage() {
     });
   };
 
+  const { plan, isDefault } = buildPlan(formData.needs);
+
   const handleSubmit = async () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = "Please tell us your name";
@@ -105,12 +115,15 @@ export default function GetStartedPage() {
     if (Object.keys(newErrors).length > 0) return;
 
     setSending(true);
-    await submitLead("assessment", formData);
+    await submitLead("assessment", {
+      ...formData,
+      plan: plan.map((s) => s.title),
+    });
     setSubmitted(true);
   };
 
   if (submitted) {
-    const suggestions = suggestFor(formData.needs);
+    const firstName = formData.name.trim().split(/\s+/)[0];
     return (
       <div className="pt-24 md:pt-32 pb-16 md:pb-20 min-h-[80vh] flex items-center">
         <Container narrow className="text-center">
@@ -120,24 +133,23 @@ export default function GetStartedPage() {
             </svg>
           </div>
           <h1 className="text-h2 font-heading mb-4">
-            Thank you, {formData.name.trim().split(/\s+/)[0]}.
+            Your plan is on its way, {firstName}.
           </h1>
           <p className="text-text-muted max-w-md mx-auto leading-relaxed mb-10">
-            We&apos;ll be in touch within a few hours to talk it through.
-            In the meantime, take a breath — you&apos;ve taken a really good
-            first step.
-          </p>
-          <p className="text-sm text-text-muted mb-4">
-            From what you&apos;ve shared, we&apos;ll likely start the
-            conversation around:
+            A real person will reach out within a few hours —{" "}
+            {formData.phone.trim()
+              ? "we'll give you a call, and follow up by email"
+              : "you'll hear from us by email"}
+            . In the meantime, take a breath. You&apos;ve just done the hardest
+            part.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            {suggestions.map((title) => (
+            {plan.map((service) => (
               <span
-                key={title}
+                key={service.slug}
                 className="px-5 py-2.5 rounded-full bg-sage/10 text-sage text-sm font-medium"
               >
-                {title}
+                {service.title}
               </span>
             ))}
           </div>
@@ -155,11 +167,11 @@ export default function GetStartedPage() {
               Get started
             </p>
             <h1 className="text-h1 font-heading mb-4">
-              Let&apos;s find your kind of support.
+              Let&apos;s sketch your village.
             </h1>
             <p className="text-text-muted max-w-md mx-auto">
-              A few quick questions so the conversation starts in the right
-              place. Takes about a minute.
+              Four quick questions, then we&apos;ll show you where we&apos;d
+              begin for your family. Takes about a minute.
             </p>
           </div>
         </ScrollReveal>
@@ -304,92 +316,138 @@ export default function GetStartedPage() {
               </div>
             )}
 
-            {/* Step 4: Contact details — deliberately last */}
+            {/* Step 4: The plan — value first, then the ask */}
             {step === 4 && (
               <div>
+                <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-sage mb-3 font-body">
+                  Your starting village
+                </p>
                 <h2 className="text-h3 font-heading mb-2">
-                  Where should we reach you?
+                  Here&apos;s where we&apos;d begin.
                 </h2>
                 <p className="text-text-muted text-sm mb-6">
-                  A real person will be in touch — usually within a few hours.
+                  {isDefault
+                    ? "You said you're not sure yet — these three are where most families start, and we'll shape it together."
+                    : "Based on what you've shared, this is the support we'd put in place first."}
                 </p>
-                <form
-                  className="space-y-4"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    void handleSubmit();
-                  }}
-                >
-                  <div>
-                    <label htmlFor="gs-name" className="block text-sm font-medium text-text-body mb-1.5 font-body">
-                      Your name
-                    </label>
-                    <input
-                      id="gs-name"
-                      type="text"
-                      autoComplete="given-name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
-                      placeholder="First name"
-                    />
-                    {errors.name && (
-                      <p className="text-sm text-red-500 mt-1">{errors.name}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label htmlFor="gs-email" className="block text-sm font-medium text-text-body mb-1.5 font-body">
-                      Email
-                    </label>
-                    <input
-                      id="gs-email"
-                      type="email"
-                      autoComplete="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
-                      placeholder="your@email.com"
-                    />
-                    {errors.email && (
-                      <p className="text-sm text-red-500 mt-1">{errors.email}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label htmlFor="gs-phone" className="block text-sm font-medium text-text-body mb-1.5 font-body">
-                      Phone{" "}
-                      <span className="text-text-muted font-normal">(optional)</span>
-                    </label>
-                    <input
-                      id="gs-phone"
-                      type="tel"
-                      autoComplete="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
-                      placeholder="04xx xxx xxx"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="gs-notes" className="block text-sm font-medium text-text-body mb-1.5 font-body">
-                      Anything else?{" "}
-                      <span className="text-text-muted font-normal">(optional)</span>
-                    </label>
-                    <textarea
-                      id="gs-notes"
-                      value={formData.notes}
-                      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                      rows={3}
-                      className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px] resize-none"
-                      placeholder="Whatever helps us understand your situation."
-                    />
-                  </div>
-                  <button type="submit" className="sr-only">
-                    Send
-                  </button>
-                </form>
+
+                <div className="space-y-3 mb-6">
+                  {plan.map((service) => (
+                    <div
+                      key={service.slug}
+                      className="flex items-start gap-4 p-4 rounded-[var(--radius-md)] border border-sage/25 bg-sage/[0.04]"
+                    >
+                      <div
+                        className="w-9 h-9 shrink-0 rounded-full bg-sage/10 text-sage p-2"
+                        dangerouslySetInnerHTML={{ __html: service.icon }}
+                      />
+                      <div className="min-w-0">
+                        <p className="font-medium text-text-primary text-[15px]">
+                          {service.title}
+                        </p>
+                        <p className="text-text-muted text-sm leading-relaxed mt-0.5">
+                          {service.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {formData.timing && (
+                  <p className="text-sm text-text-sage font-medium mb-8">
+                    {timingLines[formData.timing]}
+                  </p>
+                )}
+
+                <div className="border-t border-border-subtle pt-8">
+                  <h3 className="text-h3 font-heading mb-2">
+                    Want us to make it real?
+                  </h3>
+                  <p className="text-text-muted text-sm mb-6">
+                    Leave your details and a real person will walk you through
+                    your plan — usually within a few hours.
+                  </p>
+                  <form
+                    className="space-y-4"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      void handleSubmit();
+                    }}
+                  >
+                    <div>
+                      <label htmlFor="gs-name" className="block text-sm font-medium text-text-body mb-1.5 font-body">
+                        Your name
+                      </label>
+                      <input
+                        id="gs-name"
+                        type="text"
+                        autoComplete="given-name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
+                        placeholder="First name"
+                      />
+                      {errors.name && (
+                        <p className="text-sm text-red-500 mt-1">{errors.name}</p>
+                      )}
+                    </div>
+                    <div>
+                      <label htmlFor="gs-email" className="block text-sm font-medium text-text-body mb-1.5 font-body">
+                        Email
+                      </label>
+                      <input
+                        id="gs-email"
+                        type="email"
+                        autoComplete="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
+                        placeholder="your@email.com"
+                      />
+                      {errors.email && (
+                        <p className="text-sm text-red-500 mt-1">{errors.email}</p>
+                      )}
+                    </div>
+                    <div>
+                      <label htmlFor="gs-phone" className="block text-sm font-medium text-text-body mb-1.5 font-body">
+                        Best number for a quick call{" "}
+                        <span className="text-text-muted font-normal">(optional)</span>
+                      </label>
+                      <input
+                        id="gs-phone"
+                        type="tel"
+                        autoComplete="tel"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
+                        placeholder="04xx xxx xxx"
+                      />
+                      <p className="text-xs text-text-muted mt-1.5">
+                        Often easier than typing when your hands are full — if
+                        you leave a number, we&apos;ll call.
+                      </p>
+                    </div>
+                    <div>
+                      <label htmlFor="gs-notes" className="block text-sm font-medium text-text-body mb-1.5 font-body">
+                        Anything else?{" "}
+                        <span className="text-text-muted font-normal">(optional)</span>
+                      </label>
+                      <textarea
+                        id="gs-notes"
+                        value={formData.notes}
+                        onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                        rows={3}
+                        className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px] resize-none"
+                        placeholder="Whatever helps us understand your situation."
+                      />
+                    </div>
+                    <button type="submit" className="sr-only">
+                      Send
+                    </button>
+                  </form>
+                </div>
               </div>
             )}
-
             </div>
 
             {/* Navigation */}
@@ -419,7 +477,7 @@ export default function GetStartedPage() {
                   disabled={sending}
                   className="px-6 py-2.5 rounded-full bg-sage text-white text-sm font-medium hover:bg-sage-dark transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-default"
                 >
-                  {sending ? "Sending…" : "Send →"}
+                  {sending ? "Sending…" : "Send me my plan →"}
                 </button>
               )}
             </div>
