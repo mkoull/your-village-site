@@ -1,6 +1,6 @@
 # Your Village
 
-Village brings the support mothers, families and individuals may need into one place: meals, nannies and family care, mental health and wellbeing, household help, specialist support and community. It is relevant at every stage of family life, including people who already have support and want a little more.
+Village helps families find and connect with the good services, specialists and community support already out there. Start with one need, from a nourishing meal to an extra pair of hands, and build a village around it.
 
 The current website is a service-discovery and enquiry foundation. It does not yet contain provider accounts, live availability, bookings or payments.
 
@@ -20,7 +20,10 @@ Next.js 15, React 19, Tailwind CSS 4 and TypeScript. All content pages are prere
 
 ## Project structure
 
-- `content/services.ts`: authoritative service catalogue; navigation, cards and questionnaire derive from it.
+- `content/services.ts`: authoritative service catalogue; the village map, interactive service guide, navigation and questionnaire derive from it.
+- `content/existing-support.ts`: independent services linked from the homepage, with official source URLs. These are public starting points, not claimed partners or vetted provider profiles. Recheck the source pages before changing service descriptions.
+- `components/ui/VillageMark.tsx`: shared brand mark for navigation and homepage.
+- `app/village.css`: responsive village map and service-guide styles; honours the global reduced-motion preference.
 - `lib/assessment.ts`: stage options and shortlist selection. Keeps all selected services in their chosen order.
 - `lib/use-lead-form.ts`: shared sending, success and error state with duplicate-submit protection.
 - `lib/leads.ts`: same-origin browser transport; requires a positive delivery acknowledgement.

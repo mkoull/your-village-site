@@ -5,26 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useScrolled } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
+import VillageMark from "@/components/ui/VillageMark";
 import { services } from "@/content/services";
-
-const Logo = () => (
-  <svg
-    viewBox="0 0 64 64"
-    fill="none"
-    aria-hidden="true"
-    width="26"
-    height="26"
-    className="nav-logo-icon"
-  >
-    <circle cx="32" cy="10" r="5.5" fill="currentColor" opacity="0.85" />
-    <circle cx="51" cy="21" r="5.5" fill="currentColor" opacity="0.75" />
-    <circle cx="51" cy="43" r="5.5" fill="currentColor" opacity="0.65" />
-    <circle cx="32" cy="54" r="5.5" fill="currentColor" opacity="0.80" />
-    <circle cx="13" cy="43" r="5.5" fill="currentColor" opacity="0.70" />
-    <circle cx="13" cy="21" r="5.5" fill="currentColor" opacity="0.78" />
-    <circle cx="32" cy="32" r="7" fill="var(--color-background)" />
-  </svg>
-);
 
 const serviceLinks = services.map((s) => ({
   label: s.title,
@@ -146,7 +128,7 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-2.5 transition-colors text-text-primary"
         >
-          <Logo />
+          <VillageMark className="nav-logo-icon w-[26px] h-[26px]" />
           <span className="font-heading text-lg font-medium tracking-tight">
             Your Village
           </span>

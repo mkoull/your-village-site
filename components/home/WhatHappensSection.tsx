@@ -1,58 +1,64 @@
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
+
 const steps = [
   {
-    title: "Find what would help",
-    body: "Explore the kinds of support available, or use a few simple questions to find a starting point.",
+    title: "Start with what you need.",
+    body: "A hot meal, better rest, an hour to yourself. Small things are a good place to begin.",
   },
   {
-    title: "Build your own village",
-    body: "Choose one kind of help or several. Your needs, your preferences, your stage of life.",
+    title: "Explore the possibilities.",
+    body: "Get to know the services, specialists and community support that could make a difference.",
   },
   {
-    title: "Help shape what comes next",
-    body: "Village is being built. Tell us what you need so we can develop the right local network.",
+    title: "Make it your village.",
+    body: "Build a starting point around your needs. Keep the support you love and find what’s missing.",
   },
 ];
+
 export default function WhatHappensSection() {
   return (
     <section className="py-16 md:py-24">
       <Container>
-        <div className="md:flex justify-between items-end gap-10 mb-10">
+        <div className="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-20">
           <div>
             <p className="text-eyebrow uppercase tracking-[0.2em] text-text-sage font-semibold mb-4">
-              Your village, your way
+              A starting point, not another to-do
             </p>
-            <h2 className="text-h2 font-heading max-w-xl">
-              A little help.
-              <br />A whole lot of possibility.
+            <h2 className="text-h2 font-heading mb-6">
+              Your village.
+              <br />
+              <em className="text-text-sage">At your pace.</em>
             </h2>
+            <p className="text-text-muted text-sm max-w-sm mb-8">
+              A few simple questions can help you see what support might fit. No
+              contact details needed to explore.
+            </p>
+            <Button href="/get-started" variant="secondary">
+              Find my starting point <span aria-hidden="true">→</span>
+            </Button>
           </div>
-          <p className="text-text-muted max-w-sm mt-5">
-            Start with what would make life easier. You can explore without
-            leaving your contact details.
-          </p>
-        </div>
-        <ol className="grid md:grid-cols-3 gap-5">
-          {steps.map((s, i) => (
-            <li
-              key={s.title}
-              className="rounded-[var(--radius-lg)] border border-border bg-elevated p-7"
-            >
-              <span className="text-sm text-text-sage font-semibold">
-                0{i + 1}
-              </span>
-              <h3 className="font-heading text-2xl mt-6 mb-3">{s.title}</h3>
-              <p className="text-sm text-text-muted leading-relaxed">
-                {s.body}
-              </p>
-            </li>
-          ))}
-        </ol>
-        <div className="mt-8">
-          <Button href="/get-started" variant="secondary">
-            Find my starting point →
-          </Button>
+          <ol>
+            {steps.map((step, i) => (
+              <li
+                key={step.title}
+                className="grid grid-cols-[40px_1fr] gap-5 border-t border-border py-7 first:pt-5"
+              >
+                <span
+                  className="font-heading text-3xl text-text-sage/70"
+                  aria-hidden="true"
+                >
+                  0{i + 1}
+                </span>
+                <div>
+                  <h3 className="font-heading text-2xl mb-3">{step.title}</h3>
+                  <p className="text-sm text-text-muted leading-relaxed max-w-sm">
+                    {step.body}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </Container>
     </section>

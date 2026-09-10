@@ -15,7 +15,7 @@ const faqs = [
   ],
   [
     "Can I book a service now?",
-    "Village is in development. You can explore the concept and register your interest today. Provider listings, availability and bookings are still to come.",
+    "You can follow links to independent services today. Village’s own provider directory and booking tools are still in development. Contact each service directly for availability and costs.",
   ],
   [
     "What will it cost?",

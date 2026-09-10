@@ -1,6 +1,9 @@
 export interface Service {
   slug: string;
   title: string;
+  shortTitle: string;
+  need: string;
+  tone: "sage" | "rose" | "lilac" | "gold";
   tagline: string;
   description: string;
   details: string;
@@ -14,10 +17,13 @@ export interface Service {
 export const services: Service[] = [
   {
     slug: "food",
+    shortTitle: "Meals",
+    need: "A proper meal",
+    tone: "gold",
     title: "Meals & food support",
     tagline: "One less thing on your plate",
     description:
-      "Explore meal delivery and food support for busy weeks, growing families, recovery, or simply a little breathing room.",
+      "Nourishing meals, ready when you are. Meal delivery and food support can take dinner off your list, whether it's a busy week or a new chapter.",
     details:
       "Different providers offer different menus, delivery areas and schedules. Consider your household size, dietary needs and the amount of preparation that works for you.",
     features: [
@@ -28,15 +34,18 @@ export const services: Service[] = [
     ],
     whoItsFor:
       "Mothers, parents and households who could use help getting good food on the table.",
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><line x1="10" y1="22" x2="14" y2="22"/></svg>',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18c0 5-3.5 9-9 9s-9-4-9-9Z"/><path d="M8 4c-2 2 2 2 0 4M12 3c-2 2 2 2 0 4M16 4c-2 2 2 2 0 4M8 22h8"/></svg>',
     category: "practical",
   },
   {
     slug: "postpartum-carers",
+    shortTitle: "Care",
+    need: "An extra pair of hands",
+    tone: "rose",
     title: "Nannies & family care",
     tagline: "An extra pair of caring hands",
     description:
-      "Explore help caring for your children, from newborn support to nannies for older children and everyday family routines.",
+      "From newborn care to a nanny who fits your family, an extra pair of hands can give you time to rest, work, or simply catch your breath.",
     details:
       "Look for care that fits your children's ages, your schedule and your preferences. Services may include daytime care, after-school help or specialist newborn support, depending on the provider.",
     features: [
@@ -52,10 +61,13 @@ export const services: Service[] = [
   },
   {
     slug: "sleep",
+    shortTitle: "Sleep",
+    need: "A little more rest",
+    tone: "lilac",
     title: "Sleep support",
     tagline: "Space for more rest",
     description:
-      "Explore professional support with baby and child sleep, with an approach that fits your family's circumstances.",
+      "Make sense of sleep with guidance that considers your child, your routines and what feels right for your family.",
     details:
       "A qualified professional can discuss age-appropriate routines, your child's needs and your preferences. Ask about their qualifications, approach and what follow-up is included.",
     features: [
@@ -71,10 +83,13 @@ export const services: Service[] = [
   },
   {
     slug: "lactation",
+    shortTitle: "Feeding",
+    need: "Feeding reassurance",
+    tone: "gold",
     title: "Feeding support",
     tagline: "Find what works for you and your baby",
     description:
-      "Explore support with breastfeeding, bottle-feeding or mixed feeding from appropriately qualified professionals.",
+      "Breastfeeding, bottle-feeding or a bit of both. Find qualified feeding support to help you understand your options and feel more confident.",
     details:
       "Feeding support can help you ask questions and understand your options. Confirm a provider's credentials and scope of practice, including IBCLC certification where relevant.",
     features: [
@@ -85,15 +100,18 @@ export const services: Service[] = [
     ],
     whoItsFor:
       "Expecting parents and families with babies who want support with feeding.",
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l.01 4A2 2 0 0 0 8 8h.01"/><path d="M18 2l-.01 4A2 2 0 0 1 16 8h-.01"/><path d="M12 8v13"/><path d="M5 22h14"/><circle cx="12" cy="5" r="3"/></svg>',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s-7 8-7 13a7 7 0 0 0 14 0c0-5-7-13-7-13Z"/><path d="M8 15a4 4 0 0 0 4 4"/></svg>',
     category: "specialist",
   },
   {
     slug: "counselling",
+    shortTitle: "Wellbeing",
+    need: "Someone to talk to",
+    tone: "rose",
     title: "Mental health & wellbeing",
     tagline: "Support for you, as a person",
     description:
-      "Explore counselling, psychological support and wellbeing services for the emotional side of life, parenting and change.",
+      "Room to talk about how you're really doing. Counselling and psychological support for parenting, change, and everything else life brings.",
     details:
       "Your needs matter beyond your role in a family. Consider a professional's qualifications, areas of practice, appointment options and fees when finding support. Clinical assessment and treatment come from the relevant qualified professional.",
     features: [
@@ -109,10 +127,13 @@ export const services: Service[] = [
   },
   {
     slug: "cleaning",
+    shortTitle: "Home",
+    need: "A lighter load at home",
+    tone: "sage",
     title: "Household help",
     tagline: "A little less on the to-do list",
     description:
-      "Explore cleaning, laundry and practical help to make everyday life at home feel more manageable.",
+      "The washing, the floors, the things that keep piling up. Practical help at home gives you a little room to breathe.",
     details:
       "Choose the tasks that would make the biggest difference. Providers may offer a one-off visit or a regular arrangement, with the scope and cost agreed before you book.",
     features: [
@@ -128,10 +149,13 @@ export const services: Service[] = [
   },
   {
     slug: "life-admin",
+    shortTitle: "Life admin",
+    need: "A clearer head",
+    tone: "gold",
     title: "Life admin",
     tagline: "Make room in your head, too",
     description:
-      "Explore practical help with organising appointments, household schedules, forms and everyday logistics.",
+      "Appointments, forms and the family calendar. Get help with the everyday details that take up more headspace than anyone sees.",
     details:
       "Decide what you would like help with and what access is needed. Any personal information or action taken on your behalf should be agreed with you first.",
     features: [
@@ -147,10 +171,13 @@ export const services: Service[] = [
   },
   {
     slug: "community",
+    shortTitle: "Connection",
+    need: "A sense of connection",
+    tone: "sage",
     title: "Community & connection",
     tagline: "Find people who get it",
     description:
-      "Explore local groups, shared activities and community connections for you and your family.",
+      "A familiar face. A shared experience. A reason to get out of the house. Local groups and activities can be the beginning of your village.",
     details:
       "A village includes belonging as well as practical help. Look for parent groups, playgroups, community activities and peer connections that fit your interests and stage of life.",
     features: [
