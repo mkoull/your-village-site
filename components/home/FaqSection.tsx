@@ -11,7 +11,7 @@ const faqs = [
   ],
   [
     "Do I need to know exactly what I need?",
-    "No. Browse the support categories or use Build my village to explore a starting point. You can see your suggestions before deciding whether to contact us.",
+    "No. Browse the support categories or open Build my village. Add the kinds of help you want, edit your choices and explore existing services, without sharing contact details.",
   ],
   [
     "Can I book a service now?",

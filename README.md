@@ -16,14 +16,17 @@ npm test
 npm run build
 ```
 
-Next.js 15, React 19, Tailwind CSS 4 and TypeScript. All content pages are prerendered. One server endpoint, `POST /api/leads`, handles enquiries. The existing sage palette and Newsreader / Plus Jakarta Sans fonts are retained.
+Next.js 15, React 19, Tailwind CSS 4 and TypeScript. All content pages are prerendered. The server endpoint `/api/leads` checks configuration with GET and handles enquiries with POST. The existing sage palette and Newsreader / Plus Jakarta Sans fonts are retained.
 
 ## Project structure
 
-- `content/services.ts`: authoritative service catalogue; the village map, interactive service guide, navigation and questionnaire derive from it.
-- `content/existing-support.ts`: independent services linked from the homepage, with official source URLs. These are public starting points, not claimed partners or vetted provider profiles. Recheck the source pages before changing service descriptions.
+- `content/services.ts`: authoritative service catalogue; the village map, interactive service guide, navigation and saved village derive from it.
+- `content/existing-support.ts`: eight independent services linked from discovery pages and the personal plan, with official source URLs. These are public starting points, not claimed partners or vetted provider profiles. Recheck the source pages before changing service descriptions.
 - `components/ui/VillageMark.tsx`: shared brand mark for navigation and homepage.
-- `app/village.css`: responsive village map and service-guide styles; honours the global reduced-motion preference.
+- `app/village.css`: homepage map and service-guide styles.
+- `app/village-experience.css`: builder, saved-village controls, catalogue and information-page styles, including mobile and print layouts.
+- `components/village/`: shared draft context, add/remove buttons, navigation count, live map, builder, exports and optional enquiry.
+- `lib/village.ts`: versioned draft parser and immutable selection updates. Only allowlisted choices are restored from session storage.
 - `lib/assessment.ts`: stage options and shortlist selection. Keeps all selected services in their chosen order.
 - `lib/use-lead-form.ts`: shared sending, success and error state with duplicate-submit protection.
 - `lib/leads.ts`: same-origin browser transport; requires a positive delivery acknowledgement.
@@ -31,6 +34,8 @@ Next.js 15, React 19, Tailwind CSS 4 and TypeScript. All content pages are prere
 - `app/api/leads/route.ts`: environment configuration for the endpoint.
 - `components/layout/InfoPage.tsx`: shared layout for informational pages.
 - `tests/core.test.mjs`: transport, validation, error handling and shortlist regression checks.
+- `tests/village.test.mjs`: cross-page selection, restored drafts, invalid storage, removal and data-minimisation regressions.
+- `tests/analytics-url.test.mjs`: support and context query parameters are removed from analytics URLs.
 - `docs/VILLAGE-NEXT.md`: product direction and next implementation milestones.
 
 The legacy `/services/postpartum-carers` route now covers nannies and family care; its URL remains valid for existing links.
@@ -43,7 +48,7 @@ For migration, the server temporarily accepts the existing NEXT_PUBLIC_LEAD_WEBH
 
 The endpoint validates and limits the request body, accepts only assessment/contact/waitlist types, rejects cross-origin browser posts, and forwards only permitted fields. It refuses webhook redirects, uses an eight-second timeout and never logs personal data. Successful HTTP acknowledgement from the configured processor is required before the UI shows success.
 
-- Missing configuration: 503, clear unavailable message, form data retained.
+- Missing configuration: GET reports only acceptingEnquiries: false. All four capture points show availability before their fields and disable submission; POST also returns 503. No webhook value is exposed.
 - Processor rejection or timeout: 502, retryable message, form data retained.
 - Valid processor acknowledgement: 200, confirmation screen.
 - No client-side fire-and-forget, no opaque no-cors delivery assumption.
@@ -54,7 +59,9 @@ No form-provider account or credentials were created by this change. Configure r
 
 ## Privacy
 
-Unfinished questionnaire answers stay in component memory. Only an explicit final submission sends them. Analytics receive event names and step numbers, not personal answers. No anonymous localStorage identifier is created.
+Selected service slugs, optional family stage/timing and builder step are saved in sessionStorage for this browser tab. They survive navigation and refresh. Drafts are versioned, bounded and allowlisted when restored. Clear village removes the draft and offers an in-page Undo. A blocked-storage fallback keeps the draft in React memory and explains the refresh limitation. Contact fields and notes are never persisted.
+
+Only an explicit enquiry submits selections and contact details. Page analytics receive no draft fields. No anonymous localStorage identifier is created. Copy, download and print exports happen locally; the visitor controls their resulting copies.
 
 The privacy page describes current behaviour. Provider identities, processing locations, retention, privacy contact details and legal review still need to be completed before a wider launch. Do not invite sensitive clinical histories through these general enquiry forms.
 

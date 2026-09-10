@@ -4,13 +4,14 @@ import { useState } from "react";
 import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { useLeadForm } from "@/lib/use-lead-form";
+import EnquiryAvailability from "@/components/ui/EnquiryAvailability";
 import FormError from "@/components/ui/FormError";
 import Link from "next/link";
 
 export default function WaitlistPage() {
   const [email, setEmail] = useState("");
   const [suburb, setSuburb] = useState("");
-  const { send, sending, submitted, error } = useLeadForm();
+  const { send, sending, submitted, error, available } = useLeadForm();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +36,7 @@ export default function WaitlistPage() {
                 let you know when we launch new services and areas.
               </p>
 
+              <EnquiryAvailability available={available} />
               <form
                 aria-busy={sending}
                 onSubmit={handleSubmit}
@@ -47,6 +49,7 @@ export default function WaitlistPage() {
                   Email address
                 </label>
                 <input
+                  disabled={sending || available === false}
                   id="waitlist-email"
                   autoComplete="email"
                   maxLength={254}
@@ -64,6 +67,7 @@ export default function WaitlistPage() {
                   Suburb (optional)
                 </label>
                 <input
+                  disabled={sending || available === false}
                   id="waitlist-suburb"
                   autoComplete="address-level2"
                   maxLength={120}
@@ -75,12 +79,17 @@ export default function WaitlistPage() {
                 />
                 <button
                   type="submit"
-                  disabled={sending}
+                  disabled={sending || available === false}
                   className="w-full px-6 py-3 rounded-full bg-sage-deep text-white font-medium text-[15px] hover:bg-sage-dark transition-colors cursor-pointer"
                 >
-                  {sending ? "Sending…" : "Keep me posted"}
+                  {available === false
+                    ? "Updates coming soon"
+                    : sending
+                      ? "Sending…"
+                      : "Keep me posted"}
                 </button>
               </form>
+
               <FormError message={error} />
               <p className="mt-4 text-xs text-text-muted">
                 Your details are sent only when you submit.{" "}

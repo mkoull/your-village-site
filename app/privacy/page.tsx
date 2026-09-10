@@ -12,8 +12,8 @@ const content = {
     "You can explore Village without sharing your contact details. Here is how the current website handles an enquiry.",
   sections: [
     [
-      "Browsing and the questionnaire",
-      "Questionnaire answers remain in this page's memory while you explore. They are not sent to us as you answer, and refreshing or leaving the page clears them. Basic analytics record page views and progress events, not your answers or contact details.",
+      "Your village in this browser",
+      "Your selected support categories, optional family stage and timing are kept in session storage in this browser tab, so they survive page changes and refreshes. They are not sent to Village as you choose. Clear village removes them. Contact details and messages are never stored in this draft. If browser storage is blocked, a refresh may clear your choices. Basic analytics record page views and event names, not your selections or contact details.",
     ],
     [
       "What you choose to send",
@@ -29,7 +29,7 @@ const content = {
     ],
     [
       "Your choices",
-      "Contact us if you would like to ask about, correct or remove information you have submitted. You can choose not to submit the questionnaire and still view your suggested service categories.",
+      "Contact us if you would like to ask about, correct or remove information you have submitted. You can explore, copy or print your village without sending an enquiry. Copies or PDFs you create are yours to store or delete.",
     ],
     [
       "As Village develops",

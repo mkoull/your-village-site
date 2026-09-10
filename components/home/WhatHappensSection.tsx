@@ -31,8 +31,8 @@ export default function WhatHappensSection() {
               <em className="text-text-sage">At your pace.</em>
             </h2>
             <p className="text-text-muted text-sm max-w-sm mb-8">
-              A few simple questions can help you see what support might fit. No
-              contact details needed to explore.
+              Choose the support you need and watch your village take shape.
+              Your choices stay with you as you explore.
             </p>
             <Button href="/get-started" variant="secondary">
               Find my starting point <span aria-hidden="true">→</span>

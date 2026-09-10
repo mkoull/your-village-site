@@ -5,12 +5,13 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { useLeadForm } from "@/lib/use-lead-form";
+import EnquiryAvailability from "@/components/ui/EnquiryAvailability";
 import FormError from "@/components/ui/FormError";
 import Link from "next/link";
 
 export default function WaitlistCapture() {
   const [email, setEmail] = useState("");
-  const { send, sending, submitted, error } = useLeadForm();
+  const { send, sending, submitted, error, available } = useLeadForm();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +41,7 @@ export default function WaitlistCapture() {
                 <span aria-hidden="true">&rarr;</span>
               </Button>
               <p className="text-text-inverse/60 text-xs mt-4 tracking-wide">
-                Explore your starting point. No contact details needed.
+                Keep your choices. No contact details needed.
               </p>
             </div>
 
@@ -49,6 +50,7 @@ export default function WaitlistCapture() {
                 <p className="text-text-inverse/60 text-sm mb-5">
                   Not ready yet? Stay in the loop instead.
                 </p>
+                <EnquiryAvailability available={available} />
                 <form
                   aria-busy={sending}
                   onSubmit={handleSubmit}
@@ -58,6 +60,7 @@ export default function WaitlistCapture() {
                     Email address
                   </label>
                   <input
+                    disabled={sending || available === false}
                     id="capture-email"
                     autoComplete="email"
                     maxLength={254}
@@ -70,12 +73,17 @@ export default function WaitlistCapture() {
                   />
                   <button
                     type="submit"
-                    disabled={sending}
+                    disabled={sending || available === false}
                     className="px-7 py-3.5 rounded-full border border-white/[0.16] text-text-inverse/80 font-medium text-sm hover:border-sage hover:text-sage transition-all duration-300 cursor-pointer whitespace-nowrap"
                   >
-                    {sending ? "Sending…" : "Keep me posted"}
+                    {available === false
+                      ? "Updates coming soon"
+                      : sending
+                        ? "Sending…"
+                        : "Keep me posted"}
                   </button>
                 </form>
+
                 <FormError message={error} />
                 <p className="mt-4 text-xs text-text-inverse/70">
                   Your details are sent only when you submit.{" "}

@@ -44,4 +44,31 @@ export const existingSupport = [
     source: "https://www.playgroup.org.au/find/",
     serviceSlug: "community",
   },
+  {
+    name: "Tweddle",
+    category: "Room for more rest",
+    description:
+      "Early parenting support, including help with sleep and settling. Check which programs suit your family.",
+    href: "https://www.tweddle.org.au/",
+    source: "https://www.tweddle.org.au/",
+    serviceSlug: "sleep",
+  },
+  {
+    name: "Maid to Clean",
+    category: "A lighter load at home",
+    description:
+      "Home cleaning services in Melbourne. Explore the service options and request current pricing.",
+    href: "https://www.maidtoclean.com.au/",
+    source: "https://www.maidtoclean.com.au/",
+    serviceSlug: "cleaning",
+  },
+  {
+    name: "The Carellective",
+    category: "Room in your head",
+    description:
+      "Personal assistance and home organisation in Melbourne, for the tasks that keep adding up.",
+    href: "https://www.carellective.com.au/home-care-organisation",
+    source: "https://www.carellective.com.au/home-care-organisation",
+    serviceSlug: "life-admin",
+  },
 ];

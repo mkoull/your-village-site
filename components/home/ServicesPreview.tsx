@@ -1,5 +1,6 @@
 "use client";
 
+import AddToVillage from "@/components/village/AddToVillage";
 import { useState } from "react";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
@@ -97,12 +98,7 @@ export default function ServicesPreview() {
                 Explore {service.shortTitle.toLowerCase()}{" "}
                 <span aria-hidden="true">→</span>
               </Button>
-              <Link
-                href={`/get-started?need=${service.slug}`}
-                className="text-sm underline underline-offset-4 text-text-sage decoration-sage/40 py-2"
-              >
-                Add to my village
-              </Link>
+              <AddToVillage slug={service.slug} compact />
             </div>
           </div>
         </div>

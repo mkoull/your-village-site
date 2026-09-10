@@ -1,3 +1,5 @@
+import AddToVillage from "@/components/village/AddToVillage";
+import ServiceSources from "@/components/village/ServiceSources";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { services } from "@/content/services";
@@ -40,8 +42,8 @@ export default async function ServiceDetailPage({
     <section className="pt-32 pb-20">
       <Container>
         {/* Breadcrumb */}
-        <nav className="mb-8">
-          <ol className="flex items-center gap-2 text-sm text-text-muted">
+        <nav className="mb-8" aria-label="Breadcrumb">
+          <ol className="flex flex-wrap items-center gap-2 text-sm text-text-muted">
             <li>
               <Link
                 href="/services"
@@ -106,10 +108,7 @@ export default async function ServiceDetailPage({
 
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button href={`/get-started?need=${service.slug}`} size="lg">
-                Build my village with this
-                <span aria-hidden="true">&rarr;</span>
-              </Button>
+              <AddToVillage slug={service.slug} />
               <Button href="/services" variant="secondary" size="lg">
                 View all services
               </Button>
@@ -119,19 +118,22 @@ export default async function ServiceDetailPage({
           {/* Sidebar */}
           <aside className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
-              {/* Quick CTA */}
-              <div className="p-6 rounded-[var(--radius-lg)] bg-sage/5 border border-sage/15">
-                <h3 className="text-h3 font-heading mb-2">Ready to start?</h3>
-                <p className="text-sm text-text-muted mb-4">
-                  Village is in development. Explore this category or register
-                  your interest; bookings are not open yet.
+              <ServiceSources slug={service.slug} />
+              <div className="p-6 border border-border rounded-2xl">
+                <h3 className="font-heading text-2xl mb-3">
+                  Make room for this.
+                </h3>
+                <p className="text-sm text-text-muted mb-5">
+                  Keep this support in your village while you explore. You can
+                  change your choices any time.
                 </p>
-                <Button
-                  href={`/get-started?need=${service.slug}`}
-                  className="w-full justify-center"
+                <AddToVillage slug={service.slug} />
+                <Link
+                  href="/get-started"
+                  className="block text-sm text-text-sage underline mt-5"
                 >
-                  Build my village <span aria-hidden="true">&rarr;</span>
-                </Button>
+                  View my village →
+                </Link>
               </div>
 
               {/* Other services */}

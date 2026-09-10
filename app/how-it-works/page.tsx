@@ -17,15 +17,15 @@ const content = {
     ],
     [
       "02 · Choose what fits your life",
-      "Answer four questions and see a shortlist based on the services you choose. Your answers stay on the page until you decide to send an enquiry. The shortlist is a starting point, not clinical advice or a confirmed booking.",
+      "Use Add to my village on any service to keep it in your shortlist. Open My village to add or remove support, include optional preferences, and see everything together. Your choices stay in this browser tab, including after a refresh.",
     ],
     [
-      "03 · Share your interests, if you like",
-      "Leave your details if you'd like us to follow up as Village develops. Existing support is welcome: you might need just one extra thing.",
+      "03 · Take your next step",
+      "Follow the links to independent services to check availability and costs. Copy or print your village to keep it. You can also choose to send an enquiry as the Village network develops; contact details are optional for browsing.",
     ],
     [
       "What's coming next",
-      "We're working towards local provider listings with clear service details, credentials, prices and availability. Enquiries on this site help shape that network; you cannot book or pay for a service here yet.",
+      "We're working towards a fuller local directory with clear service details, credentials, prices and availability. Enquiries on this site help shape that network; you cannot book or pay for a service here yet.",
     ],
   ],
 };

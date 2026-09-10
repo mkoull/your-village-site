@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { submitLead, type LeadType } from "./leads";
 import { trackEvent } from "./analytics";
 
@@ -8,9 +8,23 @@ export function useLeadForm() {
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [available, setAvailable] = useState<boolean | null>(null);
+  useEffect(() => {
+    const abort = new AbortController();
+    fetch("/api/leads", { signal: abort.signal, cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((result) => {
+        if (typeof result?.acceptingEnquiries === "boolean")
+          setAvailable(result.acceptingEnquiries);
+      })
+      .catch(() => {
+        /* A later explicit submission can retry a failed connection. */
+      });
+    return () => abort.abort();
+  }, []);
 
   async function send(type: LeadType, data: Record<string, unknown>) {
-    if (pending.current) return;
+    if (pending.current || available === false) return;
     pending.current = true;
     setSending(true);
     setError("");
@@ -27,5 +41,5 @@ export function useLeadForm() {
       setSending(false);
     }
   }
-  return { send, sending, submitted, error };
+  return { send, sending, submitted, error, available };
 }

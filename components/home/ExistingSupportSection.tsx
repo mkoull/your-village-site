@@ -24,7 +24,7 @@ export default function ExistingSupportSection() {
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-10">
-          {existingSupport.map((item) => (
+          {existingSupport.slice(0, 5).map((item) => (
             <a
               key={item.name}
               href={item.href}

@@ -7,7 +7,6 @@ import FounderSection from "@/components/home/FounderSection";
 import CoverageSection from "@/components/home/CoverageSection";
 import FaqSection from "@/components/home/FaqSection";
 import WaitlistCapture from "@/components/home/WaitlistCapture";
-import StickyMobileCta from "@/components/home/StickyMobileCta";
 
 export default function HomePage() {
   return (
@@ -21,7 +20,6 @@ export default function HomePage() {
       <CoverageSection />
       <FaqSection />
       <WaitlistCapture />
-      <StickyMobileCta />
     </>
   );
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useScrolled } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
+import VillageNavLink from "@/components/village/VillageNavLink";
 import VillageMark from "@/components/ui/VillageMark";
 import { services } from "@/content/services";
 
@@ -91,7 +92,9 @@ export default function Navbar() {
   useEffect(() => {
     if (!mobileOpen) return;
     const elements = Array.from(
-      document.querySelectorAll<HTMLElement>("main, body > footer"),
+      document.querySelectorAll<HTMLElement>(
+        "main, body > footer, [data-village-dock]",
+      ),
     );
     const previous = elements.map((el) => el.inert);
     elements.forEach((el) => {
@@ -126,6 +129,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
+          onClick={() => setMobileOpen(false)}
           className="flex items-center gap-2.5 transition-colors text-text-primary"
         >
           <VillageMark className="nav-logo-icon w-[26px] h-[26px]" />
@@ -175,6 +179,7 @@ export default function Navbar() {
               >
                 <Link
                   href="/services"
+                  onClick={() => setServicesOpen(false)}
                   className="block px-4 py-2.5 text-sm font-medium text-sage hover:bg-surface transition-colors"
                 >
                   All Services
@@ -184,6 +189,7 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
+                    onClick={() => setServicesOpen(false)}
                     className="block px-4 py-2 text-sm text-text-body hover:text-sage hover:bg-surface transition-colors"
                   >
                     {link.label}
@@ -212,15 +218,12 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/get-started"
-            className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage-deep text-white hover:bg-sage-dark transition-all duration-300 hover:-translate-y-[2px] shadow-sm hover:shadow-lg"
-          >
-            Build my village
-            <span aria-hidden="true">&rarr;</span>
-          </Link>
+          <VillageNavLink />
         </div>
 
+        <div className="md:hidden ml-auto mr-2">
+          <VillageNavLink mobile onClick={() => setMobileOpen(false)} />
+        </div>
         {/* Mobile hamburger */}
         <button
           ref={menuButton}
@@ -266,6 +269,13 @@ export default function Navbar() {
             <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-1 mt-2">
               Services
             </p>
+            <Link
+              href="/services"
+              onClick={() => setMobileOpen(false)}
+              className="text-[15px] font-semibold text-text-sage py-2"
+            >
+              Explore all support
+            </Link>
             {serviceLinks.map((link) => (
               <Link
                 key={link.href}

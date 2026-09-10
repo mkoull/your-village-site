@@ -5,11 +5,12 @@ import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Button from "@/components/ui/Button";
 import { useLeadForm } from "@/lib/use-lead-form";
+import EnquiryAvailability from "@/components/ui/EnquiryAvailability";
 import FormError from "@/components/ui/FormError";
 import Link from "next/link";
 
 export default function ContactPage() {
-  const { send, sending, submitted, error } = useLeadForm();
+  const { send, sending, submitted, error, available } = useLeadForm();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
   function handleSubmit(e: React.FormEvent) {
@@ -57,6 +58,7 @@ export default function ContactPage() {
         </ScrollReveal>
 
         <ScrollReveal>
+          <EnquiryAvailability available={available} />
           <form
             aria-busy={sending}
             onSubmit={handleSubmit}
@@ -70,7 +72,10 @@ export default function ContactPage() {
                 Your name
               </label>
               <input
+                disabled={sending || available === false}
                 id="name"
+                pattern=".*\S.*"
+                title="Please enter your name."
                 autoComplete="given-name"
                 maxLength={120}
                 type="text"
@@ -90,6 +95,7 @@ export default function ContactPage() {
                 Email
               </label>
               <input
+                disabled={sending || available === false}
                 id="email"
                 autoComplete="email"
                 maxLength={254}
@@ -107,9 +113,10 @@ export default function ContactPage() {
                 htmlFor="message"
                 className="block text-sm font-medium text-text-primary mb-2"
               >
-                How can we help?
+                How can we help? (optional)
               </label>
               <textarea
+                disabled={sending || available === false}
                 id="message"
                 maxLength={4000}
                 rows={4}
@@ -122,7 +129,7 @@ export default function ContactPage() {
 
             <Button
               type="submit"
-              disabled={sending}
+              disabled={sending || available === false}
               className="w-full justify-center"
             >
               {sending ? "Sending…" : "Send message"}
@@ -134,6 +141,7 @@ export default function ContactPage() {
               a service.
             </p>
           </form>
+
           <FormError message={error} />
           <p className="mt-4 text-xs text-text-muted">
             Your details are sent only when you submit.{" "}

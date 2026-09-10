@@ -1,180 +1,165 @@
 "use client";
-
 import { useState } from "react";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
-import ScrollReveal from "@/components/ui/ScrollReveal";
 import Button from "@/components/ui/Button";
+import AddToVillage from "@/components/village/AddToVillage";
 import { services } from "@/content/services";
-import { cn } from "@/lib/utils";
 
 const categories = [
-  { label: "All", value: "all" },
-  { label: "Practical", value: "practical" },
-  { label: "Specialist", value: "specialist" },
-  { label: "Emotional", value: "emotional" },
-  { label: "Community", value: "community" },
+  ["all", "All support"],
+  ["practical", "Practical"],
+  ["specialist", "Specialist"],
+  ["emotional", "Wellbeing"],
+  ["community", "Community"],
 ];
-
-function ServiceExpandable({ service }: { service: (typeof services)[0] }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="rounded-[var(--radius-lg)] bg-elevated border border-border-subtle shadow-sm overflow-hidden transition-all duration-300">
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full p-5 md:p-8 flex items-start gap-3 text-left cursor-pointer group"
-        aria-expanded={open}
-      >
-        <div
-          className="w-10 h-10 text-sage shrink-0 mt-0.5"
-          dangerouslySetInnerHTML={{ __html: service.icon }}
-        />
-        <div className="flex-1 min-w-0">
-          <h2 className="text-h3 font-heading group-hover:text-sage transition-colors">
-            {service.title}
-          </h2>
-          <p className="text-text-muted text-sm mt-1">{service.tagline}</p>
-        </div>
-        <svg
-          className={cn(
-            "w-5 h-5 text-text-muted shrink-0 mt-1 transition-transform duration-300",
-            open && "rotate-180",
-          )}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        >
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
-      </button>
-
-      {open && (
-        <div className="px-8 md:px-10 pb-8 md:pb-10 border-t border-border-subtle pt-6">
-          <p className="text-text-body leading-relaxed mb-6">
-            {service.description}
-          </p>
-          <p className="text-text-muted leading-relaxed mb-6 text-sm">
-            {service.details}
-          </p>
-
-          <ul className="space-y-2 mb-6">
-            {service.features.map((feature) => (
-              <li
-                key={feature}
-                className="flex items-start gap-3 text-sm text-text-body"
-              >
-                <svg
-                  className="w-4 h-4 text-sage shrink-0 mt-0.5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                {feature}
-              </li>
-            ))}
-          </ul>
-
-          <p className="text-xs text-text-muted mb-6">
-            <strong className="text-text-body">Who it&apos;s for:</strong>{" "}
-            {service.whoItsFor}
-          </p>
-
-          <Button href={`/get-started?need=${service.slug}`} size="sm">
-            Build my village with this
-            <span aria-hidden="true">&rarr;</span>
-          </Button>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function ServicesPage() {
   const [filter, setFilter] = useState("all");
-
-  const filtered =
-    filter === "all" ? services : services.filter((s) => s.category === filter);
-
+  const [query, setQuery] = useState("");
+  const filtered = services.filter(
+    (service) =>
+      (filter === "all" || service.category === filter) &&
+      [service.title, service.tagline, service.description, service.need]
+        .join(" ")
+        .toLowerCase()
+        .includes(query.trim().toLowerCase()),
+  );
   return (
-    <div className="pt-24 md:pt-32">
-      {/* Hero */}
-      <section className="pb-10 md:pb-16">
-        <Container narrow className="text-center">
-          <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-4 font-body">
-            Our services
-          </p>
-          <h1 className="text-h1 font-heading mb-6">Your support, your way.</h1>
-          <p className="text-text-muted max-w-xl mx-auto leading-relaxed">
-            Support for you, your children, your home and your wellbeing.
-            Explore the categories we are bringing together. Provider listings
-            and bookings are still to come.
-          </p>
-        </Container>
-      </section>
-
-      {/* Filter pills */}
-      <section className="pb-8">
-        <Container>
-          <div className="flex flex-wrap justify-center gap-2">
-            {categories.map((cat) => (
+    <div className="pt-28 md:pt-36">
+      <Container>
+        <header className="catalogue-header">
+          <div>
+            <p className="text-eyebrow uppercase tracking-[.2em] font-semibold text-text-sage mb-4">
+              The pieces of your village
+            </p>
+            <h1 className="text-h1 font-heading">
+              Find a little
+              <br />
+              <em className="text-text-sage">breathing room.</em>
+            </h1>
+          </div>
+          <div className="max-w-sm">
+            <p className="text-text-muted mb-5">
+              Explore the help that already exists. Add what feels useful to
+              your village, then bring it all together.
+            </p>
+            <Link
+              href="/get-started"
+              className="text-sm text-text-sage underline underline-offset-4"
+            >
+              Open my village <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
+        </header>
+        <div className="catalogue-tools">
+          <div
+            className="builder-options"
+            role="group"
+            aria-label="Filter services"
+          >
+            {categories.map(([value, label]) => (
               <button
-                key={cat.value}
-                aria-pressed={filter === cat.value}
-                onClick={() => setFilter(cat.value)}
-                className={cn(
-                  "px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer",
-                  filter === cat.value
-                    ? "bg-sage-deep text-white"
-                    : "bg-surface text-text-muted hover:text-text-body border border-border",
-                )}
+                key={value}
+                type="button"
+                aria-pressed={filter === value}
+                onClick={() => setFilter(value)}
               >
-                {cat.label}
+                {label}
               </button>
             ))}
           </div>
-        </Container>
-      </section>
-
-      {/* Service cards */}
-      <section className="pb-16 md:pb-20">
-        <Container>
-          <p className="sr-only" role="status">
-            {filtered.length} support categories
-          </p>
-          <div className="space-y-4">
-            {filtered.map((service) => (
-              <ScrollReveal key={service.slug}>
-                <ServiceExpandable service={service} />
-              </ScrollReveal>
-            ))}
+          <div>
+            <label htmlFor="service-search" className="sr-only">
+              Search support
+            </label>
+            <input
+              id="service-search"
+              className="form-field"
+              type="search"
+              maxLength={80}
+              placeholder="Search support…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
           </div>
-        </Container>
-      </section>
-
-      {/* Bottom CTA */}
-      <section className="bg-surface py-14 md:py-18">
-        <Container narrow className="text-center">
-          <ScrollReveal>
-            <h2 className="text-h2 font-heading mb-4">
-              Not sure what you need?
+        </div>
+        <p role="status" className="text-xs text-text-muted mb-6 break-words">
+          {filtered.length} {filtered.length === 1 ? "kind" : "kinds"} of
+          support{query ? ` for “${query}”` : ""}
+        </p>
+        <div className="catalogue-grid">
+          {filtered.map((service) => (
+            <article
+              key={service.slug}
+              className={`catalogue-card village-tone-${service.tone}`}
+            >
+              <div className="flex gap-4 items-start mb-5">
+                <span
+                  className="plan-icon"
+                  aria-hidden="true"
+                  dangerouslySetInnerHTML={{ __html: service.icon }}
+                />
+                <div>
+                  <h2 className="font-heading text-2xl">
+                    <Link href={`/services/${service.slug}`}>
+                      {service.title}
+                    </Link>
+                  </h2>
+                  <p className="text-xs text-text-sage mt-2">
+                    {service.tagline}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm text-text-muted leading-relaxed mb-7">
+                {service.description}
+              </p>
+              <div className="mt-auto flex flex-wrap items-center gap-4">
+                <AddToVillage slug={service.slug} compact />
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="text-sm underline underline-offset-4 text-text-sage"
+                >
+                  Explore <span className="sr-only">{service.title}</span>{" "}
+                  <span aria-hidden="true">↗</span>
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+        {!filtered.length && (
+          <div className="text-center border border-border rounded-2xl p-10 my-6">
+            <h2 className="font-heading text-3xl mb-4">
+              Let&apos;s try a wider search.
             </h2>
-            <p className="text-text-muted mb-8">
-              Explore a starting point with four quick questions. No contact
-              details needed to see your suggestions.
+            <p className="text-sm text-text-muted mb-6">
+              There isn&apos;t a match for those filters. You can browse all
+              eight kinds of support.
             </p>
-            <Button href="/get-started" size="lg">
-              Build my village
-              <span aria-hidden="true">&rarr;</span>
+            <Button
+              onClick={() => {
+                setFilter("all");
+                setQuery("");
+              }}
+            >
+              Show all support
             </Button>
-          </ScrollReveal>
-        </Container>
-      </section>
+          </div>
+        )}
+        <div className="catalogue-outro">
+          <div>
+            <h2 className="font-heading text-3xl mb-3">
+              It can start with just one thing.
+            </h2>
+            <p className="text-sm text-text-muted">
+              Your saved support stays with you as you explore. No contact
+              details needed.
+            </p>
+          </div>
+          <Button href="/get-started">
+            Build my village <span aria-hidden="true">→</span>
+          </Button>
+        </div>
+      </Container>
     </div>
   );
 }

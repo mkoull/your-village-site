@@ -25,7 +25,7 @@ const content = {
     ],
     [
       "Building it with you",
-      "We're developing the service network and learning what people need. Today you can explore support categories, sketch your starting village and share your interests. Provider listings and bookings are still to come.",
+      "We're developing the service network and learning what people need. Today you can build a village that stays with you as you browse, explore independent services and keep a copy of your plan. Booking and payment through Village are still to come.",
     ],
   ],
 };

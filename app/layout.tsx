@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
+import SiteAnalytics from "@/components/layout/SiteAnalytics";
+import { VillageProvider } from "@/components/village/VillageProvider";
+import VillageDock from "@/components/village/VillageDock";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { SITE_URL, SERVICE_AREAS } from "@/lib/site";
@@ -96,12 +98,15 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
-        <Navbar />
-        <main id="main-content" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
-        <Analytics />
+        <VillageProvider>
+          <Navbar />
+          <main id="main-content" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer />
+          <VillageDock />
+        </VillageProvider>
+        <SiteAnalytics />
       </body>
     </html>
   );

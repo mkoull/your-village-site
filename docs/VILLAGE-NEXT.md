@@ -8,7 +8,7 @@ This includes mothers and existing families, with or without an established netw
 
 ## What this version does
 
-Explore eight support categories; learn what each may offer; build a local shortlist without contact details; send an enquiry or register interest; express interest as a service provider.
+Explore and search eight support categories; follow eight independent service links; build, edit and export a village without contact details. Choices persist across navigation and refresh in the same browser tab. Optional enquiries and updates require the configured receiving endpoint.
 
 No fabricated provider profiles, ratings, availability, prices or bookings.
 
@@ -24,7 +24,7 @@ A visitor should be able to filter by category, location and delivery mode; open
 
 1. **Provider records and admin review.** Draft, pending review, published and suspended states; only approved records public. Separate public profile data from private verification evidence. Check access controls before onboarding.
 2. **Discovery and profiles.** Search/filter, accessible empty states, visible prices and availability last updated, clear verification scope. Success means a family can identify a suitable real provider without contacting Village for every detail.
-3. **My village.** Save and remove services/providers, include existing support, attach practical preferences. Explicit account/consent decision; export/delete controls. Avoid collecting clinical histories.
+3. **My village expansion.** Category-level save/remove, session persistence, preferences, export and clear/undo are implemented. Next: provider-level choices, user-supplied existing support, and an explicit account/consent decision for cross-device persistence. Avoid collecting clinical histories.
 4. **Enquiries.** Choose recipient and information to share, consent, delivery status, provider response and admin follow-up. Prevent cross-family access and duplicate enquiries. Measure acknowledged enquiries and replies.
 5. **Bookings and payments.** Only after providers can maintain availability and fulfil requests. Decide who contracts with the customer, who takes payment, refunds/cancellations, disputes and platform fees before implementation.
 

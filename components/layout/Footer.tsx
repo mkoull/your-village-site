@@ -1,34 +1,17 @@
+import VillageMark from "@/components/ui/VillageMark";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import { services } from "@/content/services";
 
-const Logo = () => (
-  <svg
-    viewBox="0 0 64 64"
-    fill="none"
-    aria-hidden="true"
-    width="26"
-    height="26"
-  >
-    <circle cx="32" cy="10" r="5.5" fill="currentColor" opacity="0.85" />
-    <circle cx="51" cy="21" r="5.5" fill="currentColor" opacity="0.75" />
-    <circle cx="51" cy="43" r="5.5" fill="currentColor" opacity="0.65" />
-    <circle cx="32" cy="54" r="5.5" fill="currentColor" opacity="0.80" />
-    <circle cx="13" cy="43" r="5.5" fill="currentColor" opacity="0.70" />
-    <circle cx="13" cy="21" r="5.5" fill="currentColor" opacity="0.78" />
-    <circle cx="32" cy="32" r="7" fill="var(--color-dark)" />
-  </svg>
-);
-
 export default function Footer() {
   return (
-    <footer className="bg-dark text-text-inverse pb-20 md:pb-0">
+    <footer className="bg-dark text-text-inverse pb-28">
       <Container className="py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <Logo />
+              <VillageMark className="w-[26px] h-[26px]" />
               <span className="font-heading text-lg font-medium">
                 Your Village
               </span>

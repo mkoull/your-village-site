@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./village.css";
+@import "./village-experience.css";
 
 @theme {
   /* Colors — warm neutrals + sage accent */
