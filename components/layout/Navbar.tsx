@@ -8,7 +8,14 @@ import { cn } from "@/lib/utils";
 import { services } from "@/content/services";
 
 const Logo = () => (
-  <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" width="26" height="26" className="nav-logo-icon">
+  <svg
+    viewBox="0 0 64 64"
+    fill="none"
+    aria-hidden="true"
+    width="26"
+    height="26"
+    className="nav-logo-icon"
+  >
     <circle cx="32" cy="10" r="5.5" fill="currentColor" opacity="0.85" />
     <circle cx="51" cy="21" r="5.5" fill="currentColor" opacity="0.75" />
     <circle cx="51" cy="43" r="5.5" fill="currentColor" opacity="0.65" />
@@ -46,13 +53,18 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [mobileOpen]);
 
   // Close services dropdown on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setServicesOpen(false);
       }
     }
@@ -60,15 +72,72 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const showBg = scrolled || !isHome;
+  const navRef = useRef<HTMLElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const servicesButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        if (mobileOpen) {
+          setMobileOpen(false);
+          menuButton.current?.focus();
+        }
+        if (servicesOpen) {
+          setServicesOpen(false);
+          servicesButton.current?.focus();
+        }
+      }
+      if (mobileOpen && event.key === "Tab") {
+        const focusable = Array.from(
+          navRef.current?.querySelectorAll<HTMLElement>("a[href], button") ||
+            [],
+        ).filter((el) => el.getClientRects().length > 0);
+        const first = focusable[0],
+          last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [mobileOpen, servicesOpen]);
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const elements = Array.from(
+      document.querySelectorAll<HTMLElement>("main, body > footer"),
+    );
+    const previous = elements.map((el) => el.inert);
+    elements.forEach((el) => {
+      el.inert = true;
+    });
+    const media = window.matchMedia("(min-width: 768px)");
+    const onResize = () => {
+      if (media.matches) setMobileOpen(false);
+    };
+    media.addEventListener("change", onResize);
+    return () => {
+      elements.forEach((el, i) => {
+        el.inert = previous[i];
+      });
+      media.removeEventListener("change", onResize);
+    };
+  }, [mobileOpen]);
+  const showBg = scrolled || !isHome || mobileOpen;
 
   return (
     <nav
+      ref={navRef}
+      aria-label="Main navigation"
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         showBg
           ? "bg-background/90 backdrop-blur-lg border-b border-border shadow-sm"
-          : "bg-transparent"
+          : "bg-transparent",
       )}
     >
       <div className="mx-auto max-w-6xl px-6 flex items-center justify-between h-16 md:h-20">
@@ -88,10 +157,14 @@ export default function Navbar() {
           {/* Services with dropdown */}
           <li className="relative" ref={dropdownRef}>
             <button
+              ref={servicesButton}
+              aria-controls="services-menu"
               onClick={() => setServicesOpen(!servicesOpen)}
               className={cn(
                 "text-[15px] font-medium transition-colors hover:text-sage flex items-center gap-1",
-                pathname.startsWith("/services") ? "text-sage" : "text-text-body"
+                pathname.startsWith("/services")
+                  ? "text-sage"
+                  : "text-text-body",
               )}
               aria-expanded={servicesOpen}
             >
@@ -106,7 +179,7 @@ export default function Navbar() {
                 strokeLinecap="round"
                 className={cn(
                   "transition-transform duration-200",
-                  servicesOpen && "rotate-180"
+                  servicesOpen && "rotate-180",
                 )}
               >
                 <path d="M3 5l3 3 3-3" />
@@ -114,7 +187,10 @@ export default function Navbar() {
             </button>
 
             {servicesOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 bg-elevated/95 backdrop-blur-xl rounded-[var(--radius-md)] border border-border shadow-lg py-2 animate-fade-in">
+              <div
+                id="services-menu"
+                className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 bg-elevated/95 backdrop-blur-xl rounded-[var(--radius-md)] border border-border shadow-lg py-2 animate-fade-in"
+              >
                 <Link
                   href="/services"
                   className="block px-4 py-2.5 text-sm font-medium text-sage hover:bg-surface transition-colors"
@@ -140,9 +216,10 @@ export default function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href}
+                aria-current={pathname === link.href ? "page" : undefined}
                 className={cn(
                   "nav-link-animated text-[15px] font-medium transition-colors hover:text-sage",
-                  pathname === link.href ? "text-sage" : "text-text-body"
+                  pathname === link.href ? "text-sage" : "text-text-body",
                 )}
               >
                 {link.label}
@@ -157,16 +234,18 @@ export default function Navbar() {
             href="/get-started"
             className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage-deep text-white hover:bg-sage-dark transition-all duration-300 hover:-translate-y-[2px] shadow-sm hover:shadow-lg"
           >
-            Talk to us
+            Build my village
             <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
 
         {/* Mobile hamburger */}
         <button
+          ref={menuButton}
+          aria-controls="mobile-menu"
           onClick={() => setMobileOpen(!mobileOpen)}
           className="md:hidden p-2 text-text-body"
-          aria-label="Toggle menu"
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
         >
           <svg
@@ -196,7 +275,10 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-background/98 backdrop-blur-xl border-t border-border max-h-[calc(100dvh-4rem)] overflow-y-auto">
+        <div
+          id="mobile-menu"
+          className="md:hidden bg-background/98 backdrop-blur-xl border-t border-border max-h-[calc(100dvh-4rem)] overflow-y-auto"
+        >
           <div className="px-6 py-8 flex flex-col gap-2">
             {/* Services section */}
             <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-1 mt-2">
@@ -223,7 +305,7 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className={cn(
                   "text-lg font-medium py-2 transition-colors",
-                  pathname === link.href ? "text-sage" : "text-text-body"
+                  pathname === link.href ? "text-sage" : "text-text-body",
                 )}
               >
                 {link.label}
@@ -235,7 +317,7 @@ export default function Navbar() {
               onClick={() => setMobileOpen(false)}
               className="mt-4 inline-flex items-center justify-center gap-2 px-7 py-3 text-base font-medium rounded-full bg-sage-deep text-white hover:bg-sage-dark transition-all"
             >
-              Talk to us
+              Build my village
               <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>

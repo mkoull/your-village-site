@@ -209,8 +209,7 @@
   to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
-/* Text is visible from first paint (never animate opacity from 0 on
-   the LCP element) — the entrance is a gentle rise + focus only. */
+/* Keep the headline sharp from first paint; use a small rise only. */
 .hero-reveal {
   animation: heroRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -221,8 +220,8 @@
 .hero-reveal-5 { animation-delay: 0.36s; }
 
 @keyframes heroRise {
-  from { transform: translateY(18px); filter: blur(2px); }
-  to { transform: translateY(0); filter: blur(0); }
+  from { transform: translateY(8px); }
+  to { transform: translateY(0); }
 }
 
 /* ============================================================
@@ -908,3 +907,9 @@ main {
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
 }
+
+/* Accessible navigation and form states. */
+.skip-link { position: fixed; top: 0.5rem; left: 0.5rem; z-index: 100; padding: 0.75rem 1rem; background: var(--color-background); color: var(--color-text-primary); transform: translateY(-150%); }
+.skip-link:focus { transform: translateY(0); }
+button:disabled { opacity: 0.6; cursor: wait; }
+@media (max-width: 639px) { main .whitespace-nowrap { white-space: normal; text-align: center; } }

@@ -14,9 +14,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <ServicesPreview />
       <EmpathySection />
       <WhatHappensSection />
-      <ServicesPreview />
       <TrustSection />
       <FounderSection />
       <FoundingFamiliesSection />

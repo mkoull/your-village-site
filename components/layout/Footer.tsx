@@ -3,7 +3,13 @@ import Container from "@/components/ui/Container";
 import { services } from "@/content/services";
 
 const Logo = () => (
-  <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" width="26" height="26">
+  <svg
+    viewBox="0 0 64 64"
+    fill="none"
+    aria-hidden="true"
+    width="26"
+    height="26"
+  >
     <circle cx="32" cy="10" r="5.5" fill="currentColor" opacity="0.85" />
     <circle cx="51" cy="21" r="5.5" fill="currentColor" opacity="0.75" />
     <circle cx="51" cy="43" r="5.5" fill="currentColor" opacity="0.65" />
@@ -16,17 +22,19 @@ const Logo = () => (
 
 export default function Footer() {
   return (
-    <footer className="bg-dark text-text-inverse">
+    <footer className="bg-dark text-text-inverse pb-20 md:pb-0">
       <Container className="py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
               <Logo />
-              <span className="font-heading text-lg font-medium">Your Village</span>
+              <span className="font-heading text-lg font-medium">
+                Your Village
+              </span>
             </div>
             <p className="text-sm text-text-inverse/60 leading-relaxed max-w-xs">
-              Postpartum support, thoughtfully curated.
+              Support for you and your family.
               <br />
               Inner Melbourne, Australia.
             </p>
@@ -85,13 +93,13 @@ export default function Footer() {
               Get Started
             </p>
             <p className="text-sm text-text-inverse/60 leading-relaxed mb-4">
-              Start with a conversation. No pressure, no commitment.
+              Find the support that fits your life.
             </p>
             <Link
               href="/get-started"
               className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-sage-deep text-white hover:bg-sage-dark transition-all"
             >
-              Talk to us
+              Build my village
               <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
@@ -100,7 +108,8 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-text-inverse/60">
-            &copy; {new Date().getFullYear()} Your Village. Melbourne, Australia.
+            &copy; {new Date().getFullYear()} Your Village. Melbourne,
+            Australia.
           </p>
           <p className="text-xs text-text-inverse/60">
             Supporting families in inner Melbourne.

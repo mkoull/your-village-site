@@ -8,15 +8,15 @@ import { services } from "@/content/services";
 
 export default function ServicesPreview() {
   return (
-    <section className="bg-surface py-20 md:py-24 lg:py-28">
+    <section className="bg-surface py-16 md:py-24">
       <Container>
         <ScrollReveal>
-          <div className="text-center mb-20 md:mb-24">
+          <div className="text-center mb-10 md:mb-12">
             <p className="text-eyebrow uppercase tracking-[0.25em] font-semibold text-text-sage mb-5 font-body">
               What&apos;s in a village
             </p>
             <h2 className="text-h2 font-heading max-w-xl mx-auto">
-              Every kind of help, one front door.
+              What would make life a little lighter?
             </h2>
           </div>
         </ScrollReveal>
@@ -52,14 +52,14 @@ export default function ServicesPreview() {
               <span aria-hidden="true">&rarr;</span>
             </Button>
             <p className="text-sm text-text-muted mt-6 max-w-md mx-auto">
-              We&apos;re finalising rates with our founding families — see{" "}
+              Explore the support categories we&apos;re bringing together. See{" "}
               <Link
                 href="/pricing"
                 className="text-text-sage underline underline-offset-4 decoration-sage/30 hover:text-sage-dark transition-colors"
               >
-                how pricing works
+                our pricing approach
               </Link>
-              . You&apos;ll have exact numbers before anything is booked.
+              . Provider listings and bookings are still to come.
             </p>
           </div>
         </ScrollReveal>

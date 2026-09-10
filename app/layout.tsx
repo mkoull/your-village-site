@@ -23,35 +23,35 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Your Village — Postpartum Support, Inner Melbourne",
+    default: "Your Village — Support for you and your family",
     template: "%s — Your Village",
   },
   description:
-    "It takes a village. We build yours — meals, overnight care, feeding and emotional support from vetted providers, coordinated for your family. Inner Melbourne, Australia.",
+    "Find the support that fits your life. Explore meals, nannies, mental health, household help and community with Your Village.",
   metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: "Your Village — Postpartum Support, Inner Melbourne",
+    title: "Your Village — Support for you and your family",
     description:
-      "It takes a village. We build yours — meals, overnight care, feeding and emotional support from vetted providers, coordinated for your family.",
+      "Find the support that fits your life. Explore meals, nannies, mental health, household help and community with Your Village.",
     type: "website",
     locale: "en_AU",
     url: SITE_URL,
     siteName: "Your Village",
     images: [
       {
-        url: "/og.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Your Village — It takes a village. We build yours.",
+        alt: "Your Village — Support for you and your family",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Your Village — Postpartum Support, Inner Melbourne",
+    title: "Your Village — Support for you and your family",
     description:
-      "It takes a village. We build yours — vetted postpartum support, coordinated for your family.",
-    images: ["/og.png"],
+      "Find the support that fits your life. Explore meals, nannies, mental health, household help and community with Your Village.",
+    images: ["/opengraph-image"],
   },
   icons: {
     icon: "/favicon.svg",
@@ -63,7 +63,7 @@ const localBusinessJsonLd = {
   "@type": "LocalBusiness",
   name: "Your Village",
   description:
-    "Curated postpartum support for families in inner Melbourne. One team assembles and coordinates vetted providers — meals, postpartum carers, overnight care, sleep and lactation support, counselling, household help.",
+    "A place for mothers and families to explore practical help, childcare, mental health support and community at every stage of life.",
   url: SITE_URL,
   areaServed: SERVICE_AREAS.map((suburb) => ({
     "@type": "Place",
@@ -87,12 +87,19 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd),
+          }}
         />
       </head>
       <body>
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         <Navbar />
-        <main>{children}</main>
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
         <Analytics />
       </body>

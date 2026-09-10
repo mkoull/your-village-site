@@ -6,30 +6,16 @@ import { useSearchParams } from "next/navigation";
 import Container from "@/components/ui/Container";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { cn } from "@/lib/utils";
-import { services, type Service } from "@/content/services";
-import { submitLead } from "@/lib/leads";
+import { services } from "@/content/services";
+import { useLeadForm } from "@/lib/use-lead-form";
+import FormError from "@/components/ui/FormError";
+import { stageOptions, NOT_SURE, selectPlan } from "@/lib/assessment";
 import { trackEvent } from "@/lib/analytics";
-import { getAnonId } from "@/lib/anon";
 
-/**
- * Support assessment — a value-first funnel.
- * Four questions build a personalised "starting village" plan, shown
- * generously before the contact ask. Contact details stay LAST.
- *
- * Every answer is beaconed to the lead webhook immediately (type
- * "quiz_step", keyed to an anonymous id), so families who drop out
- * before the final screen are still visible. Question 1 can arrive
- * pre-filled from the hero via ?stage=.
- */
-
-const stageOptions = [
-  { label: "We're expecting", value: "expecting" },
-  { label: "Newborn (0–3 months)", value: "newborn" },
-  { label: "Baby (3–12 months)", value: "baby" },
-  { label: "Somewhere else entirely", value: "other" },
-];
+/** Four questions create a local shortlist. Contact details are optional and last. */
 
 const aroundYouOptions = [
+  { label: "Some support — looking for a little more", value: "some-support" },
   { label: "Family close by who can help", value: "family-nearby" },
   { label: "Support exists, but not close by", value: "family-far" },
   { label: "A partner — mostly doing it ourselves", value: "partner" },
@@ -44,25 +30,13 @@ const timingOptions = [
 ];
 
 const timingLines: Record<string, string> = {
-  asap: "You said as soon as possible — we'll treat it that way.",
-  soon: "You're thinking the next few weeks — that gives us time to get it right.",
-  planning: "Planning ahead is the calmest way to do this. Everything can be ready before you need it.",
-  exploring: "No rush at all — this plan will keep. We're here whenever you're ready.",
+  asap: "You would like support soon. Availability will need to be confirmed when bookings open.",
+  soon: "You are thinking about the next few weeks.",
+  planning: "You are planning ahead.",
+  exploring: "You are exploring your options, at your own pace.",
 };
 
-const NOT_SURE = "not-sure";
-const DEFAULT_PLAN_SLUGS = ["postpartum-carers", "food", "counselling"];
 const VALID_STAGES = new Set(stageOptions.map((o) => o.value));
-
-function buildPlan(needs: string[]): { plan: Service[]; isDefault: boolean } {
-  const chosen = services.filter((s) => needs.includes(s.slug));
-  if (chosen.length > 0) return { plan: chosen.slice(0, 3), isDefault: false };
-  return {
-    plan: services.filter((s) => DEFAULT_PLAN_SLUGS.includes(s.slug)),
-    isDefault: true,
-  };
-}
-
 const TOTAL_STEPS = 5;
 
 function GetStartedFlow() {
@@ -72,11 +46,12 @@ function GetStartedFlow() {
   const validPrefill = prefilledStage && VALID_STAGES.has(prefilledStage);
 
   const [step, setStep] = useState(validPrefill ? 1 : 0);
-  const [submitted, setSubmitted] = useState(false);
-  const [sending, setSending] = useState(false);
+  const { send, sending, submitted, error } = useLeadForm();
   const [formData, setFormData] = useState({
     stage: validPrefill ? prefilledStage : "",
-    needs: [] as string[],
+    needs: services.some((s) => s.slug === searchParams.get("need"))
+      ? [searchParams.get("need")!]
+      : ([] as string[]),
     aroundYou: "",
     timing: "",
     name: "",
@@ -97,7 +72,12 @@ function GetStartedFlow() {
   useEffect(() => {
     let reported = false;
     const onHide = () => {
-      if (document.visibilityState === "hidden" && started.current && !submittedRef.current && !reported) {
+      if (
+        document.visibilityState === "hidden" &&
+        started.current &&
+        !submittedRef.current &&
+        !reported
+      ) {
         reported = true;
         trackEvent("quiz_abandoned", { step: stepRef.current });
       }
@@ -106,33 +86,36 @@ function GetStartedFlow() {
     return () => document.removeEventListener("visibilitychange", onHide);
   }, []);
 
-  const beacon = (field: string, value: string | string[], stepNo: number) => {
+  const recordStep = (field: string, stepNo: number) => {
+    if (!started.current) trackEvent("quiz_started");
     started.current = true;
-    void submitLead("quiz_step", {
-      anonId: getAnonId(),
-      step: stepNo,
-      field,
-      value,
-      answersSoFar: {
-        stage: formData.stage,
-        needs: formData.needs,
-        aroundYou: formData.aroundYou,
-        timing: formData.timing,
-      },
-      founding,
-    });
     trackEvent("quiz_step_completed", { step: stepNo, field });
   };
 
+  useEffect(
+    () => () => {
+      if (advanceTimer.current) clearTimeout(advanceTimer.current);
+    },
+    [],
+  );
+  const stepPanel = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    stepPanel.current?.focus({ preventScroll: true });
+  }, [step]);
+
   const goTo = (next: number) => {
+    if (advanceTimer.current) clearTimeout(advanceTimer.current);
     setErrors({});
     setStep(next);
   };
 
   // Single-choice steps advance on their own — one less thing to do.
-  const selectAndAdvance = (field: "stage" | "aroundYou" | "timing", value: string) => {
+  const selectAndAdvance = (
+    field: "stage" | "aroundYou" | "timing",
+    value: string,
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    beacon(field, value, step);
+    recordStep(field, step);
     if (advanceTimer.current) clearTimeout(advanceTimer.current);
     advanceTimer.current = setTimeout(() => goTo(step + 1), 260);
   };
@@ -140,7 +123,10 @@ function GetStartedFlow() {
   const toggleNeed = (slug: string) => {
     setFormData((prev) => {
       if (slug === NOT_SURE) {
-        return { ...prev, needs: prev.needs.includes(NOT_SURE) ? [] : [NOT_SURE] };
+        return {
+          ...prev,
+          needs: prev.needs.includes(NOT_SURE) ? [] : [NOT_SURE],
+        };
       }
       const withoutNotSure = prev.needs.filter((n) => n !== NOT_SURE);
       return {
@@ -153,30 +139,32 @@ function GetStartedFlow() {
   };
 
   const continueFromNeeds = () => {
-    beacon("needs", formData.needs, 1);
+    recordStep("needs", 1);
     goTo(2);
   };
 
-  const { plan, isDefault } = buildPlan(formData.needs);
+  const plan = selectPlan(services, formData.needs);
+  const isDefault = !formData.needs.some((slug) =>
+    services.some((s) => s.slug === slug),
+  );
 
   const handleSubmit = async () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = "Please tell us your name";
     if (!formData.email.trim()) newErrors.email = "Please enter your email";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()))
       newErrors.email = "Please enter a valid email";
     setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0) return;
+    if (Object.keys(newErrors).length > 0) {
+      document.getElementById(newErrors.name ? "gs-name" : "gs-email")?.focus();
+      return;
+    }
 
-    setSending(true);
-    await submitLead("assessment", {
-      anonId: getAnonId(),
+    await send("assessment", {
       ...formData,
       founding,
       plan: plan.map((s) => s.title),
     });
-    trackEvent("lead_submitted", { type: "assessment", founding });
-    setSubmitted(true);
   };
 
   if (submitted) {
@@ -185,20 +173,24 @@ function GetStartedFlow() {
       <div className="pt-24 md:pt-32 pb-16 md:pb-20 min-h-[80vh] flex items-center">
         <Container narrow className="text-center">
           <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-sage/10 flex items-center justify-center">
-            <svg className="w-8 h-8 text-sage" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <svg
+              className="w-8 h-8 text-sage"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            >
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
           <h1 className="text-h2 font-heading mb-4">
-            Your plan is on its way, {firstName}.
+            Thanks for sharing your village, {firstName}.
           </h1>
           <p className="text-text-muted max-w-md mx-auto leading-relaxed mb-10">
-            A real person will reach out the same day &mdash;{" "}
-            {formData.phone.trim()
-              ? "we'll give you a call, and follow up by email"
-              : "you'll hear from us by email"}
-            . In the meantime, take a breath. You&apos;ve just done the hardest
-            part.
+            We&apos;ve received your interests and contact details. We&apos;ll
+            use them to follow up about Village as it develops. This is an
+            enquiry, not a booking.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {plan.map((service) => (
@@ -228,8 +220,8 @@ function GetStartedFlow() {
             </h1>
             <p className="text-text-muted max-w-md mx-auto">
               {validPrefill
-                ? "Three more questions, then we'll show you where we'd begin for your family."
-                : "Four quick questions, then we'll show you where we'd begin for your family. Takes about a minute."}
+                ? "Three more questions to explore the support that could fit your life."
+                : "Four quick questions to explore the support that could fit your life. No contact details needed to see your suggestions."}
             </p>
           </div>
         </ScrollReveal>
@@ -243,275 +235,353 @@ function GetStartedFlow() {
                   key={i}
                   className={cn(
                     "h-1.5 flex-1 rounded-full transition-colors duration-500",
-                    i <= step ? "bg-sage" : "bg-border"
+                    i <= step ? "bg-sage" : "bg-border",
                   )}
                 />
               ))}
             </div>
 
-            <div key={step} className="animate-fade-in">
-            {/* Step 0: Stage */}
-            {step === 0 && (
-              <div>
-                <h2 className="text-h3 font-heading mb-6">
-                  Where are you at?
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {stageOptions.map((option) => (
-                    <button
-                      key={option.value}
-                      onClick={() => selectAndAdvance("stage", option.value)}
-                      className={cn(
-                        "p-4 rounded-[var(--radius-md)] border text-left transition-all duration-200 cursor-pointer font-medium text-[15px]",
-                        formData.stage === option.value
-                          ? "border-sage text-sage bg-sage/5"
-                          : "border-border text-text-body hover:border-sage/50"
-                      )}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
+            <p className="text-xs text-text-muted mb-4" aria-live="polite">
+              Step {step + 1} of {TOTAL_STEPS}
+              {step === 4 ? " — your starting village" : ""}
+            </p>
+            <div
+              key={step}
+              ref={stepPanel}
+              tabIndex={-1}
+              aria-label={
+                step === 4 ? "Your starting village" : `Question ${step + 1}`
+              }
+              className="animate-fade-in focus:outline-none"
+            >
+              {/* Step 0: Stage */}
+              {step === 0 && (
+                <div>
+                  <h2 className="text-h3 font-heading mb-6">
+                    What does life look like right now?
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {stageOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        aria-pressed={formData.stage === option.value}
+                        onClick={() => selectAndAdvance("stage", option.value)}
+                        className={cn(
+                          "p-4 rounded-[var(--radius-md)] border text-left transition-all duration-200 cursor-pointer font-medium text-[15px]",
+                          formData.stage === option.value
+                            ? "border-sage text-sage bg-sage/5"
+                            : "border-border text-text-body hover:border-sage/50",
+                        )}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Step 1: Needs (multi-select) */}
-            {step === 1 && (
-              <div>
-                <h2 className="text-h3 font-heading mb-2">
-                  What feels hardest right now?
-                </h2>
-                <p className="text-text-muted text-sm mb-6">
-                  Choose as many as you like. There are no wrong answers.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {services.map((service) => (
+              {/* Step 1: Needs (multi-select) */}
+              {step === 1 && (
+                <div>
+                  <h2 className="text-h3 font-heading mb-2">
+                    What feels hardest right now?
+                  </h2>
+                  <p className="text-text-muted text-sm mb-6">
+                    Choose as many as you like. There are no wrong answers.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {services.map((service) => (
+                      <button
+                        key={service.slug}
+                        aria-pressed={formData.needs.includes(service.slug)}
+                        onClick={() => toggleNeed(service.slug)}
+                        className={cn(
+                          "p-4 rounded-[var(--radius-md)] border text-left transition-all duration-200 cursor-pointer text-[15px]",
+                          formData.needs.includes(service.slug)
+                            ? "border-sage text-sage bg-sage/5"
+                            : "border-border text-text-body hover:border-sage/50",
+                        )}
+                      >
+                        <span className="font-medium">{service.title}</span>
+                        <span className="block text-xs text-text-muted mt-0.5">
+                          {service.tagline}
+                        </span>
+                      </button>
+                    ))}
                     <button
-                      key={service.slug}
-                      onClick={() => toggleNeed(service.slug)}
+                      aria-pressed={formData.needs.includes(NOT_SURE)}
+                      onClick={() => toggleNeed(NOT_SURE)}
                       className={cn(
                         "p-4 rounded-[var(--radius-md)] border text-left transition-all duration-200 cursor-pointer text-[15px]",
-                        formData.needs.includes(service.slug)
+                        formData.needs.includes(NOT_SURE)
                           ? "border-sage text-sage bg-sage/5"
-                          : "border-border text-text-body hover:border-sage/50"
+                          : "border-border text-text-body hover:border-sage/50",
                       )}
                     >
-                      <span className="font-medium">{service.title}</span>
+                      <span className="font-medium">I&apos;m not sure yet</span>
                       <span className="block text-xs text-text-muted mt-0.5">
-                        {service.tagline}
+                        That&apos;s completely fine — we&apos;ll figure it out
+                        together
                       </span>
                     </button>
-                  ))}
-                  <button
-                    onClick={() => toggleNeed(NOT_SURE)}
-                    className={cn(
-                      "p-4 rounded-[var(--radius-md)] border text-left transition-all duration-200 cursor-pointer text-[15px]",
-                      formData.needs.includes(NOT_SURE)
-                        ? "border-sage text-sage bg-sage/5"
-                        : "border-border text-text-body hover:border-sage/50"
-                    )}
-                  >
-                    <span className="font-medium">I&apos;m not sure yet</span>
-                    <span className="block text-xs text-text-muted mt-0.5">
-                      That&apos;s completely fine — we&apos;ll figure it out together
-                    </span>
-                  </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Step 2: Who's around you */}
-            {step === 2 && (
-              <div>
-                <h2 className="text-h3 font-heading mb-2">
-                  Who&apos;s around you at the moment?
-                </h2>
-                <p className="text-text-muted text-sm mb-6">
-                  This helps us understand where support would make the most
-                  difference.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {aroundYouOptions.map((option) => (
-                    <button
-                      key={option.value}
-                      onClick={() => selectAndAdvance("aroundYou", option.value)}
-                      className={cn(
-                        "p-4 rounded-[var(--radius-md)] border text-left transition-all duration-200 cursor-pointer font-medium text-[15px]",
-                        formData.aroundYou === option.value
-                          ? "border-sage text-sage bg-sage/5"
-                          : "border-border text-text-body hover:border-sage/50"
-                      )}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
+              {/* Step 2: Who's around you */}
+              {step === 2 && (
+                <div>
+                  <h2 className="text-h3 font-heading mb-2">
+                    Who&apos;s around you at the moment?
+                  </h2>
+                  <p className="text-text-muted text-sm mb-6">
+                    This helps us understand where support would make the most
+                    difference.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {aroundYouOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        aria-pressed={formData.aroundYou === option.value}
+                        onClick={() =>
+                          selectAndAdvance("aroundYou", option.value)
+                        }
+                        className={cn(
+                          "p-4 rounded-[var(--radius-md)] border text-left transition-all duration-200 cursor-pointer font-medium text-[15px]",
+                          formData.aroundYou === option.value
+                            ? "border-sage text-sage bg-sage/5"
+                            : "border-border text-text-body hover:border-sage/50",
+                        )}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Step 3: Timing */}
-            {step === 3 && (
-              <div>
-                <h2 className="text-h3 font-heading mb-6">
-                  When would you like support to start?
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {timingOptions.map((option) => (
-                    <button
-                      key={option.value}
-                      onClick={() => selectAndAdvance("timing", option.value)}
-                      className={cn(
-                        "p-4 rounded-[var(--radius-md)] border text-left transition-all duration-200 cursor-pointer font-medium text-[15px]",
-                        formData.timing === option.value
-                          ? "border-sage text-sage bg-sage/5"
-                          : "border-border text-text-body hover:border-sage/50"
-                      )}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
+              {/* Step 3: Timing */}
+              {step === 3 && (
+                <div>
+                  <h2 className="text-h3 font-heading mb-6">
+                    When would you like support to start?
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {timingOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        aria-pressed={formData.timing === option.value}
+                        onClick={() => selectAndAdvance("timing", option.value)}
+                        className={cn(
+                          "p-4 rounded-[var(--radius-md)] border text-left transition-all duration-200 cursor-pointer font-medium text-[15px]",
+                          formData.timing === option.value
+                            ? "border-sage text-sage bg-sage/5"
+                            : "border-border text-text-body hover:border-sage/50",
+                        )}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Step 4: The plan — value first, then the ask */}
-            {step === 4 && (
-              <div>
-                <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-3 font-body">
-                  Your starting village
-                </p>
-                <h2 className="text-h3 font-heading mb-2">
-                  Here&apos;s where we&apos;d begin.
-                </h2>
-                <p className="text-text-muted text-sm mb-6">
-                  {isDefault
-                    ? "You said you're not sure yet — these three are where most families start, and we'll shape it together."
-                    : "Based on what you've shared, this is the support we'd put in place first."}
-                </p>
+              {/* Step 4: The plan — value first, then the ask */}
+              {step === 4 && (
+                <div>
+                  <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-3 font-body">
+                    Your starting village
+                  </p>
+                  <h2 className="text-h3 font-heading mb-2">
+                    Your village can start here.
+                  </h2>
+                  <p className="text-text-muted text-sm mb-6">
+                    {isDefault
+                      ? "Not sure yet? Here are a few different kinds of support to explore. These are starting points, not a recommendation for care."
+                      : "These are the services you chose. Explore each one and decide what feels right for you."}
+                  </p>
 
-                <div className="space-y-3 mb-6">
-                  {plan.map((service) => (
-                    <div
-                      key={service.slug}
-                      className="flex items-start gap-4 p-4 rounded-[var(--radius-md)] border border-sage/25 bg-sage/[0.04]"
-                    >
+                  <div className="space-y-3 mb-6">
+                    {plan.map((service) => (
                       <div
-                        className="w-9 h-9 shrink-0 rounded-full bg-sage/10 text-sage p-2"
-                        dangerouslySetInnerHTML={{ __html: service.icon }}
-                      />
-                      <div className="min-w-0">
-                        <p className="font-medium text-text-primary text-[15px]">
-                          {service.title}
-                        </p>
-                        <p className="text-text-muted text-sm leading-relaxed mt-0.5">
-                          {service.description}
+                        key={service.slug}
+                        className="flex items-start gap-4 p-4 rounded-[var(--radius-md)] border border-sage/25 bg-sage/[0.04]"
+                      >
+                        <div
+                          className="w-9 h-9 shrink-0 rounded-full bg-sage/10 text-sage p-2"
+                          dangerouslySetInnerHTML={{ __html: service.icon }}
+                        />
+                        <div className="min-w-0">
+                          <Link
+                            href={`/services/${service.slug}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-text-primary text-[15px] underline underline-offset-4"
+                          >
+                            {service.title}{" "}
+                            <span className="sr-only">
+                              (opens in a new tab)
+                            </span>{" "}
+                            ↗
+                          </Link>
+                          <p className="text-text-muted text-sm leading-relaxed mt-0.5">
+                            {service.description}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {formData.timing && (
+                    <p className="text-sm text-text-sage font-medium mb-8">
+                      {timingLines[formData.timing]}
+                    </p>
+                  )}
+
+                  <div className="border-t border-border-subtle pt-8">
+                    <h3 className="text-h3 font-heading mb-2">
+                      Want to hear as Village develops?
+                    </h3>
+                    <p className="text-text-muted text-sm mb-6">
+                      Leave your details to share your interests with us.
+                      Provider listings and bookings are still to come.
+                    </p>
+                    <form
+                      id="village-enquiry"
+                      aria-busy={sending}
+                      noValidate
+                      className="space-y-4"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        void handleSubmit();
+                      }}
+                    >
+                      <div>
+                        <label
+                          htmlFor="gs-name"
+                          className="block text-sm font-medium text-text-body mb-1.5 font-body"
+                        >
+                          Your name
+                        </label>
+                        <input
+                          id="gs-name"
+                          maxLength={120}
+                          aria-invalid={Boolean(errors.name)}
+                          aria-describedby={
+                            errors.name ? "gs-name-error" : undefined
+                          }
+                          type="text"
+                          autoComplete="given-name"
+                          value={formData.name}
+                          onChange={(e) =>
+                            setFormData({ ...formData, name: e.target.value })
+                          }
+                          className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
+                          placeholder="First name"
+                        />
+                        {errors.name && (
+                          <p
+                            id="gs-name-error"
+                            role="alert"
+                            className="text-sm text-red-700 mt-1"
+                          >
+                            {errors.name}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="gs-email"
+                          className="block text-sm font-medium text-text-body mb-1.5 font-body"
+                        >
+                          Email
+                        </label>
+                        <input
+                          id="gs-email"
+                          maxLength={254}
+                          aria-invalid={Boolean(errors.email)}
+                          aria-describedby={
+                            errors.email ? "gs-email-error" : undefined
+                          }
+                          type="email"
+                          autoComplete="email"
+                          value={formData.email}
+                          onChange={(e) =>
+                            setFormData({ ...formData, email: e.target.value })
+                          }
+                          className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
+                          placeholder="your@email.com"
+                        />
+                        {errors.email && (
+                          <p
+                            id="gs-email-error"
+                            role="alert"
+                            className="text-sm text-red-700 mt-1"
+                          >
+                            {errors.email}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="gs-phone"
+                          className="block text-sm font-medium text-text-body mb-1.5 font-body"
+                        >
+                          Best number for a quick call{" "}
+                          <span className="text-text-muted font-normal">
+                            (optional)
+                          </span>
+                        </label>
+                        <input
+                          id="gs-phone"
+                          maxLength={40}
+                          type="tel"
+                          autoComplete="tel"
+                          value={formData.phone}
+                          onChange={(e) =>
+                            setFormData({ ...formData, phone: e.target.value })
+                          }
+                          className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
+                          placeholder="04xx xxx xxx"
+                        />
+                        <p className="text-xs text-text-muted mt-1.5">
+                          Only if you would prefer us to follow up by phone.
                         </p>
                       </div>
-                    </div>
-                  ))}
+                      <div>
+                        <label
+                          htmlFor="gs-notes"
+                          className="block text-sm font-medium text-text-body mb-1.5 font-body"
+                        >
+                          Anything else?{" "}
+                          <span className="text-text-muted font-normal">
+                            (optional)
+                          </span>
+                        </label>
+                        <textarea
+                          id="gs-notes"
+                          maxLength={4000}
+                          value={formData.notes}
+                          onChange={(e) =>
+                            setFormData({ ...formData, notes: e.target.value })
+                          }
+                          rows={3}
+                          className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px] resize-none"
+                          placeholder="Anything practical you'd like us to know. Please leave out sensitive medical information."
+                        />
+                      </div>
+                    </form>
+                  </div>
                 </div>
-
-                {formData.timing && (
-                  <p className="text-sm text-text-text-sage font-medium mb-8">
-                    {timingLines[formData.timing]}
-                  </p>
-                )}
-
-                <div className="border-t border-border-subtle pt-8">
-                  <h3 className="text-h3 font-heading mb-2">
-                    Want us to make it real?
-                  </h3>
-                  <p className="text-text-muted text-sm mb-6">
-                    Leave your details and a real person will walk you through
-                    your plan &mdash; the same day, usually within a few hours.
-                  </p>
-                  <form
-                    className="space-y-4"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      void handleSubmit();
-                    }}
-                  >
-                    <div>
-                      <label htmlFor="gs-name" className="block text-sm font-medium text-text-body mb-1.5 font-body">
-                        Your name
-                      </label>
-                      <input
-                        id="gs-name"
-                        type="text"
-                        autoComplete="given-name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
-                        placeholder="First name"
-                      />
-                      {errors.name && (
-                        <p className="text-sm text-red-500 mt-1">{errors.name}</p>
-                      )}
-                    </div>
-                    <div>
-                      <label htmlFor="gs-email" className="block text-sm font-medium text-text-body mb-1.5 font-body">
-                        Email
-                      </label>
-                      <input
-                        id="gs-email"
-                        type="email"
-                        autoComplete="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
-                        placeholder="your@email.com"
-                      />
-                      {errors.email && (
-                        <p className="text-sm text-red-500 mt-1">{errors.email}</p>
-                      )}
-                    </div>
-                    <div>
-                      <label htmlFor="gs-phone" className="block text-sm font-medium text-text-body mb-1.5 font-body">
-                        Best number for a quick call{" "}
-                        <span className="text-text-muted font-normal">(optional)</span>
-                      </label>
-                      <input
-                        id="gs-phone"
-                        type="tel"
-                        autoComplete="tel"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
-                        placeholder="04xx xxx xxx"
-                      />
-                      <p className="text-xs text-text-muted mt-1.5">
-                        Often easier than typing when your hands are full &mdash; if
-                        you leave a number, we&apos;ll call.
-                      </p>
-                    </div>
-                    <div>
-                      <label htmlFor="gs-notes" className="block text-sm font-medium text-text-body mb-1.5 font-body">
-                        Anything else?{" "}
-                        <span className="text-text-muted font-normal">(optional)</span>
-                      </label>
-                      <textarea
-                        id="gs-notes"
-                        value={formData.notes}
-                        onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                        rows={3}
-                        className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-background text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px] resize-none"
-                        placeholder="Whatever helps us understand your situation."
-                      />
-                    </div>
-                    <button type="submit" className="sr-only">
-                      Send
-                    </button>
-                  </form>
-                </div>
-              </div>
-            )}
+              )}
             </div>
 
+            <FormError message={error} />
             {/* Navigation */}
             <div className="flex items-center justify-between mt-8 pt-6 border-t border-border-subtle">
               {step > 0 ? (
                 <button
+                  disabled={sending}
                   onClick={() => goTo(step - 1)}
                   className="text-sm text-text-muted hover:text-text-body transition-colors cursor-pointer"
                 >
@@ -531,11 +601,12 @@ function GetStartedFlow() {
               )}
               {step === 4 && (
                 <button
-                  onClick={handleSubmit}
+                  type="submit"
+                  form="village-enquiry"
                   disabled={sending}
                   className="px-6 py-2.5 rounded-full bg-sage-deep text-white text-sm font-medium hover:bg-sage-dark transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-default"
                 >
-                  {sending ? "Sending…" : "Send me my plan →"}
+                  {sending ? "Sending…" : "Share my interests →"}
                 </button>
               )}
             </div>
@@ -543,21 +614,24 @@ function GetStartedFlow() {
         </ScrollReveal>
 
         <p className="text-xs text-text-muted text-center mt-6">
-          Your answers stay between you and our team. No newsletters, no
-          sharing &mdash; see our{" "}
-          <Link href="/privacy" className="underline underline-offset-2 hover:text-text-body">
+          Your answers stay on this page until you choose to submit. Refreshing
+          clears them. See our{" "}
+          <Link
+            href="/privacy"
+            className="underline underline-offset-2 hover:text-text-body"
+          >
             privacy page
           </Link>
           .
         </p>
 
         <p className="text-sm text-text-muted text-center mt-6">
-          Rather skip the questions?{" "}
+          Prefer to browse?{" "}
           <Link
-            href="/contact"
+            href="/services"
             className="text-text-sage font-medium hover:text-sage-dark transition-colors underline underline-offset-4 decoration-sage/30"
           >
-            Send us a message instead
+            Explore all support
           </Link>
         </p>
       </Container>

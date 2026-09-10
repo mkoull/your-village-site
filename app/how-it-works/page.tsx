@@ -1,110 +1,36 @@
 import type { Metadata } from "next";
-import Container from "@/components/ui/Container";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import Button from "@/components/ui/Button";
-
+import InfoPage from "@/components/layout/InfoPage";
 export const metadata: Metadata = {
-  title: "How It Works",
+  title: "How Village works",
   description:
-    "See how Your Village brings together postpartum support — from your first conversation to ongoing care.",
+    "Start with one thing that would make life easier. Your village can grow from there.",
 };
-
-const steps = [
-  {
-    number: "01",
-    title: "Tell us what\u2019s hard",
-    description:
-      "Four questions, or just send a message. A real person reads it and replies the same day, usually within a few hours.",
-    cta: { label: "Start here", href: "/get-started" },
-  },
-  {
-    number: "02",
-    title: "We come back with a specific plan",
-    description:
-      "A 20-minute call or messages — then a plan with real details: this many meals, these nights covered, this consultant, this cost. You approve every line before anything is booked.",
-  },
-  {
-    number: "03",
-    title: "We book it and keep it running",
-    description:
-      "We brief every provider so you never re-explain yourself, send you one schedule, and check in weekly. Anything can change, pause or stop, any time.",
-  },
-];
-
-export default function HowItWorksPage() {
+const content = {
+  eyebrow: "How Village works",
+  headline: "Find your kind of support.",
+  intro:
+    "Start with one thing that would make life easier. Your village can grow from there.",
+  sections: [
+    [
+      "01 · Explore what could help",
+      "Browse the service categories. Each explains the kind of support, who it may suit and questions to consider. You can also use Build my village if you would like a starting point.",
+    ],
+    [
+      "02 · Choose what fits your life",
+      "Answer four questions and see a shortlist based on the services you choose. Your answers stay on the page until you decide to send an enquiry. The shortlist is a starting point, not clinical advice or a confirmed booking.",
+    ],
+    [
+      "03 · Share your interests, if you like",
+      "Leave your details if you'd like us to follow up as Village develops. Existing support is welcome: you might need just one extra thing.",
+    ],
+    [
+      "What's coming next",
+      "We're working towards local provider listings with clear service details, credentials, prices and availability. Enquiries on this site help shape that network; you cannot book or pay for a service here yet.",
+    ],
+  ],
+};
+export default function Page() {
   return (
-    <div className="pt-24 md:pt-32">
-      {/* Hero */}
-      <section className="pb-10 md:pb-16">
-        <Container narrow className="text-center">
-          <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-4 font-body">
-            The process
-          </p>
-          <h1 className="text-h1 font-heading mb-6">
-            Three steps. Zero stress.
-          </h1>
-          <p className="text-text-muted max-w-xl mx-auto leading-relaxed">
-            We handle the complexity so you don&apos;t have to.
-          </p>
-        </Container>
-      </section>
-
-      {/* Steps */}
-      <section className="pb-16 md:pb-20">
-        <Container>
-          <div className="max-w-3xl mx-auto space-y-8">
-            {steps.map((step, i) => (
-              <ScrollReveal key={step.number} stagger={i + 1}>
-                <div className="flex gap-6 md:gap-10 p-8 md:p-10 rounded-[var(--radius-lg)] bg-elevated border border-border-subtle shadow-sm">
-                  <span className="text-4xl md:text-5xl font-heading font-light text-sage/30 shrink-0">
-                    {step.number}
-                  </span>
-                  <div>
-                    <h2 className="text-h3 font-heading mb-3">{step.title}</h2>
-                    <p className="text-text-muted leading-relaxed">
-                      {step.description}
-                    </p>
-                    {step.cta && (
-                      <div className="mt-4">
-                        <Button href={step.cta.href} size="sm" variant="secondary">
-                          {step.cta.label}
-                          <span aria-hidden="true">&rarr;</span>
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* Your team section */}
-      <section className="bg-surface py-16 md:py-20">
-        <Container narrow>
-          <ScrollReveal>
-            <div className="text-center">
-              <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-4 font-body">
-                Your team
-              </p>
-              <h2 className="text-h2 font-heading mb-6">
-                People who know your story.
-              </h2>
-              <p className="text-text-body leading-relaxed mb-10 max-w-2xl mx-auto">
-                Not a call centre. A team who takes the time to understand your
-                family and what kind of help would actually make a difference.
-                They stay with you as long as you need — and adjust as things
-                change.
-              </p>
-              <Button href="/get-started" size="lg">
-                Start a conversation
-                <span aria-hidden="true">&rarr;</span>
-              </Button>
-            </div>
-          </ScrollReveal>
-        </Container>
-      </section>
-    </div>
+    <InfoPage {...content} sections={content.sections as [string, string][]} />
   );
 }

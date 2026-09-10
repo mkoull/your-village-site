@@ -14,20 +14,22 @@ export default function StickyMobileCta() {
 
   return (
     <div
+      inert={!visible}
+      aria-hidden={!visible}
       className={cn(
         "md:hidden fixed bottom-0 inset-x-0 z-40 px-5 pt-4 transition-all duration-500 ease-out",
         "pb-[calc(1rem+env(safe-area-inset-bottom))]",
         "bg-gradient-to-t from-background via-background/90 to-transparent",
         visible
           ? "translate-y-0 opacity-100"
-          : "translate-y-full opacity-0 pointer-events-none"
+          : "translate-y-full opacity-0 pointer-events-none",
       )}
     >
       <Link
         href="/get-started"
         className="btn-glow flex items-center justify-center gap-2 w-full px-7 py-4 rounded-full bg-sage-deep text-white font-medium text-[15px] shadow-lg active:scale-[0.98] transition-transform"
       >
-        Talk to us
+        Build my village
         <span aria-hidden="true">&rarr;</span>
       </Link>
     </div>

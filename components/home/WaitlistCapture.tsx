@@ -4,17 +4,18 @@ import { useState } from "react";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { submitLead } from "@/lib/leads";
+import { useLeadForm } from "@/lib/use-lead-form";
+import FormError from "@/components/ui/FormError";
+import Link from "next/link";
 
 export default function WaitlistCapture() {
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const { send, sending, submitted, error } = useLeadForm();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    void submitLead("waitlist", { email });
-    setSubmitted(true);
+    void send("waitlist", { email });
   };
 
   return (
@@ -28,18 +29,18 @@ export default function WaitlistCapture() {
               <span className="text-sage">a village.</span>
             </h2>
             <p className="text-text-inverse/75 mb-12 max-w-md mx-auto leading-[1.8] text-[15px]">
-              One conversation is all it takes to start. Tell us what&apos;s
-              hard &mdash; we&apos;ll take it from there.
+              Find the support that fits your life. Start with one thing, and
+              build from there.
             </p>
 
             {/* The conversation is the conversion — email capture is the fallback */}
             <div className="mb-14">
               <Button href="/get-started" size="lg">
-                Start a conversation
+                Build my village
                 <span aria-hidden="true">&rarr;</span>
               </Button>
               <p className="text-text-inverse/60 text-xs mt-4 tracking-wide">
-                Free first chat. A real person replies.
+                Explore your starting point. No contact details needed.
               </p>
             </div>
 
@@ -49,6 +50,7 @@ export default function WaitlistCapture() {
                   Not ready yet? Stay in the loop instead.
                 </p>
                 <form
+                  aria-busy={sending}
                   onSubmit={handleSubmit}
                   className="flex flex-col sm:flex-row items-center gap-3"
                 >
@@ -57,6 +59,8 @@ export default function WaitlistCapture() {
                   </label>
                   <input
                     id="capture-email"
+                    autoComplete="email"
+                    maxLength={254}
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -66,14 +70,22 @@ export default function WaitlistCapture() {
                   />
                   <button
                     type="submit"
+                    disabled={sending}
                     className="px-7 py-3.5 rounded-full border border-white/[0.16] text-text-inverse/80 font-medium text-sm hover:border-sage hover:text-sage transition-all duration-300 cursor-pointer whitespace-nowrap"
                   >
-                    Keep me posted
+                    {sending ? "Sending…" : "Keep me posted"}
                   </button>
                 </form>
+                <FormError message={error} />
+                <p className="mt-4 text-xs text-text-inverse/70">
+                  Your details are sent only when you submit.{" "}
+                  <Link href="/privacy" className="underline">
+                    Privacy
+                  </Link>
+                </p>
               </div>
             ) : (
-              <p className="text-text-sage font-medium">
+              <p className="text-sage-light font-medium">
                 You&apos;re on the list. We&apos;ll be in touch.
               </p>
             )}

@@ -8,7 +8,11 @@ export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
 }
 
-export function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   // For static generation, we resolve synchronously from the services array
   return params.then(({ slug }) => {
     const service = services.find((s) => s.slug === slug);
@@ -20,7 +24,11 @@ export function generateMetadata({ params }: { params: Promise<{ slug: string }>
   });
 }
 
-export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ServiceDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const service = services.find((s) => s.slug === slug);
 
@@ -35,7 +43,10 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <nav className="mb-8">
           <ol className="flex items-center gap-2 text-sm text-text-muted">
             <li>
-              <Link href="/services" className="hover:text-sage transition-colors">
+              <Link
+                href="/services"
+                className="hover:text-sage transition-colors"
+              >
                 Services
               </Link>
             </li>
@@ -66,7 +77,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             </div>
 
             {/* Features */}
-            <h2 className="text-h3 font-heading mb-6">What&apos;s included</h2>
+            <h2 className="text-h3 font-heading mb-6">Options to explore</h2>
             <ul className="space-y-4 mb-12">
               {service.features.map((feature) => (
                 <li key={feature} className="flex items-start gap-3">
@@ -88,13 +99,15 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             {/* Who it's for */}
             <div className="p-8 rounded-[var(--radius-lg)] bg-surface border border-border-subtle mb-12">
               <h3 className="text-h3 font-heading mb-3">Who it&apos;s for</h3>
-              <p className="text-text-body leading-relaxed">{service.whoItsFor}</p>
+              <p className="text-text-body leading-relaxed">
+                {service.whoItsFor}
+              </p>
             </div>
 
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button href="/get-started" size="lg">
-                Talk to us about {service.title.toLowerCase()}
+              <Button href={`/get-started?need=${service.slug}`} size="lg">
+                Build my village with this
                 <span aria-hidden="true">&rarr;</span>
               </Button>
               <Button href="/services" variant="secondary" size="lg">
@@ -110,10 +123,14 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               <div className="p-6 rounded-[var(--radius-lg)] bg-sage/5 border border-sage/15">
                 <h3 className="text-h3 font-heading mb-2">Ready to start?</h3>
                 <p className="text-sm text-text-muted mb-4">
-                  No pricing up front. Start with a conversation.
+                  Village is in development. Explore this category or register
+                  your interest; bookings are not open yet.
                 </p>
-                <Button href="/get-started" className="w-full justify-center">
-                  Talk to us <span aria-hidden="true">&rarr;</span>
+                <Button
+                  href={`/get-started?need=${service.slug}`}
+                  className="w-full justify-center"
+                >
+                  Build my village <span aria-hidden="true">&rarr;</span>
                 </Button>
               </div>
 

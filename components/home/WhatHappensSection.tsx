@@ -1,78 +1,58 @@
 import Container from "@/components/ui/Container";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import ImageSlot from "@/components/ui/ImageSlot";
-
-// Concrete nouns only. This section exists to answer "and then what
-// happens?" — the question the rest of the site sets up.
-const beats = [
+import Button from "@/components/ui/Button";
+const steps = [
   {
-    when: "Today",
-    what: "You answer four questions, or just send a message. A real person reads it and replies the same day, usually within a few hours.",
+    title: "Find what would help",
+    body: "Explore the kinds of support available, or use a few simple questions to find a starting point.",
   },
   {
-    when: "Tomorrow",
-    what: "A 20-minute call, or messages if you'd rather not talk. We come back with a specific plan: this many meals, these nights covered, this lactation consultant, this cleaner, this cost.",
+    title: "Build your own village",
+    body: "Choose one kind of help or several. Your needs, your preferences, your stage of life.",
   },
   {
-    when: "This week",
-    what: "You say yes to what you want. We book it, brief every provider so you never re-explain yourself, and send you one schedule. Food starts arriving.",
-  },
-  {
-    when: "Ongoing",
-    what: "We check in weekly. Anything can change, pause or stop, any time.",
+    title: "Help shape what comes next",
+    body: "Village is being built. Tell us what you need so we can develop the right local network.",
   },
 ];
-
 export default function WhatHappensSection() {
   return (
-    <section className="py-20 md:py-24 lg:py-28">
+    <section className="py-16 md:py-24">
       <Container>
-        <ScrollReveal>
-          <div className="text-center mb-12 md:mb-16">
-            <p className="text-eyebrow uppercase tracking-[0.25em] font-semibold text-text-sage mb-4 font-body">
-              What actually happens
+        <div className="md:flex justify-between items-end gap-10 mb-10">
+          <div>
+            <p className="text-eyebrow uppercase tracking-[0.2em] text-text-sage font-semibold mb-4">
+              Your village, your way
             </p>
-            <h2 className="text-h2 font-heading max-w-xl mx-auto">
-              From first message to food on the doorstep.
+            <h2 className="text-h2 font-heading max-w-xl">
+              A little help.
+              <br />A whole lot of possibility.
             </h2>
           </div>
-        </ScrollReveal>
-
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
-          <div className="lg:col-span-3">
-            <ol className="relative">
-              {beats.map((beat, i) => (
-                <li key={beat.when} className="relative pl-12 pb-10 last:pb-0">
-                  <ScrollReveal stagger={i + 1}>
-                    {/* timeline spine */}
-                    {i < beats.length - 1 && (
-                      <span
-                        aria-hidden="true"
-                        className="absolute left-[13px] top-8 bottom-0 w-px bg-sage/25"
-                      />
-                    )}
-                    <span
-                      aria-hidden="true"
-                      className="absolute left-0 top-0.5 w-7 h-7 rounded-full bg-sage-deep text-white text-xs font-semibold font-body flex items-center justify-center shadow-sm"
-                    >
-                      {i + 1}
-                    </span>
-                    <h3 className="font-heading text-[1.25rem] text-text-primary mb-1.5">
-                      {beat.when}
-                    </h3>
-                    <p className="text-text-body leading-[1.75] text-[15px] max-w-lg">
-                      {beat.what}
-                    </p>
-                  </ScrollReveal>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div className="lg:col-span-2 hidden lg:block">
-            <ScrollReveal stagger={2}>
-              <ImageSlot label="A meal handed over at the front door" ratio="3/4" />
-            </ScrollReveal>
-          </div>
+          <p className="text-text-muted max-w-sm mt-5">
+            Start with what would make life easier. You can explore without
+            leaving your contact details.
+          </p>
+        </div>
+        <ol className="grid md:grid-cols-3 gap-5">
+          {steps.map((s, i) => (
+            <li
+              key={s.title}
+              className="rounded-[var(--radius-lg)] border border-border bg-elevated p-7"
+            >
+              <span className="text-sm text-text-sage font-semibold">
+                0{i + 1}
+              </span>
+              <h3 className="font-heading text-2xl mt-6 mb-3">{s.title}</h3>
+              <p className="text-sm text-text-muted leading-relaxed">
+                {s.body}
+              </p>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-8">
+          <Button href="/get-started" variant="secondary">
+            Find my starting point →
+          </Button>
         </div>
       </Container>
     </section>

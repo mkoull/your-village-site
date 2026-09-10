@@ -1,58 +1,44 @@
-/**
- * Shared lead submission for every capture point on the site
- * (assessment, contact form, waitlist).
- *
- * Set NEXT_PUBLIC_LEAD_WEBHOOK_URL in your deployment environment
- * (Vercel → Project → Settings → Environment Variables) to a
- * Zapier / Make / Formspree catch-hook URL. The payload is JSON.
- *
- * Note: NEXT_PUBLIC_ variables are inlined at build time — after
- * changing the value, redeploy for it to take effect.
- */
-
-export type LeadType = "assessment" | "quiz_step" | "contact" | "waitlist";
-
-export interface LeadResult {
-  delivered: boolean;
-}
+/** Shared browser transport. Delivery is confirmed by our same-origin endpoint. */
+export type LeadType = "assessment" | "contact" | "waitlist";
+export type LeadResult =
+  { delivered: true } | { delivered: false; error: string };
 
 export async function submitLead(
   type: LeadType,
-  data: Record<string, unknown>
+  data: Record<string, unknown>,
 ): Promise<LeadResult> {
-  const url = process.env.NEXT_PUBLIC_LEAD_WEBHOOK_URL;
-
-  const payload = {
-    type,
-    submittedAt: new Date().toISOString(),
-    page: typeof window !== "undefined" ? window.location.pathname : undefined,
-    ...data,
-  };
-
-  if (!url) {
-    // Graceful degradation: don't block the user, but make the gap
-    // loud in the console so it's caught in testing.
-    console.warn(
-      "[leads] NEXT_PUBLIC_LEAD_WEBHOOK_URL is not set — lead was NOT delivered:",
-      payload
-    );
-    return { delivered: false };
-  }
-
   try {
-    // text/plain + no-cors avoids a CORS preflight, which most
-    // catch-hook services (Zapier, Make) don't answer. They parse
-    // the JSON body regardless of content type.
-    await fetch(url, {
+    const response = await fetch("/api/leads", {
       method: "POST",
-      mode: "no-cors",
-      keepalive: true,
-      headers: { "Content-Type": "text/plain;charset=UTF-8" },
-      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...data,
+        type,
+        page: typeof window !== "undefined" ? window.location.pathname : "/",
+      }),
+      signal: AbortSignal.timeout(12000),
     });
-    return { delivered: true };
-  } catch (err) {
-    console.error("[leads] delivery failed:", err);
-    return { delivered: false };
+    if (!response.ok) {
+      return {
+        delivered: false,
+        error:
+          response.status === 503
+            ? "Our enquiry form is temporarily unavailable. Your details have not been sent. Please try again later."
+            : "We couldn't confirm your enquiry. Your details are still here; please try again.",
+      };
+    }
+    const result = await response.json();
+    return result.delivered === true
+      ? { delivered: true }
+      : {
+          delivered: false,
+          error: "We couldn't confirm your enquiry. Please try again.",
+        };
+  } catch {
+    return {
+      delivered: false,
+      error:
+        "We couldn't confirm your enquiry. Check your connection and try again. Your details are still here.",
+    };
   }
 }

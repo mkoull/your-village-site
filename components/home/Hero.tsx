@@ -1,87 +1,103 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
-import AuroraCanvas from "@/components/home/AuroraCanvas";
-import { trackEvent } from "@/lib/analytics";
-import { getAnonId } from "@/lib/anon";
-import { submitLead } from "@/lib/leads";
+import Button from "@/components/ui/Button";
+import AuroraCanvas from "./AuroraCanvas";
+import { services } from "@/content/services";
 
-// Question 1 of the assessment, embedded where everyone lands.
-// Selecting an answer starts the quiz with it pre-filled.
-const stageOptions = [
-  { label: "We're expecting", value: "expecting" },
-  { label: "Newborn (0–3 months)", value: "newborn" },
-  { label: "Baby (3–12 months)", value: "baby" },
-  { label: "Somewhere else entirely", value: "other" },
-];
+const preview = ["food", "postpartum-carers", "counselling", "cleaning"].map(
+  (slug) => services.find((s) => s.slug === slug)!,
+);
 
 export default function Hero() {
-  const router = useRouter();
-
-  const startQuiz = (value: string) => {
-    trackEvent("quiz_started", { stage: value, from: "hero" });
-    void submitLead("quiz_step", {
-      anonId: getAnonId(),
-      step: 0,
-      field: "stage",
-      value,
-      from: "hero",
-    });
-    router.push(`/get-started?stage=${value}`);
-  };
-
   return (
-    <section className="grain relative min-h-[100dvh] flex items-center justify-center pt-24 pb-24 overflow-hidden">
-      {/* Animated aurora canvas background */}
+    <section className="grain relative overflow-hidden pt-28 pb-14 md:pt-40 md:pb-24">
       <AuroraCanvas />
-
-      <Container className="relative z-10 text-center max-w-4xl">
-        <p className="hero-reveal hero-reveal-1 text-eyebrow uppercase tracking-[0.25em] font-semibold text-text-sage mb-7 font-body">
-          Postpartum support &middot; Inner Melbourne
-        </p>
-
-        <h1 className="hero-reveal hero-reveal-2 text-display font-heading font-normal leading-[1.05] mb-8 tracking-[-0.03em]">
-          It takes a village.
-          <br />
-          <em className="hero-gradient-text font-light not-italic">We build yours.</em>
-        </h1>
-
-        <p className="hero-reveal hero-reveal-3 text-body-lg text-text-body max-w-xl mx-auto mb-12 leading-[1.75]">
-          One conversation, and we organise the meals, the overnight carer,
-          the sleep consultant, the cleaner &mdash; booked, scheduled and
-          checked on. Vetted providers across inner Melbourne. The first
-          conversation is free.
-        </p>
-
-        {/* Quiz question 1, right here */}
-        <div className="hero-reveal hero-reveal-4 max-w-lg mx-auto">
-          <p className="font-heading text-[1.3rem] md:text-[1.45rem] text-text-primary mb-5">
-            Where are you at?
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {stageOptions.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => startQuiz(option.value)}
-                className="p-4 rounded-[var(--radius-md)] border border-border bg-elevated/80 backdrop-blur-sm text-left font-medium text-[15px] text-text-body cursor-pointer transition-all duration-200 hover:border-sage hover:text-sage hover:shadow-md hover:-translate-y-0.5"
-              >
-                {option.label}
-              </button>
-            ))}
+      <Container className="relative z-10">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          <div>
+            <p className="hero-reveal hero-reveal-1 text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-5">
+              For mothers. For families. For you.
+            </p>
+            <h1 className="hero-reveal hero-reveal-2 font-heading text-[clamp(2.8rem,6vw,5.5rem)] leading-[1.04] tracking-[-0.035em] mb-6">
+              Life takes
+              <br />a village.
+              <br />
+              <span className="text-text-sage">Find your people.</span>
+            </h1>
+            <p className="hero-reveal hero-reveal-3 text-base md:text-body-lg text-text-body max-w-lg mb-7 leading-relaxed">
+              Food on the table. An extra pair of hands. Someone to talk to.
+              Bring together the support you need, for the life you&apos;re
+              living now.
+            </p>
+            <div className="hero-reveal hero-reveal-4 flex flex-wrap gap-3">
+              <Button href="/services">
+                Explore support <span aria-hidden="true">→</span>
+              </Button>
+              <Button href="/get-started" variant="secondary">
+                Build my village
+              </Button>
+            </div>
+            <p className="mt-5 text-sm text-text-muted">
+              Already have support? There&apos;s room for a little more.
+            </p>
           </div>
-          <p className="mt-5 text-sm text-text-muted">
-            Three more questions, then we sketch your starting village.
-            Free, no commitment.
-          </p>
+          <div className="hero-reveal hero-reveal-3 rounded-[var(--radius-xl)] border border-white/80 bg-background/90 p-6 md:p-8 shadow-premium">
+            <div className="flex items-center gap-3 border-b border-border pb-5 mb-5">
+              <span
+                aria-hidden="true"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-sage-deep text-white text-xl"
+              >
+                ◎
+              </span>
+              <div>
+                <p className="font-heading text-2xl text-text-primary">
+                  You, at the centre.
+                </p>
+                <p className="text-xs text-text-muted">
+                  A village shaped around your needs.
+                </p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              {preview.map((service) => (
+                <Link
+                  key={service.slug}
+                  href={`/services/${service.slug}`}
+                  className="group flex items-center gap-4 rounded-[var(--radius-md)] bg-elevated p-4 border border-border-subtle hover:border-sage transition-colors"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="h-9 w-9 shrink-0 p-2 rounded-full bg-sage/10 text-text-sage"
+                    dangerouslySetInnerHTML={{ __html: service.icon }}
+                  />
+                  <span className="flex-1">
+                    <span className="block text-sm font-semibold text-text-primary">
+                      {service.title}
+                    </span>
+                    <span className="block text-xs text-text-muted mt-0.5">
+                      {service.tagline}
+                    </span>
+                  </span>
+                  <span aria-hidden="true" className="text-text-sage">
+                    ↗
+                  </span>
+                </Link>
+              ))}
+            </div>
+            <Link
+              href="/services"
+              className="inline-block text-sm text-text-sage underline underline-offset-4 mt-5"
+            >
+              Explore all kinds of support →
+            </Link>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-x-8 gap-y-2 border-t border-text-body/10 mt-12 pt-5 text-xs md:text-sm text-text-muted">
+          <span>Every stage of family life</span>
+          <span>Practical help and personal wellbeing</span>
+          <span>Taking shape in inner Melbourne</span>
         </div>
       </Container>
-
-      {/* Scroll indicator */}
-      <div className="hero-reveal hero-reveal-5 absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-3 hidden md:flex">
-        <span className="text-[0.6rem] uppercase tracking-[0.25em] text-text-muted/70 font-body">Scroll</span>
-        <div className="w-px h-10 bg-text-muted/25 hero-scroll-line" />
-      </div>
     </section>
   );
 }
