@@ -29,7 +29,7 @@ Next.js 15, React 19, Tailwind CSS 4 and TypeScript. All content pages are prere
 - `components/village/`: shared draft context, add/remove buttons, navigation count, live map, builder, exports and optional enquiry.
 - The homepage and builder use the same `VillageScene`. Clicking either map adds/removes the real saved choice. On phones, the builder map stays visible while choosing support.
 - `/my-village` is the saved-support destination. All My village links open the saved list independently of the current builder step; an empty village explains how to begin. `/get-started` handles choosing support and optional context, and its final step opens `/my-village`.
-- `components/ui/VillageBrand.tsx` combines the sheltered-light mark with the wordmark for header/footer; `app/brand.css` styles the lockup. Keep `public/favicon.svg` consistent with `VillageMark`.
+- `components/ui/VillageBrand.tsx` combines the circle mark with the wordmark for header/footer; `app/brand.css` styles the lockup. Preserve eight small circles around a larger centre and keep `public/favicon.svg` consistent with `VillageMark`.
 - `lib/village.ts`: versioned draft parser and immutable selection updates. Only allowlisted choices are restored from session storage.
 - `lib/assessment.ts`: stage options and shortlist selection. Keeps all selected services in their chosen order.
 - `lib/use-lead-form.ts`: shared sending, success and error state with duplicate-submit protection.
