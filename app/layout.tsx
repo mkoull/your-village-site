@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 import SiteAnalytics from "@/components/layout/SiteAnalytics";
 import { VillageProvider } from "@/components/village/VillageProvider";
-import VillageDock from "@/components/village/VillageDock";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import SiteFrame from "@/components/layout/SiteFrame";
 import { SITE_URL, SERVICE_AREAS } from "@/lib/site";
 import "./globals.css";
 
@@ -103,12 +101,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <VillageProvider>
-          <Navbar />
-          <main id="main-content" tabIndex={-1}>
-            {children}
-          </main>
-          <Footer />
-          <VillageDock />
+          <SiteFrame>{children}</SiteFrame>
         </VillageProvider>
         <SiteAnalytics />
       </body>

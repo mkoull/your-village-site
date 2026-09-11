@@ -2,11 +2,11 @@
 
 Village helps families find and connect with the good services, specialists and community support already out there. Start with one need, from a nourishing meal to an extra pair of hands, and build a village around it.
 
-The current website is a service-discovery and enquiry foundation. It does not yet contain provider accounts, live availability, bookings or payments.
+The website provides service discovery and a personal support plan. A working web app at `/app` adds accounts, saved providers, in-app requests and replies, offers, completion confirmation, provider listing review and an unbilled referral ledger. The local preview uses fictional providers. It does not send email or process payments. See [the app runbook](docs/VILLAGE-APP.md) for its scope and deployment requirements.
 
 ## Development
 
-Use Node 22.18+ (tested with Node 24).
+Use Node 24 (tested with 24.13). The app uses Node's built-in SQLite API.
 
 ```sh
 npm ci
@@ -14,9 +14,10 @@ npm run dev
 npm run typecheck
 npm test
 npm run build
+npm run app:preview
 ```
 
-Next.js 15, React 19, Tailwind CSS 4 and TypeScript. All content pages are prerendered. The server endpoint `/api/leads` checks configuration with GET and handles enquiries with POST. The existing sage palette and Newsreader / Plus Jakarta Sans fonts are retained.
+Next.js 15, React 19, Tailwind CSS 4 and TypeScript. Marketing content pages are prerendered. `/api/leads` checks configuration with GET and handles website enquiries with POST. `/api/village/*` handles authenticated app operations, and `/app/*` provides the app interface. The existing sage palette and Newsreader / Plus Jakarta Sans fonts are retained.
 
 ## Project structure
 
@@ -61,11 +62,11 @@ The endpoint validates and limits the request body, accepts only assessment/cont
 
 The webhook must accept JSON and return a successful HTTP status. An HTTP acknowledgement is not proof that a later automation or email completed: verify the received record and downstream actions before accepting real enquiries. Ambiguous network failures can cause a duplicate if retried; durable deduplication belongs in the receiving workflow.
 
-No form-provider account or credentials were created by this change. Configure rate limiting / abuse protection at the deployment or receiving workflow before promoting public intake. There is no durable rate limiter or database in this repository.
+No external form-provider account or credentials were created. Configure rate limiting / abuse protection at the deployment or receiving workflow before promoting website intake. The separate app has its own SQLite database and persistent limits; these do not cover `/api/leads`.
 
 ## Privacy
 
-Selected service slugs and allowlisted progress are saved in sessionStorage for this browser tab. Optional family stage/timing and step from legacy drafts remain compatible. Choices and progress survive navigation and refresh, but not closing the tab. Drafts are versioned, bounded and allowlisted when restored. Removing a category removes its progress; removal and Clear village offer an in-page Undo. A blocked-storage fallback keeps the draft in React memory and explains the refresh limitation. Contact fields and notes are never persisted.
+On the website, selected service slugs and allowlisted progress are saved in sessionStorage for this browser tab. Optional family stage/timing and step from legacy drafts remain compatible. Choices and progress survive navigation and refresh, but not closing the tab. Drafts are versioned, bounded and allowlisted when restored. Removing a category removes its progress; removal and Clear village offer an in-page Undo. A blocked-storage fallback keeps the draft in React memory and explains the refresh limitation. Contact fields and notes are never persisted in browser drafts. App accounts and consented messages are stored on the server; app/API paths are excluded from analytics. See `/app/privacy` and the app runbook.
 
 Only an explicit enquiry submits selections and contact details. Page analytics receive no draft fields. No anonymous localStorage identifier is created. Copy, download and print exports happen locally; the visitor controls their resulting copies.
 

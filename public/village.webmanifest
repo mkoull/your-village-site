@@ -1,0 +1,1 @@
+{"name":"Your Village","short_name":"Village","description":"Bring your everyday support together.","start_url":"/app","scope":"/app","display":"standalone","background_color":"#faf8f5","theme_color":"#294c3e","icons":[{"src":"/app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]}

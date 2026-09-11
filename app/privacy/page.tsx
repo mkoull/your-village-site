@@ -32,8 +32,8 @@ const content = {
       "Contact us if you would like to ask about, correct or remove information you have submitted. You can explore, copy or print your village without sending an enquiry. Copies or PDFs you create are yours to store or delete.",
     ],
     [
-      "As Village develops",
-      "Before provider accounts and bookings are introduced, this page will need further details about the providers processing information, storage locations, retention and your available controls.",
+      "The Village app",
+      "The separate Village app stores accounts, saved providers and consented requests on its server. Its account privacy notice explains access by your chosen provider and the Village owner, session cookies, the local preview, and features still needed before a public launch. App pages and request identifiers are excluded from analytics.",
     ],
   ],
 };
@@ -48,6 +48,7 @@ export default function Page() {
         null,
         null,
         { label: "Contact Village", href: "/contact" },
+        { label: "App account privacy", href: "/app/privacy" },
       ]}
     />
   );

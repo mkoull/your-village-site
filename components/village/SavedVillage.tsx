@@ -9,6 +9,7 @@ import VillageScene from "./VillageScene";
 import ServiceSources from "./ServiceSources";
 import VillageExports from "./VillageExports";
 import VillageEnquiry from "./VillageEnquiry";
+import AppEntry from "./AppEntry";
 import {
   supportProgressOptions,
   type SupportProgress,
@@ -88,6 +89,7 @@ export default function SavedVillage() {
             Then keep track of where you’re up to, at your own pace.
           </p>
         </header>
+        <AppEntry />
         {!ready ? (
           <p role="status" className="py-12">
             Opening your village…

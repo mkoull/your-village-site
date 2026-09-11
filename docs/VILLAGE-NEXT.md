@@ -1,5 +1,7 @@
 # Village: next build
 
+The first working app described below has now been implemented locally. See [VILLAGE-APP.md](VILLAGE-APP.md) for accounts, directory, requests, provider/owner workspaces, verification and the remaining launch requirements. The local preview uses fictional examples; the real provider partnerships and production services described here are still to be established.
+
 ## The product
 
 One place to find and bring together the support that fits someone's life. A village can include people already around them and services that fill the gaps. The person, their family and their needs are at the centre.
