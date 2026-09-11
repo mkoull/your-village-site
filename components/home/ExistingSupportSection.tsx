@@ -1,6 +1,7 @@
 import Container from "@/components/ui/Container";
 import Link from "next/link";
 import { existingSupport } from "@/content/existing-support";
+import ArrowUpRight from "@/components/ui/ArrowUpRight";
 
 export default function ExistingSupportSection() {
   return (
@@ -39,18 +40,15 @@ export default function ExistingSupportSection() {
                 <h3 className="font-heading text-2xl group-hover:text-text-sage transition-colors">
                   {item.name}
                 </h3>
-                <span
-                  aria-hidden="true"
+                <ArrowUpRight
                   className="text-text-sage group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
-                >
-                  ↗
-                </span>
+                />
               </div>
               <p className="text-sm text-text-muted max-w-sm">
                 {item.description}
               </p>
               <span className="block text-xs text-text-sage mt-3">
-                Explore service ↗{" "}
+                Explore service <ArrowUpRight />{" "}
                 <span className="sr-only">(opens a new tab)</span>
               </span>
             </a>

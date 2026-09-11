@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
+import ArrowUpRight from "@/components/ui/ArrowUpRight";
 import { services } from "@/content/services";
 import { useVillage } from "./VillageProvider";
 import VillageScene from "./VillageScene";
@@ -147,7 +148,7 @@ export default function SavedVillage() {
                     href="/get-started"
                     className="text-sm text-text-sage underline underline-offset-4"
                   >
-                    Edit my choices <span aria-hidden="true">↗</span>
+                    Edit my choices <ArrowUpRight />
                   </Link>
                 </div>
                 <div className="village-builder-layout">
