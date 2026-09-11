@@ -21,6 +21,7 @@ import {
   SignInPrompt,
 } from "./AppUI";
 import { money, requestLabels, type SupportRequest } from "@/lib/app-types";
+import { useSupportBrowser } from "./SupportContext";
 export function Requests() {
   const { user } = useApp();
   const result = useAppData<{ requests: SupportRequest[] }>("requests", !!user);
@@ -170,6 +171,7 @@ const explanations: Record<SupportRequest["status"], string> = {
     "This request needs a review. Any referral fee is excluded while the issue is reviewed in the owner workspace.",
 };
 export function RequestDetail({ id }: { id: string }) {
+  const browser = useSupportBrowser();
   const { user, refresh } = useApp();
   const params = useSearchParams();
   const working = useRef(false);
@@ -573,12 +575,15 @@ export function RequestDetail({ id }: { id: string }) {
                 <dd>{request.id.slice(0, 8).toUpperCase()}</dd>
               </div>
             </dl>
-            <Link
+            <button
               className="va-text-link"
-              href={`/app/providers/${request.providerId}?from=${encodeURIComponent("/app/requests/" + id)}`}
+              aria-haspopup="dialog"
+              onClick={() =>
+                browser.openProvider(request.providerId, "/app/requests/" + id)
+              }
             >
               View provider profile <ArrowUpRight />
-            </Link>
+            </button>
           </section>
           {(family || provider) &&
             ["requested", "offered", "confirmed"].includes(request.status) && (

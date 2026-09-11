@@ -30,6 +30,16 @@ Browser checks used synthetic data only, at 320px, 390px and desktop widths:
 - After the production restart, session and saved data remain present. Request filters, search, remembered suburb, review/edit focus and navigation were checked again. Final production browser checks recorded no JavaScript errors.
 - Existing website audit: 19 pages, 45 internal links/assets, two missing-page cases and three metadata resources; no failures.
 
+## Follow-up: browsing without losing your place
+
+Service circles and provider cards now open a shared support panel. On phones it is a bottom sheet; on desktop it sits over the current screen. Home categories open their own descriptions and matching providers, with useful guidance for categories without listings. Cards in Home, Find support and My village use the same interaction, and conversations can preview a provider without leaving a typed reply.
+
+Provider details, saving and asking about availability are separate actions. The save confirmation and Undo are available inside the panel. Requesting is an explicit next step with review and consent. Draft fields survive closing the panel and browsing another provider, in account-scoped React memory only; refreshing, signing out or switching accounts clears them. No request text or contact details enter history or browser storage.
+
+The panel preserves the underlying URL, filters, scroll position and focus. Same-URL history entries support browser Back through the panel; Close removes the panel's history entries together. Navigation to a conversation waits until Next has restored the underlying route, preventing a confirmed send from stranding the family in the directory. Direct profile URLs remain supported.
+
+Validation: 49 automated tests pass, including the phone gateway boundary checks and home-return-path coverage. Type checking and production builds pass. Browser checks cover category-to-provider browsing, empty categories, Save/remove/Undo, draft close/reopen/review, remembered suburb, browser Back and filtered-result restoration, and a synthetic request reaching its acknowledged conversation. An unsent conversation reply remains intact after previewing its provider. Layouts were visually inspected at 320px, 390px and 1280px; keyboard focus stays inside the panel, and Escape restores the invoking control. The final phone-preview browser check recorded no JavaScript errors. The existing private phone invitation uses the updated build; no new public app deployment or access expansion was made.
+
 ## Scope and launch limits
 
 This remains the local app preview on `codex/village-support-platform`, separate from the live marketing website. It is not a public app deployment. The providers and prices are fictional, messages stay in the app, and payments remain outside Village. Production storage/hosting, account recovery and verification, real notifications, an operational support contact and real provider onboarding remain launch work described in `VILLAGE-APP.md`.

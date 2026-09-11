@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
 import { type ReactNode } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { services } from "@/content/services";
 import type { Listing, SupportRequest } from "@/lib/app-types";
 import { requestLabels, money } from "@/lib/app-types";
 import { useApp } from "./AppContext";
 import { nextStep, providerPath } from "@/lib/app-experience";
+import { useSupportBrowser } from "./SupportContext";
 export function AppIcon({ name, size = 22 }: { name: string; size?: number }) {
   const paths: Record<string, ReactNode> = {
     home: (
@@ -141,7 +142,10 @@ export function Empty({
 }) {
   const Title = asTitle ? "h1" : "h2";
   const { previewAccess } = useApp();
-  const destination = previewAccess && href.startsWith("/") && !href.startsWith("/app") ? "https://your-village-site.vercel.app" + href : href;
+  const destination =
+    previewAccess && href.startsWith("/") && !href.startsWith("/app")
+      ? "https://your-village-site.vercel.app" + href
+      : href;
   return (
     <div className="va-empty">
       <span className="va-empty-symbol">
@@ -170,7 +174,14 @@ export function SignInPrompt({ asTitle = false }: { asTitle?: boolean }) {
     </Empty>
   );
 }
-export function SaveProviderAction({ provider }: { provider: Listing }) {
+export function SaveProviderAction({
+  provider,
+  from,
+}: {
+  provider: Listing;
+  from?: string;
+}) {
+  const browser = useSupportBrowser();
   const {
     user,
     savedProviders,
@@ -180,14 +191,13 @@ export function SaveProviderAction({ provider }: { provider: Listing }) {
     saving,
     saveProvider,
   } = useApp();
-  const router = useRouter();
   const params = useSearchParams();
   const selected = savedProviders.some((p) => p.id === provider.id);
   if (user && user.role !== "family") return null;
   function toggle() {
     if (!user) {
-      router.push(
-        `/app/sign-in?intent=save&provider=${encodeURIComponent(provider.id)}&next=${encodeURIComponent(providerPath(provider.id, params.get("from") || "/app/explore"))}`,
+      browser.leave(
+        `/app/sign-in?intent=save&provider=${encodeURIComponent(provider.id)}&next=${encodeURIComponent(providerPath(provider.id, from || params.get("from") || "/app/explore"))}`,
       );
       return;
     }
@@ -205,9 +215,14 @@ export function SaveProviderAction({ provider }: { provider: Listing }) {
         }
         onClick={toggle}
         aria-pressed={selected}
+        aria-busy={saving.includes(provider.id)}
       >
         <AppIcon name={selected ? "check" : "heart"} size={18} />
-        {selected ? "Saved in my village" : "Save to my village"}
+        {saving.includes(provider.id)
+          ? "Updating your village…"
+          : selected
+            ? "Saved in my village"
+            : "Save to my village"}
       </button>
       {savedError && <ErrorBox message={savedError} retry={reloadSaved} />}
     </div>
@@ -243,6 +258,7 @@ export function ProviderCard({
   provider: Listing;
   from?: string;
 }) {
+  const browser = useSupportBrowser();
   const {
     user,
     savedProviders,
@@ -251,12 +267,11 @@ export function ProviderCard({
     saving,
     saveProvider,
   } = useApp();
-  const router = useRouter();
   const saved = savedProviders.some((p) => p.id === provider.id),
     href = providerPath(provider.id, from);
   async function toggle() {
     if (!user) {
-      router.push(
+      browser.leave(
         `/app/sign-in?intent=save&provider=${encodeURIComponent(provider.id)}&next=${encodeURIComponent(href)}`,
       );
       return;
@@ -265,9 +280,14 @@ export function ProviderCard({
   }
   return (
     <article className="va-provider-card">
-      <Link href={href} tabIndex={-1} aria-hidden="true">
+      <button
+        className="va-card-art-button"
+        onClick={() => browser.openProvider(provider.id, from)}
+        tabIndex={-1}
+        aria-hidden="true"
+      >
         <ProviderArt category={provider.category} />
-      </Link>
+      </button>
       {(!user || user.role === "family") && (
         <button
           className={`va-save ${saved ? "is-saved" : ""}`}
@@ -295,7 +315,13 @@ export function ProviderCard({
           </span>
         </div>
         <h3>
-          <Link href={href}>{provider.name}</Link>
+          <button
+            className="va-card-name"
+            aria-haspopup="dialog"
+            onClick={() => browser.openProvider(provider.id, from)}
+          >
+            {provider.name}
+          </button>
         </h3>
         <p>{provider.summary}</p>
         {provider.status !== "published" && (
@@ -309,10 +335,15 @@ export function ProviderCard({
         </p>
         <div className="va-card-bottom">
           <span>{provider.price.replace(/^Example: /, "")}</span>
-          <Link aria-label={`View ${provider.name}`} href={href}>
-            View support
+          <button
+            className="va-card-view"
+            aria-label={`About ${provider.name}`}
+            aria-haspopup="dialog"
+            onClick={() => browser.openProvider(provider.id, from)}
+          >
+            Take a look
             <AppIcon name="arrow" size={18} />
-          </Link>
+          </button>
         </div>
       </div>
     </article>

@@ -230,6 +230,7 @@ test("next steps and return links preserve intent without leaving the app", () =
     "/app/explore?category=cleaning&area=Richmond",
   );
   assert.equal(supportReturnPath("/app/owner"), "/app/owner");
+  assert.equal(supportReturnPath("/app"), "/app");
   assert.equal(supportReturnPath("/app/requests/123"), "/app/requests/123");
   assert.equal(supportReturnPath("/app/sign-in"), "/app/explore");
 });

@@ -6,6 +6,7 @@
 @import "./journey.css";
 @import "./app.css";
 @import "./app-refinements.css";
+@import "./app-support-browser.css";
 
 @theme {
   /* Colors — warm neutrals + sage accent */

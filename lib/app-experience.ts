@@ -87,7 +87,8 @@ export function safeAppPath(value: string | null, fallback = "/app") {
 
 export function supportReturnPath(value: string | null) {
   const path = safeAppPath(value, "/app/explore");
-  return /^\/app\/(explore|saved|partner|owner)(\?|#|$)/.test(path) ||
+  return /^\/app(?:\?|#|$)/.test(path) ||
+    /^\/app\/(explore|saved|partner|owner)(\?|#|$)/.test(path) ||
     /^\/app\/requests(?:\/[a-z0-9-]+)?(\?|#|$)/.test(path)
     ? path
     : "/app/explore";
