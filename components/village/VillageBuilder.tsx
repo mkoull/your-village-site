@@ -128,7 +128,7 @@ export default function VillageBuilder() {
     setCopyMessage("Your village download is ready.");
   }
   return (
-    <div className="village-builder">
+    <div className="village-builder" data-step={draft.step}>
       <Container>
         <header className="village-builder-header">
           <div>
@@ -136,14 +136,14 @@ export default function VillageBuilder() {
               A village of your own
             </p>
             <h1 className="font-heading">
-              Your village,
+              A little support.
               <br />
-              <em className="text-text-sage">taking shape.</em>
+              <em className="text-text-sage">A world of difference.</em>
             </h1>
           </div>
           <p className="text-sm text-text-muted">
-            Choose what would help. Bring it together. Come back and change it
-            whenever you need.
+            Start with what would help today. Each choice adds a little light to
+            your village. There&apos;s no right way to begin.
           </p>
         </header>
         {!ready ? (
@@ -209,7 +209,8 @@ export default function VillageBuilder() {
                         What would make life lighter?
                       </h2>
                       <p className="text-sm text-text-muted mb-7">
-                        Choose one thing, or a few. Nothing is booked or sent.
+                        Choose something below and watch it light up. You can
+                        change your mind at any time.
                       </p>
                       <div
                         className="builder-needs"
@@ -238,8 +239,10 @@ export default function VillageBuilder() {
                               <span className="block font-heading text-lg leading-tight">
                                 {service.need}
                               </span>
-                              <span className="block text-[11px] text-text-muted mt-1">
-                                {service.shortTitle}
+                              <span className="builder-need-caption block text-[11px] text-text-muted mt-1">
+                                {draft.needs.includes(service.slug)
+                                  ? "A light in your village"
+                                  : service.shortTitle}
                               </span>
                             </span>
                             <span
@@ -267,7 +270,9 @@ export default function VillageBuilder() {
                       )}
                       <div className="builder-actions">
                         <p className="text-xs text-text-muted">
-                          {selected.length} selected
+                          {selected.length
+                            ? `${selected.length} ${selected.length === 1 ? "kind" : "kinds"} of support, chosen by you`
+                            : "One small thing is enough to start"}
                         </p>
                         <Button onClick={() => go(1)}>
                           Make it mine <span aria-hidden="true">→</span>
@@ -365,11 +370,11 @@ export default function VillageBuilder() {
                           03 / Your village, taking shape
                         </p>
                         <h2 className="font-heading text-3xl mb-3">
-                          This is your starting village.
+                          A little more support around you.
                         </h2>
                         <p className="text-sm text-text-muted">
-                          Your choices, brought together. Explore the services
-                          below and take the next step at your pace.
+                          Here are the lights you&apos;ve gathered. Explore the
+                          people and services behind them, in your own time.
                         </p>
                       </div>
                       {(draft.stage || draft.timing) && (
@@ -399,7 +404,7 @@ export default function VillageBuilder() {
                         {selected.map((service) => (
                           <article
                             key={service.slug}
-                            className="village-plan-item"
+                            className={`village-plan-item village-tone-${service.tone}`}
                           >
                             <div className="flex items-start gap-4">
                               <span
@@ -499,13 +504,11 @@ export default function VillageBuilder() {
                 <VillageScene />
                 <div className="village-scene-note">
                   <p className="font-heading text-xl mb-2">
-                    {draft.needs.length
-                      ? "A village that grows with you."
-                      : "You don’t have to do it all."}
+                    A little less to carry alone.
                   </p>
                   <p className="text-sm text-text-muted">
-                    Tap a circle to add or remove support. Your choices follow
-                    you as you explore the site.
+                    A meal. A moment to rest. Someone in your corner.
+                    There&apos;s room for whatever would help.
                   </p>
                 </div>
               </aside>

@@ -1,7 +1,7 @@
 import Container from "@/components/ui/Container";
 export default function EmpathySection() {
   return (
-    <section className="bg-dark py-16 md:py-24 text-text-inverse">
+    <section className="village-empathy py-16 md:py-24 text-text-inverse">
       <Container narrow className="text-center">
         <p className="text-eyebrow uppercase tracking-[0.2em] text-sage-light font-semibold mb-5">
           You don&apos;t have to do it all

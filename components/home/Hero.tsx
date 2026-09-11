@@ -1,13 +1,11 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
-import AuroraCanvas from "./AuroraCanvas";
 import VillageMap from "./VillageMap";
 
 export default function Hero() {
   return (
-    <section className="grain relative overflow-hidden pt-28 pb-7 md:pt-36 md:pb-8">
-      <AuroraCanvas />
+    <section className="village-home-hero grain relative overflow-hidden pt-28 pb-7 md:pt-36 md:pb-8">
       <Container className="relative z-10">
         <div className="grid items-center gap-8 lg:grid-cols-[1fr_1fr] lg:gap-12">
           <div>
@@ -39,7 +37,7 @@ export default function Hero() {
               </Link>
             </div>
             <p className="mt-5 text-xs text-text-muted">
-              Start with one thing. Build from there.
+              Tap the village to bring a little support into your day.
             </p>
           </div>
           <div className="hero-reveal hero-reveal-3 min-w-0">

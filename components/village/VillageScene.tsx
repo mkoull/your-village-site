@@ -1,50 +1,66 @@
 "use client";
+import { useId, type CSSProperties } from "react";
 import { services } from "@/content/services";
 import VillageMark from "@/components/ui/VillageMark";
 import { useVillage } from "./VillageProvider";
 
-export default function VillageScene() {
-  const { draft, setNeed } = useVillage();
+/** One interactive scene and one saved village, wherever someone starts. */
+export default function VillageScene({ home = false }: { home?: boolean }) {
+  const { draft, setNeed, ready } = useVillage();
+  const captionId = useId();
+  const count = draft.needs.length;
   return (
-    <figure className="village-scene">
-      <div className="village-scene-sky" aria-hidden="true" />
-      <p className="village-scene-label">A little help, all around you</p>
+    <figure
+      className={`village-lights ${home ? "village-lights-home" : ""}`}
+      data-has-support={count > 0}
+      style={{ "--village-warmth": count / services.length } as CSSProperties}
+    >
+      <div className="village-lights-atmosphere" aria-hidden="true" />
+      <div className="village-lights-heading">
+        <span aria-hidden="true" className="village-little-star">
+          ✧
+        </span>
+        A little help, all around you
+        <span aria-hidden="true" className="village-little-star">
+          ✧
+        </span>
+      </div>
       <div
-        className="village-scene-map"
+        className="village-light-map"
         role="group"
         aria-label="Your interactive village"
+        aria-describedby={captionId}
       >
         <svg
           viewBox="0 0 100 100"
-          className="village-scene-lines"
+          className="village-light-paths"
           aria-hidden="true"
         >
-          <circle cx="50" cy="50" r="38" />
-          <circle cx="50" cy="50" r="27" strokeDasharray=".6 2" />
+          <circle cx="50" cy="50" r="37" className="village-light-orbit" />
+          <circle
+            cx="50"
+            cy="50"
+            r="26"
+            className="village-light-orbit village-light-orbit-inner"
+          />
           {services.map((service, i) => {
             const angle = (i * 2 * Math.PI) / services.length - Math.PI / 2;
+            const x = 50 + 37 * Math.cos(angle),
+              y = 50 + 37 * Math.sin(angle);
             return (
-              <line
+              <path
                 key={service.slug}
-                x1="50"
-                y1="50"
-                x2={50 + 38 * Math.cos(angle)}
-                y2={50 + 38 * Math.sin(angle)}
-                className={
-                  draft.needs.includes(service.slug) ? "is-selected" : ""
-                }
+                pathLength="1"
+                d={`M${x} ${y} Q${50 + (x - 50) * 0.2} ${50 + (y - 50) * 0.8} 50 50`}
+                className={draft.needs.includes(service.slug) ? "is-lit" : ""}
               />
             );
           })}
         </svg>
-        <div className="village-scene-centre">
-          <VillageMark className="w-8 h-8 text-text-sage mb-2" />
-          <span className="font-heading">Your village</span>
-          <span className="text-[10px] text-text-muted">
-            {draft.needs.length
-              ? `${draft.needs.length} ${draft.needs.length === 1 ? "piece" : "pieces"} of support`
-              : "Start with one thing"}
-          </span>
+        <div className="village-light-heart" aria-hidden="true">
+          <VillageMark className="village-light-mark" />
+          <span className="font-heading">You</span>
+          <span>at the heart of it</span>
         </div>
         {services.map((service, i) => {
           const angle = (i * 2 * Math.PI) / services.length - Math.PI / 2;
@@ -53,32 +69,38 @@ export default function VillageScene() {
             <button
               key={service.slug}
               type="button"
+              disabled={!ready}
               aria-label={`${selected ? "Remove" : "Add"} ${service.shortTitle.toLowerCase()} ${selected ? "from" : "to"} the village map`}
               aria-pressed={selected}
               onClick={() => setNeed(service.slug, !selected)}
               style={{
-                left: `${50 + 38 * Math.cos(angle)}%`,
-                top: `${50 + 38 * Math.sin(angle)}%`,
+                left: `${50 + 37 * Math.cos(angle)}%`,
+                top: `${50 + 37 * Math.sin(angle)}%`,
               }}
-              className={`village-scene-node village-tone-${service.tone} ${selected ? "is-selected" : ""}`}
+              className={`village-light-node ${selected ? "is-lit" : ""}`}
             >
-              <span
-                className="village-scene-node-icon"
-                aria-hidden="true"
-                dangerouslySetInnerHTML={{ __html: service.icon }}
-              />
-              <span>{service.shortTitle}</span>
-              {selected && (
-                <span className="village-scene-check" aria-hidden="true">
-                  ✓
+              <span className="village-light-orb" aria-hidden="true">
+                <span className="village-light-ripple" />
+                <span
+                  className="village-light-icon"
+                  dangerouslySetInnerHTML={{ __html: service.icon }}
+                />
+                <span className="village-light-check">
+                  {selected ? "✓" : "+"}
                 </span>
-              )}
+              </span>
+              <span className="village-light-label">{service.shortTitle}</span>
             </button>
           );
         })}
       </div>
-      <figcaption>
-        There&apos;s no perfect mix. Just what feels right for you.
+      <figcaption id={captionId} className="village-light-caption">
+        <span className="village-light-caption-title font-heading">
+          {count
+            ? `${count} ${count === 1 ? "little light" : "little lights"}. Your own village.`
+            : "Every village starts with a little light."}
+        </span>
+        <span>Tap a circle to add support. Tap again to let it go.</span>
       </figcaption>
     </figure>
   );

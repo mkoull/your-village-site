@@ -9,6 +9,7 @@ The current website is in development: browse service categories, follow links t
 ## Conventions
 
 - Warm, calm, inclusive Australian English. Preserve existing palette and fonts.
+- The village scene uses forest green and warm lantern light. Selecting support lights its circle, path and matching card immediately. Keep movement brief and responsive to the interaction; honour reduced motion. Homepage and builder must share the scene and saved state.
 - Never invent testimonials, provider counts, verification claims, prices, response times or availability.
 - Derive service content from content/services.ts. Preserve established routes.
 - Add to my village must save in place, with immediate selection state and a visible count; it must never restart a questionnaire or discard previous choices.

@@ -146,9 +146,6 @@
   font-size: 13px;
   text-align: left;
 }
-.village-builder:has(.village-step-eyebrow) .village-scene {
-  transition: background 0.4s;
-}
 .village-steps {
   display: flex;
   border-bottom: 1px solid #deded1;
@@ -316,141 +313,6 @@
   border-color: #566749;
   background: #e9edde;
   color: #46573a;
-}
-.village-scene {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border-radius: 160px 160px 20px 20px;
-  background: #edf0e5;
-  border: 1px solid #56674910;
-  padding: 34px 12px 24px;
-  text-align: center;
-}
-.village-scene-sky {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(ellipse at 20% 10%, #f5e7cba0, transparent 65%),
-    radial-gradient(ellipse at 90% 80%, #cfdbc790, transparent 65%);
-}
-.village-scene-label {
-  font-size: 9px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #566749;
-  margin-top: 12px;
-}
-.village-scene-map {
-  position: relative;
-  aspect-ratio: 1;
-  width: 100%;
-  margin: 10px auto;
-}
-.village-scene-lines {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: #8b9e7c;
-  stroke-width: 0.2;
-  opacity: 0.55;
-}
-.village-scene-lines line {
-  opacity: 0.15;
-  stroke-width: 0.35;
-  transition:
-    opacity 0.5s,
-    stroke-width 0.5s;
-}
-.village-scene-lines line.is-selected {
-  opacity: 1;
-  stroke-width: 0.65;
-  stroke: #566749;
-}
-.village-scene-centre {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 34%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background: #faf8f5;
-  box-shadow: 0 0 0 8px #faf8f550;
-}
-.village-scene-centre > .font-heading {
-  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
-  line-height: 1.2;
-  margin-bottom: 4px;
-}
-.village-scene-node {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  width: 22%;
-  font-size: 10px;
-  color: #6b665f;
-  cursor: pointer;
-}
-.village-scene-node-icon {
-  width: 52px;
-  height: 52px;
-  padding: 13px;
-  border: 1px dashed #a9b39b;
-  background: #faf8f570;
-  border-radius: 50%;
-  color: #7d896f;
-  transition:
-    transform 0.3s,
-    background 0.3s,
-    border-color 0.3s,
-    box-shadow 0.3s;
-}
-.village-scene-node:hover .village-scene-node-icon {
-  transform: scale(1.08);
-}
-.village-scene-node.is-selected {
-  color: #4a4640;
-}
-.village-scene-node.is-selected .village-scene-node-icon {
-  background: var(--village-tint);
-  color: var(--village-ink);
-  border: 3px solid #faf8f5;
-  padding: 11px;
-  box-shadow: 0 3px 14px #56674918;
-}
-.village-scene-check {
-  position: absolute;
-  left: calc(50% + 11px);
-  top: -2px;
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  background: #566749;
-  color: #fff;
-  font-size: 10px;
-  display: grid;
-  place-items: center;
-  border: 2px solid #edf0e5;
-}
-.village-scene figcaption {
-  font-size: 10px;
-  color: #6b665f;
-  padding: 0 15px;
-}
-.village-scene-note {
-  padding: 24px 16px;
-  text-align: center;
 }
 .village-arrival {
   background: #e9edde;
@@ -661,31 +523,6 @@
   .builder-need {
     min-height: 76px;
   }
-  .village-scene {
-    border-radius: 120px 120px 20px 20px;
-  }
-  .village-scene-node-icon {
-    width: 42px;
-    height: 42px;
-    padding: 10px;
-  }
-  .village-scene-node.is-selected .village-scene-node-icon {
-    padding: 8px;
-  }
-  .village-scene-node {
-    font-size: 9px;
-  }
-  .village-scene-centre > svg {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 4px;
-  }
-  .village-scene-centre > .font-heading {
-    font-size: 1.15rem;
-  }
-  .village-scene-centre > span:last-child {
-    font-size: 8px;
-  }
   .catalogue-tools {
     flex-wrap: wrap;
   }
@@ -728,65 +565,6 @@
     grid-template-columns: 1fr 1fr;
     align-items: center;
     gap: 12px;
-  }
-  .village-scene {
-    padding: 8px 2px;
-    border-radius: 70px 70px 14px 14px;
-  }
-  .village-scene-label,
-  .village-scene figcaption {
-    display: none;
-  }
-  .village-scene-map {
-    margin: 0;
-  }
-  .village-scene-node-icon {
-    width: 26px;
-    height: 26px;
-    padding: 6px;
-  }
-  .village-scene-node.is-selected .village-scene-node-icon {
-    border-width: 2px;
-    padding: 4px;
-  }
-  .village-scene-node {
-    font-size: 6px;
-    gap: 0;
-    min-height: 32px;
-  }
-  .village-scene-check {
-    width: 11px;
-    height: 11px;
-    font-size: 6px;
-    left: calc(50% + 5px);
-    top: -2px;
-    border-width: 1px;
-  }
-  .village-scene-centre {
-    box-shadow: 0 0 0 4px #faf8f550;
-    width: 37%;
-  }
-  .village-scene-centre > svg {
-    width: 18px;
-    height: 18px;
-    margin-bottom: 2px;
-  }
-  .village-scene-centre > .font-heading {
-    font-size: 0.73rem;
-    margin-bottom: 0;
-  }
-  .village-scene-centre > span:last-child {
-    font-size: 5px;
-  }
-  .village-scene-note {
-    text-align: left;
-    padding: 0 0 0 10px;
-  }
-  .village-scene-note p:first-child {
-    font-size: 1.1rem;
-  }
-  .village-scene-note p:last-child {
-    font-size: 11px;
   }
   .builder-needs {
     grid-template-columns: 1fr 1fr;
@@ -892,9 +670,6 @@
   .builder-need-icon {
     display: flex;
   }
-  .village-scene-note {
-    padding-left: 0;
-  }
   .village-dock-caption {
     max-width: 120px;
   }
@@ -940,8 +715,6 @@
     animation: none;
   }
 }
-
-/* Keep the map legible and its controls usable on a phone. */
 @media (max-width: 767px) {
   .village-builder-header {
     display: block;
@@ -955,41 +728,5 @@
     max-width: 300px;
     margin: 0 auto;
     width: 100%;
-  }
-  .village-scene {
-    padding: 12px 4px;
-    border-radius: 100px 100px 16px 16px;
-  }
-  .village-scene-node {
-    min-height: 56px;
-    font-size: 9px;
-    gap: 3px;
-  }
-  .village-scene-node-icon {
-    width: 42px;
-    height: 42px;
-    padding: 10px;
-  }
-  .village-scene-node.is-selected .village-scene-node-icon {
-    padding: 8px;
-  }
-  .village-scene-check {
-    width: 15px;
-    height: 15px;
-    font-size: 9px;
-    left: calc(50% + 9px);
-  }
-  .village-scene-centre > svg {
-    width: 25px;
-    height: 25px;
-  }
-  .village-scene-centre > .font-heading {
-    font-size: 1.18rem;
-  }
-  .village-scene-centre > span:last-child {
-    font-size: 7px;
-  }
-  .village-scene-note {
-    display: none;
   }
 }

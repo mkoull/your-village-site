@@ -4,7 +4,7 @@ import VillageMark from "@/components/ui/VillageMark";
 
 export default function FounderSection() {
   return (
-    <section className="py-16 md:py-20 bg-[#e9edde]">
+    <section className="village-founder py-16 md:py-20">
       <Container>
         <div className="grid md:grid-cols-2 gap-10 md:gap-20 items-center">
           <div>

@@ -1,0 +1,729 @@
+/* Warm light is the shared visual language of saved support. */
+.village-lights {
+  --light-cream: #fff4d8;
+  --light-gold: #edbc6e;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 34px 18px 25px;
+  overflow: hidden;
+  border-radius: 150px 150px 30px 30px;
+  color: #f4eddc;
+  background: #35483d;
+  border: 1px solid #50634e;
+  box-shadow:
+    0 25px 65px -30px #39473470,
+    inset 0 0 50px #c8b07d0a;
+  text-align: center;
+}
+.village-lights-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 52%, #caac7038, transparent 57%),
+    radial-gradient(ellipse at 15% 2%, #9caf7740, transparent 55%),
+    radial-gradient(ellipse at 95% 95%, #152c2830, transparent 60%);
+}
+.village-lights-atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #e6ae5540, transparent 68%);
+  opacity: calc(0.15 + var(--village-warmth) * 0.8);
+  transition: opacity 800ms ease;
+}
+.village-lights-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 0 2px;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #e5dfca;
+}
+.village-little-star {
+  font-size: 19px;
+  color: #dfbb79;
+}
+.village-light-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  margin: 4px auto 0;
+}
+.village-light-paths {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  overflow: visible;
+  pointer-events: none;
+}
+.village-light-orbit {
+  stroke: #f0d59b;
+  stroke-width: 0.18;
+  opacity: 0.16;
+}
+.village-light-orbit-inner {
+  stroke-dasharray: 0.3 1.9;
+  opacity: 0.32;
+}
+.village-light-paths path {
+  stroke: #d9c69e;
+  stroke-width: 0.25;
+  opacity: 0.12;
+  transition:
+    stroke 500ms,
+    opacity 500ms,
+    filter 500ms;
+}
+.village-light-paths path.is-lit {
+  opacity: 0.85;
+  stroke: #ffd894;
+  stroke-width: 0.5;
+  filter: drop-shadow(0 0 1px #ffd17d);
+}
+.village-light-heart {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 31%;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 45% 35%, #fffaf0, #f1e6c9 75%);
+  color: #48533e;
+  box-shadow:
+    0 0 0 7px #e7d8b710,
+    0 0 0 16px #e7d8b706,
+    0 0 38px #ecc37b20;
+  transition: box-shadow 800ms;
+}
+[data-has-support="true"] .village-light-heart {
+  box-shadow:
+    0 0 0 7px #ffdc9618,
+    0 0 0 17px #ffdc9609,
+    0 0 45px #ffc96750;
+}
+.village-light-mark {
+  width: 25px;
+  height: 25px;
+  margin-bottom: 5px;
+  color: #8b7847;
+}
+.village-light-heart .font-heading {
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  line-height: 1;
+}
+.village-light-heart > span:last-child {
+  font-size: 9px;
+  margin-top: 6px;
+}
+.village-light-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 7px;
+  width: 22%;
+  min-height: 74px;
+  border-radius: 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.village-light-node:focus-visible {
+  outline: 2px solid #ffe1a9;
+  outline-offset: 4px;
+}
+.village-light-orb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #44574a;
+  border: 1px solid #b3bea96b;
+  color: #e3e4d3;
+  box-shadow: inset 0 1px 2px #ffffff0c;
+  transition:
+    background 350ms,
+    color 350ms,
+    box-shadow 500ms,
+    border-color 350ms,
+    transform 300ms;
+}
+.village-light-icon {
+  display: flex;
+  width: 25px;
+  height: 25px;
+}
+.village-light-icon svg {
+  width: 100%;
+  height: 100%;
+}
+.village-light-check {
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  color: #dfe5d3;
+  background: #405143;
+  border: 1px solid #819078;
+  font-size: 10px;
+  transition:
+    color 300ms,
+    background 300ms;
+}
+.village-light-node.is-lit .village-light-orb {
+  background: radial-gradient(circle at 40% 28%, #fffbe7, #f8d598 65%, #edbd70);
+  color: #6a4c24;
+  border-color: #ffe3a8;
+  box-shadow:
+    0 0 0 5px #ffd48b0e,
+    0 0 20px #ffd08275,
+    0 0 46px #f3bb5440,
+    inset 0 1px 4px #fff;
+}
+.village-light-node.is-lit .village-light-check {
+  background: #ffe1a0;
+  color: #624725;
+  border-color: #fff1cf;
+}
+.village-light-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #e5e4d5;
+  line-height: 1.3;
+}
+.village-light-node.is-lit .village-light-label {
+  color: #ffe2a8;
+}
+.village-light-ripple {
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  border: 1px solid #ffdb92;
+  opacity: 0;
+  pointer-events: none;
+}
+.village-light-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  position: relative;
+  padding: 0 6px;
+}
+.village-light-caption-title {
+  font-size: 20px;
+  color: #f5e4bf;
+  line-height: 1.2;
+}
+.village-light-caption > span:last-child {
+  font-size: 10px;
+  color: #d5dacb;
+  line-height: 1.6;
+}
+.village-scene-note {
+  padding: 24px 18px 0;
+  text-align: center;
+}
+.village-scene-note > p:last-child {
+  max-width: 310px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Movement answers the click, then settles. No looping or flashing light. */
+@media (prefers-reduced-motion: no-preference) {
+  .village-light-node.is-lit .village-light-ripple {
+    animation: villageLightRipple 850ms ease-out;
+  }
+  .village-light-node.is-lit .village-light-icon {
+    animation: villageLightArrive 450ms ease-out;
+  }
+  .village-light-paths path.is-lit {
+    stroke-dasharray: 1;
+    animation: villagePathLight 650ms ease-out both;
+  }
+  .builder-need[aria-pressed="true"] .builder-need-icon {
+    animation: villageLightArrive 450ms ease-out;
+  }
+  .village-add-selected > span {
+    animation: villageLightArrive 450ms ease-out;
+  }
+}
+@keyframes villageLightRipple {
+  from {
+    opacity: 0.75;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+@keyframes villageLightArrive {
+  0% {
+    transform: scale(0.9);
+  }
+  55% {
+    transform: scale(1.16);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes villagePathLight {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (hover: hover) {
+  .village-light-node:hover .village-light-orb {
+    transform: translateY(-2px);
+    border-color: #ffe2a9;
+    box-shadow: 0 0 20px #f3cb761f;
+  }
+  .village-light-node.is-lit:hover .village-light-orb {
+    box-shadow:
+      0 0 25px #ffd08295,
+      0 0 55px #f3bb5445;
+  }
+}
+
+/* Carry the same warmth through selection, discovery and the quieter pages. */
+.village-builder,
+.village-home-hero {
+  background:
+    radial-gradient(ellipse at 80% 14%, #f3deb451, transparent 50%),
+    radial-gradient(ellipse at 8% 52%, #e6ebdd65, transparent 48%), #faf8f5;
+}
+.village-builder {
+  padding-top: 112px;
+}
+.village-builder-header {
+  margin-bottom: 22px;
+}
+.village-builder-header h1 {
+  font-size: clamp(2.5rem, 4.3vw, 3.4rem);
+  letter-spacing: -0.035em;
+}
+.village-builder-header > p {
+  line-height: 1.85;
+}
+.village-steps {
+  margin-bottom: 30px;
+}
+.village-builder-layout {
+  gap: 42px;
+  grid-template-columns: 1.1fr 1fr;
+}
+.builder-need {
+  min-height: 88px;
+  border-radius: 18px;
+  background: #fffdf8b0;
+}
+.builder-need-icon {
+  width: 36px;
+  height: 40px;
+  border-radius: 50%;
+  transition:
+    background 350ms,
+    box-shadow 350ms,
+    color 350ms;
+}
+.builder-need[aria-pressed="true"] {
+  border-color: #bd9853;
+  background:
+    radial-gradient(ellipse at 12% 30%, #ffe3a154, transparent 76%), #fffaf0;
+  box-shadow:
+    0 4px 22px #c9a35412,
+    inset 0 0 0 1px #eaca8726;
+}
+.builder-need[aria-pressed="true"] .builder-need-icon {
+  background: #ffe7b2;
+  color: #795821;
+  box-shadow: 0 0 19px #eabd5650;
+}
+.builder-need[aria-pressed="true"] .builder-need-check {
+  background: #86672d;
+  border-color: #86672d;
+}
+.builder-need[aria-pressed="true"] .builder-need-caption {
+  color: #80632d;
+}
+.builder-actions {
+  margin-top: 22px;
+  padding-top: 22px;
+}
+.builder-options button[aria-pressed="true"] {
+  background: #f4e7c8;
+  border-color: #a58a54;
+  color: #65512d;
+}
+.village-add {
+  background: #fffdf8a0;
+  border-color: #a0aa91;
+}
+.village-add > span {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 12px;
+}
+.village-add-selected,
+.village-add-selected:hover {
+  background: #f7e8c7;
+  color: #695226;
+  border-color: #b3975e;
+  box-shadow: 0 0 18px #eac98224;
+}
+.village-add-selected > span {
+  background: #ffdc96;
+  border-color: #ba9352;
+  box-shadow: 0 0 12px #e7bc6950;
+}
+.village-count {
+  background: #f2d594;
+  color: #4a492f;
+  box-shadow: 0 0 13px #f9d99635;
+}
+.village-dock {
+  background: #fffcf4f2;
+  border-color: #d8cbae;
+  box-shadow: 0 6px 38px #5e56352b;
+}
+.village-dock-icons span {
+  background: #f9e4b6;
+  color: #7a6132;
+  box-shadow: 0 0 13px #dab77532;
+}
+.catalogue-card {
+  border-radius: 22px;
+  background: linear-gradient(135deg, #fffdf9, #faf8f1);
+  transition:
+    border-color 350ms,
+    box-shadow 350ms,
+    background 350ms;
+}
+.catalogue-card:has(.village-add-selected) {
+  border-color: #c5a363;
+  background: linear-gradient(135deg, #fffbf0, #faf2de);
+  box-shadow: 0 5px 25px #c1a56015;
+}
+.catalogue-card:has(.village-add-selected) .plan-icon {
+  background: #f9e4b6;
+  color: #795b2c;
+  box-shadow: 0 0 22px #e4bf6530;
+}
+.catalogue-outro {
+  background:
+    radial-gradient(ellipse at 0 0, #fff2d480, transparent 65%), #e9edde;
+  border: 1px solid #dce0ce;
+  border-radius: 28px;
+}
+.service-detail {
+  border-radius: 24px 60px 24px 24px;
+  border: 1px solid #bbaa8220;
+}
+.service-detail:has(.village-add-selected) .service-detail-icon {
+  box-shadow: 0 0 25px #d2ae6160;
+  background: #f7e1b2;
+  transition:
+    box-shadow 400ms,
+    background 400ms;
+}
+.service-choice[aria-pressed="true"] {
+  background: #f1e9d6;
+  color: #615333;
+}
+.village-plan-item {
+  padding: 25px;
+  margin-bottom: 16px;
+  border: 1px solid #e6ddc9;
+  border-radius: 22px;
+  background: #fffdf8;
+  box-shadow: 0 6px 28px #8d795009;
+}
+.village-plan-item .plan-icon {
+  background: #f7e5bf;
+  color: #836632;
+  box-shadow: 0 0 20px #e1bc6c25;
+}
+.village-plan-item .service-sources-compact {
+  background: #f4f0e4;
+}
+.village-arrival {
+  background: #f4e9d0;
+  color: #685631;
+}
+.village-enquiry {
+  background: #fffaf0;
+  border-color: #e3d9c2;
+}
+.info-page-hero {
+  background:
+    radial-gradient(ellipse at 85% 0%, #f3dab17a, transparent 56%),
+    linear-gradient(110deg, #e9edde80, #faf6ed);
+}
+.info-page-mark {
+  color: #a79059;
+  opacity: 0.09;
+}
+.info-page-index a:hover,
+.info-page-index a:focus-visible {
+  color: #7d6030;
+}
+.village-empathy {
+  background:
+    radial-gradient(ellipse at 50% 100%, #9d86482b, transparent 70%), #34473b;
+}
+.village-founder {
+  background:
+    radial-gradient(ellipse at 0 0, #f4e6c47d, transparent 62%), #e9edde;
+}
+
+@media (max-width: 1023px) {
+  .village-builder-layout {
+    gap: 26px;
+    grid-template-columns: 1.12fr 1fr;
+  }
+  .village-lights {
+    padding: 25px 9px 22px;
+    border-radius: 110px 110px 24px 24px;
+  }
+  .village-lights-heading {
+    font-size: 8px;
+    gap: 8px;
+    letter-spacing: 0.09em;
+  }
+  .village-light-orb {
+    width: 46px;
+    height: 46px;
+  }
+  .village-light-icon {
+    width: 23px;
+    height: 23px;
+  }
+  .village-light-node {
+    min-height: 67px;
+    gap: 5px;
+  }
+  .village-light-label {
+    font-size: 10px;
+  }
+  .village-light-heart .font-heading {
+    font-size: 1.8rem;
+  }
+  .village-light-heart > span:last-child {
+    font-size: 8px;
+  }
+  .village-light-mark {
+    width: 20px;
+    height: 20px;
+  }
+  .village-light-caption-title {
+    font-size: 18px;
+  }
+  .village-lights-home {
+    max-width: 460px;
+  }
+}
+@media (max-width: 767px) {
+  .village-builder {
+    padding-top: 94px;
+  }
+  .village-builder-header {
+    display: block;
+    margin-bottom: 18px;
+  }
+  .village-builder-header h1 {
+    font-size: clamp(2rem, 7.6vw, 2.9rem);
+  }
+  .village-builder-header > p {
+    max-width: 410px;
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .village-builder-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .village-builder-aside {
+    display: block;
+    order: -1;
+    position: static;
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+  }
+  .village-builder[data-step="0"] .village-builder-aside {
+    position: sticky;
+    top: 72px;
+    z-index: 15;
+  }
+  .village-builder[data-step="0"] .village-builder-panel {
+    scroll-margin-top: 390px;
+  }
+  .village-builder-aside .village-lights {
+    padding: 10px 6px 12px;
+    border-radius: 26px;
+    max-width: 390px;
+  }
+  .village-builder-aside .village-lights-heading {
+    display: none;
+  }
+  .village-builder-aside .village-light-map {
+    max-width: 258px;
+    margin-top: 0;
+  }
+  .village-builder-aside .village-light-caption {
+    gap: 2px;
+  }
+  .village-builder-aside .village-light-caption-title {
+    font-size: 17px;
+  }
+  .village-builder-aside .village-light-caption > span:last-child {
+    font-size: 9px;
+  }
+  .village-light-orb {
+    width: 44px;
+    height: 44px;
+  }
+  .village-light-node {
+    min-height: 62px;
+  }
+  .village-light-label {
+    font-size: 9px;
+  }
+  .village-light-heart .font-heading {
+    font-size: 1.7rem;
+  }
+  .village-light-heart > span:last-child {
+    font-size: 7px;
+    margin-top: 4px;
+  }
+  .village-light-mark {
+    width: 18px;
+    height: 18px;
+    margin-bottom: 3px;
+  }
+  .village-scene-note {
+    display: none;
+  }
+  .builder-need {
+    min-height: 102px;
+    padding: 16px 20px 14px 12px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .builder-need-icon {
+    display: flex;
+    width: 28px;
+    height: 28px;
+  }
+  .builder-need-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .builder-need .font-heading {
+    font-size: 17px;
+  }
+  .builder-need-caption {
+    font-size: 9px;
+  }
+  .builder-actions {
+    gap: 12px;
+  }
+  .builder-actions > p {
+    max-width: 135px;
+    font-size: 10px;
+  }
+  .village-plan-item {
+    padding: 20px;
+  }
+  .village-lights-home {
+    padding: 22px 8px;
+  }
+  .village-lights-home .village-light-map {
+    max-width: 360px;
+  }
+}
+@media (max-width: 359px) {
+  .village-builder-aside .village-light-map {
+    max-width: 236px;
+  }
+  .village-light-orb {
+    width: 40px;
+    height: 40px;
+  }
+  .village-light-node {
+    min-height: 59px;
+  }
+  .village-light-icon {
+    width: 21px;
+    height: 21px;
+  }
+  .village-light-caption > span:last-child {
+    font-size: 8px;
+  }
+  .builder-need {
+    min-height: 78px;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .village-builder[data-step="0"] .village-builder-panel {
+    scroll-margin-top: 365px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .village-lights *,
+  .village-lights *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .village-light-paths path.is-lit {
+    stroke-dashoffset: 0;
+  }
+}
+@media print {
+  .village-lights {
+    display: none !important;
+  }
+  .village-builder {
+    background: white;
+    padding: 0;
+  }
+  .village-plan-item {
+    box-shadow: none;
+    background: white;
+  }
+}

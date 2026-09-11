@@ -1,63 +1,3 @@
-/* A village drawn around the person. All nodes are ordinary, usable links. */
-.village-map-wrap {
-  max-width: 520px;
-  margin: 0 auto;
-  width: 100%;
-}
-.village-map {
-  position: relative;
-  aspect-ratio: 1;
-  isolation: isolate;
-}
-.village-map::before {
-  content: "";
-  position: absolute;
-  inset: 7%;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    #e5e9dc90,
-    #e5e9dc30 60%,
-    transparent 72%
-  );
-  z-index: -1;
-}
-.village-map-lines {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  color: #7a896b;
-  opacity: 0.48;
-}
-.village-map-centre {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 35%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #faf8f5;
-  box-shadow:
-    0 0 0 9px #faf8f548,
-    0 6px 24px #5667490a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  color: var(--color-text-primary);
-}
-.village-map-centre > .font-heading {
-  font-size: clamp(1.5rem, 2.7vw, 2.2rem);
-  line-height: 1.2;
-}
-.village-map-centre-caption {
-  font-size: 10px;
-  letter-spacing: 0.025em;
-  margin-top: 4px;
-  color: var(--color-text-muted);
-}
 .village-tone-sage {
   --village-tint: #e9edde;
   --village-ink: #566749;
@@ -73,54 +13,6 @@
 .village-tone-gold {
   --village-tint: #f2e9d6;
   --village-ink: #84692e;
-}
-.village-node {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: 19%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: var(--color-text-body);
-  text-decoration: none;
-}
-.village-node-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: clamp(46px, 6vw, 68px);
-  aspect-ratio: 1;
-  background: var(--village-tint);
-  color: var(--village-ink);
-  border: 5px solid #faf8f5;
-  border-radius: 50%;
-  box-shadow: 0 3px 10px #2a322508;
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-.village-node-icon svg {
-  width: 46%;
-  height: 46%;
-}
-.village-node-label {
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1.25;
-  text-align: center;
-  background: #faf8f5b0;
-  border-radius: 4px;
-  padding: 2px 3px;
-}
-.village-node:hover .village-node-icon,
-.village-node:focus-visible .village-node-icon {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 18px #56674924;
-}
-.village-node:focus-visible {
-  outline-offset: 5px;
-  border-radius: 12px;
 }
 .service-choices {
   display: flex;
@@ -188,9 +80,6 @@
   height: 100%;
 }
 @media (max-width: 1023px) {
-  .village-map-wrap {
-    max-width: 430px;
-  }
   .service-choices {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -201,27 +90,6 @@
   }
 }
 @media (max-width: 479px) {
-  .village-map-centre > svg {
-    width: 28px;
-    height: 28px;
-    margin-bottom: 4px;
-  }
-  .village-map-centre > .font-heading {
-    font-size: 1.35rem;
-  }
-  .village-map-centre-caption {
-    font-size: 8px;
-  }
-  .village-node {
-    gap: 4px;
-    width: 23%;
-  }
-  .village-node-label {
-    font-size: 10px;
-  }
-  .village-node-icon {
-    border-width: 3px;
-  }
   .service-choices {
     gap: 6px;
   }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Get Started",
+  title: "Build your village",
   description:
     "Build your starting village. Explore the support that fits your life, with no contact details needed to see your suggestions.",
 };

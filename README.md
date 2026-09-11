@@ -25,7 +25,9 @@ Next.js 15, React 19, Tailwind CSS 4 and TypeScript. All content pages are prere
 - `components/ui/VillageMark.tsx`: shared brand mark for navigation and homepage.
 - `app/village.css`: homepage map and service-guide styles.
 - `app/village-experience.css`: builder, saved-village controls, catalogue and information-page styles, including mobile and print layouts.
+- `app/village-lights.css`: shared forest-and-lantern scene, immediate selected-state lighting, short click animations and warm page treatments. Motion settles after each interaction and respects reduced-motion preferences.
 - `components/village/`: shared draft context, add/remove buttons, navigation count, live map, builder, exports and optional enquiry.
+- The homepage and builder use the same `VillageScene`. Clicking either map adds/removes the real saved choice. On phones, the builder map stays visible while choosing support.
 - `lib/village.ts`: versioned draft parser and immutable selection updates. Only allowlisted choices are restored from session storage.
 - `lib/assessment.ts`: stage options and shortlist selection. Keeps all selected services in their chosen order.
 - `lib/use-lead-form.ts`: shared sending, success and error state with duplicate-submit protection.

@@ -28,8 +28,11 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const dropdownRef = useRef<HTMLLIElement>(null);
+  const previousPath = useRef(pathname);
 
   useEffect(() => {
+    if (previousPath.current === pathname) return;
+    previousPath.current = pathname;
     setMobileOpen(false);
     setServicesOpen(false);
   }, [pathname]);

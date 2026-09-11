@@ -85,7 +85,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${newsreader.variable} ${jakarta.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${newsreader.variable} ${jakarta.variable}`}>
       <head>
         <script
           type="application/ld+json"
