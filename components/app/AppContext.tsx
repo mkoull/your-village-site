@@ -54,6 +54,7 @@ export async function appApi<T>(
 type Session = {
   user: AppUser | null;
   mode: "preview" | "pilot" | "off";
+  previewAccess?: "family";
   error?: string;
 };
 type Notice = { message: string; undo?: { provider: Listing; saved: boolean } };

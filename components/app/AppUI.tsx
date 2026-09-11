@@ -140,6 +140,8 @@ export function Empty({
   asTitle?: boolean;
 }) {
   const Title = asTitle ? "h1" : "h2";
+  const { previewAccess } = useApp();
+  const destination = previewAccess && href.startsWith("/") && !href.startsWith("/app") ? "https://your-village-site.vercel.app" + href : href;
   return (
     <div className="va-empty">
       <span className="va-empty-symbol">
@@ -147,7 +149,7 @@ export function Empty({
       </span>
       <Title>{title}</Title>
       <p>{children}</p>
-      <Link className="va-button" href={href}>
+      <Link className="va-button" href={destination}>
         {action}
         <AppIcon name="arrow" size={18} />
       </Link>

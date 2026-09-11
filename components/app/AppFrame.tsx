@@ -12,6 +12,7 @@ export default function AppFrame({ children }: { children: ReactNode }) {
   const {
     user,
     mode,
+    previewAccess,
     loading,
     error,
     reloadSession,
@@ -135,7 +136,7 @@ export default function AppFrame({ children }: { children: ReactNode }) {
             <br />
             <em>do it all alone.</em>
           </p>
-          <Link href="/">
+          <Link href={previewAccess ? "https://your-village-site.vercel.app/" : "/"} prefetch={false}>
             Visit the website <ArrowUpRight />
           </Link>
           {user ? (
@@ -184,31 +185,37 @@ export default function AppFrame({ children }: { children: ReactNode }) {
         {mode === "preview" && (
           <div className="va-preview">
             <div>
-              <strong>Your app preview</strong>
+              <strong>
+                {previewAccess
+                  ? "Your private phone preview"
+                  : "Your app preview"}
+              </strong>
               <span>Example providers · no real bookings or payments</span>
             </div>
-            <details ref={switcher}>
-              <summary>Try another view</summary>
-              <div className="va-preview-options">
-                {(["family", "provider", "owner"] as const).map((role) => (
-                  <button
-                    disabled={switching}
-                    key={role}
-                    onClick={() => preview(role)}
-                  >
-                    {role === "family"
-                      ? "Family"
-                      : role === "provider"
-                        ? "Provider"
-                        : "Owner"}{" "}
-                    view
-                    {user?.id === "preview-" + role && (
-                      <AppIcon name="check" size={16} />
-                    )}
-                  </button>
-                ))}
-              </div>
-            </details>
+            {!previewAccess && (
+              <details ref={switcher}>
+                <summary>Try another view</summary>
+                <div className="va-preview-options">
+                  {(["family", "provider", "owner"] as const).map((role) => (
+                    <button
+                      disabled={switching}
+                      key={role}
+                      onClick={() => preview(role)}
+                    >
+                      {role === "family"
+                        ? "Family"
+                        : role === "provider"
+                          ? "Provider"
+                          : "Owner"}{" "}
+                      view
+                      {user?.id === "preview-" + role && (
+                        <AppIcon name="check" size={16} />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </details>
+            )}
           </div>
         )}
         <div
@@ -237,7 +244,7 @@ export default function AppFrame({ children }: { children: ReactNode }) {
         </div>
         <footer className="va-app-footer">
           <span>A little support makes room for more.</span>
-          <Link href="/app/partner">For providers</Link>
+          {!previewAccess && <Link href="/app/partner">For providers</Link>}
           <Link href="/app/privacy">Privacy & your account</Link>
           {user && (
             <button

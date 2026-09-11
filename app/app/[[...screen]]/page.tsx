@@ -23,6 +23,8 @@ export async function generateMetadata({
     title: titles[screen[0]] || "Your everyday village",
     robots: { index: false, follow: false },
     manifest: "/village.webmanifest",
+    appleWebApp: { capable: true, title: "Village", statusBarStyle: "default" },
+    icons: { apple: "/apple-touch-icon.png" },
     referrer: "same-origin",
   };
 }
