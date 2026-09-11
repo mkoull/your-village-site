@@ -1,6 +1,4 @@
 "use client";
-import { AppContext } from "./AppContext";
-import AppFrame from "./AppFrame";
 import { AppHome, Explore, ProviderProfile, SavedProviders } from "./Discovery";
 import { Requests, RequestDetail } from "./Requests";
 import { SignIn, AccountPrivacy } from "./Accounts";
@@ -20,5 +18,5 @@ export default function VillageApp({ screen }: { screen: string[] }) {
   else if (route === "owner") content = <Owner/>;
   else if (route === "privacy") content = <AccountPrivacy/>;
   else content = <Empty asTitle title="Let’s find your way back." href="/app" action="Back to your village">This page isn’t part of your village. Your saved support and requests are still in their usual places.</Empty>;
-  return <AppContext><AppFrame>{content}</AppFrame></AppContext>;
+  return content;
 }

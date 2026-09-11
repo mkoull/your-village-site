@@ -1,45 +1,620 @@
 "use client";
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
+import ArrowUpRight from "@/components/ui/ArrowUpRight";
 import { services } from "@/content/services";
 import { appApi, useApp, useAppData } from "./AppContext";
-import { AppIcon, Empty, ErrorBox, Heading, Loading, RequestRow, SignInPrompt } from "./AppUI";
+import {
+  AppIcon,
+  Empty,
+  ErrorBox,
+  Heading,
+  Loading,
+  RequestRow,
+  SignInPrompt,
+} from "./AppUI";
 import { money, type Listing, type SupportRequest } from "@/lib/app-types";
 export function Partner() {
   const { user, refresh } = useApp();
-  const data = useAppData<{ providers: Listing[]; requests: SupportRequest[] }>("partner", user?.role === "provider");
-  if (!user) return <><Heading eyebrow="BECOME PART OF THE VILLAGE" title="Your care. A little more connected.">Introduce your business, receive enquiries and agree the next step directly with families.</Heading><Empty title="Bring your support to Village." href="/app/sign-in?register=1&role=provider" action="Create a provider account">Start with a profile. The Village owner reviews it before it appears in the directory.</Empty></>;
-  if (user.role !== "provider") return <Empty asTitle title="A space for support providers." href="/app" action="Back to your workspace">Sign in with a provider account to manage your listing and family enquiries.</Empty>;
-  if (data.loading) return <Loading/>; if (data.error) return <ErrorBox message={data.error} retry={data.reload}/>;
-  const providers = data.data?.providers || [], requests = data.data?.requests || [];
-  return <><Heading eyebrow="YOUR PROVIDER WORKSPACE" title="A little care goes a long way.">Keep your information current and help families take their next step. New requests and replies appear in this app.</Heading>{!providers.length ? <ApplicationForm onSuccess={refresh}/> : <><div className="va-stats"><Link href="/app/requests"><strong>{requests.filter(r => r.status === "requested").length}</strong><span>families waiting for a reply</span><AppIcon name="inbox"/></Link><Link href="/app/requests"><strong>{requests.filter(r => r.status === "confirmed").length}</strong><span>arrangements confirmed</span><AppIcon name="check"/></Link><a href="#your-listings"><strong>{providers.filter(p => p.status === "published").length}</strong><span>published listings</span><AppIcon name="leaf"/></a></div><section className="va-section"><div className="va-section-title"><h2>Conversations to come back to.</h2><Link href="/app/requests">Open your inbox ↗</Link></div>{requests.length ? requests.slice(0, 5).map(request => <RequestRow key={request.id} request={request} providerView/>) : <div className="va-panel"><h3>Your inbox is ready.</h3><p>When someone requests support from a published profile, their request will appear here.</p></div>}</section><section className="va-section" id="your-listings"><div className="va-section-title"><h2>Your place in the village.</h2></div><div className="va-workspace-grid">{providers.map(provider => <ListingEditor key={provider.id} provider={provider} onSuccess={refresh}/>)}</div></section></>}</>;
+  const data = useAppData<{ providers: Listing[]; requests: SupportRequest[] }>(
+    "partner",
+    user?.role === "provider",
+  );
+  if (!user)
+    return (
+      <>
+        <Heading
+          eyebrow="BECOME PART OF THE VILLAGE"
+          title="Your care. A little more connected."
+        >
+          Introduce your business, receive enquiries and agree the next step
+          directly with families.
+        </Heading>
+        <Empty
+          title="Bring your support to Village."
+          href="/app/sign-in?register=1&role=provider"
+          action="Create a provider account"
+        >
+          Start with a profile. The Village owner reviews it before it appears
+          in the directory.
+        </Empty>
+      </>
+    );
+  if (user.role !== "provider")
+    return (
+      <Empty
+        asTitle
+        title="A space for support providers."
+        href="/app"
+        action="Back to your workspace"
+      >
+        Sign in with a provider account to manage your listing and family
+        enquiries.
+      </Empty>
+    );
+  if (data.loading) return <Loading />;
+  if (data.error && !data.data)
+    return <ErrorBox message={data.error} retry={data.reload} />;
+  const providers = data.data?.providers || [],
+    requests = data.data?.requests || [];
+  return (
+    <>
+      <Heading
+        eyebrow="YOUR PROVIDER WORKSPACE"
+        title="A little care goes a long way."
+      >
+        Keep your information current and help families take their next step.
+        New requests and replies appear in this app.
+      </Heading>
+      {data.error && <ErrorBox message={data.error} retry={data.reload} />}{" "}
+      {!providers.length ? (
+        <ApplicationForm onSuccess={refresh} />
+      ) : (
+        <>
+          <div className="va-stats">
+            <Link href="/app/requests">
+              <strong>
+                {requests.filter((r) => r.status === "requested").length}
+              </strong>
+              <span>
+                {requests.filter((r) => r.status === "requested").length === 1
+                  ? "family"
+                  : "families"}{" "}
+                waiting for a reply
+              </span>
+              <AppIcon name="inbox" />
+            </Link>
+            <Link href="/app/requests">
+              <strong>
+                {requests.filter((r) => r.status === "confirmed").length}
+              </strong>
+              <span>
+                {requests.filter((r) => r.status === "confirmed").length === 1
+                  ? "arrangement"
+                  : "arrangements"}{" "}
+                confirmed
+              </span>
+              <AppIcon name="check" />
+            </Link>
+            <a href="#your-listings">
+              <strong>
+                {providers.filter((p) => p.status === "published").length}
+              </strong>
+              <span>published listings</span>
+              <AppIcon name="leaf" />
+            </a>
+          </div>
+          <section className="va-section">
+            <div className="va-section-title">
+              <h2>Conversations to come back to.</h2>
+              <Link href="/app/requests">
+                Open your inbox <ArrowUpRight />
+              </Link>
+            </div>
+            {requests.length ? (
+              requests
+                .slice(0, 5)
+                .map((request) => (
+                  <RequestRow key={request.id} request={request} providerView />
+                ))
+            ) : (
+              <div className="va-panel">
+                <h3>Your inbox is ready.</h3>
+                <p>
+                  When someone requests support from a published profile, their
+                  request will appear here.
+                </p>
+              </div>
+            )}
+          </section>
+          <section className="va-section" id="your-listings">
+            <div className="va-section-title">
+              <h2>Your place in the village.</h2>
+            </div>
+            <div className="va-workspace-grid">
+              {providers.map((provider) => (
+                <ListingEditor
+                  key={provider.id}
+                  provider={provider}
+                  onSuccess={refresh}
+                />
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+    </>
+  );
 }
 function ApplicationForm({ onSuccess }: { onSuccess: () => void }) {
-  const [busy, setBusy] = useState(false), [error, setError] = useState("");
-  async function submit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); const data = new FormData(event.currentTarget); setBusy(true); setError(""); try { await appApi("partner", { ...Object.fromEntries(data), consent: data.get("consent") === "on" }); onSuccess(); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }
-  return <div className="va-application-layout"><form className="va-panel va-form" onSubmit={submit}><h2>Introduce your support.</h2><p>A clear, thoughtful profile helps families decide whether to get in touch.</p><label>Business or service name<input name="name" required minLength={2} maxLength={80}/></label><div className="va-form-columns"><label>Support category<select name="category" required defaultValue=""><option value="" disabled>Choose a category</option>{services.map(s => <option value={s.slug} key={s.slug}>{s.shortTitle}</option>)}</select></label><label>How you offer support<select name="mode" required><option>At home</option><option>Delivered</option><option>Online</option></select></label></div><label>A short introduction<input name="summary" minLength={10} maxLength={140} required placeholder="What will feel easier with your help?"/></label><label>About your service<textarea name="description" minLength={20} maxLength={1500} rows={4} required/></label><label>Suburbs you cover<input name="suburbs" required minLength={2} maxLength={200} placeholder="Richmond, Hawthorn, Kew — or Online"/></label><label>Pricing<input name="price" required minLength={2} maxLength={140} placeholder="From $140 per visit, including applicable taxes"/></label><label>Availability information<input name="availability" required minLength={2} maxLength={180} placeholder="Weekday mornings. Enquire for current openings."/></label><label>What’s included (one item per line)<textarea name="included" required minLength={5} maxLength={600} rows={4}/></label><label className="va-checkbox"><input name="consent" type="checkbox" required/><span>I’m authorised to submit this business, agree to publish these details after review, and accept the pilot referral terms shown alongside this form.</span></label>{error && <ErrorBox message={error}/>}<button disabled={busy} className="va-button">{busy ? "Saving your application…" : "Submit for review"}<AppIcon name="arrow" size={18}/></button></form><aside className="va-panel va-application-note"><p className="va-eyebrow">FOUNDING PROVIDER PILOT</p><h2>Grow with the village.</h2><p>No upfront listing fee. Families pay you directly.</p><h3>Proposed referral terms</h3><p>For meals, cleaning, home organisation and family-care agencies: 10% of the first completed, paid booking for a family you meet through Village, capped at $50.</p><p>Sleep, breastfeeding, counselling and community listings carry no referral fee in this pilot.</p><p>Both sides confirm completion. Cancelled and disputed requests do not generate a payable referral. Repeat bookings do not create another first-booking fee.</p><p>The dashboard records an unbilled estimate. Village does not take payment automatically. Written commercial terms and invoicing need to be finalised before a public paid launch.</p><h3>Before you appear</h3><p>Your profile starts in review. The owner checks the information and publishing permission with you before making it visible. Publication does not imply independently verified qualifications.</p></aside></div>;
+  const [busy, setBusy] = useState(false),
+    [error, setError] = useState("");
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    setBusy(true);
+    setError("");
+    try {
+      await appApi("partner", {
+        ...Object.fromEntries(data),
+        consent: data.get("consent") === "on",
+      });
+      onSuccess();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <div className="va-application-layout">
+      <form className="va-panel va-form" onSubmit={submit}>
+        <h2>Introduce your support.</h2>
+        <p>
+          A clear, thoughtful profile helps families decide whether to get in
+          touch.
+        </p>
+        <label>
+          Business or service name
+          <input name="name" required minLength={2} maxLength={80} />
+        </label>
+        <div className="va-form-columns">
+          <label>
+            Support category
+            <select name="category" required defaultValue="">
+              <option value="" disabled>
+                Choose a category
+              </option>
+              {services.map((s) => (
+                <option value={s.slug} key={s.slug}>
+                  {s.shortTitle}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            How you offer support
+            <select name="mode" required>
+              <option>At home</option>
+              <option>Delivered</option>
+              <option>Online</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          A short introduction
+          <input
+            name="summary"
+            minLength={10}
+            maxLength={140}
+            required
+            placeholder="What will feel easier with your help?"
+          />
+        </label>
+        <label>
+          About your service
+          <textarea
+            name="description"
+            minLength={20}
+            maxLength={1500}
+            rows={4}
+            required
+          />
+        </label>
+        <label>
+          Suburbs you cover
+          <input
+            name="suburbs"
+            required
+            minLength={2}
+            maxLength={200}
+            placeholder="Richmond, Hawthorn, Kew — or Online"
+          />
+        </label>
+        <label>
+          Pricing
+          <input
+            name="price"
+            required
+            minLength={2}
+            maxLength={140}
+            placeholder="From $140 per visit, including applicable taxes"
+          />
+        </label>
+        <label>
+          Availability information
+          <input
+            name="availability"
+            required
+            minLength={2}
+            maxLength={180}
+            placeholder="Weekday mornings. Enquire for current openings."
+          />
+        </label>
+        <label>
+          What’s included (one item per line)
+          <textarea
+            name="included"
+            required
+            minLength={5}
+            maxLength={600}
+            rows={4}
+          />
+        </label>
+        <label className="va-checkbox">
+          <input name="consent" type="checkbox" required />
+          <span>
+            I’m authorised to submit this business, agree to publish these
+            details after review, and accept the pilot referral terms shown
+            alongside this form.
+          </span>
+        </label>
+        {error && <ErrorBox message={error} />}
+        <button disabled={busy} className="va-button">
+          {busy ? "Saving your application…" : "Submit for review"}
+          <AppIcon name="arrow" size={18} />
+        </button>
+      </form>
+      <aside className="va-panel va-application-note">
+        <p className="va-eyebrow">FOUNDING PROVIDER PILOT</p>
+        <h2>Grow with the village.</h2>
+        <p>No upfront listing fee. Families pay you directly.</p>
+        <h3>Proposed referral terms</h3>
+        <p>
+          For meals, cleaning, home organisation and family-care agencies: 10%
+          of the first completed, paid booking for a family you meet through
+          Village, capped at $50.
+        </p>
+        <p>
+          Sleep, breastfeeding, counselling and community listings carry no
+          referral fee in this pilot.
+        </p>
+        <p>
+          Both sides confirm completion. Cancelled and disputed requests do not
+          generate a payable referral. Repeat bookings do not create another
+          first-booking fee.
+        </p>
+        <p>
+          The dashboard records an unbilled estimate. Village does not take
+          payment automatically. Written commercial terms and invoicing need to
+          be finalised before a public paid launch.
+        </p>
+        <h3>Before you appear</h3>
+        <p>
+          Your profile starts in review. The owner checks the information and
+          publishing permission with you before making it visible. Publication
+          does not imply independently verified qualifications.
+        </p>
+      </aside>
+    </div>
+  );
 }
-function ListingEditor({ provider, onSuccess }: { provider: Listing; onSuccess: () => void }) {
-  const [busy, setBusy] = useState(false), [error, setError] = useState(""), [notice, setNotice] = useState("");
-  async function submit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setBusy(true); setError(""); const data = new FormData(event.currentTarget); try { await appApi(`partner/${provider.id}`, Object.fromEntries(data)); setNotice("Your profile information is saved."); onSuccess(); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }
-  return <article className="va-panel"><div className="va-listing-heading"><h3>{provider.name}</h3><span className={`va-status va-status-${provider.status}`}>{provider.status === "pending" ? "In review" : provider.status === "published" ? "Published" : "Paused"}</span></div>{provider.status === "pending" && <p>The Village owner will review your listing before families can find it.</p>}<p>{provider.summary}</p><details className="va-listing-edit"><summary>Update price & availability</summary><form className="va-form" onSubmit={submit}><label>Pricing<input name="price" defaultValue={provider.price} required minLength={2} maxLength={140}/></label><label>Availability<input name="availability" defaultValue={provider.availability} required minLength={2} maxLength={180}/></label>{error && <ErrorBox message={error}/>}<button className="va-button va-button-secondary" disabled={busy}>Save changes</button></form></details>{notice && <p role="status">{notice}</p>}<Link className="va-text-link" href={`/app/providers/${provider.id}`}>Preview profile ↗</Link></article>;
+function ListingEditor({
+  provider,
+  onSuccess,
+}: {
+  provider: Listing;
+  onSuccess: () => void;
+}) {
+  const [busy, setBusy] = useState(false),
+    [error, setError] = useState(""),
+    [notice, setNotice] = useState("");
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setBusy(true);
+    setError("");
+    const data = new FormData(event.currentTarget);
+    try {
+      await appApi(`partner/${provider.id}`, Object.fromEntries(data));
+      setNotice("Your profile information is saved.");
+      onSuccess();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <article className="va-panel">
+      <div className="va-listing-heading">
+        <h3>{provider.name}</h3>
+        <span className={`va-status va-status-${provider.status}`}>
+          {provider.status === "pending"
+            ? "In review"
+            : provider.status === "published"
+              ? "Published"
+              : "Paused"}
+        </span>
+      </div>
+      {provider.status === "pending" && (
+        <p>
+          The Village owner will review your listing before families can find
+          it.
+        </p>
+      )}
+      <p>{provider.summary}</p>
+      <details className="va-listing-edit">
+        <summary>Update price & availability</summary>
+        <form className="va-form" onSubmit={submit}>
+          <label>
+            Pricing
+            <input
+              name="price"
+              defaultValue={provider.price}
+              required
+              minLength={2}
+              maxLength={140}
+            />
+          </label>
+          <label>
+            Availability
+            <input
+              name="availability"
+              defaultValue={provider.availability}
+              required
+              minLength={2}
+              maxLength={180}
+            />
+          </label>
+          {error && <ErrorBox message={error} />}
+          <button className="va-button va-button-secondary" disabled={busy}>
+            Save changes
+          </button>
+        </form>
+      </details>
+      {notice && <p role="status">{notice}</p>}
+      <Link
+        className="va-text-link"
+        href={`/app/providers/${provider.id}?from=%2Fapp%2Fpartner`}
+      >
+        Preview profile <ArrowUpRight />
+      </Link>
+    </article>
+  );
 }
-type OwnerData = { providers: Listing[]; requests: SupportRequest[]; ledger: { requestId: string; amount: number; state: string; providerName: string }[] };
+type OwnerData = {
+  providers: Listing[];
+  requests: SupportRequest[];
+  ledger: {
+    requestId: string;
+    amount: number;
+    state: string;
+    providerName: string;
+  }[];
+};
 export function Owner() {
-  const { user, mode, refresh } = useApp(); const data = useAppData<OwnerData>("owner", user?.role === "owner");
+  const { user, mode, refresh } = useApp();
+  const data = useAppData<OwnerData>("owner", user?.role === "owner");
   const [filter, setFilter] = useState("all");
-  if (!user) return <SignInPrompt asTitle/>;
-  if (user.role !== "owner") return <Empty asTitle title="This is the owner workspace." href="/app" action="Back to your village">Your account doesn’t have access to this area.</Empty>;
-  if (data.loading) return <Loading/>; if (data.error) return <ErrorBox message={data.error} retry={data.reload}/>;
+  if (!user) return <SignInPrompt asTitle />;
+  if (user.role !== "owner")
+    return (
+      <Empty
+        asTitle
+        title="This is the owner workspace."
+        href="/app"
+        action="Back to your village"
+      >
+        Your account doesn’t have access to this area.
+      </Empty>
+    );
+  if (data.loading) return <Loading />;
+  if (data.error && !data.data)
+    return <ErrorBox message={data.error} retry={data.reload} />;
   const { providers = [], requests = [], ledger = [] } = data.data || {};
-  const pending = providers.filter(p => p.status === "pending"), issues = requests.filter(r => r.status === "disputed");
-  const total = ledger.filter(l => l.state === "unbilled").reduce((sum, l) => sum + l.amount, 0);
-  return <><Heading eyebrow="VILLAGE OWNER WORKSPACE" title="Help your village grow well.">Review providers, keep an eye on requests and see the referrals that have reached completion.</Heading><div className="va-stats va-stats-four"><a href="#provider-review"><strong>{pending.length}</strong><span>listings awaiting review</span></a><Link href="/app/requests"><strong>{requests.length}</strong><span>support requests</span></Link><Link href="/app/requests"><strong>{requests.filter(r => r.status === "completed").length}</strong><span>confirmed completions</span></Link><a href="#referral-ledger"><strong>{money(total)}</strong><span>{mode === "preview" ? "example unbilled fees" : "unbilled fee estimates"}</span></a></div>{issues.length > 0 && <section className="va-section"><h2>Requests needing a review.</h2>{issues.map(request => <RequestRow key={request.id} request={request} providerView/>)}</section>}
-    <section className="va-section" id="provider-review"><div className="va-section-title"><h2>Who’s joining the village?</h2><button className="va-text-button" onClick={data.reload}>Refresh workspace</button></div><div className="va-filter-chips">{[["all", "All listings"], ["pending", "Awaiting review"], ["published", "Published"], ["paused", "Paused"]].map(([value, label]) => <button key={value} aria-pressed={filter === value} onClick={() => setFilter(value)}>{label}</button>)}</div><div className="va-workspace-grid">{providers.filter(p => filter === "all" || p.status === filter).map(provider => <ModerateListing key={provider.id} provider={provider} onSuccess={refresh}/>)}</div>{!providers.some(p => filter === "all" || p.status === filter) && <p className="va-panel">No listings in this view.</p>}</section>
-    <section className="va-section va-panel" id="referral-ledger"><p className="va-eyebrow">COMPLETION, WITH CONFIRMATION</p><h2>Referral ledger.</h2><p>First completed, paid bookings confirmed by the family. These are unbilled estimates, not collected revenue. Voided fees are excluded from the total.</p>{ledger.length ? <div className="va-ledger">{ledger.map(entry => <Link key={entry.requestId} href={`/app/requests/${entry.requestId}`}><span><strong>{entry.providerName}</strong><small>Request {entry.requestId.slice(0, 8).toUpperCase()}</small></span><span className="va-status">{entry.state === "void" ? "Voided" : "Unbilled"}</span><strong>{money(entry.state === "void" ? 0 : entry.amount)}</strong><AppIcon name="arrow" size={18}/></Link>)}</div> : <div className="va-ledger-empty"><AppIcon name="leaf" size={28}/><p>No referral fees recorded yet. Follow a request through provider delivery and family confirmation to see it here.</p></div>}</section></>;
+  const pending = providers.filter((p) => p.status === "pending"),
+    issues = requests.filter((r) => r.status === "disputed");
+  const total = ledger
+    .filter((l) => l.state === "unbilled")
+    .reduce((sum, l) => sum + l.amount, 0);
+  return (
+    <>
+      <Heading
+        eyebrow="VILLAGE OWNER WORKSPACE"
+        title="Help your village grow well."
+      >
+        Review providers, keep an eye on requests and see the referrals that
+        have reached completion.
+      </Heading>
+      {data.error && <ErrorBox message={data.error} retry={data.reload} />}
+      <div className="va-stats va-stats-four">
+        <a href="#provider-review">
+          <strong>{pending.length}</strong>
+          <span>listings awaiting review</span>
+        </a>
+        <Link href="/app/requests">
+          <strong>{requests.length}</strong>
+          <span>support requests</span>
+        </Link>
+        <Link href="/app/requests">
+          <strong>
+            {requests.filter((r) => r.status === "completed").length}
+          </strong>
+          <span>confirmed completions</span>
+        </Link>
+        <a href="#referral-ledger">
+          <strong>{money(total)}</strong>
+          <span>
+            {mode === "preview"
+              ? "example unbilled fees"
+              : "unbilled fee estimates"}
+          </span>
+        </a>
+      </div>
+      {issues.length > 0 && (
+        <section className="va-section">
+          <h2>Requests needing a review.</h2>
+          {issues.map((request) => (
+            <RequestRow key={request.id} request={request} providerView />
+          ))}
+        </section>
+      )}
+      <section className="va-section" id="provider-review">
+        <div className="va-section-title">
+          <h2>Who’s joining the village?</h2>
+          <button className="va-text-button" onClick={data.reload}>
+            Refresh workspace
+          </button>
+        </div>
+        <div className="va-filter-chips">
+          {[
+            ["all", "All listings"],
+            ["pending", "Awaiting review"],
+            ["published", "Published"],
+            ["paused", "Paused"],
+          ].map(([value, label]) => (
+            <button
+              key={value}
+              aria-pressed={filter === value}
+              onClick={() => setFilter(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <div className="va-workspace-grid">
+          {providers
+            .filter((p) => filter === "all" || p.status === filter)
+            .map((provider) => (
+              <ModerateListing
+                key={provider.id}
+                provider={provider}
+                onSuccess={refresh}
+              />
+            ))}
+        </div>
+        {!providers.some((p) => filter === "all" || p.status === filter) && (
+          <p className="va-panel">No listings in this view.</p>
+        )}
+      </section>
+      <section className="va-section va-panel" id="referral-ledger">
+        <p className="va-eyebrow">COMPLETION, WITH CONFIRMATION</p>
+        <h2>Referral ledger.</h2>
+        <p>
+          First completed, paid bookings confirmed by the family. These are
+          unbilled estimates, not collected revenue. Voided fees are excluded
+          from the total.
+        </p>
+        {ledger.length ? (
+          <div className="va-ledger">
+            {ledger.map((entry) => (
+              <Link
+                key={entry.requestId}
+                href={`/app/requests/${entry.requestId}`}
+              >
+                <span>
+                  <strong>{entry.providerName}</strong>
+                  <small>
+                    Request {entry.requestId.slice(0, 8).toUpperCase()}
+                  </small>
+                </span>
+                <span className="va-status">
+                  {entry.state === "void" ? "Voided" : "Unbilled"}
+                </span>
+                <strong>
+                  {money(entry.state === "void" ? 0 : entry.amount)}
+                </strong>
+                <AppIcon name="arrow" size={18} />
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="va-ledger-empty">
+            <AppIcon name="leaf" size={28} />
+            <p>
+              No referral fees recorded yet. Follow a request through provider
+              delivery and family confirmation to see it here.
+            </p>
+          </div>
+        )}
+      </section>
+    </>
+  );
 }
-function ModerateListing({ provider, onSuccess }: { provider: Listing; onSuccess: () => void }) {
-  const [busy, setBusy] = useState(false), [error, setError] = useState("");
-  async function submit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); const data = new FormData(event.currentTarget); setBusy(true); setError(""); try { await appApi(`owner/${provider.id}`, { status: provider.status === "published" ? "paused" : "published", reviewed: data.get("reviewed") === "on" }); onSuccess(); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }
-  return <article className="va-panel"><div className="va-listing-heading"><h3>{provider.name}</h3><span className={`va-status va-status-${provider.status}`}>{provider.status === "pending" ? "In review" : provider.status}</span></div><p>{provider.summary}</p><p className="va-muted">{provider.suburbs.join(", ")} · {provider.price}</p><Link className="va-text-link" href={`/app/providers/${provider.id}`}>Review full profile ↗</Link><form className="va-form" onSubmit={submit}>{provider.status !== "published" && <label className="va-checkbox"><input type="checkbox" name="reviewed" required/><span>I’ve reviewed the listing information and permission to publish with the provider.{provider.demo ? " This is an example listing." : ""}</span></label>}{error && <ErrorBox message={error}/>}<button className="va-button va-button-secondary" disabled={busy}>{busy ? "Saving…" : provider.status === "published" ? "Pause listing" : "Publish listing"}</button></form></article>;
+function ModerateListing({
+  provider,
+  onSuccess,
+}: {
+  provider: Listing;
+  onSuccess: () => void;
+}) {
+  const [busy, setBusy] = useState(false),
+    [error, setError] = useState("");
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    setBusy(true);
+    setError("");
+    try {
+      await appApi(`owner/${provider.id}`, {
+        status: provider.status === "published" ? "paused" : "published",
+        reviewed: data.get("reviewed") === "on",
+      });
+      onSuccess();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <article className="va-panel">
+      <div className="va-listing-heading">
+        <h3>{provider.name}</h3>
+        <span className={`va-status va-status-${provider.status}`}>
+          {provider.status === "pending" ? "In review" : provider.status}
+        </span>
+      </div>
+      <p>{provider.summary}</p>
+      <p className="va-muted">
+        {provider.suburbs.join(", ")} · {provider.price}
+      </p>
+      <Link
+        className="va-text-link"
+        href={`/app/providers/${provider.id}?from=%2Fapp%2Fowner`}
+      >
+        Review full profile <ArrowUpRight />
+      </Link>
+      <form className="va-form" onSubmit={submit}>
+        {provider.status !== "published" && (
+          <label className="va-checkbox">
+            <input type="checkbox" name="reviewed" required />
+            <span>
+              I’ve reviewed the listing information and permission to publish
+              with the provider.
+              {provider.demo ? " This is an example listing." : ""}
+            </span>
+          </label>
+        )}
+        {error && <ErrorBox message={error} />}
+        <button className="va-button va-button-secondary" disabled={busy}>
+          {busy
+            ? "Saving…"
+            : provider.status === "published"
+              ? "Pause listing"
+              : "Publish listing"}
+        </button>
+      </form>
+    </article>
+  );
 }

@@ -58,10 +58,14 @@ The automated suite covers password/session handling, access across family/provi
 
 Browser validation uses only synthetic accounts in the local preview. It covers save → request → offer → acceptance → delivery → family confirmation → A$14 unbilled referral for an A$140 example. Provider account creation, private application, publication into discovery and pausing are also exercised through the UI. Mobile layout and further recovery checks are recorded in the task's completion report.
 
-Final checks: 39 tests pass, TypeScript passes, and the production build passes. The existing website audit reports 19 pages, 46 internal links/assets, two missing-page cases and three metadata resources with no failures. Main app screens have one H1 and no horizontal overflow at 320px; the family and owner screens were visually checked at 390px and desktop. Profile saving, empty-search recovery, suburb filtering (including online services), database/session persistence through server restarts, and the website-to-app link were checked. All eight original category choices remained intact. The final browser error log was empty. Native installation and real email/payment delivery are not claimed as tested.
+Initial-build checks: 39 tests passed, TypeScript passes, and the production build passes. The existing website audit reports 19 pages, 46 internal links/assets, two missing-page cases and three metadata resources with no failures. Main app screens have one H1 and no horizontal overflow at 320px; the family and owner screens were visually checked at 390px and desktop. Profile saving, empty-search recovery, suburb filtering (including online services), database/session persistence through server restarts, and the website-to-app link were checked. All eight original category choices remained intact. The final browser error log was empty. Native installation and real email/payment delivery are not claimed as tested.
 
 ## Before inviting real users
 
 This first build does not send email, process payments, verify professional credentials or connect real providers. Accounts currently have no email verification, password recovery or self-service deletion. Establish an operational support contact and retention/deletion process, add notifications and recovery, configure durable backed-up hosting, and onboard real providers with agreed publishing and commercial terms before a public launch. The UI explains these limits at the relevant decisions.
 
 The referral ledger is not invoicing, collected revenue or tax reporting. Prices on an offer are entered by its provider; agreements, payments, cancellation charges and refunds remain directly between the parties. Provider publication is administrative approval, not a clinical or suitability endorsement.
+
+## Experience review
+
+See [App experience review](APP-EXPERIENCE-REVIEW.md) for the September 11 improvements and current validation: 46 tests pass, TypeScript and the production build pass, and the updated journeys are checked in the browser. The app remains a local preview, separate from the live marketing website.

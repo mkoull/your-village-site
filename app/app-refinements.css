@@ -1,0 +1,652 @@
+/* A readable, responsive app with feedback close to the action. */
+.vapp {
+  --va-forest: #304c38;
+  color: #354c3b;
+}
+.vapp [hidden] {
+  display: none !important;
+}
+.vapp :is(h1, h2, h3) {
+  color: #304c38;
+}
+.va-welcome h1 em,
+.va-auth-promise p {
+  color: #53694f;
+}
+.va-welcome > div > p:not(.va-eyebrow),
+.va-intro,
+.va-panel p,
+.va-provider-body > p,
+.va-empty p,
+.va-directory-note p {
+  color: #52624f;
+  font-size: 14px;
+  line-height: 1.75;
+}
+.va-eyebrow,
+.va-welcome .va-eyebrow {
+  color: #52694a;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+}
+.va-button {
+  font-size: 14px;
+  min-height: 46px;
+}
+.va-text-link,
+.va-text-button,
+.va-section-title > a,
+.va-back {
+  font-size: 12px;
+  color: #3e5c43;
+}
+.va-section-title > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+}
+.va-account small,
+.va-card-meta,
+.va-card-meta > span:last-child,
+.va-updated {
+  color: #596b51;
+  font-size: 11px;
+}
+.va-preview {
+  background: #f3eddf;
+  color: #695a40;
+}
+.va-preview > div span,
+.va-preview summary {
+  font-size: 11px;
+}
+.va-preview strong {
+  font-size: 12px;
+}
+.va-preview-options button {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+.va-preview details[open] {
+  z-index: 50;
+}
+.va-account {
+  max-width: 45%;
+}
+.va-account > span:first-child {
+  overflow-wrap: anywhere;
+}
+.va-avatar {
+  flex-shrink: 0;
+}
+.va-nav-icon {
+  position: relative;
+  display: inline-flex;
+}
+.va-nav-badge {
+  position: absolute;
+  right: -12px;
+  top: -9px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 20px;
+  background: #3c5d43;
+  color: white;
+  border: 2px solid #f8f8f1;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 600;
+}
+.va-next-up {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  margin-bottom: 28px;
+  background: #ebefdf;
+  border: 1px solid #cad4b8;
+  border-radius: 14px;
+  color: #35543c;
+}
+.va-next-up > span {
+  flex: 1;
+  min-width: 0;
+}
+.va-next-up strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.va-next-up small {
+  font-size: 12px;
+}
+.va-next-up > svg {
+  flex-shrink: 0;
+}
+.va-toast {
+  position: fixed;
+  bottom: 26px;
+  left: calc(50% + 100px);
+  transform: translateX(-50%);
+  z-index: 60;
+  width: min(600px, calc(100% - 32px));
+  padding: 15px 18px;
+  border-radius: 14px;
+  background: #304d39;
+  color: #fffef6;
+  border: 1px solid #6e845f;
+  box-shadow: 0 12px 35px #172f272b;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.va-toast p {
+  flex: 1;
+  font-size: 13px;
+}
+.va-toast > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.va-toast :is(button, a) {
+  min-height: 44px;
+  font-size: 13px;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+.va-toast button[aria-label] {
+  min-width: 36px;
+  display: grid;
+  place-items: center;
+}
+.va-save.is-saved {
+  background: #e8edd9;
+  color: #385a3e;
+  border-color: #acbe91;
+}
+.va-save.is-saved svg {
+  fill: #b9cb99;
+}
+.va-card-bottom {
+  font-size: 12px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+.va-card-bottom > a {
+  display: inline-flex;
+  gap: 8px;
+  font-weight: 500;
+}
+.va-provider-body .va-location {
+  font-size: 12px;
+}
+.va-paused-note {
+  background: #f1eadd;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+.va-search-panel {
+  grid-template-columns: minmax(0, 1fr) 185px auto;
+}
+.va-search-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 20px;
+  min-height: 48px;
+  background: #36573e;
+  color: white;
+  font-size: 13px;
+}
+.va-search:focus-within,
+.va-suburb:focus-within {
+  outline: 2px solid #748962;
+  outline-offset: -3px;
+  border-radius: 6px;
+}
+.va-results-line {
+  font-size: 13px;
+  color: #52614e;
+  gap: 15px;
+}
+.va-results-line p {
+  overflow-wrap: anywhere;
+}
+.va-filter-chips :is(button, a) {
+  font-size: 12px;
+  color: #4f6447;
+}
+.va-filter-chips button[aria-pressed="true"] {
+  background: #3e5c43;
+  color: white;
+  border-color: #3e5c43;
+}
+.va-password {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+}
+.va-password input {
+  padding-right: 68px !important;
+}
+.va-password button {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  bottom: 4px;
+  min-width: 58px;
+  color: #46603f;
+  font-size: 12px;
+}
+.va-profile-save {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+}
+.va-profile-badges {
+  font-size: 12px;
+  line-height: 1.7;
+}
+.va-request-panel > p:not(.va-eyebrow),
+.va-included li {
+  font-size: 14px;
+  color: #52634d;
+}
+.va-form label:not(.va-checkbox) {
+  font-size: 13px;
+}
+.va-form :is(input:not([type="checkbox"]), textarea, select) {
+  font-size: 15px;
+}
+.va-field-note {
+  font-size: 12px !important;
+  color: #58694f !important;
+}
+.va-checkbox {
+  font-size: 13px;
+}
+.va-existing-request {
+  padding-top: 15px;
+  border-top: 1px solid #d5dec8;
+}
+.va-existing-request h3 {
+  font-size: 25px;
+  margin-bottom: 12px;
+}
+.va-existing-request p {
+  margin-bottom: 20px;
+}
+.va-request-review dl {
+  display: grid;
+  gap: 12px;
+  font-size: 13px;
+}
+.va-request-review dl > div {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+.va-request-review dt {
+  color: #66765a;
+}
+.va-request-review dd {
+  text-align: right;
+}
+.va-request-review blockquote {
+  background: #fffef8;
+  border-left: 3px solid #a6b58e;
+  border-radius: 4px;
+  padding: 16px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+.va-request-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 28px;
+  list-style: none;
+  padding: 0;
+}
+.va-request-steps li {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: #69765f;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.va-request-steps li > span {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #bfc9b1;
+  border-radius: 50%;
+  flex-shrink: 0;
+  font-size: 11px;
+}
+.va-request-steps li[data-done="true"] > span {
+  background: #e2ebd5;
+  color: #3c603c;
+}
+.va-request-steps li[aria-current="step"] {
+  color: #304d35;
+  font-weight: 600;
+}
+.va-request-steps li[aria-current="step"] > span {
+  background: #385a3f;
+  color: white;
+  border-color: #385a3f;
+}
+.va-request-row.has-unread {
+  border-color: #adbf93;
+  background: #f6f8ed;
+}
+.va-request-summary .va-row-preview {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 8px 0;
+  font-size: 12px;
+  max-width: 100%;
+  color: #5d6b54;
+}
+.va-row-next {
+  display: block;
+  font-size: 11px;
+  color: #3f613f;
+  margin-top: 7px;
+}
+.va-unread-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #36593c;
+}
+.va-request-summary p,
+.va-status,
+.va-request-end {
+  font-size: 12px;
+}
+.va-messages {
+  gap: 14px;
+}
+.va-messages li {
+  padding: 16px;
+  background: #f0f3e8;
+  border: 1px solid #e0e5d4;
+  border-radius: 12px;
+  margin-right: 28px;
+}
+.va-messages li.is-mine {
+  background: #e7eddd;
+  border-color: #cdd9bb;
+  margin-right: 0;
+  margin-left: 28px;
+}
+.va-messages li > div {
+  font-size: 12px;
+  color: #40563c;
+}
+.va-messages time {
+  font-size: 11px;
+  color: #617256;
+}
+.va-messages p {
+  font-size: 14px;
+}
+.va-request-facts dl > div {
+  font-size: 12px;
+}
+.va-offer-summary small {
+  font-size: 12px;
+  color: #61734f;
+}
+.va-stats span {
+  font-size: 12px;
+  color: #52654a;
+}
+.va-app-footer {
+  font-size: 11px;
+}
+.va-error {
+  font-size: 14px;
+}
+.va-loading {
+  font-size: 14px;
+}
+
+@media (max-width: 1000px) {
+  .va-search-panel {
+    grid-template-columns: minmax(0, 1fr) 150px;
+  }
+  .va-search-submit {
+    grid-column: 1/-1;
+  }
+  .va-toast {
+    left: calc(50% + 85px);
+    width: min(560px, calc(100% - 220px));
+  }
+}
+@media (max-width: 767px) {
+  .va-topbar {
+    padding: 0 20px;
+  }
+  .va-account,
+  .va-account small {
+    font-size: 11px;
+  }
+  .va-preview {
+    padding: 10px 20px;
+    align-items: center;
+  }
+  .va-preview > div {
+    max-width: 210px;
+  }
+  .va-preview > div span {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .va-preview summary {
+    font-size: 11px;
+  }
+  .va-content {
+    padding: 26px 20px 12px;
+  }
+  .va-mobile-nav > a {
+    font-size: 11px;
+    gap: 6px;
+    min-height: 55px;
+  }
+  .va-toast {
+    left: 50%;
+    width: calc(100% - 28px);
+    bottom: calc(86px + env(safe-area-inset-bottom));
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .va-toast > div {
+    gap: 5px;
+  }
+  .va-toast :is(button, a) {
+    font-size: 12px;
+  }
+  .va-toast p {
+    font-size: 12px;
+  }
+  .va-welcome > div > p:not(.va-eyebrow),
+  .va-intro {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .va-welcome .va-button,
+  .va-welcome .va-text-link,
+  .va-button {
+    font-size: 14px;
+  }
+  .va-welcome .va-actions {
+    gap: 16px;
+  }
+  .va-welcome-scene {
+    background: radial-gradient(ellipse at 50% 55%, #f7efcd, #e7ecdc 74%);
+  }
+  .va-stats span {
+    font-size: 11px;
+  }
+  .va-section-title > a {
+    font-size: 12px;
+    max-width: 105px;
+  }
+  .va-need-grid > a {
+    font-size: 11px;
+  }
+  .va-provider-body > p,
+  .va-panel p {
+    font-size: 14px;
+  }
+  .va-provider-body .va-location,
+  .va-card-meta,
+  .va-card-meta > span:last-child {
+    font-size: 12px;
+  }
+  .va-card-bottom {
+    font-size: 13px;
+  }
+  .va-panel,
+  .va-request-panel {
+    padding: 22px;
+  }
+  .va-form :is(input:not([type="checkbox"]), textarea, select),
+  .va-search input,
+  .va-suburb select {
+    font-size: 16px;
+  }
+  .va-field-note {
+    font-size: 12px !important;
+  }
+  .va-form .va-button {
+    font-size: 14px;
+  }
+  .va-form label:not(.va-checkbox),
+  .va-checkbox {
+    font-size: 13px;
+  }
+  .va-request-steps {
+    gap: 10px;
+  }
+  .va-request-steps li {
+    flex-direction: column;
+    text-align: center;
+    font-size: 10px;
+  }
+  .va-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 15px;
+  }
+  .va-toolbar .va-filter-chips {
+    margin-bottom: 0;
+  }
+  .va-toolbar .va-filter-chips button,
+  .va-toolbar .va-text-button {
+    font-size: 12px;
+  }
+}
+@media (max-width: 580px) {
+  .va-welcome h1 {
+    font-size: 43px;
+    line-height: 1.08;
+  }
+  .va-heading h1,
+  .va-auth-layout .va-heading h1 {
+    font-size: 40px;
+  }
+  .va-orbit {
+    width: min(270px, 100%);
+    margin-top: 34px;
+    margin-bottom: 58px;
+  }
+  .va-orbit-node > span:last-child {
+    font-size: 9px;
+    color: #526148;
+  }
+  .va-orbit-centre small {
+    color: #657351;
+    font-size: 8px;
+  }
+  .va-welcome-scene {
+    min-height: 345px;
+  }
+  .va-scene-eyebrow {
+    font-size: 8px;
+    color: #52694a;
+  }
+  .va-welcome-scene > p {
+    font-size: 15px !important;
+    color: #526148;
+    bottom: 14px;
+  }
+  .va-search-panel {
+    grid-template-columns: 1fr;
+  }
+  .va-filter-chips :is(button, a) {
+    font-size: 12px;
+  }
+  .va-profile-layout > .va-request-panel {
+    grid-row: auto;
+  }
+  .va-profile-layout .va-form {
+    grid-template-columns: 1fr;
+  }
+  .va-profile-hero h1 {
+    font-size: 45px;
+  }
+  .va-next-up {
+    padding: 16px;
+    gap: 12px;
+  }
+  .va-next-up strong {
+    font-size: 13px;
+  }
+  .va-next-up small {
+    font-size: 12px;
+  }
+}
+@media (max-width: 359px) {
+  .va-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .va-account > span:first-child {
+    display: none;
+  }
+  .va-preview > div {
+    max-width: 170px;
+  }
+  .va-welcome h1,
+  .va-heading h1 {
+    font-size: 36px;
+  }
+  .va-orbit {
+    width: 240px;
+  }
+  .va-orbit-node > span:last-child {
+    font-size: 10px;
+  }
+  .va-toast {
+    align-items: flex-start;
+  }
+  .va-toast > div {
+    flex-shrink: 0;
+  }
+}
