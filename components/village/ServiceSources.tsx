@@ -1,4 +1,5 @@
 import { existingSupport } from "@/content/existing-support";
+import ArrowUpRight from "@/components/ui/ArrowUpRight";
 
 export default function ServiceSources({
   slug,
@@ -26,7 +27,7 @@ export default function ServiceSources({
             rel="noopener noreferrer"
             className="village-source-action"
           >
-            {source.action} <span aria-hidden="true">↗</span>
+            {source.action} <ArrowUpRight />
             <span className="sr-only">
               {" "}
               with {source.name} (opens a new tab)

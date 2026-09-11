@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
+import ArrowUpRight from "@/components/ui/ArrowUpRight";
 import AddToVillage from "@/components/village/AddToVillage";
 import ServiceSources from "@/components/village/ServiceSources";
 import { existingSupport } from "@/content/existing-support";
@@ -59,7 +60,7 @@ export default function ServicesPage() {
               href="/my-village"
               className="text-sm text-text-sage underline underline-offset-4"
             >
-              Open my village <span aria-hidden="true">↗</span>
+              Open my village <ArrowUpRight />
             </Link>
           </div>
         </header>
@@ -134,7 +135,7 @@ export default function ServicesPage() {
                 >
                   About this support{" "}
                   <span className="sr-only">{service.title}</span>{" "}
-                  <span aria-hidden="true">↗</span>
+                  <ArrowUpRight />
                 </Link>
               </div>
             </article>

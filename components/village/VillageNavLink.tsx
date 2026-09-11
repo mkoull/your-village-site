@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useVillage } from "./VillageProvider";
+import ArrowUpRight from "@/components/ui/ArrowUpRight";
 
 export default function VillageNavLink({
   mobile = false,
@@ -27,7 +28,7 @@ export default function VillageNavLink({
           <span className="sr-only"> selected services</span>
         </span>
       ) : (
-        <span aria-hidden="true">↗</span>
+        <ArrowUpRight />
       )}
     </Link>
   );
