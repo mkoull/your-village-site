@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Waitlist",
+  title: "Village updates",
   description:
     "Hear about Village as its support network develops. Register your interest and tell us your suburb.",
 };

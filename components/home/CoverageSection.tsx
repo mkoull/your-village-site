@@ -37,10 +37,10 @@ export default function CoverageSection() {
             <p className="text-sm text-text-muted">
               Somewhere else?{" "}
               <Link
-                href="/waitlist"
+                href="/services"
                 className="underline text-text-sage underline-offset-4"
               >
-                Tell us your suburb →
+                Explore services and check their coverage →
               </Link>
             </p>
           </div>

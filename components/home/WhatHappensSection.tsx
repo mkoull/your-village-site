@@ -7,12 +7,12 @@ const steps = [
     body: "A hot meal, better rest, an hour to yourself. Small things are a good place to begin.",
   },
   {
-    title: "Explore the possibilities.",
-    body: "Get to know the services, specialists and community support that could make a difference.",
+    title: "Find a service to explore.",
+    body: "Open a service’s website to check its offer, availability and costs, and get in touch directly.",
   },
   {
-    title: "Make it your village.",
-    body: "Build a starting point around your needs. Keep the support you love and find what’s missing.",
+    title: "Bring it together.",
+    body: "My village keeps your choices and progress in one place. Mark when you’ve made contact or have support in place, and keep a copy for later.",
   },
 ];
 

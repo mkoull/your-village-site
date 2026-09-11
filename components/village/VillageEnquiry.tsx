@@ -12,6 +12,7 @@ export default function VillageEnquiry() {
   const { draft } = useVillage();
   const { send, sending, submitted, error, available } = useLeadForm();
   const [form, setForm] = useState({ name: "", email: "", notes: "" });
+  if (available === false) return null;
   if (submitted)
     return (
       <div role="status" className="village-enquiry">
@@ -51,16 +52,13 @@ export default function VillageEnquiry() {
           });
         }}
       >
-        <fieldset
-          disabled={sending || available === false}
-          className="space-y-5"
-        >
+        <fieldset disabled={sending} className="space-y-5">
           <div>
             <label htmlFor="village-name" className="form-label">
               Your name
             </label>
             <input
-              disabled={sending || available === false}
+              disabled={sending}
               id="village-name"
               pattern=".*\S.*"
               title="Please enter your name."
@@ -77,7 +75,7 @@ export default function VillageEnquiry() {
               Email address
             </label>
             <input
-              disabled={sending || available === false}
+              disabled={sending}
               id="village-email"
               type="email"
               autoComplete="email"
@@ -94,7 +92,7 @@ export default function VillageEnquiry() {
               <span className="font-normal">(optional)</span>
             </label>
             <textarea
-              disabled={sending || available === false}
+              disabled={sending}
               id="village-notes"
               rows={3}
               maxLength={4000}
@@ -106,7 +104,7 @@ export default function VillageEnquiry() {
               Please leave out sensitive medical information.
             </p>
           </div>
-          <Button type="submit" disabled={sending || available === false}>
+          <Button type="submit" disabled={sending}>
             {sending ? "Sending…" : "Send my enquiry"}{" "}
             <span aria-hidden="true">→</span>
           </Button>

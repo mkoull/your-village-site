@@ -4,6 +4,8 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import AddToVillage from "@/components/village/AddToVillage";
+import ServiceSources from "@/components/village/ServiceSources";
+import { existingSupport } from "@/content/existing-support";
 import { services } from "@/content/services";
 
 const categories = [
@@ -19,7 +21,16 @@ export default function ServicesPage() {
   const filtered = services.filter(
     (service) =>
       (filter === "all" || service.category === filter) &&
-      [service.title, service.tagline, service.description, service.need]
+      [
+        service.title,
+        service.tagline,
+        service.description,
+        service.need,
+        ...service.features,
+        ...existingSupport
+          .filter((source) => source.serviceSlug === service.slug)
+          .map((source) => `${source.name} ${source.description}`),
+      ]
         .join(" ")
         .toLowerCase()
         .includes(query.trim().toLowerCase()),
@@ -30,18 +41,19 @@ export default function ServicesPage() {
         <header className="catalogue-header">
           <div>
             <p className="text-eyebrow uppercase tracking-[.2em] font-semibold text-text-sage mb-4">
-              The pieces of your village
+              Explore services
             </p>
             <h1 className="text-h1 font-heading">
-              Find a little
+              Find the support
               <br />
-              <em className="text-text-sage">breathing room.</em>
+              <em className="text-text-sage">that fits your life.</em>
             </h1>
           </div>
           <div className="max-w-sm">
             <p className="text-text-muted mb-5">
-              Explore the help that already exists. Add what feels useful to
-              your village, then bring it all together.
+              Browse support categories and follow the service links to explore
+              your options. Save categories to My village to keep track as you
+              go.
             </p>
             <Link
               href="/my-village"
@@ -113,13 +125,15 @@ export default function ServicesPage() {
               <p className="text-sm text-text-muted leading-relaxed mb-7">
                 {service.description}
               </p>
+              <ServiceSources slug={service.slug} compact />
               <div className="mt-auto flex flex-wrap items-center gap-4">
                 <AddToVillage slug={service.slug} compact />
                 <Link
                   href={`/services/${service.slug}`}
                   className="text-sm underline underline-offset-4 text-text-sage"
                 >
-                  Explore <span className="sr-only">{service.title}</span>{" "}
+                  About this support{" "}
+                  <span className="sr-only">{service.title}</span>{" "}
                   <span aria-hidden="true">↗</span>
                 </Link>
               </div>
@@ -155,8 +169,8 @@ export default function ServicesPage() {
               details needed.
             </p>
           </div>
-          <Button href="/get-started">
-            Build my village <span aria-hidden="true">→</span>
+          <Button href="/my-village">
+            See my saved support <span aria-hidden="true">→</span>
           </Button>
         </div>
       </Container>

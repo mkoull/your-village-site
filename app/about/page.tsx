@@ -25,12 +25,21 @@ const content = {
     ],
     [
       "Building it with you",
-      "We're developing the service network and learning what people need. Today you can build a village that stays with you as you browse, explore independent services and keep a copy of your plan. Booking and payment through Village are still to come.",
+      "We’re developing the service network and learning what people need. Today you can choose support, connect with independent services through their websites, and track your next steps in My village. Booking and payment through Village are still to come.",
     ],
   ],
 };
 export default function Page() {
   return (
-    <InfoPage {...content} sections={content.sections as [string, string][]} />
+    <InfoPage
+      {...content}
+      sections={content.sections as [string, string][]}
+      sectionLinks={[
+        null,
+        { label: "Find support for your life", href: "/services" },
+        { label: "See how Village works", href: "/how-it-works" },
+        { label: "Build my village", href: "/get-started" },
+      ]}
+    />
   );
 }

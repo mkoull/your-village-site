@@ -48,12 +48,12 @@ export default function Footer() {
               {[
                 { label: "About", href: "/about" },
                 { label: "How It Works", href: "/how-it-works" },
-                { label: "Pricing", href: "/pricing" },
+                { label: "Costs", href: "/pricing" },
                 { label: "All Services", href: "/services" },
-                { label: "Safety & Vetting", href: "/safety" },
+                { label: "Trust & safety", href: "/safety" },
                 { label: "Privacy", href: "/privacy" },
                 { label: "Contact", href: "/contact" },
-                { label: "Join Waitlist", href: "/waitlist" },
+                { label: "Village updates", href: "/waitlist" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link

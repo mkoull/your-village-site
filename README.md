@@ -23,12 +23,14 @@ Next.js 15, React 19, Tailwind CSS 4 and TypeScript. All content pages are prere
 - `content/services.ts`: authoritative service catalogue; the village map, interactive service guide, navigation and saved village derive from it.
 - `content/existing-support.ts`: eight independent services linked from discovery pages and the personal plan, with official source URLs. These are public starting points, not claimed partners or vetted provider profiles. Recheck the source pages before changing service descriptions.
 - `components/ui/VillageMark.tsx`: shared brand mark for navigation and homepage.
-- `app/village.css`: homepage map and service-guide styles.
+- `app/village.css`: shared support tones and original service-guide styles.
 - `app/village-experience.css`: builder, saved-village controls, catalogue and information-page styles, including mobile and print layouts.
 - `app/village-lights.css`: shared forest-and-lantern scene, immediate selected-state lighting, short click animations and warm page treatments. Motion settles after each interaction and respects reduced-motion preferences.
 - `components/village/`: shared draft context, add/remove buttons, navigation count, live map, builder, exports and optional enquiry.
-- The homepage and builder use the same `VillageScene`. Clicking either map adds/removes the real saved choice. On phones, the builder map stays visible while choosing support.
-- `/my-village` is the saved-support destination. All My village links open the saved list independently of the current builder step; an empty village explains how to begin. `/get-started` handles choosing support and optional context, and its final step opens `/my-village`.
+- The homepage and builder use the same `VillageScene`. Clicking either map adds/removes the real saved choice. The homepage reveals a relevant service link after selection. On the saved page, lit circles focus a support card; unlit circles add support and focus its card.
+- `/get-started` is one choice screen that leads directly to `/my-village`, with no intervening questionnaire. Legacy need/stage URLs and existing drafts remain supported.
+- `components/village/SavedVillage.tsx` shows direct service actions, manual progress, filters, removal/undo and the saved map. Progress never implies a provider acknowledgement or booking. `VillageExports.tsx` creates local copies including all choices and their progress, with a manual copy fallback.
+- `app/journey.css`: shared service actions, category links, saved progress, mobile layouts and print rules. Homepage category links open their service pages directly.
 - `components/ui/VillageBrand.tsx` combines the circle mark with the wordmark for header/footer; `app/brand.css` styles the lockup. Preserve eight small circles around a larger centre and keep `public/favicon.svg` consistent with `VillageMark`.
 - `lib/village.ts`: versioned draft parser and immutable selection updates. Only allowlisted choices are restored from session storage.
 - `lib/assessment.ts`: stage options and shortlist selection. Keeps all selected services in their chosen order.
@@ -52,7 +54,7 @@ For migration, the server temporarily accepts the existing NEXT_PUBLIC_LEAD_WEBH
 
 The endpoint validates and limits the request body, accepts only assessment/contact/waitlist types, rejects cross-origin browser posts, and forwards only permitted fields. It refuses webhook redirects, uses an eight-second timeout and never logs personal data. Successful HTTP acknowledgement from the configured processor is required before the UI shows success.
 
-- Missing configuration: GET reports only acceptingEnquiries: false. All four capture points show availability before their fields and disable submission; POST also returns 503. No webhook value is exposed.
+- Missing configuration: GET reports only acceptingEnquiries: false. Contact and updates pages replace forms with a clear availability message and working service/saved-village links; homepage and saved-page optional capture forms are hidden. POST also returns 503. No webhook value is exposed.
 - Processor rejection or timeout: 502, retryable message, form data retained.
 - Valid processor acknowledgement: 200, confirmation screen.
 - No client-side fire-and-forget, no opaque no-cors delivery assumption.
@@ -63,7 +65,7 @@ No form-provider account or credentials were created by this change. Configure r
 
 ## Privacy
 
-Selected service slugs, optional family stage/timing and builder step are saved in sessionStorage for this browser tab. They survive navigation and refresh. Drafts are versioned, bounded and allowlisted when restored. Clear village removes the draft and offers an in-page Undo. A blocked-storage fallback keeps the draft in React memory and explains the refresh limitation. Contact fields and notes are never persisted.
+Selected service slugs and allowlisted progress are saved in sessionStorage for this browser tab. Optional family stage/timing and step from legacy drafts remain compatible. Choices and progress survive navigation and refresh, but not closing the tab. Drafts are versioned, bounded and allowlisted when restored. Removing a category removes its progress; removal and Clear village offer an in-page Undo. A blocked-storage fallback keeps the draft in React memory and explains the refresh limitation. Contact fields and notes are never persisted.
 
 Only an explicit enquiry submits selections and contact details. Page analytics receive no draft fields. No anonymous localStorage identifier is created. Copy, download and print exports happen locally; the visitor controls their resulting copies.
 

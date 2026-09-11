@@ -12,33 +12,43 @@ export default function ServiceSources({
   return (
     <div className={compact ? "service-sources-compact" : "service-sources"}>
       <p className="text-[10px] uppercase tracking-[.18em] text-text-sage font-semibold mb-3">
-        An independent place to start
+        A service to explore
       </p>
       {sources.map((source) => (
-        <a
-          key={source.href}
-          href={source.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block group"
-        >
-          <span className="flex justify-between gap-3 font-heading text-xl text-text-primary group-hover:text-text-sage">
+        <div key={source.href} className="village-source-card">
+          <p className="font-heading text-2xl text-text-primary">
             {source.name}
-            <span aria-hidden="true">↗</span>
-          </span>
-          <span className="block text-sm text-text-muted mt-2">
-            {source.description}
-          </span>
-          <span className="block text-xs text-text-sage mt-3">
-            Visit their website{" "}
-            <span className="text-text-muted">(new tab)</span>
-          </span>
-        </a>
+          </p>
+          <p className="text-sm text-text-muted mt-2">{source.description}</p>
+          <a
+            href={source.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="village-source-action"
+          >
+            {source.action} <span aria-hidden="true">↗</span>
+            <span className="sr-only">
+              {" "}
+              with {source.name} (opens a new tab)
+            </span>
+          </a>
+          <p className="text-[11px] text-text-muted mt-2">
+            Opens their website in a new tab
+          </p>
+          <details className="village-next-step">
+            <summary>How to take the next step</summary>
+            <p>{source.nextStep}</p>
+            <p>
+              Confirm suitability, availability and costs directly. Saving this
+              category does not send them your details.
+            </p>
+          </details>
+        </div>
       ))}
       {!compact && (
         <p className="mt-5 text-xs text-text-muted">
-          Independent of Village. Confirm availability, suitability and costs
-          directly.
+          Independent of Village. This is a starting point to explore, not a
+          verified provider listing.
         </p>
       )}
     </div>

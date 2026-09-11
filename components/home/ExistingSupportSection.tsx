@@ -28,6 +28,8 @@ export default function ExistingSupportSection() {
             <a
               key={item.name}
               href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group block py-6 border-t border-border"
             >
               <p className="text-[10px] uppercase tracking-[0.17em] font-semibold text-text-muted mb-3">
@@ -47,25 +49,28 @@ export default function ExistingSupportSection() {
               <p className="text-sm text-text-muted max-w-sm">
                 {item.description}
               </p>
-              <span className="sr-only">Visit their website</span>
+              <span className="block text-xs text-text-sage mt-3">
+                Explore service ↗{" "}
+                <span className="sr-only">(opens a new tab)</span>
+              </span>
             </a>
           ))}
           <div className="py-6 border-t border-border">
             <p className="text-[10px] uppercase tracking-[0.17em] font-semibold text-text-muted mb-3">
-              For people who support families
+              A growing network
             </p>
             <h3 className="font-heading text-2xl mb-3">
-              Help the village grow.
+              More connections, together.
             </h3>
             <p className="text-sm text-text-muted mb-4">
-              Offer a service that could make family life lighter? We&apos;d
-              love to hear from you.
+              We&apos;re bringing more kinds of support into one place, with
+              families and the people who help them at the centre.
             </p>
             <Link
-              href="/contact"
+              href="/about"
               className="text-sm text-text-sage underline underline-offset-4 decoration-sage/40"
             >
-              Let&apos;s connect <span aria-hidden="true">→</span>
+              See what we&apos;re building <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>

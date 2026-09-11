@@ -13,7 +13,7 @@ const content = {
   sections: [
     [
       "Your village in this browser",
-      "Your selected support categories, optional family stage and timing are kept in session storage in this browser tab, so they survive page changes and refreshes. They are not sent to Village as you choose. Clear village removes them. Contact details and messages are never stored in this draft. If browser storage is blocked, a refresh may clear your choices. Basic analytics record page views and event names, not your selections or contact details.",
+      "Your selected support categories and progress are kept in session storage in this browser tab, so they survive page changes and refreshes. Optional family stage and timing from an older draft may also remain there. These choices are not sent to Village as you update them. Clear village removes them. Contact details and messages are never stored in this draft. If browser storage is blocked, a refresh may clear your choices. Basic analytics record page views and event names, not your selections, progress or contact details.",
     ],
     [
       "What you choose to send",
@@ -39,6 +39,16 @@ const content = {
 };
 export default function Page() {
   return (
-    <InfoPage {...content} sections={content.sections as [string, string][]} />
+    <InfoPage
+      {...content}
+      sections={content.sections as [string, string][]}
+      sectionLinks={[
+        { label: "Manage my village", href: "/my-village" },
+        null,
+        null,
+        null,
+        { label: "Contact Village", href: "/contact" },
+      ]}
+    />
   );
 }

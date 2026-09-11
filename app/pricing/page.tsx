@@ -1,36 +1,45 @@
 import type { Metadata } from "next";
 import InfoPage from "@/components/layout/InfoPage";
 export const metadata: Metadata = {
-  title: "Pricing",
+  title: "Costs & pricing",
   description:
-    "Exploring Village and sharing your interests are free. Service prices will be published as the provider network develops.",
+    "Village is free to explore. Each independent service sets its own prices and terms.",
 };
 const content = {
-  eyebrow: "Pricing",
-  headline: "Clarity before commitment.",
+  eyebrow: "Costs & pricing",
+  headline: "What does support cost?",
   intro:
-    "Exploring Village and sharing your interests are free. Service prices will be published as the provider network develops.",
+    "Using Village to explore, save support and keep track is free. The services you choose have their own prices and terms.",
   sections: [
     [
-      "A village is a mix, not one package",
-      "Different people need different kinds of help. The cost of a meal service, a nanny or a professional appointment will depend on that provider's offer.",
+      "Choose what works for your budget",
+      "A village can start with one service. Meals, care, household help and professional appointments have different costs. Follow the service links to see current information or request a quote directly.",
     ],
     [
-      "Rates are still being developed",
-      "There are no confirmed service rates or platform fees to quote yet. Before bookings open, we need to show the price, what's included and any additional fees clearly.",
+      "Check the full cost with the service",
+      "Before you commit, ask what is included, whether there is a minimum spend or booking length, and whether there are delivery, travel or cancellation fees. Each service can explain its own terms.",
     ],
     [
-      "No payments on this site",
-      "An enquiry does not make a booking or commit you to a purchase. Payment, cancellation and provider terms will need to be available before anyone can book.",
+      "Saving support is free",
+      "Add to my village creates a personal shortlist. It does not sign you up, send an enquiry, book a service or take payment. You can change or remove your choices whenever you like.",
     ],
     [
-      "Tell us what would work for you",
-      "If you have a budget or practical requirements in mind, you can mention them in your enquiry. That helps us understand what useful support would look like.",
+      "When you’re ready to arrange support",
+      "Use the service’s own website to get in touch and agree on the details. Village does not currently handle bookings or payments. You can record your own progress in My village after making contact.",
     ],
   ],
 };
 export default function Page() {
   return (
-    <InfoPage {...content} sections={content.sections as [string, string][]} />
+    <InfoPage
+      {...content}
+      sections={content.sections as [string, string][]}
+      sectionLinks={[
+        { label: "Explore service options", href: "/services" },
+        null,
+        { label: "Choose support to save", href: "/get-started" },
+        { label: "Open my village", href: "/my-village" },
+      ]}
+    />
   );
 }

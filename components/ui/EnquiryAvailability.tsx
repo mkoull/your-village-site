@@ -7,15 +7,16 @@ export default function EnquiryAvailability({
   if (available !== false) return null;
   return (
     <div role="status" className="enquiry-availability">
-      <p className="font-medium mb-2">Online enquiries aren&apos;t open yet.</p>
+      <p className="font-heading text-2xl mb-3">You can find support today.</p>
       <p>
-        You can still{" "}
-        <Link href="/get-started" className="underline">
-          build and keep your village
-        </Link>{" "}
-        and contact the independent services directly. No contact details have
-        been sent.
+        Village&apos;s inbox isn&apos;t open yet. You can explore the
+        independent services, contact them through their websites, and keep
+        track in My village.
       </p>
+      <div className="availability-links">
+        <Link href="/services">Explore services →</Link>
+        <Link href="/my-village">Go to my village →</Link>
+      </div>
     </div>
   );
 }

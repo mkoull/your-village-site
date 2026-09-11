@@ -38,6 +38,9 @@ export default function ContactPage() {
           <p className="text-text-muted text-body-lg">
             Your enquiry has been received. Thanks for helping shape Village.
           </p>
+          <div className="mt-8">
+            <Button href="/my-village">Go to my village →</Button>
+          </div>
         </Container>
       </section>
     );
@@ -50,105 +53,114 @@ export default function ContactPage() {
           <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-4 font-body text-center">
             Get in touch
           </p>
-          <h1 className="text-h1 font-heading text-center mb-4">Talk to us</h1>
+          <h1 className="text-h1 font-heading text-center mb-4">
+            Contact Village
+          </h1>
           <p className="text-text-muted text-body-lg text-center mb-12 max-w-lg mx-auto">
-            No commitment. No pressure. Just a conversation about what support
-            could look like for your family.
+            Have a question about Village, or a service to share? This is the
+            place to reach our team. For a particular service, use its website
+            to contact the provider directly.
           </p>
         </ScrollReveal>
 
         <ScrollReveal>
           <EnquiryAvailability available={available} />
-          <form
-            aria-busy={sending}
-            onSubmit={handleSubmit}
-            className="space-y-6 max-w-lg mx-auto"
-          >
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-text-primary mb-2"
-              >
-                Your name
-              </label>
-              <input
-                disabled={sending || available === false}
-                id="name"
-                pattern=".*\S.*"
-                title="Please enter your name."
-                autoComplete="given-name"
-                maxLength={120}
-                type="text"
-                required
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-elevated text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-sage/40 focus:border-sage transition-colors"
-                placeholder="First name"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-text-primary mb-2"
-              >
-                Email
-              </label>
-              <input
-                disabled={sending || available === false}
-                id="email"
-                autoComplete="email"
-                maxLength={254}
-                type="email"
-                required
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-elevated text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-sage/40 focus:border-sage transition-colors"
-                placeholder="you@email.com"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="message"
-                className="block text-sm font-medium text-text-primary mb-2"
-              >
-                How can we help? (optional)
-              </label>
-              <textarea
-                disabled={sending || available === false}
-                id="message"
-                maxLength={4000}
-                rows={4}
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-elevated text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-sage/40 focus:border-sage transition-colors resize-none"
-                placeholder="What support are you looking for, or what service would you like to offer? Please leave out sensitive medical information."
-              />
-            </div>
-
-            <Button
-              type="submit"
-              disabled={sending || available === false}
-              className="w-full justify-center"
+          {available !== false && (
+            <form
+              aria-busy={sending}
+              onSubmit={handleSubmit}
+              className="space-y-6 max-w-lg mx-auto"
             >
-              {sending ? "Sending…" : "Send message"}
-              <span aria-hidden="true">&rarr;</span>
-            </Button>
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-text-primary mb-2"
+                >
+                  Your name
+                </label>
+                <input
+                  disabled={sending}
+                  id="name"
+                  pattern=".*\S.*"
+                  title="Please enter your name."
+                  autoComplete="given-name"
+                  maxLength={120}
+                  type="text"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-elevated text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-sage/40 focus:border-sage transition-colors"
+                  placeholder="First name"
+                />
+              </div>
 
-            <p className="text-xs text-text-muted text-center">
-              Village is in development. This sends an enquiry; it does not book
-              a service.
-            </p>
-          </form>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-text-primary mb-2"
+                >
+                  Email
+                </label>
+                <input
+                  disabled={sending}
+                  id="email"
+                  autoComplete="email"
+                  maxLength={254}
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-elevated text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-sage/40 focus:border-sage transition-colors"
+                  placeholder="you@email.com"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-text-primary mb-2"
+                >
+                  How can we help? (optional)
+                </label>
+                <textarea
+                  disabled={sending}
+                  id="message"
+                  maxLength={4000}
+                  rows={4}
+                  value={form.message}
+                  onChange={(e) =>
+                    setForm({ ...form, message: e.target.value })
+                  }
+                  className="w-full px-4 py-3 rounded-[var(--radius-sm)] border border-border bg-elevated text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-sage/40 focus:border-sage transition-colors resize-none"
+                  placeholder="What support are you looking for, or what service would you like to offer? Please leave out sensitive medical information."
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={sending}
+                className="w-full justify-center"
+              >
+                {sending ? "Sending…" : "Send message"}
+                <span aria-hidden="true">&rarr;</span>
+              </Button>
+
+              <p className="text-xs text-text-muted text-center">
+                Village is in development. This sends an enquiry; it does not
+                book a service.
+              </p>
+            </form>
+          )}
 
           <FormError message={error} />
-          <p className="mt-4 text-xs text-text-muted">
-            Your details are sent only when you submit.{" "}
-            <Link href="/privacy" className="underline">
-              Privacy
-            </Link>
-          </p>
+          {available !== false && (
+            <p className="mt-4 text-xs text-text-muted">
+              Your details are sent only when you submit.{" "}
+              <Link href="/privacy" className="underline">
+                Privacy
+              </Link>
+            </p>
+          )}
         </ScrollReveal>
       </Container>
     </section>

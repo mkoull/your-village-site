@@ -14,8 +14,10 @@ import {
   emptyVillage,
   readVillage,
   setVillageNeed,
+  setVillageProgress,
   VILLAGE_STORAGE_KEY,
   type VillageDraft,
+  type SupportProgress,
 } from "@/lib/village";
 
 type VillageContextValue = {
@@ -24,6 +26,7 @@ type VillageContextValue = {
   ready: boolean;
   storageAvailable: boolean;
   setNeed: (slug: string, selected: boolean) => void;
+  setProgress: (slug: string, status: SupportProgress) => void;
   clear: () => void;
   restore: (draft: VillageDraft) => void;
   message: string;
@@ -70,6 +73,10 @@ export function VillageProvider({ children }: { children: ReactNode }) {
     setDraft(emptyVillage());
     setMessage("Your village has been cleared.");
   }
+  function setProgress(slug: string, status: SupportProgress) {
+    setDraft((previous) => setVillageProgress(previous, slug, status));
+    setMessage("Your progress has been saved in this tab.");
+  }
   function restore(previous: VillageDraft) {
     setDraft(previous);
     setMessage("Your village has been restored.");
@@ -82,6 +89,7 @@ export function VillageProvider({ children }: { children: ReactNode }) {
         ready,
         storageAvailable,
         setNeed,
+        setProgress,
         clear,
         restore,
         message,

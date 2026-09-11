@@ -1,4 +1,4 @@
-// Public service information checked against these official pages on 10 September 2026.
+// Public links and service descriptions rechecked against these official pages on 11 September 2026.
 // These are independent starting points, not Village partners or verified listings.
 export const existingSupport = [
   {
@@ -9,6 +9,9 @@ export const existingSupport = [
     href: "https://www.dinnerladies.com.au/",
     source: "https://www.dinnerladies.com.au/pages/delivery-info",
     serviceSlug: "food",
+    action: "Explore meals & delivery",
+    nextStep:
+      "Check delivery to your suburb, then browse meals that suit your household.",
   },
   {
     name: "Nanager",
@@ -18,6 +21,9 @@ export const existingSupport = [
     href: "https://nanager.com.au/",
     source: "https://nanager.com.au/",
     serviceSlug: "postpartum-carers",
+    action: "Explore nanny & household care",
+    nextStep:
+      "Think about the days, hours and tasks you need help with, then ask about the options.",
   },
   {
     name: "Australian Breastfeeding Association",
@@ -26,6 +32,9 @@ export const existingSupport = [
     href: "https://www.breastfeeding.asn.au/get-help",
     source: "https://www.breastfeeding.asn.au/get-help",
     serviceSlug: "lactation",
+    action: "See breastfeeding support options",
+    nextStep:
+      "Explore the support channels and local groups to find a way to connect that suits you.",
   },
   {
     name: "PANDA",
@@ -34,6 +43,9 @@ export const existingSupport = [
     href: "https://www.panda.org.au/",
     source: "https://www.panda.org.au/about/about-panda",
     serviceSlug: "counselling",
+    action: "Explore PANDA support",
+    nextStep:
+      "Read who the service supports and how to get in touch. This starting point focuses on pregnancy and early parenthood.",
   },
   {
     name: "Playgroup Victoria",
@@ -43,6 +55,9 @@ export const existingSupport = [
     href: "https://www.playgroup.org.au/find/",
     source: "https://www.playgroup.org.au/find/",
     serviceSlug: "community",
+    action: "Find a local playgroup",
+    nextStep:
+      "Search for a nearby group, then check the session times, age range and how to join.",
   },
   {
     name: "Tweddle",
@@ -52,6 +67,9 @@ export const existingSupport = [
     href: "https://www.tweddle.org.au/",
     source: "https://www.tweddle.org.au/",
     serviceSlug: "sleep",
+    action: "Explore early parenting support",
+    nextStep:
+      "Check the family stages and programs supported, and how to access a suitable service.",
   },
   {
     name: "Maid to Clean",
@@ -61,6 +79,9 @@ export const existingSupport = [
     href: "https://www.maidtoclean.com.au/",
     source: "https://www.maidtoclean.com.au/",
     serviceSlug: "cleaning",
+    action: "Explore cleaning & request a quote",
+    nextStep:
+      "Check coverage for your suburb and request a quote for the rooms and frequency you need.",
   },
   {
     name: "The Carellective",
@@ -70,5 +91,8 @@ export const existingSupport = [
     href: "https://www.carellective.com.au/home-care-organisation",
     source: "https://www.carellective.com.au/home-care-organisation",
     serviceSlug: "life-admin",
+    action: "Explore home organisation help",
+    nextStep:
+      "Choose one or two tasks you would like help with, then ask about availability and costs.",
   },
 ];

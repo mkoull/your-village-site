@@ -17,7 +17,7 @@ const serviceLinks = services.map((s) => ({
 const mainLinks = [
   { label: "Services", href: "/services" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Costs", href: "/pricing" },
   { label: "About", href: "/about" },
 ];
 
@@ -142,20 +142,29 @@ export default function Navbar() {
         {/* Desktop nav */}
         <ul className="hidden md:flex items-center gap-8">
           {/* Services with dropdown */}
-          <li className="relative" ref={dropdownRef}>
+          <li className="relative flex items-center" ref={dropdownRef}>
+            <Link
+              href="/services"
+              aria-current={
+                pathname.startsWith("/services") ? "page" : undefined
+              }
+              className="text-[15px] font-medium text-text-body hover:text-sage"
+            >
+              Services
+            </Link>
             <button
               ref={servicesButton}
+              aria-label="Show service categories"
               aria-controls="services-menu"
               onClick={() => setServicesOpen(!servicesOpen)}
               className={cn(
-                "text-[15px] font-medium transition-colors hover:text-sage flex items-center gap-1",
+                "text-[15px] font-medium transition-colors hover:text-sage flex items-center justify-center w-8 h-10",
                 pathname.startsWith("/services")
                   ? "text-sage"
                   : "text-text-body",
               )}
               aria-expanded={servicesOpen}
             >
-              Services
               <svg
                 width="12"
                 height="12"
@@ -230,7 +239,7 @@ export default function Navbar() {
           ref={menuButton}
           aria-controls="mobile-menu"
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 text-text-body"
+          className="md:hidden min-h-11 min-w-11 p-2 text-text-body"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
         >

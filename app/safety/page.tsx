@@ -7,9 +7,9 @@ export const metadata: Metadata = {
 };
 const content = {
   eyebrow: "Trust & safety",
-  headline: "Trust belongs at the centre.",
+  headline: "Choosing support with confidence.",
   intro:
-    "Village is in development. These are the principles guiding our provider network, rather than claims that checks have already been completed.",
+    "The services linked here are independent of Village. We have not verified their providers. Explore their information and confirm that the service suits your needs before arranging support.",
   sections: [
     [
       "Checks that fit the service",
@@ -35,6 +35,16 @@ const content = {
 };
 export default function Page() {
   return (
-    <InfoPage {...content} sections={content.sections as [string, string][]} />
+    <InfoPage
+      {...content}
+      sections={content.sections as [string, string][]}
+      sectionLinks={[
+        null,
+        null,
+        { label: "Explore the service information", href: "/services" },
+        null,
+        { label: "How Village works today", href: "/how-it-works" },
+      ]}
+    />
   );
 }

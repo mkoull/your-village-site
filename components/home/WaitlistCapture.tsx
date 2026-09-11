@@ -45,10 +45,10 @@ export default function WaitlistCapture() {
               </p>
             </div>
 
-            {!submitted ? (
+            {available === false ? null : !submitted ? (
               <div className="max-w-md mx-auto">
                 <p className="text-text-inverse/60 text-sm mb-5">
-                  Not ready yet? Stay in the loop instead.
+                  Want to hear as Village grows?
                 </p>
                 <EnquiryAvailability available={available} />
                 <form
@@ -60,7 +60,7 @@ export default function WaitlistCapture() {
                     Email address
                   </label>
                   <input
-                    disabled={sending || available === false}
+                    disabled={sending}
                     id="capture-email"
                     autoComplete="email"
                     maxLength={254}
@@ -73,14 +73,10 @@ export default function WaitlistCapture() {
                   />
                   <button
                     type="submit"
-                    disabled={sending || available === false}
+                    disabled={sending}
                     className="px-7 py-3.5 rounded-full border border-white/[0.16] text-text-inverse/80 font-medium text-sm hover:border-sage hover:text-sage transition-all duration-300 cursor-pointer whitespace-nowrap"
                   >
-                    {available === false
-                      ? "Updates coming soon"
-                      : sending
-                        ? "Sending…"
-                        : "Keep me posted"}
+                    {sending ? "Sending…" : "Keep me posted"}
                   </button>
                 </form>
 

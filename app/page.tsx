@@ -13,9 +13,9 @@ export default function HomePage() {
     <>
       <Hero />
       <ServicesPreview />
+      <WhatHappensSection />
       <ExistingSupportSection />
       <EmpathySection />
-      <WhatHappensSection />
       <FounderSection />
       <CoverageSection />
       <FaqSection />

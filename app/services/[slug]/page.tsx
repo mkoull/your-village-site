@@ -7,23 +7,21 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 
 export function generateStaticParams() {
-  return services.map((s) => ({ slug: s.slug }));
+  return services.map((service) => ({ slug: service.slug }));
 }
-
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  // For static generation, we resolve synchronously from the services array
-  return params.then(({ slug }) => {
-    const service = services.find((s) => s.slug === slug);
-    if (!service) return { title: "Service Not Found" };
-    return {
-      title: service.title,
-      description: service.description,
-    };
-  });
+  const { slug } = await params;
+  const service = services.find((item) => item.slug === slug);
+  return service
+    ? {
+        title: `${service.title} — Your Village`,
+        description: service.description,
+      }
+    : { title: "Service not found" };
 }
 
 export default async function ServiceDetailPage({
@@ -32,136 +30,129 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
-
+  const service = services.find((item) => item.slug === slug);
   if (!service) notFound();
-
-  const otherServices = services.filter((s) => s.slug !== slug).slice(0, 3);
-
+  const related = services
+    .filter((item) => item.slug !== slug)
+    .sort(
+      (a, b) =>
+        Number(b.category === service.category) -
+        Number(a.category === service.category),
+    )
+    .slice(0, 3);
   return (
-    <section className="pt-32 pb-20">
+    <article className="service-page pt-28 md:pt-32 pb-20">
       <Container>
-        {/* Breadcrumb */}
         <nav className="mb-8" aria-label="Breadcrumb">
-          <ol className="flex flex-wrap items-center gap-2 text-sm text-text-muted">
+          <ol className="flex flex-wrap gap-2 text-sm text-text-muted">
             <li>
-              <Link
-                href="/services"
-                className="hover:text-sage transition-colors"
-              >
-                Services
+              <Link href="/services" className="underline underline-offset-4">
+                Explore services
               </Link>
             </li>
             <li aria-hidden="true">/</li>
-            <li className="text-text-primary font-medium">{service.title}</li>
+            <li aria-current="page">{service.title}</li>
           </ol>
         </nav>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-          {/* Main content */}
-          <div className="lg:col-span-2">
-            {/* Icon + heading */}
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-sage/10 text-sage mb-6">
-              <div
-                className="w-7 h-7"
-                dangerouslySetInnerHTML={{ __html: service.icon }}
-              />
-            </div>
-
-            <h1 className="text-h1 font-heading mb-3">{service.title}</h1>
-            <p className="text-body-lg text-text-sage font-medium mb-8 italic font-heading">
-              {service.tagline}
-            </p>
-
-            <div className="space-y-6 text-text-body leading-relaxed mb-12">
-              <p className="text-body-lg">{service.description}</p>
-              <p>{service.details}</p>
-            </div>
-
-            {/* Features */}
-            <h2 className="text-h3 font-heading mb-6">Options to explore</h2>
-            <ul className="space-y-4 mb-12">
-              {service.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-3">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    className="w-5 h-5 text-sage shrink-0 mt-0.5"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                  <span className="text-text-body">{feature}</span>
-                </li>
-              ))}
-            </ul>
-
-            {/* Who it's for */}
-            <div className="p-8 rounded-[var(--radius-lg)] bg-surface border border-border-subtle mb-12">
-              <h3 className="text-h3 font-heading mb-3">Who it&apos;s for</h3>
+        <header className="service-page-header">
+          <span
+            className="plan-icon mb-5"
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: service.icon }}
+          />
+          <h1 className="text-h1 font-heading mb-3">{service.title}</h1>
+          <p className="font-heading text-2xl text-text-sage italic mb-5">
+            {service.tagline}
+          </p>
+          <p className="text-text-body leading-relaxed max-w-2xl">
+            {service.description}
+          </p>
+          <div className="flex flex-wrap items-center gap-5 mt-6">
+            <AddToVillage slug={slug} />
+            <Link
+              href="/my-village"
+              className="text-sm underline underline-offset-4 text-text-sage"
+            >
+              See my saved support →
+            </Link>
+          </div>
+        </header>
+        <div className="service-page-layout">
+          <aside
+            className="service-page-provider"
+            aria-label="Service you can explore"
+          >
+            <ServiceSources slug={slug} />
+          </aside>
+          <div className="service-page-information">
+            <section className="mb-9">
+              <h2 className="font-heading text-3xl mb-4">
+                How this support can help
+              </h2>
               <p className="text-text-body leading-relaxed">
+                {service.details}
+              </p>
+            </section>
+            <section className="mb-9">
+              <h2 className="font-heading text-3xl mb-4">What to look for</h2>
+              <ul className="space-y-3">
+                {service.features.map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex gap-3 text-sm text-text-body"
+                  >
+                    <span aria-hidden="true" className="text-text-sage">
+                      ↳
+                    </span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </section>
+            <section className="bg-surface rounded-2xl p-6">
+              <h2 className="font-heading text-2xl mb-3">Who it may suit</h2>
+              <p className="text-sm text-text-body leading-relaxed">
                 {service.whoItsFor}
               </p>
-            </div>
-
-            {/* CTA */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <AddToVillage slug={service.slug} />
-              <Button href="/services" variant="secondary" size="lg">
-                View all services
-              </Button>
-            </div>
+            </section>
           </div>
-
-          {/* Sidebar */}
-          <aside className="lg:col-span-1">
-            <div className="sticky top-24 space-y-6">
-              <ServiceSources slug={service.slug} />
-              <div className="p-6 border border-border rounded-2xl">
-                <h3 className="font-heading text-2xl mb-3">
-                  Make room for this.
-                </h3>
-                <p className="text-sm text-text-muted mb-5">
-                  Keep this support in your village while you explore. You can
-                  change your choices any time.
-                </p>
-                <AddToVillage slug={service.slug} />
-                <Link
-                  href="/my-village"
-                  className="block text-sm text-text-sage underline mt-5"
-                >
-                  View my village →
-                </Link>
-              </div>
-
-              {/* Other services */}
-              <div className="p-6 rounded-[var(--radius-lg)] bg-surface border border-border">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-text-muted mb-4 font-body">
-                  Other services
-                </h3>
-                <ul className="space-y-3">
-                  {otherServices.map((s) => (
-                    <li key={s.slug}>
-                      <Link
-                        href={`/services/${s.slug}`}
-                        className="flex items-center gap-3 text-sm text-text-body hover:text-sage transition-colors"
-                      >
-                        <div
-                          className="w-4 h-4 text-text-muted"
-                          dangerouslySetInnerHTML={{ __html: s.icon }}
-                        />
-                        {s.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </aside>
+        </div>
+        <section className="service-related" aria-labelledby="related-heading">
+          <h2 id="related-heading" className="font-heading text-3xl mb-6">
+            What else would help?
+          </h2>
+          <div className="support-doorways">
+            {related.map((item) => (
+              <Link
+                key={item.slug}
+                href={`/services/${item.slug}`}
+                className="support-doorway"
+              >
+                <span
+                  className="plan-icon"
+                  aria-hidden="true"
+                  dangerouslySetInnerHTML={{ __html: item.icon }}
+                />
+                <span>
+                  <span className="block font-heading text-xl">
+                    {item.title}
+                  </span>
+                  <span className="block text-xs text-text-muted mt-1">
+                    {item.tagline}
+                  </span>
+                </span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+        <div className="flex flex-wrap gap-4 mt-8">
+          <Button href="/my-village">Go to my village →</Button>
+          <Button href="/services" variant="secondary">
+            Browse all support
+          </Button>
         </div>
       </Container>
-    </section>
+    </article>
   );
 }

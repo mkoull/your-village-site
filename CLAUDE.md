@@ -13,8 +13,9 @@ The current website is in development: browse service categories, follow links t
 - Never invent testimonials, provider counts, verification claims, prices, response times or availability.
 - Derive service content from content/services.ts. Preserve established routes.
 - Add to my village must save in place, with immediate selection state and a visible count; it must never restart a questionnaire or discard previous choices.
-- My village links go to /my-village, which shows saved support regardless of the builder step. Edit my choices goes back to /get-started. Keep a useful empty state on the saved page when the last selection is removed.
-- Use VillageProvider and lib/village.ts for shared selection and session persistence. Do not persist contact fields or messages. Preserve clear/undo and local exports. Never send draft choices as analytics or step beacons.
+- My village links go to /my-village. /get-started is a single choice screen that leads directly to services in the saved village. Do not add questions unless their answers change a useful result. Edit my choices goes back to /get-started. Keep a useful empty state and undo after removal.
+- The saved-page map opens an existing support card or adds a new category; it must not remove a saved item when someone tries to explore it. Progress (exploring, contacted, in-place) is explicitly recorded by the visitor, never inferred from opening a link or presented as a confirmed booking.
+- Use VillageProvider and lib/village.ts for shared selection, allowlisted progress and session persistence. Do not persist contact fields or messages. Preserve clear/undo and local exports. Never send draft choices or progress as analytics or step beacons.
 - All forms use useLeadForm / submitLead and the same-origin /api/leads endpoint. Success requires processor acknowledgement. Do not log payloads.
 - Keep content pages statically renderable. The one server endpoint is an intentional exception: it protects webhook configuration and confirms delivery.
 - Use existing design tokens, Button and Container. Add dependencies only for a clear need.

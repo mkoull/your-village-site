@@ -4,165 +4,60 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useVillage } from "./VillageProvider";
 import VillageScene from "./VillageScene";
-import VillageEnquiry from "./VillageEnquiry";
-import ServiceSources from "./ServiceSources";
+import SavedVillage from "./SavedVillage";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import { services } from "@/content/services";
-import { existingSupport } from "@/content/existing-support";
-import { SITE_URL } from "@/lib/site";
 import { stageOptions } from "@/lib/assessment";
-import {
-  timingOptions,
-  type VillageDraft,
-  type VillageStep,
-} from "@/lib/village";
 
-const steps = ["Choose support", "Make it yours", "Your village"];
 export default function VillageBuilder({
   savedView = false,
 }: {
   savedView?: boolean;
 }) {
-  const { draft, setDraft, ready, storageAvailable, setNeed, clear, restore } =
-    useVillage();
+  return savedView ? <SavedVillage /> : <ChooseSupport />;
+}
+
+function ChooseSupport() {
+  const { draft, setDraft, ready, setNeed, storageAvailable } = useVillage();
   const router = useRouter();
   const search = useSearchParams();
-  const panel = useRef<HTMLDivElement>(null);
   const imported = useRef("");
-  const previousView = useRef<string | null>(null);
-  const step: VillageStep = savedView ? 2 : draft.step === 2 ? 0 : draft.step;
-  const emptySavedVillage = savedView && draft.needs.length === 0;
-  const viewKey = `${step}:${emptySavedVillage}`;
   const [error, setError] = useState("");
-  const [copyMessage, setCopyMessage] = useState("");
-  const [undo, setUndo] = useState<VillageDraft | null>(null);
-  const [arrival, setArrival] = useState("");
-  useEffect(() => {
-    if (draft.needs.length) {
-      setError("");
-      setUndo(null);
-    }
-  }, [draft.needs.length]);
   useEffect(() => {
     if (!ready) return;
-    if (previousView.current !== null && previousView.current !== viewKey) {
-      requestAnimationFrame(() => {
-        panel.current?.scrollIntoView({ block: "start", behavior: "instant" });
-        panel.current?.focus({ preventScroll: true });
-      });
-    }
-    previousView.current = viewKey;
-  }, [ready, viewKey]);
-  const selected = draft.needs.flatMap((slug) => {
-    const s = services.find((item) => item.slug === slug);
-    return s ? [s] : [];
-  });
-  useEffect(() => {
-    if (!ready || savedView) return;
-    const need = search.get("need"),
-      stage = search.get("stage");
     const token = search.toString();
     if (!token || imported.current === token) return;
     imported.current = token;
-    const service = services.find((s) => s.slug === need);
-    if (service) {
-      setNeed(service.slug, true);
-      setArrival(service.slug);
-    }
-    if (stageOptions.some((s) => s.value === stage))
-      setDraft((prev) => ({ ...prev, stage: stage! }));
+    const need = search.get("need"),
+      stage = search.get("stage");
+    if (services.some((service) => service.slug === need)) setNeed(need!, true);
+    if (stageOptions.some((option) => option.value === stage))
+      setDraft((previous) => ({ ...previous, stage: stage! }));
     router.replace("/get-started", { scroll: false });
-  }, [ready, savedView, search, router, setDraft, setNeed]);
-  function go(step: VillageStep) {
-    if (step > 0 && !draft.needs.length) {
-      setError("Choose at least one kind of support to build your village.");
-      return;
-    }
-    setError("");
-    if (step === 2) {
-      router.push("/my-village");
-      return;
-    }
-    setDraft((prev) => ({ ...prev, step }));
-    if (savedView) router.push("/get-started");
-  }
-  function startAgain() {
-    setUndo(draft);
-    clear();
-    setArrival("");
-    setCopyMessage("");
-    setError("");
-  }
-  function planText() {
-    const stage = stageOptions.find((s) => s.value === draft.stage)?.label;
-    const timing = timingOptions.find((s) => s.value === draft.timing)?.label;
-    return [
-      "MY VILLAGE",
-      stage,
-      timing,
-      "",
-      ...selected.flatMap((s) => [
-        s.title,
-        s.description,
-        `${SITE_URL}/services/${s.slug}`,
-        ...existingSupport
-          .filter((source) => source.serviceSlug === s.slug)
-          .map((source) => `${source.name}: ${source.href}`),
-        "",
-      ]),
-      "A personal shortlist of support to explore. Confirm availability and costs directly with each provider.",
-    ]
-      .filter((v) => v !== undefined)
-      .join("\n");
-  }
-  async function copyPlan() {
-    try {
-      await navigator.clipboard.writeText(planText());
-      setCopyMessage("Your village has been copied.");
-    } catch {
-      setCopyMessage(
-        "Copy isn't available in this browser. Download your village or use Print / save PDF to keep it.",
-      );
-    }
-  }
-  function downloadPlan() {
-    const url = URL.createObjectURL(
-      new Blob([planText()], { type: "text/plain;charset=utf-8" }),
-    );
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "my-village.txt";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setCopyMessage("Your village download is ready.");
-  }
+  }, [ready, search, router, setNeed, setDraft]);
+  useEffect(() => {
+    if (draft.needs.length) setError("");
+  }, [draft.needs.length]);
+
   return (
-    <div
-      className="village-builder"
-      data-step={step}
-      data-saved-view={savedView}
-    >
+    <div className="village-builder village-chooser" data-step="0">
       <Container>
         <header className="village-builder-header">
           <div>
-            <p className="text-eyebrow uppercase tracking-[.2em] font-semibold text-text-sage mb-4">
-              {savedView ? "Your saved support" : "A village of your own"}
+            <p className="village-step-eyebrow">
+              Build your village · Choose support
             </p>
             <h1 className="font-heading">
-              {savedView ? "Your village," : "A little support."}
+              What would make
               <br />
-              <em className="text-text-sage">
-                {savedView ? "all around you." : "A world of difference."}
-              </em>
+              <em className="text-text-sage">life lighter?</em>
             </h1>
           </div>
           <p className="text-sm text-text-muted">
-            {savedView
-              ? "The support you’ve chosen, in one place. Explore it, change it, or keep a copy for later."
-              : "Start with what would help today. Each choice adds a little light to your village. There’s no right way to begin."}
+            Choose one kind of help, or a few. Next, you’ll see services to
+            explore and a place to keep track. No questionnaire or contact
+            details needed.
           </p>
         </header>
         {!ready ? (
@@ -170,398 +65,115 @@ export default function VillageBuilder({
             Opening your village…
           </p>
         ) : (
-          <>
-            {!savedView && (
-              <nav className="village-steps" aria-label="Build your village">
-                {steps.map((label, i) => (
+          <div className="village-builder-layout">
+            <section
+              className="village-builder-panel"
+              aria-labelledby="choose-support-heading"
+            >
+              <h2
+                id="choose-support-heading"
+                tabIndex={-1}
+                className="font-heading text-3xl mb-3 scroll-mt-24"
+              >
+                Start with what you need.
+              </h2>
+              <p className="text-sm text-text-muted mb-6">
+                Each choice lights up your village. Tap again to remove it.
+              </p>
+              {error && (
+                <p role="alert" className="text-sm text-red-800 my-4">
+                  {error}
+                </p>
+              )}
+              <div
+                className="builder-needs"
+                role="group"
+                aria-label="Support to add to your village"
+              >
+                {services.map((service) => (
                   <button
-                    key={label}
+                    key={service.slug}
                     type="button"
-                    onClick={() => go(i as VillageStep)}
-                    aria-current={step === i ? "step" : undefined}
+                    aria-pressed={draft.needs.includes(service.slug)}
+                    onClick={() =>
+                      setNeed(service.slug, !draft.needs.includes(service.slug))
+                    }
+                    className={`builder-need village-tone-${service.tone}`}
                   >
-                    <span aria-hidden="true">{i + 1}</span>
-                    {label}
+                    <span
+                      className="builder-need-icon"
+                      aria-hidden="true"
+                      dangerouslySetInnerHTML={{ __html: service.icon }}
+                    />
+                    <span>
+                      <span className="block font-heading text-xl">
+                        {service.need}
+                      </span>
+                      <span className="block text-xs text-text-muted mt-1">
+                        {service.title}
+                      </span>
+                    </span>
+                    <span className="builder-need-check" aria-hidden="true">
+                      {draft.needs.includes(service.slug) ? "✓" : "+"}
+                    </span>
                   </button>
                 ))}
-              </nav>
-            )}
-            {savedView && !emptySavedVillage && (
-              <div className="village-saved-toolbar">
-                <p>
-                  {selected.length} {selected.length === 1 ? "kind" : "kinds"}{" "}
-                  of support in your village
+              </div>
+              <p className="text-sm text-text-muted mt-6">
+                Want to understand the options first?{" "}
+                <Link
+                  href="/services"
+                  className="underline text-text-sage underline-offset-4"
+                >
+                  Explore all support →
+                </Link>
+              </p>
+              <div className="chooser-next">
+                <p role="status" className="text-sm">
+                  {draft.needs.length
+                    ? `${draft.needs.length} ${draft.needs.length === 1 ? "kind" : "kinds"} of support selected`
+                    : "Choose a little support to get started"}
                 </p>
-                <Button variant="secondary" onClick={() => go(0)}>
-                  Edit my choices <span aria-hidden="true">↗</span>
+                <Button
+                  onClick={() => {
+                    if (!draft.needs.length) {
+                      setError(
+                        "Choose at least one kind of support below, then see the services available to explore.",
+                      );
+                      requestAnimationFrame(() => {
+                        const heading = document.getElementById(
+                          "choose-support-heading",
+                        );
+                        heading?.scrollIntoView({
+                          block: "start",
+                          behavior: "instant",
+                        });
+                        heading?.focus({ preventScroll: true });
+                      });
+                      return;
+                    }
+                    router.push("/my-village");
+                  }}
+                >
+                  Find services for me <span aria-hidden="true">→</span>
                 </Button>
               </div>
-            )}
-            <div className="village-builder-layout">
-              <div
-                ref={panel}
-                tabIndex={-1}
-                className="village-builder-panel"
-                aria-label={steps[step]}
-              >
-                {arrival && draft.needs.includes(arrival) && step === 0 && (
-                  <p className="village-arrival" role="status">
-                    {
-                      services.find((service) => service.slug === arrival)
-                        ?.title
-                    }{" "}
-                    is in your village. You can add more below.
-                  </p>
-                )}
-                {undo && (
-                  <div className="village-arrival">
-                    Your village was cleared.{" "}
-                    <button
-                      type="button"
-                      className="underline font-semibold"
-                      onClick={() => {
-                        restore(undo);
-                        setUndo(null);
-                        setError("");
-                      }}
-                    >
-                      Undo
-                    </button>
-                  </div>
-                )}
-                <div key={viewKey} className="village-step-content">
-                  {emptySavedVillage && (
-                    <section className="village-empty-saved">
-                      <p className="village-step-eyebrow">
-                        A little room for support
-                      </p>
-                      <h2 className="font-heading text-3xl mb-4">
-                        Your village starts with you.
-                      </h2>
-                      <p className="text-sm text-text-muted mb-7">
-                        You haven’t added any support yet. Light up a circle in
-                        the map, or explore what could make life a little
-                        lighter.
-                      </p>
-                      <Button onClick={() => go(0)}>
-                        Find my support <span aria-hidden="true">→</span>
-                      </Button>
-                    </section>
-                  )}
-                  {step === 0 && (
-                    <>
-                      <p className="village-step-eyebrow">
-                        01 / Find your starting point
-                      </p>
-                      <h2 className="font-heading text-3xl mb-3">
-                        What would make life lighter?
-                      </h2>
-                      <p className="text-sm text-text-muted mb-7">
-                        Choose something below and watch it light up. You can
-                        change your mind at any time.
-                      </p>
-                      <div
-                        className="builder-needs"
-                        role="group"
-                        aria-label="Support to add to your village"
-                      >
-                        {services.map((service) => (
-                          <button
-                            key={service.slug}
-                            type="button"
-                            aria-pressed={draft.needs.includes(service.slug)}
-                            onClick={() =>
-                              setNeed(
-                                service.slug,
-                                !draft.needs.includes(service.slug),
-                              )
-                            }
-                            className={`builder-need village-tone-${service.tone}`}
-                          >
-                            <span
-                              className="builder-need-icon"
-                              aria-hidden="true"
-                              dangerouslySetInnerHTML={{ __html: service.icon }}
-                            />
-                            <span>
-                              <span className="block font-heading text-lg leading-tight">
-                                {service.need}
-                              </span>
-                              <span className="builder-need-caption block text-[11px] text-text-muted mt-1">
-                                {draft.needs.includes(service.slug)
-                                  ? "A light in your village"
-                                  : service.shortTitle}
-                              </span>
-                            </span>
-                            <span
-                              className="builder-need-check"
-                              aria-hidden="true"
-                            >
-                              {draft.needs.includes(service.slug) ? "✓" : "+"}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                      {!selected.length && (
-                        <button
-                          className="text-sm text-text-sage underline underline-offset-4 mt-6"
-                          type="button"
-                          onClick={() => {
-                            ["food", "cleaning", "community"].forEach((slug) =>
-                              setNeed(slug, true),
-                            );
-                            setError("");
-                          }}
-                        >
-                          Not sure? Show me a few starting points
-                        </button>
-                      )}
-                      <div className="builder-actions">
-                        <p className="text-xs text-text-muted">
-                          {selected.length
-                            ? `${selected.length} ${selected.length === 1 ? "kind" : "kinds"} of support, chosen by you`
-                            : "One small thing is enough to start"}
-                        </p>
-                        <Button onClick={() => go(1)}>
-                          Make it mine <span aria-hidden="true">→</span>
-                        </Button>
-                      </div>
-                    </>
-                  )}
-                  {step === 1 && (
-                    <>
-                      <p className="village-step-eyebrow">
-                        02 / A little context
-                      </p>
-                      <h2 className="font-heading text-3xl mb-3">
-                        Make room for your real life.
-                      </h2>
-                      <p className="text-sm text-text-muted mb-7">
-                        Both questions are optional. These preferences stay with
-                        your village; they don&apos;t filter out your choices.
-                      </p>
-                      <fieldset className="mb-8">
-                        <legend className="font-heading text-xl mb-4">
-                          What does life look like right now?
-                        </legend>
-                        <div className="builder-options">
-                          {stageOptions.map((option) => (
-                            <button
-                              type="button"
-                              key={option.value}
-                              aria-pressed={draft.stage === option.value}
-                              onClick={() =>
-                                setDraft((prev) => ({
-                                  ...prev,
-                                  stage:
-                                    prev.stage === option.value
-                                      ? ""
-                                      : option.value,
-                                }))
-                              }
-                            >
-                              {option.label}
-                            </button>
-                          ))}
-                        </div>
-                      </fieldset>
-                      <fieldset>
-                        <legend className="font-heading text-xl mb-4">
-                          When would a little help be welcome?
-                        </legend>
-                        <div className="builder-options">
-                          {timingOptions.map((option) => (
-                            <button
-                              type="button"
-                              key={option.value}
-                              aria-pressed={draft.timing === option.value}
-                              onClick={() =>
-                                setDraft((prev) => ({
-                                  ...prev,
-                                  timing:
-                                    prev.timing === option.value
-                                      ? ""
-                                      : option.value,
-                                }))
-                              }
-                            >
-                              {option.label}
-                            </button>
-                          ))}
-                        </div>
-                      </fieldset>
-                      <div className="builder-actions">
-                        <button
-                          type="button"
-                          onClick={() => go(0)}
-                          className="text-sm text-text-sage underline underline-offset-4"
-                        >
-                          ← Back
-                        </button>
-                        <Button onClick={() => go(2)}>
-                          See my village <span aria-hidden="true">→</span>
-                        </Button>
-                      </div>
-                      <button
-                        type="button"
-                        className="text-sm text-text-muted underline underline-offset-4 mt-5"
-                        onClick={() => go(2)}
-                      >
-                        Skip these questions
-                      </button>
-                    </>
-                  )}
-                  {step === 2 && !emptySavedVillage && (
-                    <>
-                      <div className="village-plan-heading">
-                        <p className="village-step-eyebrow">
-                          Your support, brought together
-                        </p>
-                        <h2 className="font-heading text-3xl mb-3">
-                          A little more support around you.
-                        </h2>
-                        <p className="text-sm text-text-muted">
-                          Here are the lights you&apos;ve gathered. Explore the
-                          people and services behind them, in your own time.
-                        </p>
-                      </div>
-                      {(draft.stage || draft.timing) && (
-                        <div className="flex flex-wrap gap-2 my-5">
-                          {[
-                            stageOptions.find((s) => s.value === draft.stage)
-                              ?.label,
-                            timingOptions.find((s) => s.value === draft.timing)
-                              ?.label,
-                          ]
-                            .filter(Boolean)
-                            .map((label) => (
-                              <span key={label} className="village-context-tag">
-                                {label}
-                              </span>
-                            ))}
-                        </div>
-                      )}
-                      {draft.timing === "asap" && (
-                        <p className="text-sm text-text-body bg-surface p-4 my-5 rounded-xl">
-                          For support now, contact the independent services
-                          directly to check availability. A Village enquiry does
-                          not arrange immediate care.
-                        </p>
-                      )}
-                      <div className="village-plan-list">
-                        {selected.map((service) => (
-                          <article
-                            key={service.slug}
-                            className={`village-plan-item village-tone-${service.tone}`}
-                          >
-                            <div className="flex items-start gap-4">
-                              <span
-                                className={`plan-icon village-tone-${service.tone}`}
-                                aria-hidden="true"
-                                dangerouslySetInnerHTML={{
-                                  __html: service.icon,
-                                }}
-                              />
-                              <div className="flex-1">
-                                <h3 className="font-heading text-2xl">
-                                  {service.title}
-                                </h3>
-                                <p className="text-sm text-text-muted mt-2">
-                                  {service.tagline}
-                                </p>
-                              </div>
-                              <button
-                                type="button"
-                                className="plan-remove"
-                                aria-label={`Remove ${service.title.toLowerCase()} from my plan`}
-                                onClick={() => setNeed(service.slug, false)}
-                              >
-                                ×
-                              </button>
-                            </div>
-                            <ServiceSources slug={service.slug} compact />
-                            <Link
-                              href={`/services/${service.slug}`}
-                              className="text-sm text-text-sage underline underline-offset-4"
-                            >
-                              More about this support{" "}
-                              <span aria-hidden="true">→</span>
-                            </Link>
-                          </article>
-                        ))}
-                      </div>
-                      <p className="text-xs text-text-muted mt-5">
-                        These services are independent of Village. Confirm
-                        qualifications, suitability, availability and costs
-                        directly.
-                      </p>
-                      <div className="flex flex-wrap gap-3 mt-7 village-export">
-                        <Button variant="secondary" onClick={copyPlan}>
-                          Copy my village
-                        </Button>
-                        <Button variant="secondary" onClick={downloadPlan}>
-                          Download my village
-                        </Button>
-                        <Button
-                          variant="secondary"
-                          onClick={() => window.print()}
-                        >
-                          Print / save PDF
-                        </Button>
-                        <button
-                          type="button"
-                          className="text-sm underline text-text-sage px-2"
-                          onClick={() => go(0)}
-                        >
-                          Edit my choices
-                        </button>
-                      </div>
-                      <p role="status" className="text-sm text-text-sage mt-3">
-                        {copyMessage}
-                      </p>
-                      <VillageEnquiry />
-                    </>
-                  )}
-                </div>
-                {error && (
-                  <p role="alert" className="text-sm text-red-800 mt-4">
-                    {error}
-                  </p>
-                )}
-                <div className="village-draft-note">
-                  <p>
-                    {storageAvailable
-                      ? "Kept in this browser tab, including after a refresh. Contact details are never saved."
-                      : "Your browser is blocking storage. Your village will stay while you browse, but a refresh may clear it."}{" "}
-                    <Link href="/privacy" className="underline">
-                      Privacy
-                    </Link>
-                  </p>
-                  {selected.length > 0 && (
-                    <button
-                      onClick={startAgain}
-                      type="button"
-                      className="underline shrink-0"
-                    >
-                      Clear village
-                    </button>
-                  )}
-                </div>
-              </div>
-              <aside className="village-builder-aside">
-                <VillageScene />
-                <div className="village-scene-note">
-                  <p className="font-heading text-xl mb-2">
-                    A little less to carry alone.
-                  </p>
-                  <p className="text-sm text-text-muted">
-                    A meal. A moment to rest. Someone in your corner.
-                    There&apos;s room for whatever would help.
-                  </p>
-                </div>
-              </aside>
-            </div>
-          </>
+              <p className="village-draft-note">
+                {storageAvailable
+                  ? "Your choices stay in this tab as you browse and refresh."
+                  : "Storage is blocked in this browser. A refresh may clear your choices."}{" "}
+                <Link href="/privacy" className="underline">
+                  Privacy
+                </Link>
+              </p>
+            </section>
+            <aside className="village-builder-aside">
+              <VillageScene />
+              <p className="text-sm text-text-muted mt-5 text-center">
+                Choose support here or in the list. Both build the same village.
+              </p>
+            </aside>
+          </div>
         )}
       </Container>
     </div>

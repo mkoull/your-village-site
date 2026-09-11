@@ -7,30 +7,39 @@ export const metadata: Metadata = {
 };
 const content = {
   eyebrow: "How Village works",
-  headline: "Find your kind of support.",
+  headline: "From a little help to your own village.",
   intro:
-    "Start with one thing that would make life easier. Your village can grow from there.",
+    "Choose what would help, explore real services, and keep track as you bring support into your life.",
   sections: [
     [
-      "01 · Explore what could help",
-      "Browse the service categories. Each explains the kind of support, who it may suit and questions to consider. You can also use Build my village if you would like a starting point.",
+      "01 · Choose your support",
+      "Open Build my village and choose one or more kinds of help. Each choice lights up your village. If you prefer to read first, explore the service pages and use Add to my village as you go. Both routes save to the same place.",
     ],
     [
-      "02 · Choose what fits your life",
-      "Use Add to my village on any service to keep it in your shortlist. My village opens your saved support in one place. Choose Edit my choices to explore more support or update your optional preferences. Your choices stay in this browser tab, including after a refresh.",
+      "02 · Explore services and make contact",
+      "My village brings together service links for your choices. Open a service’s website in a new tab to check what it offers, availability and costs, and make contact directly. Saving a category does not send an enquiry or create a booking.",
     ],
     [
-      "03 · Take your next step",
-      "Follow the links to independent services to check availability and costs. Copy or print your village to keep it. You can also choose to send an enquiry as the Village network develops; contact details are optional for browsing.",
+      "03 · Keep track at your pace",
+      "Use My progress to record whether you’re still exploring, have made contact, or have support in place. These are your own updates. Your choices and progress stay in this browser tab after a refresh. Copy, download or print a version to keep after closing the tab.",
     ],
     [
       "What's coming next",
-      "We're working towards a fuller local directory with clear service details, credentials, prices and availability. Enquiries on this site help shape that network; you cannot book or pay for a service here yet.",
+      "We’re building towards a fuller local directory. For now, Village connects you to independent services and helps you organise your next steps. Booking and payment take place with the service you choose, where offered, rather than on this website.",
     ],
   ],
 };
 export default function Page() {
   return (
-    <InfoPage {...content} sections={content.sections as [string, string][]} />
+    <InfoPage
+      {...content}
+      sections={content.sections as [string, string][]}
+      sectionLinks={[
+        { label: "Choose my support", href: "/get-started" },
+        { label: "Explore services", href: "/services" },
+        { label: "Open my village", href: "/my-village" },
+        { label: "The idea behind Village", href: "/about" },
+      ]}
+    />
   );
 }

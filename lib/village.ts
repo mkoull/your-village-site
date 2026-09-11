@@ -1,10 +1,17 @@
 export type VillageStep = 0 | 1 | 2;
+export const supportProgressOptions = [
+  { value: "exploring", label: "Still exploring" },
+  { value: "contacted", label: "I've made contact" },
+  { value: "in-place", label: "Support in place" },
+] as const;
+export type SupportProgress = (typeof supportProgressOptions)[number]["value"];
 export type VillageDraft = {
   version: 1;
   needs: string[];
   stage: string;
   timing: string;
   step: VillageStep;
+  progress: Record<string, SupportProgress>;
 };
 export const VILLAGE_STORAGE_KEY = "village-draft-v1";
 export const timingOptions = [
@@ -19,6 +26,7 @@ export const emptyVillage = (): VillageDraft => ({
   stage: "",
   timing: "",
   step: 0,
+  progress: {},
 });
 
 /** Only an allowlisted shortlist and optional context are stored. Never contact details. */
@@ -47,6 +55,20 @@ export function readVillage(
     return {
       version: 1,
       needs,
+      progress: Object.fromEntries(
+        needs.flatMap((slug) => {
+          const progress = input.progress;
+          const status =
+            progress && typeof progress === "object" && !Array.isArray(progress)
+              ? (progress as Record<string, unknown>)[slug]
+              : undefined;
+          return supportProgressOptions.some(
+            (option) => option.value === status,
+          )
+            ? [[slug, status as SupportProgress]]
+            : [];
+        }),
+      ),
       stage:
         typeof input.stage === "string" && stages.includes(input.stage)
           ? input.stage
@@ -70,5 +92,21 @@ export function setVillageNeed(
   const needs = selected
     ? [...new Set([...draft.needs, slug])]
     : draft.needs.filter((s) => s !== slug);
-  return { ...draft, needs, step: needs.length ? draft.step : 0 };
+  const progress = Object.fromEntries(
+    Object.entries(draft.progress).filter(([key]) => needs.includes(key)),
+  );
+  return { ...draft, needs, progress, step: needs.length ? draft.step : 0 };
+}
+
+export function setVillageProgress(
+  draft: VillageDraft,
+  slug: string,
+  status: SupportProgress,
+): VillageDraft {
+  if (
+    !draft.needs.includes(slug) ||
+    !supportProgressOptions.some((option) => option.value === status)
+  )
+    return draft;
+  return { ...draft, progress: { ...draft.progress, [slug]: status } };
 }

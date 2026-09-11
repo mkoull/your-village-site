@@ -26,77 +26,78 @@ export default function WaitlistPage() {
           {!submitted ? (
             <>
               <p className="text-eyebrow uppercase tracking-[0.2em] font-semibold text-text-sage mb-4 font-body">
-                Waitlist
+                Village updates
               </p>
               <h1 className="text-h1 font-heading mb-4">
-                Be the first to know.
+                Grow with the village.
               </h1>
               <p className="text-text-muted max-w-md mx-auto mb-10 leading-relaxed">
-                We&apos;re growing Your Village. Enter your email and we&apos;ll
-                let you know when we launch new services and areas.
+                We&apos;re bringing more support together. When updates are
+                open, you can leave your email to hear what&apos;s new. You can
+                already explore services today.
               </p>
 
               <EnquiryAvailability available={available} />
-              <form
-                aria-busy={sending}
-                onSubmit={handleSubmit}
-                className="max-w-md mx-auto space-y-4"
-              >
-                <label
-                  htmlFor="waitlist-email"
-                  className="block text-sm text-left"
+              {available !== false && (
+                <form
+                  aria-busy={sending}
+                  onSubmit={handleSubmit}
+                  className="max-w-md mx-auto space-y-4"
                 >
-                  Email address
-                </label>
-                <input
-                  disabled={sending || available === false}
-                  id="waitlist-email"
-                  autoComplete="email"
-                  maxLength={254}
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email address"
-                  required
-                  className="w-full px-5 py-3 rounded-[var(--radius-sm)] border border-border bg-elevated text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
-                />
-                <label
-                  htmlFor="waitlist-suburb"
-                  className="block text-sm text-left"
-                >
-                  Suburb (optional)
-                </label>
-                <input
-                  disabled={sending || available === false}
-                  id="waitlist-suburb"
-                  autoComplete="address-level2"
-                  maxLength={120}
-                  type="text"
-                  value={suburb}
-                  onChange={(e) => setSuburb(e.target.value)}
-                  placeholder="Your suburb (optional)"
-                  className="w-full px-5 py-3 rounded-[var(--radius-sm)] border border-border bg-elevated text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
-                />
-                <button
-                  type="submit"
-                  disabled={sending || available === false}
-                  className="w-full px-6 py-3 rounded-full bg-sage-deep text-white font-medium text-[15px] hover:bg-sage-dark transition-colors cursor-pointer"
-                >
-                  {available === false
-                    ? "Updates coming soon"
-                    : sending
-                      ? "Sending…"
-                      : "Keep me posted"}
-                </button>
-              </form>
+                  <label
+                    htmlFor="waitlist-email"
+                    className="block text-sm text-left"
+                  >
+                    Email address
+                  </label>
+                  <input
+                    disabled={sending}
+                    id="waitlist-email"
+                    autoComplete="email"
+                    maxLength={254}
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Your email address"
+                    required
+                    className="w-full px-5 py-3 rounded-[var(--radius-sm)] border border-border bg-elevated text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
+                  />
+                  <label
+                    htmlFor="waitlist-suburb"
+                    className="block text-sm text-left"
+                  >
+                    Suburb (optional)
+                  </label>
+                  <input
+                    disabled={sending}
+                    id="waitlist-suburb"
+                    autoComplete="address-level2"
+                    maxLength={120}
+                    type="text"
+                    value={suburb}
+                    onChange={(e) => setSuburb(e.target.value)}
+                    placeholder="Your suburb (optional)"
+                    className="w-full px-5 py-3 rounded-[var(--radius-sm)] border border-border bg-elevated text-text-body placeholder:text-text-muted focus:outline-none focus:border-sage text-[15px]"
+                  />
+                  <button
+                    type="submit"
+                    disabled={sending}
+                    className="w-full px-6 py-3 rounded-full bg-sage-deep text-white font-medium text-[15px] hover:bg-sage-dark transition-colors cursor-pointer"
+                  >
+                    {sending ? "Sending…" : "Keep me posted"}
+                  </button>
+                </form>
+              )}
 
               <FormError message={error} />
-              <p className="mt-4 text-xs text-text-muted">
-                Your details are sent only when you submit.{" "}
-                <Link href="/privacy" className="underline">
-                  Privacy
-                </Link>
-              </p>
+              {available !== false && (
+                <p className="mt-4 text-xs text-text-muted">
+                  Your details are sent only when you submit.{" "}
+                  <Link href="/privacy" className="underline">
+                    Privacy
+                  </Link>
+                </p>
+              )}
             </>
           ) : (
             <>
@@ -118,6 +119,12 @@ export default function WaitlistPage() {
               <p className="text-text-muted max-w-md mx-auto">
                 We&apos;ll be in touch when there&apos;s something to share.
               </p>
+              <Link
+                href="/services"
+                className="inline-block mt-8 text-text-sage underline"
+              >
+                Explore services while you’re here →
+              </Link>
             </>
           )}
         </ScrollReveal>

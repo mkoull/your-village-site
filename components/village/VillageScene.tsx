@@ -1,14 +1,29 @@
 "use client";
-import { useId, type CSSProperties } from "react";
+import { useId, useState, type CSSProperties } from "react";
+import Link from "next/link";
 import { services } from "@/content/services";
 import VillageMark from "@/components/ui/VillageMark";
 import { useVillage } from "./VillageProvider";
 
 /** One interactive scene and one saved village, wherever someone starts. */
-export default function VillageScene({ home = false }: { home?: boolean }) {
+export default function VillageScene({
+  home = false,
+  review = false,
+  onReview,
+  activeSlug,
+}: {
+  home?: boolean;
+  review?: boolean;
+  onReview?: (slug: string) => void;
+  activeSlug?: string;
+}) {
   const { draft, setNeed, ready } = useVillage();
   const captionId = useId();
   const count = draft.needs.length;
+  const [preview, setPreview] = useState("");
+  const previewService = services.find(
+    (service) => service.slug === preview && draft.needs.includes(preview),
+  );
   return (
     <figure
       className={`village-lights ${home ? "village-lights-home" : ""}`}
@@ -70,9 +85,24 @@ export default function VillageScene({ home = false }: { home?: boolean }) {
               key={service.slug}
               type="button"
               disabled={!ready}
-              aria-label={`${selected ? "Remove" : "Add"} ${service.shortTitle.toLowerCase()} ${selected ? "from" : "to"} the village map`}
-              aria-pressed={selected}
-              onClick={() => setNeed(service.slug, !selected)}
+              aria-label={
+                review
+                  ? `${selected ? "View" : "Add"} ${service.shortTitle.toLowerCase()} ${selected ? "in" : "to"} my village`
+                  : `${selected ? "Remove" : "Add"} ${service.shortTitle.toLowerCase()} ${selected ? "from" : "to"} the village map`
+              }
+              aria-pressed={review ? undefined : selected}
+              aria-current={
+                review && activeSlug === service.slug ? "true" : undefined
+              }
+              onClick={() => {
+                if (review) {
+                  if (!selected) setNeed(service.slug, true);
+                  onReview?.(service.slug);
+                  return;
+                }
+                setNeed(service.slug, !selected);
+                setPreview(selected ? "" : service.slug);
+              }}
               style={{
                 left: `${50 + 37 * Math.cos(angle)}%`,
                 top: `${50 + 37 * Math.sin(angle)}%`,
@@ -100,8 +130,35 @@ export default function VillageScene({ home = false }: { home?: boolean }) {
             ? `${count} ${count === 1 ? "little light" : "little lights"}. Your own village.`
             : "Every village starts with a little light."}
         </span>
-        <span>Tap a circle to add support. Tap again to let it go.</span>
+        <span>
+          {review
+            ? "Tap a light to explore it. Unlit circles add support."
+            : "Tap a circle to add support. Tap again to remove it."}
+        </span>
       </figcaption>
+      {home && (
+        <div className="village-map-feedback">
+          {previewService ? (
+            <>
+              <p role="status">
+                <strong>{previewService.title} added.</strong>{" "}
+                {previewService.tagline}.
+              </p>
+              <Link href={`/services/${previewService.slug}`}>
+                Explore {previewService.shortTitle.toLowerCase()}{" "}
+                <span aria-hidden="true">→</span>
+              </Link>
+            </>
+          ) : (
+            <p>Choose a circle to start finding your support.</p>
+          )}
+          {count > 0 && (
+            <Link href="/my-village">
+              See my village ({count}) <span aria-hidden="true">→</span>
+            </Link>
+          )}
+        </div>
+      )}
     </figure>
   );
 }

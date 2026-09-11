@@ -24,20 +24,21 @@ export default function Hero() {
             <p className="hero-reveal hero-reveal-3 text-base md:text-lg text-text-body max-w-md mb-8 leading-relaxed">
               A nourishing meal. Time to rest. Someone who gets it. Discover the
               services and people that make family life feel a little lighter.
+              Save what helps, then connect with services directly.
             </p>
             <div className="hero-reveal hero-reveal-4 flex flex-wrap items-center gap-5">
-              <Button href="#explore-support">
-                Find your support <span aria-hidden="true">↓</span>
+              <Button href="/get-started">
+                Build my village <span aria-hidden="true">→</span>
               </Button>
               <Link
-                href="/get-started"
+                href="#explore-support"
                 className="text-sm font-medium text-text-sage underline underline-offset-4 decoration-sage/40 py-3"
               >
-                Not sure where to start?
+                Browse support first
               </Link>
             </div>
             <p className="mt-5 text-xs text-text-muted">
-              Tap the village to bring a little support into your day.
+              Choose support → Explore services → Take your next step
             </p>
           </div>
           <div className="hero-reveal hero-reveal-3 min-w-0">

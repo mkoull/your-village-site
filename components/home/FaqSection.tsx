@@ -19,7 +19,7 @@ const faqs = [
   ],
   [
     "What will it cost?",
-    "Prices will depend on the provider and service. Rates and any platform fees have not been set yet. Browsing and registering interest here are free.",
+    "Exploring Village, saving support and tracking your progress are free. Each independent service sets its own prices and terms. Follow its website link for current costs or to request a quote.",
   ],
   [
     "Does Village provide mental health treatment?",
@@ -47,12 +47,12 @@ export default function FaqSection() {
           </details>
         ))}
         <p className="text-sm text-center text-text-muted mt-8">
-          Something else on your mind?{" "}
+          Want to see the next steps?{" "}
           <Link
-            href="/contact"
+            href="/how-it-works"
             className="text-text-sage underline underline-offset-4"
           >
-            Get in touch
+            How Village works
           </Link>
           .
         </p>

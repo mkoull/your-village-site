@@ -8,11 +8,13 @@ export default function InfoPage({
   headline,
   intro,
   sections,
+  sectionLinks = [],
 }: {
   eyebrow: string;
   headline: string;
   intro: string;
   sections: readonly (readonly [string, string])[];
+  sectionLinks?: readonly ({ label: string; href: string } | null)[];
 }) {
   return (
     <article className="info-page">
@@ -55,6 +57,14 @@ export default function InfoPage({
                   {title.replace(/^0\d · /, "")}
                 </h2>
                 <p className="text-text-body leading-relaxed">{body}</p>
+                {sectionLinks[i] && (
+                  <Link
+                    href={sectionLinks[i]!.href}
+                    className="info-section-link"
+                  >
+                    {sectionLinks[i]!.label} <span aria-hidden="true">→</span>
+                  </Link>
+                )}
               </section>
             ))}
             <div className="flex flex-wrap gap-3 mt-10">

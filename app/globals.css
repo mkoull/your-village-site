@@ -3,6 +3,7 @@
 @import "./village-experience.css";
 @import "./village-lights.css";
 @import "./brand.css";
+@import "./journey.css";
 
 @theme {
   /* Colors — warm neutrals + sage accent */
