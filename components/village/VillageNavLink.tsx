@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useVillage } from "./VillageProvider";
 
 export default function VillageNavLink({
@@ -10,9 +11,12 @@ export default function VillageNavLink({
   onClick?: () => void;
 }) {
   const { draft } = useVillage();
+  const pathname = usePathname();
+  const href = mobile || draft.needs.length ? "/my-village" : "/get-started";
   return (
     <Link
-      href="/get-started"
+      href={href}
+      aria-current={pathname === href ? "page" : undefined}
       onClick={onClick}
       className={mobile ? "village-nav-mobile" : "village-nav-link"}
     >

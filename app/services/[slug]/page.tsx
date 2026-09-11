@@ -129,7 +129,7 @@ export default async function ServiceDetailPage({
                 </p>
                 <AddToVillage slug={service.slug} />
                 <Link
-                  href="/get-started"
+                  href="/my-village"
                   className="block text-sm text-text-sage underline mt-5"
                 >
                   View my village →

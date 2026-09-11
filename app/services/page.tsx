@@ -44,7 +44,7 @@ export default function ServicesPage() {
               your village, then bring it all together.
             </p>
             <Link
-              href="/get-started"
+              href="/my-village"
               className="text-sm text-text-sage underline underline-offset-4"
             >
               Open my village <span aria-hidden="true">↗</span>

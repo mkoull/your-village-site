@@ -19,14 +19,21 @@ import {
 } from "@/lib/village";
 
 const steps = ["Choose support", "Make it yours", "Your village"];
-export default function VillageBuilder() {
+export default function VillageBuilder({
+  savedView = false,
+}: {
+  savedView?: boolean;
+}) {
   const { draft, setDraft, ready, storageAvailable, setNeed, clear, restore } =
     useVillage();
   const router = useRouter();
   const search = useSearchParams();
   const panel = useRef<HTMLDivElement>(null);
   const imported = useRef("");
-  const previousStep = useRef<VillageStep | null>(null);
+  const previousView = useRef<string | null>(null);
+  const step: VillageStep = savedView ? 2 : draft.step === 2 ? 0 : draft.step;
+  const emptySavedVillage = savedView && draft.needs.length === 0;
+  const viewKey = `${step}:${emptySavedVillage}`;
   const [error, setError] = useState("");
   const [copyMessage, setCopyMessage] = useState("");
   const [undo, setUndo] = useState<VillageDraft | null>(null);
@@ -39,20 +46,20 @@ export default function VillageBuilder() {
   }, [draft.needs.length]);
   useEffect(() => {
     if (!ready) return;
-    if (previousStep.current !== null && previousStep.current !== draft.step) {
+    if (previousView.current !== null && previousView.current !== viewKey) {
       requestAnimationFrame(() => {
         panel.current?.scrollIntoView({ block: "start", behavior: "instant" });
         panel.current?.focus({ preventScroll: true });
       });
     }
-    previousStep.current = draft.step;
-  }, [ready, draft.step]);
+    previousView.current = viewKey;
+  }, [ready, viewKey]);
   const selected = draft.needs.flatMap((slug) => {
     const s = services.find((item) => item.slug === slug);
     return s ? [s] : [];
   });
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || savedView) return;
     const need = search.get("need"),
       stage = search.get("stage");
     const token = search.toString();
@@ -66,14 +73,19 @@ export default function VillageBuilder() {
     if (stageOptions.some((s) => s.value === stage))
       setDraft((prev) => ({ ...prev, stage: stage! }));
     router.replace("/get-started", { scroll: false });
-  }, [ready, search, router, setDraft, setNeed]);
+  }, [ready, savedView, search, router, setDraft, setNeed]);
   function go(step: VillageStep) {
     if (step > 0 && !draft.needs.length) {
       setError("Choose at least one kind of support to build your village.");
       return;
     }
     setError("");
+    if (step === 2) {
+      router.push("/my-village");
+      return;
+    }
     setDraft((prev) => ({ ...prev, step }));
+    if (savedView) router.push("/get-started");
   }
   function startAgain() {
     setUndo(draft);
@@ -128,22 +140,29 @@ export default function VillageBuilder() {
     setCopyMessage("Your village download is ready.");
   }
   return (
-    <div className="village-builder" data-step={draft.step}>
+    <div
+      className="village-builder"
+      data-step={step}
+      data-saved-view={savedView}
+    >
       <Container>
         <header className="village-builder-header">
           <div>
             <p className="text-eyebrow uppercase tracking-[.2em] font-semibold text-text-sage mb-4">
-              A village of your own
+              {savedView ? "Your saved support" : "A village of your own"}
             </p>
             <h1 className="font-heading">
-              A little support.
+              {savedView ? "Your village," : "A little support."}
               <br />
-              <em className="text-text-sage">A world of difference.</em>
+              <em className="text-text-sage">
+                {savedView ? "all around you." : "A world of difference."}
+              </em>
             </h1>
           </div>
           <p className="text-sm text-text-muted">
-            Start with what would help today. Each choice adds a little light to
-            your village. There&apos;s no right way to begin.
+            {savedView
+              ? "The support you’ve chosen, in one place. Explore it, change it, or keep a copy for later."
+              : "Start with what would help today. Each choice adds a little light to your village. There’s no right way to begin."}
           </p>
         </header>
         {!ready ? (
@@ -152,37 +171,48 @@ export default function VillageBuilder() {
           </p>
         ) : (
           <>
-            <nav className="village-steps" aria-label="Build your village">
-              {steps.map((label, i) => (
-                <button
-                  key={label}
-                  type="button"
-                  onClick={() => go(i as VillageStep)}
-                  aria-current={draft.step === i ? "step" : undefined}
-                >
-                  <span aria-hidden="true">{i + 1}</span>
-                  {label}
-                </button>
-              ))}
-            </nav>
+            {!savedView && (
+              <nav className="village-steps" aria-label="Build your village">
+                {steps.map((label, i) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => go(i as VillageStep)}
+                    aria-current={step === i ? "step" : undefined}
+                  >
+                    <span aria-hidden="true">{i + 1}</span>
+                    {label}
+                  </button>
+                ))}
+              </nav>
+            )}
+            {savedView && !emptySavedVillage && (
+              <div className="village-saved-toolbar">
+                <p>
+                  {selected.length} {selected.length === 1 ? "kind" : "kinds"}{" "}
+                  of support in your village
+                </p>
+                <Button variant="secondary" onClick={() => go(0)}>
+                  Edit my choices <span aria-hidden="true">↗</span>
+                </Button>
+              </div>
+            )}
             <div className="village-builder-layout">
               <div
                 ref={panel}
                 tabIndex={-1}
                 className="village-builder-panel"
-                aria-label={steps[draft.step]}
+                aria-label={steps[step]}
               >
-                {arrival &&
-                  draft.needs.includes(arrival) &&
-                  draft.step === 0 && (
-                    <p className="village-arrival" role="status">
-                      {
-                        services.find((service) => service.slug === arrival)
-                          ?.title
-                      }{" "}
-                      is in your village. You can add more below.
-                    </p>
-                  )}
+                {arrival && draft.needs.includes(arrival) && step === 0 && (
+                  <p className="village-arrival" role="status">
+                    {
+                      services.find((service) => service.slug === arrival)
+                        ?.title
+                    }{" "}
+                    is in your village. You can add more below.
+                  </p>
+                )}
                 {undo && (
                   <div className="village-arrival">
                     Your village was cleared.{" "}
@@ -199,8 +229,26 @@ export default function VillageBuilder() {
                     </button>
                   </div>
                 )}
-                <div key={draft.step} className="village-step-content">
-                  {draft.step === 0 && (
+                <div key={viewKey} className="village-step-content">
+                  {emptySavedVillage && (
+                    <section className="village-empty-saved">
+                      <p className="village-step-eyebrow">
+                        A little room for support
+                      </p>
+                      <h2 className="font-heading text-3xl mb-4">
+                        Your village starts with you.
+                      </h2>
+                      <p className="text-sm text-text-muted mb-7">
+                        You haven’t added any support yet. Light up a circle in
+                        the map, or explore what could make life a little
+                        lighter.
+                      </p>
+                      <Button onClick={() => go(0)}>
+                        Find my support <span aria-hidden="true">→</span>
+                      </Button>
+                    </section>
+                  )}
+                  {step === 0 && (
                     <>
                       <p className="village-step-eyebrow">
                         01 / Find your starting point
@@ -280,7 +328,7 @@ export default function VillageBuilder() {
                       </div>
                     </>
                   )}
-                  {draft.step === 1 && (
+                  {step === 1 && (
                     <>
                       <p className="village-step-eyebrow">
                         02 / A little context
@@ -363,11 +411,11 @@ export default function VillageBuilder() {
                       </button>
                     </>
                   )}
-                  {draft.step === 2 && (
+                  {step === 2 && !emptySavedVillage && (
                     <>
                       <div className="village-plan-heading">
                         <p className="village-step-eyebrow">
-                          03 / Your village, taking shape
+                          Your support, brought together
                         </p>
                         <h2 className="font-heading text-3xl mb-3">
                           A little more support around you.

@@ -13,6 +13,7 @@ The current website is in development: browse service categories, follow links t
 - Never invent testimonials, provider counts, verification claims, prices, response times or availability.
 - Derive service content from content/services.ts. Preserve established routes.
 - Add to my village must save in place, with immediate selection state and a visible count; it must never restart a questionnaire or discard previous choices.
+- My village links go to /my-village, which shows saved support regardless of the builder step. Edit my choices goes back to /get-started. Keep a useful empty state on the saved page when the last selection is removed.
 - Use VillageProvider and lib/village.ts for shared selection and session persistence. Do not persist contact fields or messages. Preserve clear/undo and local exports. Never send draft choices as analytics or step beacons.
 - All forms use useLeadForm / submitLead and the same-origin /api/leads endpoint. Success requires processor acknowledgement. Do not log payloads.
 - Keep content pages statically renderable. The one server endpoint is an intentional exception: it protects webhook configuration and confirms delivery.

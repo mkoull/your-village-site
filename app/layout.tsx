@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     images: ["/opengraph-image"],
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.svg?v=2",
   },
 };
 
@@ -85,7 +85,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${newsreader.variable} ${jakarta.variable}`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${newsreader.variable} ${jakarta.variable}`}
+    >
       <head>
         <script
           type="application/ld+json"

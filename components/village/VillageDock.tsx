@@ -7,7 +7,12 @@ import { services } from "@/content/services";
 export default function VillageDock() {
   const { draft, message } = useVillage();
   const pathname = usePathname();
-  if (!draft.needs.length || pathname === "/get-started") return null;
+  if (
+    !draft.needs.length ||
+    pathname === "/get-started" ||
+    pathname === "/my-village"
+  )
+    return null;
   return (
     <aside
       data-village-dock
@@ -35,7 +40,7 @@ export default function VillageDock() {
           {message || "Your village is taking shape."}
         </p>
       </div>
-      <Link href="/get-started" className="village-dock-link">
+      <Link href="/my-village" className="village-dock-link">
         View my village <span aria-hidden="true">→</span>
       </Link>
     </aside>

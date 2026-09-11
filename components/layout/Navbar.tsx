@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useScrolled } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 import VillageNavLink from "@/components/village/VillageNavLink";
-import VillageMark from "@/components/ui/VillageMark";
+import VillageBrand from "@/components/ui/VillageBrand";
 import { services } from "@/content/services";
 
 const serviceLinks = services.map((s) => ({
@@ -132,13 +132,11 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
+          aria-label="Your Village"
           onClick={() => setMobileOpen(false)}
           className="flex items-center gap-2.5 transition-colors text-text-primary"
         >
-          <VillageMark className="nav-logo-icon w-[26px] h-[26px]" />
-          <span className="font-heading text-lg font-medium tracking-tight">
-            Your Village
-          </span>
+          <VillageBrand />
         </Link>
 
         {/* Desktop nav */}

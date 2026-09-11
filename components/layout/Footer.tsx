@@ -1,4 +1,4 @@
-import VillageMark from "@/components/ui/VillageMark";
+import VillageBrand from "@/components/ui/VillageBrand";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import { services } from "@/content/services";
@@ -11,10 +11,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <VillageMark className="w-[26px] h-[26px]" />
-              <span className="font-heading text-lg font-medium">
-                Your Village
-              </span>
+              <VillageBrand inverse />
             </div>
             <p className="text-sm text-text-inverse/60 leading-relaxed max-w-xs">
               Support for you and your family.

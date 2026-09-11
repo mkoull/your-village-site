@@ -1,0 +1,124 @@
+.village-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #3b5041;
+}
+.village-brand-symbol {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 49px;
+  border-radius: 24px 24px 14px 14px;
+  background:
+    radial-gradient(ellipse at 50% 60%, #f5dfa960, transparent 70%), #efeadc;
+  border: 1px solid #d5c8a350;
+  transition: box-shadow 250ms;
+}
+.village-brand-symbol svg {
+  width: 37px;
+  height: 37px;
+}
+.village-brand-wordmark {
+  display: flex;
+  flex-direction: column;
+}
+.village-brand-your {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  padding-left: 2px;
+  font-weight: 500;
+}
+.village-brand-name {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+  font-weight: 500;
+}
+.village-brand-period {
+  color: #b38a42;
+}
+a:hover .village-brand-symbol {
+  box-shadow: 0 0 18px #d6b36740;
+}
+.village-brand-inverse {
+  color: #f7eddb;
+}
+.village-brand-inverse .village-brand-symbol {
+  background: #46503e;
+  border-color: #d5c8a32a;
+  --village-mark-light: #f0cc84;
+}
+.village-brand-inverse .village-brand-period {
+  color: #e5bd72;
+}
+.village-saved-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 17px 0;
+  margin-bottom: 32px;
+  border-block: 1px solid #e0dccf;
+}
+.village-saved-toolbar p {
+  font-size: 12px;
+  color: #746646;
+}
+.village-empty-saved {
+  padding: 38px;
+  border: 1px solid #e3d9be;
+  border-radius: 28px;
+  background:
+    radial-gradient(ellipse at 0 0, #fff0c930, transparent 70%), #fffdf7;
+}
+.village-empty-saved > p {
+  line-height: 1.8;
+}
+@media (max-width: 767px) {
+  .village-brand {
+    gap: 7px;
+  }
+  .village-brand-symbol {
+    width: 34px;
+    height: 39px;
+    border-radius: 18px 18px 11px 11px;
+  }
+  .village-brand-symbol svg {
+    width: 30px;
+    height: 30px;
+  }
+  .village-brand-your {
+    font-size: 8px;
+  }
+  .village-brand-name {
+    font-size: 27px;
+  }
+  .village-saved-toolbar {
+    margin-bottom: 24px;
+    gap: 14px;
+  }
+  .village-saved-toolbar p {
+    font-size: 10px;
+  }
+  .village-saved-toolbar button {
+    font-size: 12px;
+    padding: 10px 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .village-empty-saved {
+    padding: 26px;
+  }
+  .village-builder[data-saved-view="true"] .village-builder-panel {
+    order: -2;
+  }
+}
+@media print {
+  .village-saved-toolbar {
+    display: none;
+  }
+}

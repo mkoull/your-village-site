@@ -17,7 +17,7 @@ const content = {
     ],
     [
       "02 · Choose what fits your life",
-      "Use Add to my village on any service to keep it in your shortlist. Open My village to add or remove support, include optional preferences, and see everything together. Your choices stay in this browser tab, including after a refresh.",
+      "Use Add to my village on any service to keep it in your shortlist. My village opens your saved support in one place. Choose Edit my choices to explore more support or update your optional preferences. Your choices stay in this browser tab, including after a refresh.",
     ],
     [
       "03 · Take your next step",

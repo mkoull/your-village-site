@@ -2,6 +2,7 @@
 @import "./village.css";
 @import "./village-experience.css";
 @import "./village-lights.css";
+@import "./brand.css";
 
 @theme {
   /* Colors — warm neutrals + sage accent */
@@ -642,16 +643,6 @@
   background: linear-gradient(90deg, transparent, var(--color-border), transparent);
   border: none;
   margin: 0;
-}
-
-/* Navbar logo animation on hover */
-.nav-logo-icon {
-  transition: transform 0.5s var(--ease-out), filter 0.5s var(--ease-out);
-}
-
-.nav-logo-icon:hover {
-  transform: rotate(30deg) scale(1.08);
-  filter: drop-shadow(0 0 8px rgba(139, 158, 124, 0.3));
 }
 
 /* Navbar link hover underline animation */
