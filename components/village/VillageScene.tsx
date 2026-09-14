@@ -40,12 +40,12 @@ export default function VillageScene({
       <div className="village-lights-heading">
         <p className="village-lights-eyebrow">A little help, all around you</p>
         <h2 className="village-lights-title">
-          {review ? "Your circle of support." : "What would help you today?"}
+          {review ? "Your circle of support." : "Light up your village."}
         </h2>
         <VillageInteractionHint id={`${captionId}-hint`}>
           {review
             ? "a light to explore your support."
-            : "a light to add it to your village."}
+            : "any circle to choose your support."}
         </VillageInteractionHint>
       </div>
       <div
@@ -84,11 +84,7 @@ export default function VillageScene({
         <div className="village-light-heart" aria-hidden="true">
           <VillageMark className="village-light-mark" />
           <span className="font-heading">You</span>
-          <span>
-            {count
-              ? `${count} ${count === 1 ? "light" : "lights"} on`
-              : "at the heart of it"}
-          </span>
+          <span>at the heart of it</span>
         </div>
         {services.map((service, i) => {
           const angle = (i * 2 * Math.PI) / services.length - Math.PI / 2;
@@ -128,32 +124,27 @@ export default function VillageScene({
                   className="village-light-icon"
                   dangerouslySetInnerHTML={{ __html: service.icon }}
                 />
-                <span className="village-light-label">
-                  {service.shortTitle}
-                </span>
               </span>
-              <span className="village-light-action" aria-hidden="true">
-                <span className="village-light-action-icon">
-                  <svg
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path
-                      d={
-                        selected
-                          ? review
-                            ? "M4 8h8M8 4l4 4-4 4"
-                            : "m4 8 3 3 5-6"
-                          : "M8 4v8M4 8h8"
-                      }
-                    />
-                  </svg>
-                </span>
-                <span>{selected ? (review ? "Open" : "Added") : "Add"}</span>
+              <span className="village-light-label" aria-hidden="true">
+                {service.shortTitle}
+                <svg
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path
+                    d={
+                      selected
+                        ? review
+                          ? "M4 8h8M8 4l4 4-4 4"
+                          : "m4 8 3 3 5-6"
+                        : "M8 4v8M4 8h8"
+                    }
+                  />
+                </svg>
               </span>
             </button>
           );
@@ -171,7 +162,7 @@ export default function VillageScene({
           {review
             ? "Open your saved support, or add something new."
             : count
-              ? "Select an added light again to remove it."
+              ? "Select a lit circle again to remove it."
               : "Choose one kind of help, or a few. It’s up to you."}
         </span>
       </figcaption>
