@@ -22,4 +22,4 @@ Validation on 14 September 2026:
 - Four selections survive refresh and transfer into the builder and My village.
 - All map targets are at least 44 by 44px in the narrow layouts.
 - Reduced-motion emulation produces no ripple animation.
-- No browser JavaScript errors; 49 tests, type checking and production build pass.
+- No browser JavaScript errors. The integration worktree passes 49 tests; the website release passes all 28 of its tests. Both pass type checking and production builds.
