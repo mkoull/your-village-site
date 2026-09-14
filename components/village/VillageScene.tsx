@@ -21,9 +21,14 @@ export default function VillageScene({
   const { draft, setNeed, ready } = useVillage();
   const captionId = useId();
   const count = draft.needs.length;
-  const [preview, setPreview] = useState("");
-  const previewService = services.find(
-    (service) => service.slug === preview && draft.needs.includes(preview),
+  const [lastChange, setLastChange] = useState<{
+    slug: string;
+    added: boolean;
+  } | null>(null);
+  const recentService = services.find(
+    (service) =>
+      service.slug === lastChange?.slug &&
+      draft.needs.includes(service.slug) === lastChange.added,
   );
   return (
     <figure
@@ -33,17 +38,14 @@ export default function VillageScene({
     >
       <div className="village-lights-atmosphere" aria-hidden="true" />
       <div className="village-lights-heading">
-        <div className="village-lights-eyebrow">
-          <span aria-hidden="true" className="village-little-star">
-            ✧
-          </span>
-          A little help, all around you
-          <span aria-hidden="true" className="village-little-star">
-            ✧
-          </span>
-        </div>
+        <p className="village-lights-eyebrow">A little help, all around you</p>
+        <h2 className="village-lights-title">
+          {review ? "Your circle of support." : "What would help you today?"}
+        </h2>
         <VillageInteractionHint id={`${captionId}-hint`}>
-          a light to {review ? "explore your support" : "add support"}.
+          {review
+            ? "a light to explore your support."
+            : "a light to add it to your village."}
         </VillageInteractionHint>
       </div>
       <div
@@ -54,6 +56,7 @@ export default function VillageScene({
       >
         <svg
           viewBox="0 0 100 100"
+          preserveAspectRatio="none"
           className="village-light-paths"
           aria-hidden="true"
         >
@@ -81,7 +84,11 @@ export default function VillageScene({
         <div className="village-light-heart" aria-hidden="true">
           <VillageMark className="village-light-mark" />
           <span className="font-heading">You</span>
-          <span>at the heart of it</span>
+          <span>
+            {count
+              ? `${count} ${count === 1 ? "light" : "lights"} on`
+              : "at the heart of it"}
+          </span>
         </div>
         {services.map((service, i) => {
           const angle = (i * 2 * Math.PI) / services.length - Math.PI / 2;
@@ -107,7 +114,7 @@ export default function VillageScene({
                   return;
                 }
                 setNeed(service.slug, !selected);
-                setPreview(selected ? "" : service.slug);
+                setLastChange({ slug: service.slug, added: !selected });
               }}
               style={{
                 left: `${50 + 37 * Math.cos(angle)}%`,
@@ -121,7 +128,12 @@ export default function VillageScene({
                   className="village-light-icon"
                   dangerouslySetInnerHTML={{ __html: service.icon }}
                 />
-                <span className="village-light-check">
+                <span className="village-light-label">
+                  {service.shortTitle}
+                </span>
+              </span>
+              <span className="village-light-action" aria-hidden="true">
+                <span className="village-light-action-icon">
                   <svg
                     viewBox="0 0 16 16"
                     fill="none"
@@ -141,47 +153,45 @@ export default function VillageScene({
                     />
                   </svg>
                 </span>
+                <span>{selected ? (review ? "Open" : "Added") : "Add"}</span>
               </span>
-              <span className="village-light-label">{service.shortTitle}</span>
             </button>
           );
         })}
       </div>
       <figcaption id={captionId} className="village-light-caption">
         <span className="village-light-caption-title font-heading">
-          {count
-            ? `${count} ${count === 1 ? "little light" : "little lights"}. Your own village.`
-            : "Every village starts with a little light."}
+          {recentService
+            ? `${recentService.shortTitle} ${lastChange?.added ? "added to" : "removed from"} your village.`
+            : count
+              ? `${count} ${count === 1 ? "little light" : "little lights"}. Your own village.`
+              : "Your village starts with you."}
         </span>
         <span>
           {review
-            ? "Tap a light to explore it. Unlit circles add support."
+            ? "Open your saved support, or add something new."
             : count
-              ? "Select a lit circle again to remove it."
-              : "You can change your mind at any time."}
+              ? "Select an added light again to remove it."
+              : "Choose one kind of help, or a few. It’s up to you."}
         </span>
       </figcaption>
       {home && (
-        <div className="village-map-feedback">
-          {previewService ? (
-            <>
-              <p role="status">
-                <strong>{previewService.title} added.</strong>{" "}
-                {previewService.tagline}.
-              </p>
-              <Link href={`/services/${previewService.slug}`}>
-                Explore {previewService.shortTitle.toLowerCase()}{" "}
-                <span aria-hidden="true">→</span>
-              </Link>
-            </>
-          ) : (
-            <p>Start with one thing that would make today a little easier.</p>
-          )}
-          {count > 0 && (
-            <Link href="/my-village">
-              See my village ({count}) <span aria-hidden="true">→</span>
-            </Link>
-          )}
+        <div className="village-light-next">
+          <Link
+            href={count ? "/my-village" : "/services"}
+            data-ready={count > 0}
+          >
+            <span>{count ? "Explore my village" : "Browse support first"}</span>
+            <span className="village-light-next-end">
+              {count > 0 && (
+                <span className="village-light-next-count">
+                  {count}
+                  <span className="sr-only"> selected services</span>
+                </span>
+              )}
+              <span aria-hidden="true">→</span>
+            </span>
+          </Link>
         </div>
       )}
     </figure>
