@@ -3,6 +3,7 @@ import { useId, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { services } from "@/content/services";
 import VillageMark from "@/components/ui/VillageMark";
+import VillageInteractionHint from "@/components/ui/VillageInteractionHint";
 import { useVillage } from "./VillageProvider";
 
 /** One interactive scene and one saved village, wherever someone starts. */
@@ -32,19 +33,24 @@ export default function VillageScene({
     >
       <div className="village-lights-atmosphere" aria-hidden="true" />
       <div className="village-lights-heading">
-        <span aria-hidden="true" className="village-little-star">
-          ✧
-        </span>
-        A little help, all around you
-        <span aria-hidden="true" className="village-little-star">
-          ✧
-        </span>
+        <div className="village-lights-eyebrow">
+          <span aria-hidden="true" className="village-little-star">
+            ✧
+          </span>
+          A little help, all around you
+          <span aria-hidden="true" className="village-little-star">
+            ✧
+          </span>
+        </div>
+        <VillageInteractionHint id={`${captionId}-hint`}>
+          a light to {review ? "explore your support" : "add support"}.
+        </VillageInteractionHint>
       </div>
       <div
         className="village-light-map"
         role="group"
         aria-label="Your interactive village"
-        aria-describedby={captionId}
+        aria-describedby={`${captionId}-hint ${captionId}`}
       >
         <svg
           viewBox="0 0 100 100"
@@ -116,7 +122,24 @@ export default function VillageScene({
                   dangerouslySetInnerHTML={{ __html: service.icon }}
                 />
                 <span className="village-light-check">
-                  {selected ? "✓" : "+"}
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path
+                      d={
+                        selected
+                          ? review
+                            ? "M4 8h8M8 4l4 4-4 4"
+                            : "m4 8 3 3 5-6"
+                          : "M8 4v8M4 8h8"
+                      }
+                    />
+                  </svg>
                 </span>
               </span>
               <span className="village-light-label">{service.shortTitle}</span>
@@ -133,7 +156,9 @@ export default function VillageScene({
         <span>
           {review
             ? "Tap a light to explore it. Unlit circles add support."
-            : "Tap a circle to add support. Tap again to remove it."}
+            : count
+              ? "Select a lit circle again to remove it."
+              : "You can change your mind at any time."}
         </span>
       </figcaption>
       {home && (
@@ -150,7 +175,7 @@ export default function VillageScene({
               </Link>
             </>
           ) : (
-            <p>Choose a circle to start finding your support.</p>
+            <p>Start with one thing that would make today a little easier.</p>
           )}
           {count > 0 && (
             <Link href="/my-village">
