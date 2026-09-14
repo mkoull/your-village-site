@@ -16,7 +16,7 @@ const serviceLinks = services.map((s) => ({
 
 const mainLinks = [
   { label: "Services", href: "/services" },
-  { label: "How It Works", href: "/how-it-works" },
+  { label: "How it works", href: "/how-it-works" },
   { label: "Costs", href: "/pricing" },
   { label: "About", href: "/about" },
 ];
@@ -24,11 +24,18 @@ const mainLinks = [
 export default function Navbar() {
   const scrolled = useScrolled(40);
   const pathname = usePathname();
-  const isHome = pathname === "/";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const dropdownRef = useRef<HTMLLIElement>(null);
   const previousPath = useRef(pathname);
+  const navRef = useRef<HTMLElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const servicesButton = useRef<HTMLButtonElement>(null);
+
+  function closeMenus() {
+    setMobileOpen(false);
+    setServicesOpen(false);
+  }
 
   useEffect(() => {
     if (previousPath.current === pathname) return;
@@ -38,15 +45,16 @@ export default function Navbar() {
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    if (!mobileOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = previous;
     };
   }, [mobileOpen]);
 
-  // Close services dropdown on outside click
   useEffect(() => {
-    function handleClick(e: MouseEvent) {
+    function handleClick(e: PointerEvent) {
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(e.target as Node)
@@ -54,13 +62,10 @@ export default function Navbar() {
         setServicesOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener("pointerdown", handleClick);
+    return () => document.removeEventListener("pointerdown", handleClick);
   }, []);
 
-  const navRef = useRef<HTMLElement>(null);
-  const menuButton = useRef<HTMLButtonElement>(null);
-  const servicesButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -92,63 +97,77 @@ export default function Navbar() {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [mobileOpen, servicesOpen]);
+
   useEffect(() => {
     if (!mobileOpen) return;
     const elements = Array.from(
       document.querySelectorAll<HTMLElement>(
-        "main, body > footer, [data-village-dock]",
+        "main, footer, [data-village-dock]",
       ),
     );
     const previous = elements.map((el) => el.inert);
     elements.forEach((el) => {
       el.inert = true;
     });
-    const media = window.matchMedia("(min-width: 768px)");
-    const onResize = () => {
-      if (media.matches) setMobileOpen(false);
-    };
-    media.addEventListener("change", onResize);
     return () => {
       elements.forEach((el, i) => {
         el.inert = previous[i];
       });
-      media.removeEventListener("change", onResize);
     };
   }, [mobileOpen]);
-  const showBg = scrolled || !isHome || mobileOpen;
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 1024px)");
+    const onResize = () => {
+      setMobileOpen(false);
+      setServicesOpen(false);
+    };
+    media.addEventListener("change", onResize);
+    return () => media.removeEventListener("change", onResize);
+  }, []);
+
+  const isCurrent = (href: string) =>
+    pathname === href ||
+    (href === "/services" && pathname.startsWith("/services/"));
 
   return (
     <nav
       ref={navRef}
       aria-label="Main navigation"
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        showBg
-          ? "bg-background/90 backdrop-blur-lg border-b border-border shadow-sm"
-          : "bg-transparent",
+        "site-header",
+        (scrolled || pathname !== "/") && "is-scrolled",
+        mobileOpen && "is-menu-open",
       )}
     >
-      <div className="mx-auto max-w-6xl px-6 flex items-center justify-between h-16 md:h-20">
-        {/* Logo */}
+      <div className="site-header-inner">
         <Link
           href="/"
-          aria-label="Your Village"
-          onClick={() => setMobileOpen(false)}
-          className="flex items-center gap-2.5 transition-colors text-text-primary"
+          aria-label="Your Village home"
+          onClick={closeMenus}
+          className="site-header-brand"
         >
-          <VillageBrand />
+          <VillageBrand variant="header" />
         </Link>
 
-        {/* Desktop nav */}
-        <ul className="hidden md:flex items-center gap-8">
-          {/* Services with dropdown */}
-          <li className="relative flex items-center" ref={dropdownRef}>
+        <ul className="site-header-links">
+          <li
+            className="site-header-services"
+            ref={dropdownRef}
+            onBlur={(event) => {
+              if (
+                !event.currentTarget.contains(
+                  event.relatedTarget as Node | null,
+                )
+              )
+                setServicesOpen(false);
+            }}
+          >
             <Link
               href="/services"
-              aria-current={
-                pathname.startsWith("/services") ? "page" : undefined
-              }
-              className="text-[15px] font-medium text-text-body hover:text-sage"
+              onClick={closeMenus}
+              aria-current={isCurrent("/services") ? "page" : undefined}
+              className="site-header-link"
             >
               Services
             </Link>
@@ -157,12 +176,7 @@ export default function Navbar() {
               aria-label="Show service categories"
               aria-controls="services-menu"
               onClick={() => setServicesOpen(!servicesOpen)}
-              className={cn(
-                "text-[15px] font-medium transition-colors hover:text-sage flex items-center justify-center w-8 h-10",
-                pathname.startsWith("/services")
-                  ? "text-sage"
-                  : "text-text-body",
-              )}
+              className="site-header-dropdown-toggle"
               aria-expanded={servicesOpen}
             >
               <svg
@@ -171,36 +185,28 @@ export default function Navbar() {
                 viewBox="0 0 12 12"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="1.5"
                 strokeLinecap="round"
-                className={cn(
-                  "transition-transform duration-200",
-                  servicesOpen && "rotate-180",
-                )}
+                aria-hidden="true"
               >
                 <path d="M3 5l3 3 3-3" />
               </svg>
             </button>
-
             {servicesOpen && (
-              <div
-                id="services-menu"
-                className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 bg-elevated/95 backdrop-blur-xl rounded-[var(--radius-md)] border border-border shadow-lg py-2 animate-fade-in"
-              >
+              <div id="services-menu" className="site-header-dropdown">
                 <Link
                   href="/services"
-                  onClick={() => setServicesOpen(false)}
-                  className="block px-4 py-2.5 text-sm font-medium text-sage hover:bg-surface transition-colors"
+                  onClick={closeMenus}
+                  className="site-header-all-services"
                 >
-                  All Services
+                  Explore all support <span aria-hidden="true">&rarr;</span>
                 </Link>
-                <div className="border-t border-border-subtle my-1" />
                 {serviceLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    onClick={() => setServicesOpen(false)}
-                    className="block px-4 py-2 text-sm text-text-body hover:text-sage hover:bg-surface transition-colors"
+                    onClick={closeMenus}
+                    aria-current={pathname === link.href ? "page" : undefined}
                   >
                     {link.label}
                   </Link>
@@ -208,17 +214,13 @@ export default function Navbar() {
               </div>
             )}
           </li>
-
-          {/* Other links */}
           {mainLinks.slice(1).map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                aria-current={pathname === link.href ? "page" : undefined}
-                className={cn(
-                  "nav-link-animated text-[15px] font-medium transition-colors hover:text-sage",
-                  pathname === link.href ? "text-sage" : "text-text-body",
-                )}
+                onClick={closeMenus}
+                aria-current={isCurrent(link.href) ? "page" : undefined}
+                className="site-header-link"
               >
                 {link.label}
               </Link>
@@ -226,101 +228,85 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="site-header-desktop-action">
           <VillageNavLink />
         </div>
-
-        <div className="md:hidden ml-auto mr-2">
-          <VillageNavLink mobile onClick={() => setMobileOpen(false)} />
+        <div className="site-header-mobile-action">
+          <VillageNavLink mobile onClick={closeMenus} />
         </div>
-        {/* Mobile hamburger */}
         <button
           ref={menuButton}
           aria-controls="mobile-menu"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden min-h-11 min-w-11 p-2 text-text-body"
+          onClick={() => {
+            setMobileOpen(!mobileOpen);
+            setServicesOpen(false);
+          }}
+          className="site-header-menu-toggle"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
         >
           <svg
-            width="24"
-            height="24"
+            width="22"
+            height="22"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1.5"
             strokeLinecap="round"
+            aria-hidden="true"
           >
             {mobileOpen ? (
               <>
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
+                <path d="m6 6 12 12" />
+                <path d="M18 6 6 18" />
               </>
             ) : (
               <>
-                <line x1="4" y1="7" x2="20" y2="7" />
-                <line x1="4" y1="12" x2="20" y2="12" />
-                <line x1="4" y1="17" x2="20" y2="17" />
+                <path d="M4 8h16" />
+                <path d="M4 16h16" />
               </>
             )}
           </svg>
         </button>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
-        <div
-          id="mobile-menu"
-          className="md:hidden bg-background/98 backdrop-blur-xl border-t border-border max-h-[calc(100dvh-4rem)] overflow-y-auto"
-        >
-          <div className="px-6 py-8 flex flex-col gap-2">
-            {/* Services section */}
-            <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-1 mt-2">
-              Services
+        <div id="mobile-menu" className="site-header-mobile-menu">
+          <div className="site-header-mobile-content">
+            <div className="site-header-mobile-primary">
+              {mainLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeMenus}
+                  aria-current={isCurrent(link.href) ? "page" : undefined}
+                >
+                  {link.label}
+                  <span aria-hidden="true">&rarr;</span>
+                </Link>
+              ))}
+            </div>
+            <p className="site-header-menu-eyebrow">
+              A little support, wherever you need it
             </p>
-            <Link
-              href="/services"
-              onClick={() => setMobileOpen(false)}
-              className="text-[15px] font-semibold text-text-sage py-2"
-            >
-              Explore all support
-            </Link>
-            {serviceLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="text-[15px] text-text-body hover:text-sage py-1.5 transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-
-            <div className="border-t border-border my-4" />
-
-            {/* Main links */}
-            {mainLinks.slice(1).map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  "text-lg font-medium py-2 transition-colors",
-                  pathname === link.href ? "text-sage" : "text-text-body",
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-
+            <div className="site-header-mobile-services">
+              {serviceLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeMenus}
+                  aria-current={pathname === link.href ? "page" : undefined}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
             <Link
               href="/get-started"
-              onClick={() => setMobileOpen(false)}
-              className="mt-4 inline-flex items-center justify-center gap-2 px-7 py-3 text-base font-medium rounded-full bg-sage-deep text-white hover:bg-sage-dark transition-all"
+              onClick={closeMenus}
+              className="site-header-menu-cta"
             >
-              Build my village
-              <span aria-hidden="true">&rarr;</span>
+              Build my village <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </div>
