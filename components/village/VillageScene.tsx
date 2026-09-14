@@ -177,7 +177,7 @@ export default function VillageScene({
               {count > 0 && (
                 <span className="village-light-next-count">
                   {count}
-                  <span className="sr-only"> selected services</span>
+                  <span className="sr-only"> selected support categories</span>
                 </span>
               )}
               <span aria-hidden="true">→</span>

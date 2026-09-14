@@ -695,6 +695,11 @@
     max-width: 390px;
   }
   .village-builder-aside .village-lights-heading {
+    display: flex;
+    padding: 8px 0;
+  }
+  .village-builder-aside .village-lights-eyebrow,
+  .village-builder-aside .village-lights-title {
     display: none;
   }
   .village-builder-aside .village-light-map {

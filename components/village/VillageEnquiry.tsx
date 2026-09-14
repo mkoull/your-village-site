@@ -4,18 +4,23 @@ import { useLeadForm } from "@/lib/use-lead-form";
 import { useVillage } from "./VillageProvider";
 import { services } from "@/content/services";
 import Button from "@/components/ui/Button";
-import EnquiryAvailability from "@/components/ui/EnquiryAvailability";
 import FormError from "@/components/ui/FormError";
 import Link from "next/link";
 
 export default function VillageEnquiry() {
   const { draft } = useVillage();
-  const { send, sending, submitted, error, available } = useLeadForm();
+  const { send, sending, submitted, error, available, confirmationRef } =
+    useLeadForm();
   const [form, setForm] = useState({ name: "", email: "", notes: "" });
-  if (available === false) return null;
+  if (available !== true) return null;
   if (submitted)
     return (
-      <div role="status" className="village-enquiry">
+      <div
+        ref={confirmationRef}
+        tabIndex={-1}
+        role="status"
+        className="village-enquiry scroll-mt-28"
+      >
         <h3 className="font-heading text-2xl mb-3">
           Your enquiry has reached us.
         </h3>
@@ -35,7 +40,6 @@ export default function VillageEnquiry() {
           Optional. Share your interests as the network develops.
         </span>
       </summary>
-      <EnquiryAvailability available={available} />
       <form
         className="space-y-5 mt-7"
         aria-busy={sending}
@@ -55,7 +59,7 @@ export default function VillageEnquiry() {
         <fieldset disabled={sending} className="space-y-5">
           <div>
             <label htmlFor="village-name" className="form-label">
-              Your name
+              Your name (required)
             </label>
             <input
               disabled={sending}
@@ -72,7 +76,7 @@ export default function VillageEnquiry() {
           </div>
           <div>
             <label htmlFor="village-email" className="form-label">
-              Email address
+              Email address (required)
             </label>
             <input
               disabled={sending}

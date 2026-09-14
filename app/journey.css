@@ -1,4 +1,40 @@
 /* Shared actions make choosing support lead visibly to useful services. */
+main :where(a, button, input, select, textarea, summary) {
+  scroll-margin-top: 104px;
+  scroll-margin-bottom: 120px;
+}
+.catalogue-results-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  min-height: 44px;
+  margin-bottom: 24px;
+}
+.catalogue-results-summary button,
+.village-undo-notice button {
+  min-height: 44px;
+  padding: 8px;
+  cursor: pointer;
+}
+.village-saved-toolbar .village-save-explanation {
+  margin-top: 7px;
+  line-height: 1.7;
+  color: #6b665f;
+  font-size: 12px;
+}
+.village-undo-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  scroll-margin-block: 100px;
+}
+.village-undo-notice button {
+  flex-shrink: 0;
+}
+
 .village-nav-mobile {
   min-height: 44px;
 }
@@ -275,6 +311,12 @@
   }
 }
 @media (max-width: 767px) {
+  /* Keep iOS from zooming the page when a form control receives focus. */
+  main input:not([type="checkbox"]):not([type="radio"]),
+  main textarea,
+  .village-progress-control select {
+    font-size: 16px;
+  }
   .support-doorways {
     grid-template-columns: 1fr;
   }
@@ -325,7 +367,7 @@
   }
   .village-progress-control select {
     width: 100%;
-    font-size: 14px;
+    font-size: 16px;
   }
   .village-keep-copy {
     padding: 22px;

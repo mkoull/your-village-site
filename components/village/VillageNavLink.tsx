@@ -25,7 +25,7 @@ export default function VillageNavLink({
       {draft.needs.length > 0 ? (
         <span className="village-count">
           {draft.needs.length}
-          <span className="sr-only"> selected services</span>
+          <span className="sr-only"> selected support categories</span>
         </span>
       ) : (
         <ArrowUpRight />

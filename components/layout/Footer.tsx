@@ -47,9 +47,9 @@ export default function Footer() {
             <ul className="space-y-3">
               {[
                 { label: "About", href: "/about" },
-                { label: "How It Works", href: "/how-it-works" },
+                { label: "How it works", href: "/how-it-works" },
                 { label: "Costs", href: "/pricing" },
-                { label: "All Services", href: "/services" },
+                { label: "All services", href: "/services" },
                 { label: "Trust & safety", href: "/safety" },
                 { label: "Privacy", href: "/privacy" },
                 { label: "Contact", href: "/contact" },
@@ -70,7 +70,7 @@ export default function Footer() {
           {/* Get started */}
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
-              Get Started
+              Get started
             </p>
             <p className="text-sm text-text-inverse/60 leading-relaxed mb-4">
               Find the support that fits your life.

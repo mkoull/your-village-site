@@ -30,6 +30,8 @@ type VillageContextValue = {
   clear: () => void;
   restore: (draft: VillageDraft) => void;
   message: string;
+  catalogue: { filter: string; query: string };
+  setCatalogue: Dispatch<SetStateAction<{ filter: string; query: string }>>;
 };
 const VillageContext = createContext<VillageContextValue | null>(null);
 export function VillageProvider({ children }: { children: ReactNode }) {
@@ -37,6 +39,8 @@ export function VillageProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [storageAvailable, setStorageAvailable] = useState(true);
   const [message, setMessage] = useState("");
+  // Keep browsing context across page changes, without storing searches or sending them.
+  const [catalogue, setCatalogue] = useState({ filter: "all", query: "" });
   useEffect(() => {
     try {
       setDraft(
@@ -93,6 +97,8 @@ export function VillageProvider({ children }: { children: ReactNode }) {
         clear,
         restore,
         message,
+        catalogue,
+        setCatalogue,
       }}
     >
       {children}

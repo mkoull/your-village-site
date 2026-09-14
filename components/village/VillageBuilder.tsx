@@ -56,8 +56,8 @@ function ChooseSupport() {
           </div>
           <p className="text-sm text-text-muted">
             Choose one kind of help, or a few. Next, you’ll see services to
-            explore and a place to keep track. No questionnaire or contact
-            details needed.
+            explore and a place to keep track. Your choices stay in this tab; no
+            contact details needed.
           </p>
         </header>
         {!ready ? (
@@ -155,7 +155,7 @@ function ChooseSupport() {
                     router.push("/my-village");
                   }}
                 >
-                  Find services for me <span aria-hidden="true">→</span>
+                  See my support options <span aria-hidden="true">→</span>
                 </Button>
               </div>
               <p className="village-draft-note">

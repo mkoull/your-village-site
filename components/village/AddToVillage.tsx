@@ -31,7 +31,7 @@ export default function AddToVillage({
       )}
     >
       <span aria-hidden="true">{selected ? "✓" : "+"}</span>
-      {selected ? "In my village" : "Add to my village"}
+      {selected ? "Saved · Remove" : "Add to my village"}
     </button>
   );
 }
