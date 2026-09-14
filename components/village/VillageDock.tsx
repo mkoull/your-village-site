@@ -9,6 +9,7 @@ export default function VillageDock() {
   const pathname = usePathname();
   if (
     !draft.needs.length ||
+    pathname === "/" ||
     pathname === "/get-started" ||
     pathname === "/my-village"
   )
