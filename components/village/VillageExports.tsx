@@ -59,7 +59,8 @@ export default function VillageExports({ onPrint }: { onPrint: () => void }) {
   }
   return (
     <section
-      className="village-keep-copy"
+      id="keep-my-village"
+      className="village-keep-copy scroll-mt-28"
       aria-labelledby="keep-village-heading"
     >
       <h2 id="keep-village-heading" className="font-heading text-2xl">

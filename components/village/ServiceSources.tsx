@@ -13,7 +13,7 @@ export default function ServiceSources({
   return (
     <div className={compact ? "service-sources-compact" : "service-sources"}>
       <p className="text-[10px] uppercase tracking-[.18em] text-text-sage font-semibold mb-3">
-        A service to explore
+        An independent service to explore
       </p>
       {sources.map((source) => (
         <div key={source.href} className="village-source-card">

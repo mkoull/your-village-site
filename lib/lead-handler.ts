@@ -23,10 +23,72 @@ function reply(status: number, delivered = false) {
   );
 }
 
+export type LeadEmailConfig = { apiKey: string; to: string; from: string };
+
+export function isLeadEmailConfigured(
+  config: LeadEmailConfig | undefined,
+): boolean {
+  return Boolean(
+    config?.apiKey.trim() &&
+      emailPattern.test(config.to) &&
+      emailPattern.test(config.from) &&
+      !/[\r\n]/.test(config.to + config.from),
+  );
+}
+
+async function sendLeadEmail(
+  data: Record<string, unknown>,
+  config: LeadEmailConfig,
+): Promise<Response> {
+  if (!isLeadEmailConfigured(config)) return reply(503);
+  const subjects: Record<string, string> = {
+    contact: "Village: new contact enquiry",
+    assessment: "Village: new support enquiry",
+    waitlist: "Village: new update sign-up",
+  };
+  try {
+    const upstream = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${config.apiKey}`,
+      },
+      body: JSON.stringify({
+        from: config.from,
+        to: [config.to],
+        reply_to: data.email,
+        subject: subjects[String(data.type)],
+        text: [
+          "A visitor submitted this enquiry through Your Village.",
+          ...Object.entries(data).map(
+            ([key, value]) =>
+              `${key}: ${Array.isArray(value) ? value.join(", ") : value}`,
+          ),
+        ].join("\n\n"),
+      }),
+      signal: AbortSignal.timeout(8000),
+      redirect: "error",
+    });
+    if (!upstream.ok) {
+      await upstream.body?.cancel();
+      return reply(502);
+    }
+    const result = await upstream.json();
+    // An accepted message ID confirms the provider received the email request.
+    // It does not assert final inbox delivery, which must be verified during setup.
+    return typeof result?.id === "string" && result.id.length > 0
+      ? reply(200, true)
+      : reply(502);
+  } catch {
+    return reply(502);
+  }
+}
+
 /** No personal data or webhook credentials are logged or returned to the browser. */
 export async function handleLead(
   request: Request,
   webhook: string | undefined,
+  emailConfig?: LeadEmailConfig,
 ): Promise<Response> {
   const origin = request.headers.get("origin");
   // Next can use an internal hostname in request.url behind a proxy.
@@ -75,7 +137,10 @@ export async function handleLead(
     return reply(400);
   }
 
-  if (typeof input.type !== "string" || !["assessment", "contact", "waitlist"].includes(input.type))
+  if (
+    typeof input.type !== "string" ||
+    !["assessment", "contact", "waitlist"].includes(input.type)
+  )
     return reply(400);
   if (
     typeof input.email !== "string" ||
@@ -106,6 +171,12 @@ export async function handleLead(
     else return reply(400);
   }
 
+  const submission = {
+    ...data,
+    type: input.type,
+    submittedAt: new Date().toISOString(),
+  };
+  if (emailConfig) return sendLeadEmail(submission, emailConfig);
   if (!webhook) return reply(503);
   try {
     const url = new URL(webhook);
@@ -119,11 +190,7 @@ export async function handleLead(
     const upstream = await fetch(webhook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...data,
-        type: input.type,
-        submittedAt: new Date().toISOString(),
-      }),
+      body: JSON.stringify(submission),
       signal: AbortSignal.timeout(8000),
       redirect: "error",
     });

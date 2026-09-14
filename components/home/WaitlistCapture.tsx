@@ -5,13 +5,13 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { useLeadForm } from "@/lib/use-lead-form";
-import EnquiryAvailability from "@/components/ui/EnquiryAvailability";
 import FormError from "@/components/ui/FormError";
 import Link from "next/link";
 
 export default function WaitlistCapture() {
   const [email, setEmail] = useState("");
-  const { send, sending, submitted, error, available } = useLeadForm();
+  const { send, sending, submitted, error, available, confirmationRef } =
+    useLeadForm();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,19 +45,18 @@ export default function WaitlistCapture() {
               </p>
             </div>
 
-            {available === false ? null : !submitted ? (
+            {available !== true ? null : !submitted ? (
               <div className="max-w-md mx-auto">
                 <p className="text-text-inverse/60 text-sm mb-5">
                   Want to hear as Village grows?
                 </p>
-                <EnquiryAvailability available={available} />
                 <form
                   aria-busy={sending}
                   onSubmit={handleSubmit}
                   className="flex flex-col sm:flex-row items-center gap-3"
                 >
                   <label htmlFor="capture-email" className="sr-only">
-                    Email address
+                    Email address (required)
                   </label>
                   <input
                     disabled={sending}
@@ -89,9 +88,14 @@ export default function WaitlistCapture() {
                 </p>
               </div>
             ) : (
-              <p className="text-sage-light font-medium">
+              <div
+                ref={confirmationRef}
+                tabIndex={-1}
+                role="status"
+                className="text-sage-light font-medium scroll-mt-28"
+              >
                 You&apos;re on the list. We&apos;ll be in touch.
-              </p>
+              </div>
             )}
           </div>
         </ScrollReveal>

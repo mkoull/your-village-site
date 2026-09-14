@@ -11,7 +11,16 @@ import Link from "next/link";
 export default function WaitlistPage() {
   const [email, setEmail] = useState("");
   const [suburb, setSuburb] = useState("");
-  const { send, sending, submitted, error, available } = useLeadForm();
+  const {
+    send,
+    sending,
+    submitted,
+    error,
+    available,
+    checking,
+    retryAvailability,
+    confirmationRef,
+  } = useLeadForm();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,8 +46,13 @@ export default function WaitlistPage() {
                 already explore services today.
               </p>
 
-              <EnquiryAvailability available={available} />
-              {available !== false && (
+              <EnquiryAvailability
+                available={available}
+                checking={checking}
+                onRetry={retryAvailability}
+                updates
+              />
+              {available === true && (
                 <form
                   aria-busy={sending}
                   onSubmit={handleSubmit}
@@ -48,7 +62,7 @@ export default function WaitlistPage() {
                     htmlFor="waitlist-email"
                     className="block text-sm text-left"
                   >
-                    Email address
+                    Email address (required)
                   </label>
                   <input
                     disabled={sending}
@@ -90,7 +104,7 @@ export default function WaitlistPage() {
               )}
 
               <FormError message={error} />
-              {available !== false && (
+              {available === true && (
                 <p className="mt-4 text-xs text-text-muted">
                   Your details are sent only when you submit.{" "}
                   <Link href="/privacy" className="underline">
@@ -100,7 +114,12 @@ export default function WaitlistPage() {
               )}
             </>
           ) : (
-            <>
+            <div
+              ref={confirmationRef}
+              tabIndex={-1}
+              role="status"
+              className="scroll-mt-28"
+            >
               <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-sage/10 flex items-center justify-center">
                 <svg
                   className="w-8 h-8 text-sage"
@@ -125,7 +144,7 @@ export default function WaitlistPage() {
               >
                 Explore services while you’re here →
               </Link>
-            </>
+            </div>
           )}
         </ScrollReveal>
       </Container>

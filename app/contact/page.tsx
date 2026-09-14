@@ -10,7 +10,16 @@ import FormError from "@/components/ui/FormError";
 import Link from "next/link";
 
 export default function ContactPage() {
-  const { send, sending, submitted, error, available } = useLeadForm();
+  const {
+    send,
+    sending,
+    submitted,
+    error,
+    available,
+    checking,
+    retryAvailability,
+    confirmationRef,
+  } = useLeadForm();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
   function handleSubmit(e: React.FormEvent) {
@@ -22,24 +31,33 @@ export default function ContactPage() {
     return (
       <section className="min-h-[80dvh] flex items-center pt-32 pb-20">
         <Container narrow className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sage/15 text-sage mb-6">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              className="w-8 h-8"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </div>
-          <h1 className="text-h1 font-heading mb-4">We&apos;ll be in touch.</h1>
-          <p className="text-text-muted text-body-lg">
-            Your enquiry has been received. Thanks for helping shape Village.
-          </p>
-          <div className="mt-8">
-            <Button href="/my-village">Go to my village →</Button>
+          <div
+            ref={confirmationRef}
+            tabIndex={-1}
+            role="status"
+            className="scroll-mt-28"
+          >
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sage/15 text-sage mb-6">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                className="w-8 h-8"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <h1 className="text-h1 font-heading mb-4">
+              We&apos;ll be in touch.
+            </h1>
+            <p className="text-text-muted text-body-lg">
+              Your enquiry has been received. Thanks for helping shape Village.
+            </p>
+            <div className="mt-8">
+              <Button href="/my-village">Go to my village →</Button>
+            </div>
           </div>
         </Container>
       </section>
@@ -57,15 +75,19 @@ export default function ContactPage() {
             Contact Village
           </h1>
           <p className="text-text-muted text-body-lg text-center mb-12 max-w-lg mx-auto">
-            Have a question about Village, or a service to share? This is the
-            place to reach our team. For a particular service, use its website
-            to contact the provider directly.
+            For questions about an independent service, contact it through its
+            own website. For questions about Village or a service you’d like to
+            share, our enquiry form is available here when open.
           </p>
         </ScrollReveal>
 
         <ScrollReveal>
-          <EnquiryAvailability available={available} />
-          {available !== false && (
+          <EnquiryAvailability
+            available={available}
+            checking={checking}
+            onRetry={retryAvailability}
+          />
+          {available === true && (
             <form
               aria-busy={sending}
               onSubmit={handleSubmit}
@@ -76,7 +98,7 @@ export default function ContactPage() {
                   htmlFor="name"
                   className="block text-sm font-medium text-text-primary mb-2"
                 >
-                  Your name
+                  Your name (required)
                 </label>
                 <input
                   disabled={sending}
@@ -99,7 +121,7 @@ export default function ContactPage() {
                   htmlFor="email"
                   className="block text-sm font-medium text-text-primary mb-2"
                 >
-                  Email
+                  Email (required)
                 </label>
                 <input
                   disabled={sending}
@@ -153,7 +175,7 @@ export default function ContactPage() {
           )}
 
           <FormError message={error} />
-          {available !== false && (
+          {available === true && (
             <p className="mt-4 text-xs text-text-muted">
               Your details are sent only when you submit.{" "}
               <Link href="/privacy" className="underline">

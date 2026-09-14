@@ -26,7 +26,11 @@ export default function SavedVillage() {
     restore,
     storageAvailable,
   } = useVillage();
-  const [undo, setUndo] = useState<VillageDraft | null>(null);
+  const [undo, setUndo] = useState<{
+    draft: VillageDraft;
+    slug?: string;
+  } | null>(null);
+  const undoButton = useRef<HTMLButtonElement>(null);
   const [filter, setFilter] = useState<"all" | SupportProgress>("all");
   const [active, setActive] = useState("");
   const cards = useRef<Record<string, HTMLElement | null>>({});
@@ -46,6 +50,46 @@ export default function SavedVillage() {
       filter === "all" ||
       (draft.progress[service.slug] || "exploring") === filter,
   );
+  const displayed = undo?.slug
+    ? undo.draft.needs.flatMap((slug) =>
+        services.filter(
+          (service) =>
+            service.slug === slug &&
+            (slug === undo.slug || visible.some((item) => item.slug === slug)),
+        ),
+      )
+    : visible;
+  function focusElement(element: HTMLElement | null | undefined) {
+    element?.scrollIntoView({ behavior: "instant", block: "nearest" });
+    element?.focus({ preventScroll: true });
+  }
+  function undoChange() {
+    if (!undo) return;
+    const slug = undo.slug;
+    restore(undo.draft);
+    setUndo(null);
+    setFilter("all");
+    requestAnimationFrame(() =>
+      focusElement(slug ? cards.current[slug] : heading.current),
+    );
+  }
+  const undoNotice = undo && (
+    <div className="village-arrival village-undo-notice" role="status">
+      <span>
+        {undo.slug
+          ? `${services.find((service) => service.slug === undo.slug)?.title} removed.`
+          : "Your village has been cleared."}
+      </span>
+      <button
+        ref={undoButton}
+        type="button"
+        className="underline font-semibold"
+        onClick={undoChange}
+      >
+        Undo
+      </button>
+    </div>
+  );
   function focusSupport(slug: string) {
     setFilter("all");
     setActive(slug);
@@ -59,12 +103,10 @@ export default function SavedVillage() {
     });
   }
   function remove(slug: string) {
-    setUndo(draft);
+    setUndo({ draft, slug });
     setNeed(slug, false);
     setActive("");
-    requestAnimationFrame(() =>
-      heading.current?.focus({ preventScroll: true }),
-    );
+    requestAnimationFrame(() => focusElement(undoButton.current));
   }
   return (
     <div
@@ -95,22 +137,7 @@ export default function SavedVillage() {
           </p>
         ) : (
           <>
-            {undo && (
-              <div className="village-arrival" role="status">
-                Your choices were updated.{" "}
-                <button
-                  type="button"
-                  className="underline font-semibold"
-                  onClick={() => {
-                    restore(undo);
-                    setUndo(null);
-                    setFilter("all");
-                  }}
-                >
-                  Undo
-                </button>
-              </div>
-            )}
+            {!selected.length && undoNotice}
             {!selected.length ? (
               <div className="village-empty-saved">
                 <h2
@@ -138,10 +165,24 @@ export default function SavedVillage() {
             ) : (
               <>
                 <div className="village-saved-toolbar">
-                  <p>
-                    {selected.length} {selected.length === 1 ? "kind" : "kinds"}{" "}
-                    of support saved · {counts[2].count} in place
-                  </p>
+                  <div>
+                    <p>
+                      {selected.length}{" "}
+                      {selected.length === 1 ? "kind" : "kinds"} of support
+                      saved · {counts[2].count} in place
+                    </p>
+                    <p className="village-save-explanation">
+                      {storageAvailable
+                        ? "Saved in this browser tab."
+                        : "Browser storage is unavailable."}{" "}
+                      <a
+                        href="#keep-my-village"
+                        className="underline underline-offset-4"
+                      >
+                        Keep a copy for later
+                      </a>
+                    </p>
+                  </div>
                   <Link
                     href="/get-started"
                     className="text-sm text-text-sage underline underline-offset-4"
@@ -158,13 +199,14 @@ export default function SavedVillage() {
                       ref={heading}
                       tabIndex={-1}
                       id="saved-support-heading"
-                      className="font-heading text-3xl mb-3"
+                      className="font-heading text-3xl mb-3 scroll-mt-28"
                     >
                       Services to explore.
                     </h2>
                     <p className="text-sm text-text-muted mb-5">
-                      Start with one. Make contact on their website, then update
-                      your progress here.
+                      Visit a service’s website to check availability and make
+                      contact. Return here to record your own progress; saving
+                      support does not send an enquiry.
                     </p>
                     <details className="village-filter-tools">
                       <summary>
@@ -188,7 +230,10 @@ export default function SavedVillage() {
                         <button
                           type="button"
                           aria-pressed={filter === "all"}
-                          onClick={() => setFilter("all")}
+                          onClick={() => {
+                            setFilter("all");
+                            setUndo(null);
+                          }}
                         >
                           All ({selected.length})
                         </button>
@@ -197,7 +242,10 @@ export default function SavedVillage() {
                             key={option.value}
                             type="button"
                             aria-pressed={filter === option.value}
-                            onClick={() => setFilter(option.value)}
+                            onClick={() => {
+                              setFilter(option.value);
+                              setUndo(null);
+                            }}
                           >
                             {option.value === "contacted"
                               ? "Contact made"
@@ -212,83 +260,90 @@ export default function SavedVillage() {
                       {selected.length === 1 ? "category" : "categories"}
                     </p>
                     <div className="village-plan-list">
-                      {visible.map((service) => (
-                        <article
-                          key={service.slug}
-                          id={`support-${service.slug}`}
-                          tabIndex={-1}
-                          ref={(element) => {
-                            cards.current[service.slug] = element;
-                          }}
-                          data-active={active === service.slug}
-                          className={`village-plan-item village-tone-${service.tone}`}
-                        >
-                          <div className="flex items-start gap-3">
-                            <span
-                              className="plan-icon"
-                              aria-hidden="true"
-                              dangerouslySetInnerHTML={{ __html: service.icon }}
-                            />
-                            <div className="flex-1 min-w-0">
-                              <h3 className="font-heading text-2xl">
-                                {service.title}
-                              </h3>
-                              <p className="text-sm text-text-muted mt-1">
-                                {service.tagline}
-                              </p>
-                            </div>
-                            <button
-                              type="button"
-                              className="plan-remove"
-                              aria-label={`Remove ${service.title.toLowerCase()} from my village`}
-                              onClick={() => remove(service.slug)}
-                            >
-                              ×
-                            </button>
-                          </div>
-                          <ServiceSources slug={service.slug} compact />
-                          <div className="village-progress-control">
-                            <label
-                              htmlFor={`progress-${service.slug}`}
-                              className="text-sm font-medium"
-                            >
-                              My progress
-                            </label>
-                            <select
-                              id={`progress-${service.slug}`}
-                              value={
-                                draft.progress[service.slug] || "exploring"
-                              }
-                              onChange={(event) => {
-                                setProgress(
-                                  service.slug,
-                                  event.target.value as SupportProgress,
-                                );
-                                setUndo(null);
-                                if (filter !== "all")
-                                  requestAnimationFrame(() =>
-                                    heading.current?.focus({
-                                      preventScroll: true,
-                                    }),
-                                  );
-                              }}
-                            >
-                              {supportProgressOptions.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                  {option.label}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <Link
-                            href={`/services/${service.slug}`}
-                            className="inline-block text-sm underline underline-offset-4 text-text-sage mt-5"
+                      {displayed.map((service) =>
+                        undo?.slug === service.slug ? (
+                          <div key={service.slug}>{undoNotice}</div>
+                        ) : (
+                          <article
+                            key={service.slug}
+                            id={`support-${service.slug}`}
+                            tabIndex={-1}
+                            ref={(element) => {
+                              cards.current[service.slug] = element;
+                            }}
+                            data-active={active === service.slug}
+                            className={`village-plan-item village-tone-${service.tone}`}
                           >
-                            More about {service.shortTitle.toLowerCase()}{" "}
-                            <span aria-hidden="true">→</span>
-                          </Link>
-                        </article>
-                      ))}
+                            <div className="flex items-start gap-3">
+                              <span
+                                className="plan-icon"
+                                aria-hidden="true"
+                                dangerouslySetInnerHTML={{
+                                  __html: service.icon,
+                                }}
+                              />
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-heading text-2xl">
+                                  {service.title}
+                                </h3>
+                                <p className="text-sm text-text-muted mt-1">
+                                  {service.tagline}
+                                </p>
+                              </div>
+                              <button
+                                type="button"
+                                className="plan-remove"
+                                aria-label={`Remove ${service.title.toLowerCase()} from my village`}
+                                onClick={() => remove(service.slug)}
+                              >
+                                ×
+                              </button>
+                            </div>
+                            <ServiceSources slug={service.slug} compact />
+                            <div className="village-progress-control">
+                              <label
+                                htmlFor={`progress-${service.slug}`}
+                                className="text-sm font-medium"
+                              >
+                                My progress
+                              </label>
+                              <select
+                                id={`progress-${service.slug}`}
+                                value={
+                                  draft.progress[service.slug] || "exploring"
+                                }
+                                onChange={(event) => {
+                                  setProgress(
+                                    service.slug,
+                                    event.target.value as SupportProgress,
+                                  );
+                                  setUndo(null);
+                                  if (filter !== "all")
+                                    requestAnimationFrame(() =>
+                                      focusElement(heading.current),
+                                    );
+                                }}
+                              >
+                                {supportProgressOptions.map((option) => (
+                                  <option
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            <Link
+                              href={`/services/${service.slug}`}
+                              className="inline-block text-sm underline underline-offset-4 text-text-sage mt-5"
+                            >
+                              More about {service.shortTitle.toLowerCase()}{" "}
+                              <span aria-hidden="true">→</span>
+                            </Link>
+                          </article>
+                        ),
+                      )}
                     </div>
                     {!visible.length && (
                       <div className="village-empty-filter">
@@ -302,7 +357,13 @@ export default function SavedVillage() {
                         <button
                           type="button"
                           className="underline text-text-sage"
-                          onClick={() => setFilter("all")}
+                          onClick={() => {
+                            setFilter("all");
+                            setUndo(null);
+                            requestAnimationFrame(() =>
+                              focusElement(heading.current),
+                            );
+                          }}
                         >
                           Show all my support →
                         </button>
@@ -341,16 +402,12 @@ export default function SavedVillage() {
                     type="button"
                     className="underline shrink-0"
                     onClick={() => {
-                      setUndo(draft);
+                      setUndo({ draft });
                       clear();
                       setFilter("all");
-                      requestAnimationFrame(() => {
-                        heading.current?.scrollIntoView({
-                          block: "center",
-                          behavior: "instant",
-                        });
-                        heading.current?.focus({ preventScroll: true });
-                      });
+                      requestAnimationFrame(() =>
+                        focusElement(undoButton.current),
+                      );
                     }}
                   >
                     Clear village

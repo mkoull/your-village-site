@@ -48,6 +48,12 @@ The legacy `/services/postpartum-carers` route now covers nannies and family car
 
 ## Enquiry delivery
 
+Direct email delivery is also supported through Resend. Set `RESEND_API_KEY`, `LEAD_TO_EMAIL` (the owner's private receiving inbox), and `LEAD_FROM_EMAIL` (a verified sender) in Vercel's **Production** environment, then redeploy. Do not put these settings in public client variables or commit their values. The destination is fixed on the server, never accepted from a visitor's request. Replies to the notification go to the visitor's email.
+
+Create the email-service account and verify the sender before enabling public intake. Resend's `onboarding@resend.dev` sender is for testing and only sends to the account owner's email; use a verified domain for production. Receiving notifications in Gmail does not require moving that inbox to the new domain. No real email credentials or recipient are committed to this repository.
+
+Resend configuration takes precedence over the webhook below. A failure never automatically forwards to another provider, to avoid duplicate messages. A successful Resend response must contain an accepted message ID; complete setup by checking the receiving inbox, not just the HTTP response. Email-service authentication and Vercel environment access are still required to activate delivery.
+
 Set **LEAD_WEBHOOK_URL** in the intended Vercel environment to your existing HTTPS Zapier / Make / form-processing endpoint, then redeploy. Use a private server variable, not a NEXT_PUBLIC variable.
 
 For migration, the server temporarily accepts the existing NEXT_PUBLIC_LEAD_WEBHOOK_URL setting. It is no longer referenced from client code. Remove the old variable after migration; if it was publicly distributed, rotate the webhook URL in the provider before relying on its secrecy.

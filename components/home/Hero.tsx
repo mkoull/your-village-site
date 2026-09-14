@@ -31,7 +31,7 @@ export default function Hero() {
                 Build my village <span aria-hidden="true">→</span>
               </Button>
               <Link
-                href="#explore-support"
+                href="/services"
                 className="text-sm font-medium text-text-sage underline underline-offset-4 decoration-sage/40 py-3"
               >
                 Browse support first

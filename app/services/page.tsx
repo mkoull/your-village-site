@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import ArrowUpRight from "@/components/ui/ArrowUpRight";
 import AddToVillage from "@/components/village/AddToVillage";
 import ServiceSources from "@/components/village/ServiceSources";
+import { useVillage } from "@/components/village/VillageProvider";
 import { existingSupport } from "@/content/existing-support";
 import { services } from "@/content/services";
 
@@ -17,8 +18,15 @@ const categories = [
   ["community", "Community"],
 ];
 export default function ServicesPage() {
-  const [filter, setFilter] = useState("all");
-  const [query, setQuery] = useState("");
+  const {
+    catalogue: { filter, query },
+    setCatalogue,
+  } = useVillage();
+  const searchInput = useRef<HTMLInputElement>(null);
+  function resetSearch() {
+    setCatalogue({ filter: "all", query: "" });
+    searchInput.current?.focus();
+  }
   const filtered = services.filter(
     (service) =>
       (filter === "all" || service.category === filter) &&
@@ -52,9 +60,8 @@ export default function ServicesPage() {
           </div>
           <div className="max-w-sm">
             <p className="text-text-muted mb-5">
-              Browse support categories and follow the service links to explore
-              your options. Save categories to My village to keep track as you
-              go.
+              Explore the kinds of help available. Add a category to My village
+              to save it, or visit a service’s website to get in touch directly.
             </p>
             <Link
               href="/my-village"
@@ -75,7 +82,9 @@ export default function ServicesPage() {
                 key={value}
                 type="button"
                 aria-pressed={filter === value}
-                onClick={() => setFilter(value)}
+                onClick={() =>
+                  setCatalogue((previous) => ({ ...previous, filter: value }))
+                }
               >
                 {label}
               </button>
@@ -87,19 +96,36 @@ export default function ServicesPage() {
             </label>
             <input
               id="service-search"
+              ref={searchInput}
               className="form-field"
               type="search"
               maxLength={80}
               placeholder="Search support…"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) =>
+                setCatalogue((previous) => ({
+                  ...previous,
+                  query: e.target.value,
+                }))
+              }
             />
           </div>
         </div>
-        <p role="status" className="text-xs text-text-muted mb-6 break-words">
-          {filtered.length} {filtered.length === 1 ? "kind" : "kinds"} of
-          support{query ? ` for “${query}”` : ""}
-        </p>
+        <div className="catalogue-results-summary">
+          <p role="status" className="text-xs text-text-muted break-words">
+            {filtered.length} {filtered.length === 1 ? "kind" : "kinds"} of
+            support{query ? ` for “${query}”` : ""}
+          </p>
+          {(filter !== "all" || query) && (
+            <button
+              type="button"
+              onClick={resetSearch}
+              className="text-sm text-text-sage underline underline-offset-4"
+            >
+              Clear search and filters
+            </button>
+          )}
+        </div>
         <div className="catalogue-grid">
           {filtered.map((service) => (
             <article
@@ -150,14 +176,7 @@ export default function ServicesPage() {
               There isn&apos;t a match for those filters. You can browse all
               eight kinds of support.
             </p>
-            <Button
-              onClick={() => {
-                setFilter("all");
-                setQuery("");
-              }}
-            >
-              Show all support
-            </Button>
+            <Button onClick={resetSearch}>Show all support</Button>
           </div>
         )}
         <div className="catalogue-outro">
@@ -166,8 +185,8 @@ export default function ServicesPage() {
               It can start with just one thing.
             </h2>
             <p className="text-sm text-text-muted">
-              Your saved support stays with you as you explore. No contact
-              details needed.
+              Your choices stay in this browser tab as you explore. You can
+              download a copy from My village to keep for later.
             </p>
           </div>
           <Button href="/my-village">
