@@ -8,7 +8,7 @@ This includes mothers and existing families, with or without an established netw
 
 ## What this version does
 
-Explore and search eight support categories and service names; follow eight independent service links; build, edit and export a village without contact details. The builder leads directly to service actions. Record your own progress as exploring, contacted or support in place. Choices and progress persist across navigation and refresh in the same browser tab. Optional enquiries and updates require the configured receiving endpoint.
+Explore and search eight support categories and service names; follow eight independent service links; build, edit and export a village without contact details. The builder leads directly to service actions. Record your own progress as exploring, contacted or support in place. Choices and progress persist across navigation and refresh; an explicit Remember option keeps them on the same device after the tab closes. Native sharing, copy, download and print help visitors keep their plan. Optional enquiries and updates require the configured receiving endpoint.
 
 No fabricated provider profiles, ratings, availability, prices or bookings.
 

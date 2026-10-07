@@ -32,7 +32,7 @@ Next.js 15, React 19, Tailwind CSS 4 and TypeScript. All content pages are prere
 - `components/village/SavedVillage.tsx` shows direct service actions, manual progress, filters, removal/undo and the saved map. Progress never implies a provider acknowledgement or booking. `VillageExports.tsx` creates local copies including all choices and their progress, with a manual copy fallback.
 - `app/journey.css`: shared service actions, category links, saved progress, mobile layouts and print rules. Homepage category links open their service pages directly.
 - `components/ui/VillageBrand.tsx` combines the circle mark with the wordmark for header/footer; `app/brand.css` styles the lockup. Preserve eight small circles around a larger centre and keep `public/favicon.svg` consistent with `VillageMark`.
-- `lib/village.ts`: versioned draft parser and immutable selection updates. Only allowlisted choices are restored from session storage.
+- `lib/village.ts`: versioned draft parser and immutable selection updates. Only allowlisted choices and progress are restored. Device persistence is explicitly optional.
 - `lib/assessment.ts`: stage options and shortlist selection. Keeps all selected services in their chosen order.
 - `lib/use-lead-form.ts`: shared sending, success and error state with duplicate-submit protection.
 - `lib/leads.ts`: same-origin browser transport; requires a positive delivery acknowledgement.
@@ -71,7 +71,7 @@ No form-provider account or credentials were created by this change. Configure r
 
 ## Privacy
 
-Selected service slugs and allowlisted progress are saved in sessionStorage for this browser tab. Optional family stage/timing and step from legacy drafts remain compatible. Choices and progress survive navigation and refresh, but not closing the tab. Drafts are versioned, bounded and allowlisted when restored. Removing a category removes its progress; removal and Clear village offer an in-page Undo. A blocked-storage fallback keeps the draft in React memory and explains the refresh limitation. Contact fields and notes are never persisted.
+Selected service slugs and allowlisted progress are saved in sessionStorage by default. The optional **Remember my village on this device** checkbox also saves categories and progress in localStorage, restoring them after the tab closes and synchronising open tabs in the same browser. It does not create an account or sync devices. Turning the checkbox off removes the device copy; Clear village removes both copies and Undo restores the previous choice of storage. Failed storage operations show an actionable message. Optional family stage/timing from legacy drafts remain tab-only. Drafts are versioned, bounded and allowlisted when restored. Contact fields and notes are never persisted. Share uses the device's native share sheet where available; copy, download, print and manual text remain available.
 
 Only an explicit enquiry submits selections and contact details. Page analytics receive no draft fields. No anonymous localStorage identifier is created. Copy, download and print exports happen locally; the visitor controls their resulting copies.
 
@@ -81,4 +81,4 @@ The privacy page describes current behaviour. Provider identities, processing lo
 
 The live site currently uses https://your-village-site.vercel.app. Update `lib/site.ts` when the custom domain is connected. Main deploys automatically in the existing Vercel setup; review changes on a branch/preview before merging.
 
-The PostCSS override selects a patched 8.x release while retaining Next 15. Revisit it when Next's own bundled dependency is patched. The dependency audit was clean on 10 September 2026.
+The PostCSS override selects a patched 8.x release while retaining Next 15. Revisit it when Next's own bundled dependency is patched. On 8 October 2026 the dependency lock was updated to sharp 0.35.5 (patched librsvg) and source-map-js 1.2.2. npm audit reported zero vulnerabilities after the update. See docs/WEBSITE-REVIEW-2026-10-08.md for the current review and verification limits.

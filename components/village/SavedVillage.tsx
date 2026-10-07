@@ -10,6 +10,7 @@ import VillageScene from "./VillageScene";
 import ServiceSources from "./ServiceSources";
 import VillageExports from "./VillageExports";
 import VillageEnquiry from "./VillageEnquiry";
+import VillageStorageControl from "./VillageStorageControl";
 import {
   supportProgressOptions,
   type SupportProgress,
@@ -25,10 +26,12 @@ export default function SavedVillage() {
     clear,
     restore,
     storageAvailable,
+    remembered,
   } = useVillage();
   const [undo, setUndo] = useState<{
     draft: VillageDraft;
     slug?: string;
+    remembered?: boolean;
   } | null>(null);
   const undoButton = useRef<HTMLButtonElement>(null);
   const [filter, setFilter] = useState<"all" | SupportProgress>("all");
@@ -66,7 +69,7 @@ export default function SavedVillage() {
   function undoChange() {
     if (!undo) return;
     const slug = undo.slug;
-    restore(undo.draft);
+    restore(undo.draft, undo.remembered);
     setUndo(null);
     setFilter("all");
     requestAnimationFrame(() =>
@@ -127,8 +130,8 @@ export default function SavedVillage() {
             </h1>
           </div>
           <p className="text-sm text-text-muted">
-            Open a service to explore your options and get in touch directly.
-            Then keep track of where you’re up to, at your own pace.
+            Your saved support, with service links and a place to keep track.
+            Take the next step at your own pace.
           </p>
         </header>
         {!ready ? (
@@ -140,6 +143,7 @@ export default function SavedVillage() {
             {!selected.length && undoNotice}
             {!selected.length ? (
               <div className="village-empty-saved">
+                {remembered && <VillageStorageControl />}
                 <h2
                   ref={heading}
                   tabIndex={-1}
@@ -172,14 +176,16 @@ export default function SavedVillage() {
                       saved · {counts[2].count} in place
                     </p>
                     <p className="village-save-explanation">
-                      {storageAvailable
+                      {remembered
+                        ? "Remembered on this device."
+                        : storageAvailable
                         ? "Saved in this browser tab."
                         : "Browser storage is unavailable."}{" "}
                       <a
                         href="#keep-my-village"
                         className="underline underline-offset-4"
                       >
-                        Keep a copy for later
+                        Keep my village for later
                       </a>
                     </p>
                   </div>
@@ -204,9 +210,8 @@ export default function SavedVillage() {
                       Services to explore.
                     </h2>
                     <p className="text-sm text-text-muted mb-5">
-                      Visit a service’s website to check availability and make
-                      contact. Return here to record your own progress; saving
-                      support does not send an enquiry.
+                      Visit a service’s website to check the details and get in
+                      touch. Saving here doesn’t send an enquiry.
                     </p>
                     <details className="village-filter-tools">
                       <summary>
@@ -372,6 +377,7 @@ export default function SavedVillage() {
                     <VillageExports
                       onPrint={() => {
                         setFilter("all");
+                        setUndo(null);
                         requestAnimationFrame(() => window.print());
                       }}
                     />
@@ -391,8 +397,10 @@ export default function SavedVillage() {
                 </div>
                 <div className="village-draft-note">
                   <p>
-                    {storageAvailable
-                      ? "Your choices and progress stay in this browser tab, including after a refresh. Download a copy before closing the tab."
+                    {remembered
+                      ? "Your choices and progress are saved in this browser on this device. Clear village removes the saved copy too."
+                      : storageAvailable
+                      ? "Your choices and progress stay in this tab. Choose Remember to return later, or download a copy."
                       : "Storage is blocked. Download a copy before refreshing or closing the tab."}{" "}
                     <Link href="/privacy" className="underline">
                       Privacy
@@ -402,8 +410,8 @@ export default function SavedVillage() {
                     type="button"
                     className="underline shrink-0"
                     onClick={() => {
-                      setUndo({ draft });
-                      clear();
+                      if (!clear()) return;
+                      setUndo({ draft, remembered });
                       setFilter("all");
                       requestAnimationFrame(() =>
                         focusElement(undoButton.current),

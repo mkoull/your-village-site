@@ -7,6 +7,8 @@ export async function submitLead(
   type: LeadType,
   data: Record<string, unknown>,
 ): Promise<LeadResult> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
   try {
     const response = await fetch("/api/leads", {
       method: "POST",
@@ -16,7 +18,7 @@ export async function submitLead(
         type,
         page: typeof window !== "undefined" ? window.location.pathname : "/",
       }),
-      signal: AbortSignal.timeout(12000),
+      signal: controller.signal,
     });
     if (!response.ok) {
       return {
@@ -40,5 +42,7 @@ export async function submitLead(
       error:
         "We couldn't confirm your enquiry. Check your connection and try again. Your details are still here.",
     };
+  } finally {
+    clearTimeout(timeout);
   }
 }

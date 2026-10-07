@@ -22,6 +22,18 @@ const request = (data = payload, headers = {}) =>
   });
 const endpoint = "https://processor.example.invalid/leads";
 
+test("browser submission works without newer AbortSignal static helpers", async () => {
+  const timeout = mock.method(AbortSignal, "timeout", () => { throw new Error("unsupported"); });
+  const any = mock.method(AbortSignal, "any", () => { throw new Error("unsupported"); });
+  const fetch = mock.method(globalThis, "fetch", async (_url, options) => {
+    assert.ok(options.signal instanceof AbortSignal);
+    assert.equal(options.signal.aborted, false);
+    return Response.json({ delivered: true });
+  });
+  try { assert.deepEqual(await submitLead("contact", payload), { delivered: true }); }
+  finally { fetch.mock.restore(); timeout.mock.restore(); any.mock.restore(); }
+});
+
 test("missing configuration fails without sending or claiming delivery", async () => {
   const fetch = mock.method(globalThis, "fetch", async () => {
     throw new Error("must not send");
