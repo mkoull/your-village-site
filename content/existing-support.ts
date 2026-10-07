@@ -1,4 +1,4 @@
-// Public links and service descriptions rechecked against these official pages on 11 September 2026.
+// Public links and service descriptions rechecked against these official pages on 8 October 2026.
 // These are independent starting points, not Village partners or verified listings.
 export const existingSupport = [
   {

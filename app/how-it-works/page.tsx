@@ -21,7 +21,7 @@ const content = {
     ],
     [
       "03 · Keep track at your pace",
-      "Use My progress to record whether you’re still exploring, have made contact, or have support in place. These are your own updates. Your choices and progress stay in this browser tab after a refresh. Copy, download or print a version to keep after closing the tab.",
+      "Use My progress to record whether you’re still exploring, have made contact, or have support in place. These are your own updates. Choose Remember my village on this device to come back after closing the tab. You can also share, copy, download or print a version to keep. Without that option, choices stay in the current browser tab only.",
     ],
     [
       "What's coming next",

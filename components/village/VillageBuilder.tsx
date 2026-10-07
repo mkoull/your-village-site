@@ -19,7 +19,7 @@ export default function VillageBuilder({
 }
 
 function ChooseSupport() {
-  const { draft, setDraft, ready, setNeed, storageAvailable } = useVillage();
+  const { draft, setDraft, ready, setNeed, storageAvailable, remembered } = useVillage();
   const router = useRouter();
   const search = useSearchParams();
   const imported = useRef("");
@@ -56,8 +56,7 @@ function ChooseSupport() {
           </div>
           <p className="text-sm text-text-muted">
             Choose one kind of help, or a few. Next, you’ll see services to
-            explore and a place to keep track. Your choices stay in this tab; no
-            contact details needed.
+            explore and a place to keep track. No contact details needed.
           </p>
         </header>
         {!ready ? (
@@ -159,7 +158,9 @@ function ChooseSupport() {
                 </Button>
               </div>
               <p className="village-draft-note">
-                {storageAvailable
+                {remembered
+                  ? "Your choices are remembered on this device."
+                  : storageAvailable
                   ? "Your choices stay in this tab as you browse and refresh."
                   : "Storage is blocked in this browser. A refresh may clear your choices."}{" "}
                 <Link href="/privacy" className="underline">

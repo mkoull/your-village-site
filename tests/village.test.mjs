@@ -5,9 +5,30 @@ import {
   readVillage,
   setVillageNeed,
   setVillageProgress,
+  deviceVillage,
+  readDeviceVillage,
 } from "../lib/village.ts";
 const slugs = ["food", "life-admin", "sleep", "cleaning", "community"];
 const stages = ["expecting", "growing-family"];
+test("invalid device copies do not enable remembering or replace a current session", () => {
+  for (const raw of [null, "broken", "null", "[]", '{"version":1}', '{"version":2,"needs":[]}', "x".repeat(4100)]) {
+    assert.equal(readDeviceVillage(raw, slugs), null);
+  }
+  assert.deepEqual(readDeviceVillage(JSON.stringify(emptyVillage()), slugs), emptyVillage());
+  assert.deepEqual(readDeviceVillage('{"version":1,"needs":["food","unknown"],"email":"private@example.invalid"}', slugs), {...emptyVillage(), needs:["food"]});
+});
+test("remembered villages keep choices and progress without contact or legacy family context", () => {
+  const input = {
+    ...emptyVillage(), needs: ["food"], progress: { food: "contacted" },
+    stage: "expecting", timing: "asap", step: 2,
+    name: "Private name", email: "private@example.invalid", notes: "Private notes",
+  };
+  const stored = JSON.stringify(deviceVillage(input));
+  assert.deepEqual(readVillage(stored, slugs, stages), {
+    ...emptyVillage(), needs: ["food"], progress: { food: "contacted" },
+  });
+  assert.doesNotMatch(stored, /Private|private@|expecting|asap/);
+});
 test("older villages gain progress without losing their saved choices", () => {
   const restored = readVillage(
     JSON.stringify({

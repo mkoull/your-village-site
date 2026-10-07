@@ -14,6 +14,7 @@ export type VillageDraft = {
   progress: Record<string, SupportProgress>;
 };
 export const VILLAGE_STORAGE_KEY = "village-draft-v1";
+export const VILLAGE_DEVICE_STORAGE_KEY = "village-remembered-v1";
 export const timingOptions = [
   { value: "asap", label: "As soon as possible" },
   { value: "soon", label: "In the next few weeks" },
@@ -109,4 +110,22 @@ export function setVillageProgress(
   )
     return draft;
   return { ...draft, progress: { ...draft.progress, [slug]: status } };
+}
+
+/** Device saving is opt-in. Keep only categories and progress, never legacy context. */
+export function deviceVillage(draft: VillageDraft): VillageDraft {
+  return { ...emptyVillage(), needs: draft.needs, progress: draft.progress };
+}
+
+export function readDeviceVillage(raw: string | null, slugs: readonly string[]): VillageDraft | null {
+  if (!raw || raw.length > 4096) return null;
+  try {
+    const value: unknown = JSON.parse(raw);
+    if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+    const input = value as Record<string, unknown>;
+    if (input.version !== 1 || !Array.isArray(input.needs)) return null;
+    return deviceVillage(readVillage(raw, slugs, []));
+  } catch {
+    return null;
+  }
 }

@@ -13,7 +13,7 @@ const content = {
   sections: [
     [
       "Your village in this browser",
-      "Your selected support categories and progress are kept in session storage in this browser tab, so they survive page changes and refreshes. Optional family stage and timing from an older draft may also remain there. These choices are not sent to Village as you update them. Clear village removes them. Contact details and messages are never stored in this draft. If browser storage is blocked, a refresh may clear your choices. Basic analytics record page views and event names, not your selections, progress or contact details.",
+      "By default, selected support categories and progress stay in this browser tab using session storage. If you choose Remember my village on this device, those categories and progress are also saved in this browser’s local storage until you turn the option off, clear your village or clear site data. They are available to anyone using the same browser and do not sync to another device. Optional family stage and timing from older drafts stay in the tab only. Choices are not sent to Village as you update them. Contact details and messages are never saved in the draft. If storage is blocked, a refresh may clear your choices. Basic analytics record page views and event names, not selections, progress or contact details.",
     ],
     [
       "What you choose to send",
@@ -29,7 +29,7 @@ const content = {
     ],
     [
       "Your choices",
-      "Contact us if you would like to ask about, correct or remove information you have submitted. You can explore, copy or print your village without sending an enquiry. Copies or PDFs you create are yours to store or delete.",
+      "Contact us if you would like to ask about, correct or remove information you have submitted. You can explore, copy or print your village without sending an enquiry. Sharing a village includes selected categories and recorded progress in the text you choose to share. Copies or PDFs you create are yours to store or delete.",
     ],
     [
       "The Village app",

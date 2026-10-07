@@ -185,8 +185,8 @@ export default function ServicesPage() {
               It can start with just one thing.
             </h2>
             <p className="text-sm text-text-muted">
-              Your choices stay in this browser tab as you explore. You can
-              download a copy from My village to keep for later.
+              My village brings your choices together. Remember them on this
+              device or keep a copy to come back to later.
             </p>
           </div>
           <Button href="/my-village">

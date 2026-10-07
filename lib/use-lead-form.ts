@@ -14,16 +14,18 @@ export function useLeadForm() {
   const confirmationRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const abort = new AbortController();
+    let active = true;
+    const timeout = setTimeout(() => abort.abort(), 8000);
     setChecking(true);
     setAvailable(null);
     fetch("/api/leads", {
-      signal: AbortSignal.any([abort.signal, AbortSignal.timeout(8000)]),
+      signal: abort.signal,
       cache: "no-store",
     })
       .then((response) => (response.ok ? response.json() : null))
       .then((result) => {
         if (
-          !abort.signal.aborted &&
+          active &&
           typeof result?.acceptingEnquiries === "boolean"
         )
           setAvailable(result.acceptingEnquiries);
@@ -32,9 +34,14 @@ export function useLeadForm() {
         /* Keep the form closed until its availability can be checked. */
       })
       .finally(() => {
-        if (!abort.signal.aborted) setChecking(false);
+        clearTimeout(timeout);
+        if (active) setChecking(false);
       });
-    return () => abort.abort();
+    return () => {
+      active = false;
+      clearTimeout(timeout);
+      abort.abort();
+    };
   }, [checkAttempt]);
   useEffect(() => {
     if (!submitted) return;

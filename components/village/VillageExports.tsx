@@ -1,15 +1,18 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useVillage } from "./VillageProvider";
 import { services } from "@/content/services";
 import { existingSupport } from "@/content/existing-support";
 import { supportProgressOptions } from "@/lib/village";
 import { SITE_URL } from "@/lib/site";
+import VillageStorageControl from "./VillageStorageControl";
 
 export default function VillageExports({ onPrint }: { onPrint: () => void }) {
   const { draft } = useVillage();
   const [message, setMessage] = useState("");
   const [manualCopy, setManualCopy] = useState(false);
+  const [canShare, setCanShare] = useState(false);
+  useEffect(() => setCanShare(typeof navigator.share === "function"), []);
   function planText() {
     return [
       "MY VILLAGE",
@@ -42,6 +45,17 @@ export default function VillageExports({ onPrint }: { onPrint: () => void }) {
       setMessage("Select and copy your village below, or download a copy.");
     }
   }
+  async function share() {
+    try {
+      await navigator.share({ title: "My village", text: planText() });
+      // The share sheet closing doesn't prove a message was delivered.
+      setMessage("");
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") return;
+      setManualCopy(true);
+      setMessage("Sharing isn’t available here. Copy your village below or download it.");
+    }
+  }
   function download() {
     const url = URL.createObjectURL(
       new Blob([planText()], { type: "text/plain;charset=utf-8" }),
@@ -60,6 +74,7 @@ export default function VillageExports({ onPrint }: { onPrint: () => void }) {
   return (
     <section
       id="keep-my-village"
+      tabIndex={-1}
       className="village-keep-copy scroll-mt-28"
       aria-labelledby="keep-village-heading"
     >
@@ -69,7 +84,9 @@ export default function VillageExports({ onPrint }: { onPrint: () => void }) {
       <p className="text-sm text-text-muted mt-2">
         Save a copy for later, or share it with someone in your corner.
       </p>
+      <VillageStorageControl />
       <div className="village-export flex flex-wrap gap-3 mt-5">
+        {canShare && <button type="button" onClick={share}>Share my village</button>}
         <button type="button" onClick={copy}>
           Copy my village
         </button>
@@ -80,6 +97,7 @@ export default function VillageExports({ onPrint }: { onPrint: () => void }) {
           Print / save PDF
         </button>
       </div>
+      {canShare && <p className="text-xs text-text-muted mt-3">Sharing includes your selected support and the progress you’ve recorded.</p>}
       <p role="status" className="text-sm text-text-sage mt-3">
         {message}
       </p>
