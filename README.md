@@ -6,6 +6,8 @@ The website provides service discovery and a personal support plan. A working we
 
 ## Development
 
+The native iPhone/Android family app is in [`mobile/`](mobile/README.md). It is an Expo/React Native implementation with its own install, checks and EAS build profiles. It shares the canonical service content and selection rules, and currently saves guest data only on the device. See its runbook for beta signing, native-device validation and remaining store release gates.
+
 Use Node 24 (tested with 24.13). The app uses Node's built-in SQLite API.
 
 ```sh
