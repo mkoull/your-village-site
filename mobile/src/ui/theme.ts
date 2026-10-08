@@ -56,8 +56,8 @@ export const s = StyleSheet.create({
   h2: { fontFamily: f.heading, fontSize: 28, color: c.ink },
   h3: { fontFamily: f.heading, fontSize: 23, color: c.ink },
   body: { fontFamily: f.body, fontSize: 14, lineHeight: 22, color: c.muted },
-  small: { fontFamily: f.body, fontSize: 11, lineHeight: 18, color: c.muted },
-  label: { fontFamily: f.bold, fontSize: 12, color: c.ink },
+  small: { fontFamily: f.body, fontSize: 12, lineHeight: 19, color: c.muted },
+  label: { fontFamily: f.bold, fontSize: 13, color: c.ink },
   card: {
     backgroundColor: c.cream,
     borderColor: c.line,

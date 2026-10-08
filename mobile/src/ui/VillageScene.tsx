@@ -62,7 +62,6 @@ export function VillageScene() {
         <View style={[styles.you, { left: centre - 43, top: centre - 43 }]}>
           <Mark size={23} />
           <Text style={styles.youText}>You</Text>
-          <Text style={styles.youSmall}>at the heart of it</Text>
         </View>
         {services.map((service, i) => {
           const selected = state.village.needs.includes(service.slug);
@@ -72,8 +71,9 @@ export function VillageScene() {
               accessibilityRole="button"
               accessibilityLabel={`${service.shortTitle}${selected ? ", saved" : ""}: explore support`}
               onPress={() => router.push(`/support/${service.slug}`)}
-              style={[
+              style={({ pressed }) => [
                 styles.node,
+                { opacity: pressed ? 0.75 : 1 },
                 {
                   left: centre + radius * Math.sin((i * Math.PI) / 4) - 34,
                   top: centre - radius * Math.cos((i * Math.PI) / 4) - 27,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   eyebrow: {
     fontFamily: f.medium,
-    fontSize: 9,
+    fontSize: 10,
     letterSpacing: 1.4,
     textAlign: "center",
     color: "#E1E5D2",
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: f.medium,
-    fontSize: 10,
+    fontSize: 11,
     color: "#E1E7D8",
     textAlign: "center",
   },
@@ -175,7 +175,6 @@ const styles = StyleSheet.create({
     boxShadow: "0px 0px 28px 8px rgba(247, 209, 125, 0.15)",
   },
   youText: { fontFamily: f.heading, fontSize: 30, color: c.deep },
-  youSmall: { fontFamily: f.body, fontSize: 7, color: "#626948" },
   hint: {
     fontFamily: f.body,
     fontSize: 11,

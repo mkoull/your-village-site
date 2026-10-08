@@ -4,10 +4,10 @@ First native family app, built with Expo SDK 57, React Native and Expo Router. V
 
 ## What works
 
-- **My village:** the original eight-circle identity, lights reflecting saved support, and private labels for help a family already has.
+- **My village:** a clear first action for a new visitor, an actionable next step for returning families, the original eight-circle identity, lights reflecting saved support, and editable private labels for help a family already has. The next reminder is prioritised; a step can be edited or completed directly from home.
 - **Explore:** the shared catalogue and real independent starting points. Save in place; open details and return without losing search. Saving means saving a kind of support, not booking a provider.
-- **My plan:** add a short next step from a service, complete/reopen it, remove/undo it, and optionally request a local phone reminder.
-- **Settings:** a preview of exactly what sharing includes, device/privacy explanations and confirmed removal of the village and its reminders.
+- **My plan:** add a short next step from a service, edit it without losing its reminder or completion state, complete/reopen it, remove/undo it, and optionally request a local phone reminder. Entry limits explain how to make room; a finished plan has a distinct resting state.
+- **Settings:** a preview of exactly what sharing includes, device/privacy explanations, public app privacy/help links, and confirmed removal of the village and its reminders. Share and reset failures remain visible inside their panels.
 - Native entries use Expo SecureStore, with small Unicode-safe chunks, serialised writes and two complete generations. Failed saves are visible and retryable. Unreadable storage is not silently overwritten.
 - Share text includes selected categories and progress only. Personal labels and task titles are excluded. Notifications use generic lock-screen text.
 
@@ -62,12 +62,12 @@ The lockfile overrides patched `query-string` and `xcode`'s `uuid` dependency. E
 
 ## Implementation map
 
-Validation on 8 October 2026: 14 mobile tests, TypeScript and lint passed; Expo Doctor passed 21/21 checks; final iOS, Android and web bundles exported successfully. The existing website's 57 tests and production build also passed. Browser checks covered all eight detail/return routes at 320 px, the save/search/plan/progress/Undo/share/reset flows at phone sizes, and a 768 px layout. The compiled preview's core journey produced no browser console errors. These results do not constitute native device testing or a signed binary.
+Validation on 8 October 2026: 18 mobile tests, TypeScript and lint passed; iOS, Android and web bundles exported successfully after the dashboard/editor update. New tests cover reminder-preserving edits, editing at capacity, invalid/deleted-entry handling and stable next-step ordering. Earlier baseline validation passed Expo Doctor's 21 checks and the website's 57 tests and production build. Baseline browser checks covered all eight detail/return routes at 320 px, the save/search/plan/progress/Undo/share/reset flows at phone sizes, and a 768 px layout. Dashboard/editor browser verification is recorded with the current release review. These results do not constitute native device testing or a signed binary.
 
 - `src/app/`: native screens and navigation; service details are a modal route and next-step entry is a separate route.
 - `src/domain/`: shared catalogue facade, bounded state/restore/share rules and testable persistence.
 - `src/platform/`: SecureStore adapter, local reminders and Router parser compatibility.
 - `src/state/`: hydration, optimistic updates, recovery, Undo and reminder lifecycle.
-- `src/ui/`: original mark, line icons, warm scene, controls and layout.
+- `src/ui/`: original mark, line icons, warm scene, actionable dashboard card, shared add/edit step form, controls and layout.
 - `tests/`: domain, privacy, interrupted-write and parser regressions.
 - `app.config.ts`, `eas.json`: native configuration and build profiles; generated `ios/` and `android/` directories are not committed.

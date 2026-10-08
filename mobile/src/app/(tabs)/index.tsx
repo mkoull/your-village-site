@@ -6,48 +6,48 @@ import { services, serviceFor, providerFor } from "../../domain/catalog";
 import { supportProgressOptions } from "../../domain/model";
 import { Brand, Button, Chip, Screen, Sheet } from "../../ui/Elements";
 import { VillageScene } from "../../ui/VillageScene";
+import { NextStepCard } from "../../ui/NextStepCard";
 import { Icon } from "../../ui/Icon";
 import { c, f, s } from "../../ui/theme";
 export default function Home() {
-  const { state, person, removePerson, welcome } = useVillage();
+  const { state, person, changePerson, removePerson, welcome } = useVillage();
   const [adding, setAdding] = useState(false),
     [label, setLabel] = useState(""),
     [category, setCategory] = useState("food"),
-    [saving, setSaving] = useState(false);
-  const pending = state.tasks.filter((task) => !task.done);
+    [saving, setSaving] = useState(false),
+    [editing, setEditing] = useState<string | null>(null),
+    [formError, setFormError] = useState("");
   const count = state.village.needs.length;
+  const hasVillage =
+    count > 0 || state.people.length > 0 || state.tasks.length > 0;
+  const closeEditor = () => {
+    if (!saving) setAdding(false);
+  };
   return (
     <Screen>
       <View style={s.between}>
         <Brand />
         <View style={{ backgroundColor: c.sage, borderRadius: 20, padding: 9 }}>
           <Text style={[s.small, { color: c.forest }]}>
-            {count} {count === 1 ? "light" : "lights"}
+            {count ? `${count} saved` : "Your space"}
           </Text>
         </View>
       </View>
       <View style={{ gap: 8 }}>
         <Text style={s.eyebrow}>YOUR SUPPORT, TOGETHER</Text>
         <Text role="heading" aria-level={1} style={s.h1}>
-          {count
+          {hasVillage
             ? "A little more\nsupported."
             : "You don’t have to\ndo it all."}
         </Text>
         <Text style={s.body}>
-          {count
+          {hasVillage
             ? "Your village is taking shape. One small step at a time."
             : "Find a little help. Bring your people together. Make room for you."}
         </Text>
       </View>
-      <VillageScene />
-      {!state.welcomed && (
-        <View style={[s.card, { backgroundColor: "#F0EAD9" }]}>
-          <Text style={s.h3}>Start with one thing.</Text>
-          <Text style={s.body}>
-            {Platform.OS === "web"
-              ? "Try saving support and making a plan. This browser preview resets when you reload; the phone app keeps your village on the device."
-              : "Save the support that feels right. Your village stays on this device, with no sign-up needed."}
-          </Text>
+      {!hasVillage ? (
+        <View style={{ gap: 12 }}>
           <Button
             title="Find my first bit of support"
             onPress={() => {
@@ -56,37 +56,14 @@ export default function Home() {
             }}
             icon="arrow"
           />
-          <Pressable
-            onPress={welcome}
-            accessibilityRole="button"
-            style={{
-              minHeight: 44,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text style={s.link}>I’ll explore at my own pace</Text>
-          </Pressable>
-        </View>
-      )}
-      {pending.length > 0 && (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={`Open next step: ${pending[0].title}`}
-          onPress={() => router.push("/plan")}
-          style={[s.card, { backgroundColor: c.sage }]}
-        >
-          <View style={s.between}>
-            <Text style={s.eyebrow}>YOUR NEXT LITTLE STEP</Text>
-            <Icon name="arrow" />
-          </View>
-          <Text style={s.h3}>{pending[0].title}</Text>
-          <Text style={s.small}>
-            {pending.length} {pending.length === 1 ? "step" : "steps"} in your
-            plan. At your pace.
+          <Text style={[s.small, { textAlign: "center" }]}>
+            No sign-up. Start with whatever feels useful.
           </Text>
-        </Pressable>
+        </View>
+      ) : (
+        <NextStepCard />
       )}
+      <VillageScene />
       <View style={s.between}>
         <Text role="heading" aria-level={2} style={s.h2}>
           Saved support
@@ -158,10 +135,23 @@ export default function Home() {
       {state.people.map((p) => (
         <View key={p.id} style={[s.card, s.row]}>
           <Icon name={p.category} />
-          <View style={{ flex: 1 }}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`Edit ${p.label}`}
+            onPress={() => {
+              setEditing(p.id);
+              setLabel(p.label);
+              setCategory(p.category);
+              setFormError("");
+              setAdding(true);
+            }}
+            style={{ flex: 1, minHeight: 48, justifyContent: "center", gap: 4 }}
+          >
             <Text style={s.label}>{p.label}</Text>
-            <Text style={s.small}>{serviceFor(p.category)?.shortTitle}</Text>
-          </View>
+            <Text style={s.small}>
+              {serviceFor(p.category)?.shortTitle} · Edit
+            </Text>
+          </Pressable>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={`Remove ${p.label}`}
@@ -181,12 +171,30 @@ export default function Home() {
         title="Add existing support"
         secondary
         icon="plus"
-        onPress={() => setAdding(true)}
+        disabled={state.people.length >= 12}
+        onPress={() => {
+          setEditing(null);
+          setLabel("");
+          setCategory("food");
+          setFormError("");
+          setAdding(true);
+        }}
       />
+      {state.people.length >= 12 && (
+        <Text style={s.small}>
+          You’ve added 12 existing supports. Edit one above, or remove one to
+          make room.
+        </Text>
+      )}
+      <Text style={s.small}>
+        {Platform.OS === "web"
+          ? "You’re exploring the browser preview. Your village resets on reload; the phone app saves on your device."
+          : "Your village is private to this device. No account or cloud sync is needed."}
+      </Text>
       <Sheet
         open={adding}
-        title="Who’s in your corner?"
-        onClose={() => setAdding(false)}
+        title={editing ? "A little change of plan?" : "Who’s in your corner?"}
+        onClose={closeEditor}
       >
         <Text style={s.body}>
           Use a simple label, like “A friend who cooks”. Keep phone numbers,
@@ -213,19 +221,43 @@ export default function Home() {
             />
           ))}
         </View>
+        {!!formError && (
+          <Text
+            accessibilityLiveRegion="polite"
+            style={[s.body, { color: c.danger }]}
+          >
+            {formError}
+          </Text>
+        )}
         <Button
-          title={saving ? "Saving…" : "Add to my village"}
+          title={
+            saving ? "Saving…" : editing ? "Save changes" : "Add to my village"
+          }
           disabled={!label.trim() || saving}
           onPress={() => {
             setSaving(true);
-            void person(label, category).then((ok) => {
+            setFormError("");
+            void (
+              editing
+                ? changePerson(editing, label, category)
+                : person(label, category)
+            ).then((ok) => {
               setSaving(false);
               if (ok) {
                 setAdding(false);
                 setLabel("");
-              }
+              } else
+                setFormError(
+                  "This support couldn’t be saved. Please try again.",
+                );
             });
           }}
+        />
+        <Button
+          title="Cancel"
+          secondary
+          disabled={saving}
+          onPress={closeEditor}
         />
       </Sheet>
     </Screen>

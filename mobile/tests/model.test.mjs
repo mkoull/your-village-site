@@ -12,8 +12,136 @@ import {
   shareText,
   reminderDate,
   reconcileReminders,
+  editPerson,
+  editTask,
+  nextSteps,
 } from "../src/domain/model.ts";
 const slugs = services.map((s) => s.slug);
+
+test("editing a next step preserves its identity, reminder, completion and other entries", () => {
+  let state = addTask(
+    emptyState(),
+    { id: "one", title: "Old title", category: "food" },
+    slugs,
+  );
+  state = addTask(
+    state,
+    { id: "two", title: "Leave alone", category: "postpartum-carers" },
+    slugs,
+  );
+  state.tasks[0] = {
+    ...state.tasks[0],
+    reminderAt: 1900000000000,
+    notificationId: "nudge-one",
+  };
+  const edited = editTask(
+    state,
+    "one",
+    " Ask about care ",
+    "postpartum-carers",
+    slugs,
+  );
+  assert.deepEqual(edited.tasks[0], {
+    id: "one",
+    title: "Ask about care",
+    category: "postpartum-carers",
+    done: false,
+    reminderAt: 1900000000000,
+    notificationId: "nudge-one",
+  });
+  assert.equal(edited.tasks[1], state.tasks[1]);
+  assert.equal(state.tasks[0].title, "Old title");
+  const done = editTask(
+    finishTask(edited, "one", true),
+    "one",
+    "Finished care",
+    "postpartum-carers",
+    slugs,
+  );
+  assert.equal(done.tasks[0].done, true);
+  assert.equal(done.tasks[0].notificationId, undefined);
+  assert.deepEqual(decodeState(JSON.stringify(edited), slugs), edited);
+});
+
+test("editing existing support works at capacity without adding an entry or leaking extra fields", () => {
+  let state = emptyState();
+  for (let index = 0; index < 12; index++) {
+    state = addPerson(
+      state,
+      { id: `person-${index}`, label: "A helper", category: "food" },
+      slugs,
+    );
+  }
+  const edited = editPerson(
+    state,
+    "person-0",
+    "  Weekly\u0000cleaner  ",
+    "cleaning",
+    slugs,
+  );
+  assert.equal(edited.people.length, 12);
+  assert.deepEqual(edited.people[0], {
+    id: "person-0",
+    label: "Weekly cleaner",
+    category: "cleaning",
+  });
+  assert.equal(edited.people[1], state.people[1]);
+  assert.doesNotMatch(shareText(edited, services), /Weekly cleaner/);
+});
+
+test("invalid edits leave the previous data intact and never resurrect a removed entry", () => {
+  const state = addTask(
+    addPerson(
+      emptyState(),
+      { id: "person", label: "Helper", category: "food" },
+      slugs,
+    ),
+    { id: "task", title: "Next step", category: "food" },
+    slugs,
+  );
+  assert.throws(() => editTask(state, "task", " ", "food", slugs));
+  assert.throws(() => editTask(state, "task", "Valid label", "unknown", slugs));
+  assert.throws(() => editTask(state, "removed", "Valid label", "food", slugs));
+  assert.throws(() => editPerson(state, "person", " ", "food", slugs));
+  assert.throws(() =>
+    editPerson(state, "removed", "Valid label", "food", slugs),
+  );
+  assert.equal(state.tasks[0].title, "Next step");
+  assert.equal(state.people[0].label, "Helper");
+});
+
+test("the returning dashboard prioritises reminders without mutating the saved plan", () => {
+  const state = emptyState();
+  state.tasks = [
+    { id: "anytime", title: "Whenever", category: "food", done: false },
+    {
+      id: "later",
+      title: "Later",
+      category: "postpartum-carers",
+      done: false,
+      reminderAt: 200,
+      notificationId: "later-note",
+    },
+    {
+      id: "first",
+      title: "Sooner",
+      category: "postpartum-carers",
+      done: false,
+      reminderAt: 100,
+      notificationId: "first-note",
+    },
+    { id: "done", title: "Finished", category: "food", done: true },
+    { id: "other", title: "Also whenever", category: "food", done: false },
+  ];
+  assert.deepEqual(
+    nextSteps(state).map((task) => task.id),
+    ["first", "later", "anytime", "other"],
+  );
+  assert.deepEqual(
+    state.tasks.map((task) => task.id),
+    ["anytime", "later", "first", "done", "other"],
+  );
+});
 
 test("restoring reminders clears stale schedules while retaining next steps and valid reminders", () => {
   const state = emptyState();
@@ -29,7 +157,7 @@ test("restoring reminders clears stale schedules while retaining next steps and 
     {
       id: "two",
       title: "Care",
-      category: "care",
+      category: "postpartum-carers",
       done: false,
       reminderAt: 1900000000000,
       notificationId: "pending",

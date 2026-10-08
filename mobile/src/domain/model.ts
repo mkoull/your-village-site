@@ -168,6 +168,51 @@ export function addPerson(
   if (state.people.some((p) => p.id === person.id)) return state;
   return { ...state, people: [...state.people, { ...person, label }] };
 }
+export function editPerson(
+  state: MobileVillage,
+  id: string,
+  label: string,
+  category: string,
+  slugs: readonly string[],
+) {
+  const value = clean(label, 48);
+  if (!value || !slugs.includes(category))
+    throw new Error("Add a short label and choose a kind of support.");
+  if (!state.people.some((person) => person.id === id))
+    throw new Error("This support is no longer in your village.");
+  return {
+    ...state,
+    people: state.people.map((person) =>
+      person.id === id ? { ...person, label: value, category } : person,
+    ),
+  };
+}
+export function editTask(
+  state: MobileVillage,
+  id: string,
+  title: string,
+  category: string,
+  slugs: readonly string[],
+) {
+  const value = clean(title, 96);
+  if (!value || !slugs.includes(category))
+    throw new Error("Choose a kind of support and add a short next step.");
+  if (!state.tasks.some((task) => task.id === id))
+    throw new Error("This step is no longer in your plan.");
+  // Reminders contain only a task ID, so changing its label needs no reschedule.
+  return {
+    ...state,
+    tasks: state.tasks.map((task) =>
+      task.id === id ? { ...task, title: value, category } : task,
+    ),
+  };
+}
+export function nextSteps(state: MobileVillage) {
+  // Scheduled steps come first, soonest first. Unscheduled steps keep their order.
+  return state.tasks
+    .filter((task) => !task.done)
+    .sort((a, b) => (a.reminderAt ?? Infinity) - (b.reminderAt ?? Infinity));
+}
 export function finishTask(state: MobileVillage, id: string, done: boolean) {
   return {
     ...state,

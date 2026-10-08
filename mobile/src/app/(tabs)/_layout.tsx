@@ -20,7 +20,7 @@ export default function TabsLayout() {
         },
         tabBarLabelStyle: {
           fontFamily: f.medium,
-          fontSize: 10,
+          fontSize: 11,
           paddingBottom: 0,
         },
         sceneStyle: { backgroundColor: c.paper },

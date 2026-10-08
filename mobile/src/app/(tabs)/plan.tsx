@@ -3,7 +3,7 @@ import { Text, View, Pressable } from "react-native";
 import { router } from "expo-router";
 import { useVillage, taskDate } from "../../state/VillageContext";
 import { serviceFor } from "../../domain/catalog";
-import { reminderDate } from "../../domain/model";
+import { reminderDate, nextSteps } from "../../domain/model";
 import { Button, Chip, Screen, Sheet } from "../../ui/Elements";
 import { Icon } from "../../ui/Icon";
 import { c, s } from "../../ui/theme";
@@ -11,8 +11,9 @@ export default function Plan() {
   const { state, complete, removeTask, remind, busy } = useVillage();
   const [showDone, setShowDone] = useState(false),
     [reminder, setReminder] = useState<string | null>(null);
-  const shown = state.tasks.filter((t) => t.done === showDone),
+  const shown = showDone ? state.tasks.filter((t) => t.done) : nextSteps(state),
     pending = state.tasks.filter((t) => !t.done).length;
+  const allDone = state.tasks.length > 0 && pending === 0;
   return (
     <Screen
       eyebrow="ONE THING AT A TIME"
@@ -22,8 +23,15 @@ export default function Plan() {
       <Button
         title="Add a next step"
         icon="plus"
+        disabled={state.tasks.length >= 25}
         onPress={() => router.push("/step/new")}
       />
+      {state.tasks.length >= 25 && (
+        <Text style={s.small}>
+          Your plan has 25 steps. Remove a finished step to make room for
+          another.
+        </Text>
+      )}
       <View style={s.wrap}>
         <Chip
           title={`Next steps · ${pending}`}
@@ -42,14 +50,20 @@ export default function Plan() {
         >
           <Icon name={showDone ? "check" : "plan"} size={30} />
           <Text style={s.h2}>
-            {showDone ? "Every small step counts." : "A little breathing room."}
+            {showDone
+              ? "Every small step counts."
+              : allDone
+                ? "You’ve made a little room."
+                : "A little breathing room."}
           </Text>
           <Text style={s.body}>
             {showDone
               ? "Your finished steps will live here."
-              : "Ask about a delivery. Look into childcare. Choose one useful thing to come back to."}
+              : allDone
+                ? "Your next steps are done. Take a moment for yourself, or find your finished steps in Done."
+                : "Ask about a delivery. Look into childcare. Choose one useful thing to come back to."}
           </Text>
-          {!showDone && (
+          {!showDone && !allDone && (
             <Button
               secondary
               title="Find support to explore"
@@ -113,6 +127,14 @@ export default function Plan() {
           {!!item.reminderAt && (
             <Text style={s.small}>Reminder time · {taskDate(item)}</Text>
           )}
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`Edit step ${item.title}`}
+            onPress={() => router.push(`/step/${item.id}`)}
+            style={{ minHeight: 44, justifyContent: "center" }}
+          >
+            <Text style={s.link}>Edit step</Text>
+          </Pressable>
           <View style={s.between}>
             {!item.done ? (
               <Pressable

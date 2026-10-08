@@ -14,6 +14,8 @@ import {
   decodeState,
   emptyState,
   finishTask,
+  editPerson,
+  editTask,
   progressSupport,
   selectSupport,
 } from "../domain/model";
@@ -41,8 +43,14 @@ type ContextValue = {
   progress: (slug: string, value: SupportProgress) => void;
   welcome: () => void;
   person: (label: string, category: string) => Promise<boolean>;
+  changePerson: (
+    id: string,
+    label: string,
+    category: string,
+  ) => Promise<boolean>;
   removePerson: (id: string) => void;
   task: (title: string, category: string) => Promise<boolean>;
+  changeTask: (id: string, title: string, category: string) => Promise<boolean>;
   complete: (id: string, done: boolean) => Promise<void>;
   removeTask: (id: string) => Promise<void>;
   remind: (id: string, date?: Date) => Promise<void>;
@@ -145,7 +153,8 @@ export function VillageProvider({ children }: { children: React.ReactNode }) {
     dismiss: () => setNotice(null),
     retry: async () => {
       if (!ready) await load();
-      else await update((value) => value);
+      else if (await update((value) => value))
+        tell("Your latest changes have been saved.");
     },
     welcome: () => {
       void update((value) => ({ ...value, welcomed: true }));
@@ -207,6 +216,20 @@ export function VillageProvider({ children }: { children: React.ReactNode }) {
           });
       });
     },
+    changePerson: async (id, label, category) => {
+      if (!ready || clearing.current) return false;
+      try {
+        editPerson(current.current, id, label, category, slugs);
+        if (
+          await update((value) => editPerson(value, id, label, category, slugs))
+        )
+          tell("Your support is updated.");
+        return current.current.people.some((person) => person.id === id);
+      } catch (error) {
+        tell((error as Error).message);
+        return false;
+      }
+    },
     task: async (title, category) => {
       try {
         const task = { id: randomUUID(), title, category };
@@ -214,6 +237,20 @@ export function VillageProvider({ children }: { children: React.ReactNode }) {
         if (await update((value) => addTask(value, task, slugs)))
           tell("Added to your plan.");
         return current.current.tasks.some((t) => t.id === task.id);
+      } catch (error) {
+        tell((error as Error).message);
+        return false;
+      }
+    },
+    changeTask: async (id, title, category) => {
+      if (!ready || clearing.current) return false;
+      try {
+        editTask(current.current, id, title, category, slugs);
+        if (
+          await update((value) => editTask(value, id, title, category, slugs))
+        )
+          tell("Your next step is updated.");
+        return current.current.tasks.some((task) => task.id === id);
       } catch (error) {
         tell((error as Error).message);
         return false;

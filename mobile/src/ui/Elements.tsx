@@ -79,7 +79,7 @@ export function Chip({
       <Text
         style={[
           s.label,
-          { color: selected ? c.cream : c.forest, fontSize: 11 },
+          { color: selected ? c.cream : c.forest, fontSize: 12 },
         ]}
       >
         {title}
@@ -100,21 +100,26 @@ export function Screen({
 }) {
   return (
     <SafeAreaView edges={["top"]} style={s.page}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={s.content}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={{ flex: 1 }}
       >
-        {eyebrow && <Text style={s.eyebrow}>{eyebrow}</Text>}
-        {title && (
-          <Text role="heading" aria-level={1} style={s.h1}>
-            {title}
-          </Text>
-        )}
-        {subtitle && (
-          <Text style={[s.body, { marginTop: -10 }]}>{subtitle}</Text>
-        )}
-        {children}
-      </ScrollView>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={s.content}
+        >
+          {eyebrow && <Text style={s.eyebrow}>{eyebrow}</Text>}
+          {title && (
+            <Text role="heading" aria-level={1} style={s.h1}>
+              {title}
+            </Text>
+          )}
+          {subtitle && (
+            <Text style={[s.body, { marginTop: -10 }]}>{subtitle}</Text>
+          )}
+          {children}
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -186,8 +191,9 @@ export function Notices() {
     <SafeAreaView edges={["bottom"]} style={{ backgroundColor: c.deep }}>
       <View style={styles.notice} accessibilityLiveRegion="polite">
         <Text style={[s.small, { color: c.cream, flex: 1 }]}>
-          {notice?.text ||
-            "Your latest changes have not been saved on this device."}
+          {saveError
+            ? "Your latest changes have not been saved. Keep the app open and tap Retry."
+            : notice?.text}
         </Text>
         {notice?.undo && (
           <Pressable

@@ -9,13 +9,16 @@ import { c, s } from "../../ui/theme";
 export default function Settings() {
   const { state, clear, busy, tell } = useVillage();
   const [confirmClear, setConfirmClear] = useState(false),
-    [sharing, setSharing] = useState(false);
+    [sharing, setSharing] = useState(false),
+    [shareError, setShareError] = useState(""),
+    [clearError, setClearError] = useState("");
   const text = shareText(state, services);
   async function share() {
+    setShareError("");
     try {
       await Share.share({ title: "My village", message: text });
     } catch {
-      tell(
+      setShareError(
         "Sharing could not be opened. You can select the text below and copy it.",
       );
     }
@@ -24,7 +27,7 @@ export default function Settings() {
     <Screen eyebrow="MADE FOR REAL LIFE" title="Your space.">
       <View style={[s.card, { backgroundColor: c.sage }]}>
         <Mark size={44} />
-        <Text style={s.h2}>
+        <Text role="heading" aria-level={2} style={s.h2}>
           {Platform.OS === "web"
             ? "You’re in the browser preview."
             : "A village, just for this device."}
@@ -41,7 +44,9 @@ export default function Settings() {
         </Text>
       </View>
       <View style={s.column}>
-        <Text style={s.h2}>Keep someone in the loop.</Text>
+        <Text role="heading" aria-level={2} style={s.h2}>
+          Keep someone in the loop.
+        </Text>
         <Text style={s.body}>
           Share your selected kinds of support and recorded progress. Your
           existing-support labels and next steps stay private.
@@ -51,11 +56,16 @@ export default function Settings() {
           icon="share"
           secondary
           disabled={!state.village.needs.length}
-          onPress={() => setSharing(true)}
+          onPress={() => {
+            setShareError("");
+            setSharing(true);
+          }}
         />
       </View>
       <View style={s.divider} />
-      <Text style={s.h2}>About your village</Text>
+      <Text role="heading" aria-level={2} style={s.h2}>
+        About your village
+      </Text>
       <Text style={s.body}>
         Support for mothers, parents and families at every stage. Explore
         independent services, bring your support together, and take the next
@@ -81,7 +91,9 @@ export default function Settings() {
           void openWebsite("https://your-village-site.vercel.app/safety", tell);
         }}
       />
-      <Text style={s.h2}>Your privacy</Text>
+      <Text role="heading" aria-level={2} style={s.h2}>
+        Your privacy
+      </Text>
       <Text style={s.body}>
         This app has no advertising or analytics and uploads none of your
         village entries. Opening an external service uses that service’s website
@@ -94,10 +106,36 @@ export default function Settings() {
         cancels all its scheduled reminders.
       </Text>
       <Button
+        title="App privacy"
+        secondary
+        icon="external"
+        onPress={() => {
+          void openWebsite(
+            "https://your-village-site.vercel.app/mobile-app/privacy",
+            tell,
+          );
+        }}
+      />
+      <Button
+        title="Help with the app"
+        secondary
+        icon="external"
+        onPress={() => {
+          void openWebsite(
+            "https://your-village-site.vercel.app/mobile-app/support",
+            tell,
+          );
+        }}
+      />
+      <View style={s.divider} />
+      <Button
         title="Clear my village"
         secondary
         disabled={busy}
-        onPress={() => setConfirmClear(true)}
+        onPress={() => {
+          setClearError("");
+          setConfirmClear(true);
+        }}
       />
       <Text style={[s.small, { textAlign: "center" }]}>
         Your Village · 0.1.0 · Family preview
@@ -114,6 +152,14 @@ export default function Settings() {
         <Text selectable style={[s.body, s.card, { color: c.ink }]}>
           {text}
         </Text>
+        {!!shareError && (
+          <Text
+            accessibilityLiveRegion="polite"
+            style={[s.body, { color: c.danger }]}
+          >
+            {shareError}
+          </Text>
+        )}
         <Button
           title="Open sharing options"
           icon="share"
@@ -125,29 +171,44 @@ export default function Settings() {
       <Sheet
         open={confirmClear}
         title="Start with a clear village?"
-        onClose={() => setConfirmClear(false)}
+        onClose={() => {
+          if (!busy) setConfirmClear(false);
+        }}
       >
         <Text style={s.body}>
           This removes your saved support, personal labels and all next steps
           from this device, and cancels reminders. It can’t be undone.
         </Text>
+        {!!clearError && (
+          <Text
+            accessibilityLiveRegion="polite"
+            style={[s.body, { color: c.danger }]}
+          >
+            {clearError}
+          </Text>
+        )}
         <Button
           title={busy ? "Clearing…" : "Yes, clear my village"}
           disabled={busy}
           onPress={() => {
+            setClearError("");
             void clear().then((ok) => {
               if (ok) {
                 setConfirmClear(false);
                 tell(
                   "Your village has been cleared. You can start fresh whenever you’re ready.",
                 );
-              }
+              } else
+                setClearError(
+                  "Your village could not be fully cleared. Keep this panel open and try again.",
+                );
             });
           }}
         />
         <Button
           secondary
           title="Keep my village"
+          disabled={busy}
           onPress={() => setConfirmClear(false)}
         />
       </Sheet>
