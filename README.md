@@ -84,6 +84,10 @@ The privacy page describes current behaviour. Provider identities, processing lo
 
 ## Deployment
 
+The end-to-end product and launch review is in [docs/LAUNCH-READINESS-2026-10-08.md](docs/LAUNCH-READINESS-2026-10-08.md). The public website, native guest planner and private account/provider prototype have different release requirements. Do not merge this whole integration branch into the website-only production branch.
+
+GitHub Actions checks the website's tests, types and production build. The integration branch also checks the native app's tests, types, lint and three platform exports when mobile or shared catalogue files change. These workflows do not publish phone builds or establish required branch protection. Keep `mobile-checks.yml` with the native project; the website-only release has just `website-checks.yml`.
+
 The live site currently uses https://your-village-site.vercel.app. Update `lib/site.ts` when the custom domain is connected. Main deploys automatically in the existing Vercel setup; review changes on a branch/preview before merging.
 
 The PostCSS override selects a patched 8.x release while retaining Next 15. Revisit it when Next's own bundled dependency is patched. On 8 October 2026 the dependency lock was updated to sharp 0.35.5 (patched librsvg) and source-map-js 1.2.2. npm audit reported zero vulnerabilities after the update. See docs/WEBSITE-REVIEW-2026-10-08.md for the current review and verification limits.
