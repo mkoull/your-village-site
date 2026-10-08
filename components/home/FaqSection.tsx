@@ -28,7 +28,7 @@ const faqs = [
 ];
 export default function FaqSection() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="village-faq py-16 md:py-24">
       <Container narrow>
         <p className="text-eyebrow uppercase tracking-[0.2em] text-text-sage font-semibold text-center mb-4">
           A few things you might wonder

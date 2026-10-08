@@ -5,7 +5,7 @@ import { services } from "@/content/services";
 
 export default function Footer() {
   return (
-    <footer className="bg-dark text-text-inverse pb-28">
+    <footer className="site-footer text-text-inverse pb-28">
       <Container className="py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
           {/* Brand */}
@@ -42,12 +42,13 @@ export default function Footer() {
           {/* Company */}
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-text-inverse/70 mb-4 font-body">
-              Company
+              Get to know Village
             </p>
             <ul className="space-y-3">
               {[
                 { label: "About", href: "/about" },
                 { label: "How it works", href: "/how-it-works" },
+                { label: "The mobile app", href: "/mobile-app" },
                 { label: "Costs", href: "/pricing" },
                 { label: "All services", href: "/services" },
                 { label: "Trust & safety", href: "/safety" },
@@ -92,7 +93,7 @@ export default function Footer() {
             Australia.
           </p>
           <p className="text-xs text-text-inverse/60">
-            Supporting families in inner Melbourne.
+            A little help, all around you.
           </p>
         </div>
       </Container>

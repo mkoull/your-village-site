@@ -5,6 +5,8 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import ArrowUpRight from "@/components/ui/ArrowUpRight";
 import { services } from "@/content/services";
+import { existingSupport } from "@/content/existing-support";
+import VillageMark from "@/components/ui/VillageMark";
 import { useVillage } from "./VillageProvider";
 import VillageScene from "./VillageScene";
 import ServiceSources from "./ServiceSources";
@@ -52,6 +54,12 @@ export default function SavedVillage() {
     (service) =>
       filter === "all" ||
       (draft.progress[service.slug] || "exploring") === filter,
+  );
+  const nextSupport = selected.find(
+    (service) => (draft.progress[service.slug] || "exploring") === "exploring",
+  );
+  const nextSource = existingSupport.find(
+    (source) => source.serviceSlug === nextSupport?.slug,
   );
   const displayed = undo?.slug
     ? undo.draft.needs.flatMap((slug) =>
@@ -143,6 +151,7 @@ export default function SavedVillage() {
             {!selected.length && undoNotice}
             {!selected.length ? (
               <div className="village-empty-saved">
+                <VillageMark className="village-empty-mark" />
                 {remembered && <VillageStorageControl />}
                 <h2
                   ref={heading}
@@ -156,15 +165,38 @@ export default function SavedVillage() {
                   links here. You can explore them, make contact and keep track
                   of your support.
                 </p>
-                <Button href="/get-started">
-                  Choose my support <span aria-hidden="true">→</span>
-                </Button>
-                <Link
-                  href="/services"
-                  className="text-sm underline text-text-sage inline-block ml-5 mt-4"
-                >
-                  Browse services first
-                </Link>
+                <div className="village-empty-actions">
+                  <Button href="/get-started">
+                    Choose my support <span aria-hidden="true">→</span>
+                  </Button>
+                  <Link
+                    href="/services"
+                    className="text-sm underline text-text-sage inline-flex items-center min-h-11"
+                  >
+                    Browse services first
+                  </Link>
+                </div>
+                <div className="village-empty-starts">
+                  <p>A little inspiration</p>
+                  {services
+                    .filter((service) =>
+                      ["food", "sleep", "community"].includes(service.slug),
+                    )
+                    .map((service) => (
+                      <Link
+                        key={service.slug}
+                        href={`/services/${service.slug}`}
+                      >
+                        <span
+                          className="plan-icon"
+                          aria-hidden="true"
+                          dangerouslySetInnerHTML={{ __html: service.icon }}
+                        />
+                        <span>{service.need}</span>
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    ))}
+                </div>
               </div>
             ) : (
               <>
@@ -179,8 +211,8 @@ export default function SavedVillage() {
                       {remembered
                         ? "Remembered on this device."
                         : storageAvailable
-                        ? "Saved in this browser tab."
-                        : "Browser storage is unavailable."}{" "}
+                          ? "Saved in this browser tab."
+                          : "Browser storage is unavailable."}{" "}
                       <a
                         href="#keep-my-village"
                         className="underline underline-offset-4"
@@ -196,6 +228,42 @@ export default function SavedVillage() {
                     Edit my choices <ArrowUpRight />
                   </Link>
                 </div>
+                <section
+                  className="village-next-action"
+                  aria-labelledby="village-next-action-heading"
+                >
+                  <div>
+                    <p className="village-step-eyebrow">One small next step</p>
+                    <h2
+                      id="village-next-action-heading"
+                      className="font-heading"
+                    >
+                      {nextSupport
+                        ? `Start with ${nextSupport.shortTitle.toLowerCase()}.`
+                        : "Keep your support close."}
+                    </h2>
+                    <p>
+                      {nextSource
+                        ? nextSource.nextStep
+                        : counts[1].count
+                          ? "Made contact? Check back with the service when you’re ready, then update your progress when support is in place."
+                          : "Your saved support is marked as in place. You can change your progress or add something else whenever you need."}
+                    </p>
+                  </div>
+                  {nextSupport ? (
+                    <button
+                      type="button"
+                      onClick={() => focusSupport(nextSupport.slug)}
+                    >
+                      See {nextSupport.shortTitle.toLowerCase()} support{" "}
+                      <span aria-hidden="true">↓</span>
+                    </button>
+                  ) : (
+                    <Link href="/services">
+                      Explore more support <span aria-hidden="true">→</span>
+                    </Link>
+                  )}
+                </section>
                 <div className="village-builder-layout">
                   <section
                     className="village-builder-panel"
@@ -207,11 +275,11 @@ export default function SavedVillage() {
                       id="saved-support-heading"
                       className="font-heading text-3xl mb-3 scroll-mt-28"
                     >
-                      Services to explore.
+                      Your saved support.
                     </h2>
                     <p className="text-sm text-text-muted mb-5">
-                      Visit a service’s website to check the details and get in
-                      touch. Saving here doesn’t send an enquiry.
+                      Explore each service, then update your progress as you go.
+                      These are your own notes, not booking confirmations.
                     </p>
                     <details className="village-filter-tools">
                       <summary>
@@ -400,8 +468,8 @@ export default function SavedVillage() {
                     {remembered
                       ? "Your choices and progress are saved in this browser on this device. Clear village removes the saved copy too."
                       : storageAvailable
-                      ? "Your choices and progress stay in this tab. Choose Remember to return later, or download a copy."
-                      : "Storage is blocked. Download a copy before refreshing or closing the tab."}{" "}
+                        ? "Your choices and progress stay in this tab. Choose Remember to return later, or download a copy."
+                        : "Storage is blocked. Download a copy before refreshing or closing the tab."}{" "}
                     <Link href="/privacy" className="underline">
                       Privacy
                     </Link>

@@ -21,6 +21,12 @@ export default function ServiceSources({
             {source.name}
           </p>
           <p className="text-sm text-text-muted mt-2">{source.description}</p>
+          {!compact && (
+            <div className="service-first-step">
+              <p>Your first step</p>
+              <p>{source.nextStep}</p>
+            </div>
+          )}
           <a
             href={source.href}
             target="_blank"
@@ -36,20 +42,23 @@ export default function ServiceSources({
           <p className="text-[11px] text-text-muted mt-2">
             Opens their website in a new tab
           </p>
-          <details className="village-next-step">
-            <summary>How to take the next step</summary>
-            <p>{source.nextStep}</p>
-            <p>
-              Confirm suitability, availability and costs directly. Saving this
-              category does not send them your details.
-            </p>
-          </details>
+          {compact && (
+            <details className="village-next-step">
+              <summary>How to take the next step</summary>
+              <p>{source.nextStep}</p>
+              <p>
+                Confirm suitability, availability and costs directly. Saving
+                this category does not send them your details.
+              </p>
+            </details>
+          )}
         </div>
       ))}
       {!compact && (
         <p className="mt-5 text-xs text-text-muted">
-          Independent of Village. This is a starting point to explore, not a
-          verified provider listing.
+          Independent and not verified by Village. Confirm coverage,
+          suitability, availability and costs directly. Saving here doesn’t send
+          an enquiry.
         </p>
       )}
     </div>

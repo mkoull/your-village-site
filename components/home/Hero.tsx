@@ -1,7 +1,6 @@
-import Link from "next/link";
 import Container from "@/components/ui/Container";
-import Button from "@/components/ui/Button";
 import VillageMap from "./VillageMap";
+import HeroActions from "./HeroActions";
 
 export default function Hero() {
   return (
@@ -26,20 +25,7 @@ export default function Hero() {
               services and people that make family life feel a little lighter.
               Save what helps, then connect with services directly.
             </p>
-            <div className="hero-reveal hero-reveal-4 flex flex-wrap items-center gap-5">
-              <Button href="/get-started">
-                Build my village <span aria-hidden="true">→</span>
-              </Button>
-              <Link
-                href="/services"
-                className="text-sm font-medium text-text-sage underline underline-offset-4 decoration-sage/40 py-3"
-              >
-                Browse support first
-              </Link>
-            </div>
-            <p className="mt-5 text-xs text-text-muted">
-              Choose support → Explore services → Take your next step
-            </p>
+            <HeroActions />
           </div>
           <div className="hero-reveal hero-reveal-3 min-w-0">
             <VillageMap />
