@@ -5,7 +5,6 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import ArrowUpRight from "@/components/ui/ArrowUpRight";
 import AddToVillage from "@/components/village/AddToVillage";
-import ServiceSources from "@/components/village/ServiceSources";
 import { useVillage } from "@/components/village/VillageProvider";
 import { existingSupport } from "@/content/existing-support";
 import { services } from "@/content/services";
@@ -19,6 +18,7 @@ const categories = [
 ];
 export default function ServicesPage() {
   const {
+    draft,
     catalogue: { filter, query },
     setCatalogue,
   } = useVillage();
@@ -45,7 +45,7 @@ export default function ServicesPage() {
         .includes(query.trim().toLowerCase()),
   );
   return (
-    <div className="pt-28 md:pt-36">
+    <div className="catalogue-page pt-28 md:pt-36">
       <Container>
         <header className="catalogue-header">
           <div>
@@ -60,18 +60,53 @@ export default function ServicesPage() {
           </div>
           <div className="max-w-sm">
             <p className="text-text-muted mb-5">
-              Explore the kinds of help available. Add a category to My village
-              to save it, or visit a service’s website to get in touch directly.
+              Find a starting point for what you need. Read a little more, save
+              what helps, and contact services when you’re ready.
             </p>
             <Link
               href="/my-village"
               className="text-sm text-text-sage underline underline-offset-4"
             >
-              Open my village <ArrowUpRight />
+              {draft.needs.length
+                ? `My village · ${draft.needs.length} saved`
+                : "Open my village"}{" "}
+              <ArrowUpRight />
             </Link>
           </div>
         </header>
         <div className="catalogue-tools">
+          <div className="catalogue-search">
+            <label htmlFor="service-search">
+              What would make life lighter?
+            </label>
+            <div className="catalogue-search-input">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                aria-hidden="true"
+              >
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m16 16 4 4" />
+              </svg>
+              <input
+                id="service-search"
+                ref={searchInput}
+                className="form-field"
+                type="search"
+                maxLength={80}
+                placeholder="Try meals, sleep or someone to talk to"
+                value={query}
+                onChange={(e) =>
+                  setCatalogue((previous) => ({
+                    ...previous,
+                    query: e.target.value,
+                  }))
+                }
+              />
+            </div>
+          </div>
           <div
             className="builder-options"
             role="group"
@@ -89,26 +124,6 @@ export default function ServicesPage() {
                 {label}
               </button>
             ))}
-          </div>
-          <div>
-            <label htmlFor="service-search" className="sr-only">
-              Search support
-            </label>
-            <input
-              id="service-search"
-              ref={searchInput}
-              className="form-field"
-              type="search"
-              maxLength={80}
-              placeholder="Search support…"
-              value={query}
-              onChange={(e) =>
-                setCatalogue((previous) => ({
-                  ...previous,
-                  query: e.target.value,
-                }))
-              }
-            />
           </div>
         </div>
         <div className="catalogue-results-summary">
@@ -130,8 +145,23 @@ export default function ServicesPage() {
           {filtered.map((service) => (
             <article
               key={service.slug}
+              data-saved={draft.needs.includes(service.slug)}
               className={`catalogue-card village-tone-${service.tone}`}
             >
+              <div className="catalogue-card-topline">
+                <span>
+                  {
+                    categories.find(
+                      ([value]) => value === service.category,
+                    )?.[1]
+                  }
+                </span>
+                {draft.needs.includes(service.slug) && (
+                  <span className="catalogue-saved-label">
+                    <span aria-hidden="true">✓</span> In your village
+                  </span>
+                )}
+              </div>
               <div className="flex gap-4 items-start mb-5">
                 <span
                   className="plan-icon"
@@ -152,14 +182,21 @@ export default function ServicesPage() {
               <p className="text-sm text-text-muted leading-relaxed mb-7">
                 {service.description}
               </p>
-              <ServiceSources slug={service.slug} compact />
-              <div className="mt-auto flex flex-wrap items-center gap-4">
+              <p className="catalogue-source-preview">
+                <span>A place to start</span>
+                {
+                  existingSupport.find(
+                    (source) => source.serviceSlug === service.slug,
+                  )?.name
+                }
+              </p>
+              <div className="catalogue-card-actions">
                 <AddToVillage slug={service.slug} compact />
                 <Link
                   href={`/services/${service.slug}`}
                   className="text-sm underline underline-offset-4 text-text-sage"
                 >
-                  About this support{" "}
+                  Explore options{" "}
                   <span className="sr-only">{service.title}</span>{" "}
                   <ArrowUpRight />
                 </Link>
@@ -167,6 +204,12 @@ export default function ServicesPage() {
             </article>
           ))}
         </div>
+        {filtered.length > 0 && (
+          <p className="catalogue-trust-note">
+            These are independent starting points, not Village partners. Check
+            coverage, availability and costs directly with each service.
+          </p>
+        )}
         {!filtered.length && (
           <div className="text-center border border-border rounded-2xl p-10 my-6">
             <h2 className="font-heading text-3xl mb-4">
@@ -185,12 +228,13 @@ export default function ServicesPage() {
               It can start with just one thing.
             </h2>
             <p className="text-sm text-text-muted">
-              My village brings your choices together. Remember them on this
-              device or keep a copy to come back to later.
+              Add what helps as you explore. My village brings your choices and
+              next steps together, ready when you need them.
             </p>
           </div>
-          <Button href="/my-village">
-            See my saved support <span aria-hidden="true">→</span>
+          <Button href={draft.needs.length ? "/my-village" : "/get-started"}>
+            {draft.needs.length ? "See my saved support" : "Choose my support"}{" "}
+            <span aria-hidden="true">→</span>
           </Button>
         </div>
       </Container>

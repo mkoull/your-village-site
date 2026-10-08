@@ -3,7 +3,7 @@ import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 import SiteAnalytics from "@/components/layout/SiteAnalytics";
 import { VillageProvider } from "@/components/village/VillageProvider";
 import SiteFrame from "@/components/layout/SiteFrame";
-import { SITE_URL, SERVICE_AREAS } from "@/lib/site";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -58,23 +58,13 @@ export const metadata: Metadata = {
   },
 };
 
-const localBusinessJsonLd = {
+const websiteJsonLd = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": "WebSite",
   name: "Your Village",
   description:
     "A place for mothers and families to explore practical help, childcare, mental health support and community at every stage of life.",
   url: SITE_URL,
-  areaServed: SERVICE_AREAS.map((suburb) => ({
-    "@type": "Place",
-    name: `${suburb}, Victoria, Australia`,
-  })),
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Melbourne",
-    addressRegion: "VIC",
-    addressCountry: "AU",
-  },
 };
 
 export default function RootLayout({
@@ -92,7 +82,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(localBusinessJsonLd),
+            __html: JSON.stringify(websiteJsonLd),
           }}
         />
       </head>

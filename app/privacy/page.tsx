@@ -32,8 +32,8 @@ const content = {
       "Contact us if you would like to ask about, correct or remove information you have submitted. You can explore, copy or print your village without sending an enquiry. Sharing a village includes selected categories and recorded progress in the text you choose to share. Copies or PDFs you create are yours to store or delete.",
     ],
     [
-      "The Village app",
-      "The separate Village app stores accounts, saved providers and consented requests on its server. Its account privacy notice explains access by your chosen provider and the Village owner, session cookies, the local preview, and features still needed before a public launch. App pages and request identifiers are excluded from analytics.",
+      "The mobile app",
+      "The first iPhone and Android app is being prepared as a separate, device-only experience. It keeps selected support, progress, short existing-support labels and next steps on the phone, with optional local reminders. It has no account or cloud sync. The app privacy page explains storage, sharing and deletion for that version. Your browser village and phone village do not sync.",
     ],
   ],
 };
@@ -48,7 +48,7 @@ export default function Page() {
         null,
         null,
         { label: "Contact Village", href: "/contact" },
-        { label: "App account privacy", href: "/app/privacy" },
+        { label: "Mobile app privacy", href: "/mobile-app/privacy" },
       ]}
     />
   );

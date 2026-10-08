@@ -12,7 +12,7 @@ export default function ErrorPage({
       <p className="text-text-muted mb-8">
         Something interrupted this page. Please try again.
       </p>
-      <div className="flex justify-center gap-3">
+      <div className="flex flex-wrap justify-center gap-3">
         <Button onClick={reset}>Try again</Button>
         <Button href="/" variant="secondary">
           Back home

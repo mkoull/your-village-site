@@ -18,7 +18,7 @@ export async function generateMetadata({
   const service = services.find((item) => item.slug === slug);
   return service
     ? {
-        title: `${service.title} — Your Village`,
+        title: service.title,
         description: service.description,
       }
     : { title: "Service not found" };
@@ -41,7 +41,9 @@ export default async function ServiceDetailPage({
     )
     .slice(0, 3);
   return (
-    <article className="service-page pt-28 md:pt-32 pb-20">
+    <article
+      className={`service-page village-tone-${service.tone} pt-28 md:pt-32 pb-20`}
+    >
       <Container>
         <nav className="mb-8" aria-label="Breadcrumb">
           <ol className="flex flex-wrap gap-2 text-sm text-text-muted">
@@ -82,6 +84,7 @@ export default async function ServiceDetailPage({
             className="service-page-provider"
             aria-label="Service you can explore"
           >
+            <h2 className="font-heading text-3xl mb-5">A place to start.</h2>
             <ServiceSources slug={slug} />
           </aside>
           <div className="service-page-information">

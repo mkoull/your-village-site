@@ -20,9 +20,12 @@ export default function AddToVillage({
     <button
       type="button"
       disabled={!ready}
+      aria-disabled={selected || !ready}
       aria-pressed={selected}
-      aria-label={`${selected ? "Remove" : "Add"} ${service.title.toLowerCase()} ${selected ? "from" : "to"} my village`}
-      onClick={() => setNeed(slug, !selected)}
+      aria-label={`${service.title}: ${selected ? "saved to my village" : "add to my village"}`}
+      onClick={() => {
+        if (!selected) setNeed(slug, true);
+      }}
       className={cn(
         "village-add",
         selected && "village-add-selected",
@@ -31,7 +34,7 @@ export default function AddToVillage({
       )}
     >
       <span aria-hidden="true">{selected ? "✓" : "+"}</span>
-      {selected ? "Saved · Remove" : "Add to my village"}
+      {selected ? "Saved to my village" : "Add to my village"}
     </button>
   );
 }
